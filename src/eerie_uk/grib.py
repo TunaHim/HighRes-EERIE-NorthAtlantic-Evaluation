@@ -11,12 +11,14 @@ bookkeeping, so it is dropped before decoding; the field values are untouched.
 from __future__ import annotations
 
 import struct
+import threading
 
 import numcodecs
 from numcodecs.abc import Codec
 from numcodecs.compat import ndarray_copy
 
 CODEC_ID = "gribscan.rawgrib"
+_ECCODES_LOCK = threading.Lock()
 
 
 def strip_local_section(message: bytes) -> bytes:
@@ -48,11 +50,13 @@ class RawGribCodec(Codec):
     def decode(self, buf, out=None):
         import eccodes
 
-        handle = eccodes.codes_new_from_message(strip_local_section(bytes(buf)))
-        try:
-            data = eccodes.codes_get_array(handle, "values")
-        finally:
-            eccodes.codes_release(handle)
+        message = strip_local_section(bytes(buf))
+        with _ECCODES_LOCK:  # ecCodes crashes when dask threads decode at once
+            handle = eccodes.codes_new_from_message(message)
+            try:
+                data = eccodes.codes_get_array(handle, "values")
+            finally:
+                eccodes.codes_release(handle)
         return data if out is None else ndarray_copy(data, out)
 
 

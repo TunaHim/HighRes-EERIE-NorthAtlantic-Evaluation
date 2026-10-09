@@ -46,24 +46,24 @@ EERIE coupled models. For each, the STAC metadata was read to get its variables
 and period, and each model's own variable names were mapped onto the six fields
 the project needs: daily `pr`, `psl`, `tas`, `tasmax` and monthly `psl`, `tas`.
 
-Result on the regular 0.25° grid (`gr025`; `gr1` for HadGEM3):
+Result on the regular 0.25Â° grid (`gr025`; `gr1` for HadGEM3):
 
 | Model | Experiment, member, period | Daily pr / psl / tas / tasmax | Monthly psl / tas |
 |---|---|---|---|
-| ICON-ESM-ER | control, 1950–2050 | all | both |
-| ICON-ESM-ER | hist-1950 r1, 1950–2014 | all | both |
-| ICON-ESM-ER | hist-1950 r2, 1975–2014 | no tasmax | both |
-| ICON-ESM-ER | hist-1950 r3, 1975–2014 | all | both |
-| ICON-ESM-ER | SSP2-4.5 r1, 2015–2050 | all | both |
-| IFS-FESOM2-SR | control, 1950–2050 | all | both |
-| IFS-FESOM2-SR | hist-1950 r1, 1950–2014 | all | both |
-| IFS-FESOM2-SR | hist-1950 r2 and r3, 1975–2014 | all | both |
-| IFS-FESOM2-SR | SSP2-4.5 r1, 2015–2070 | all | both |
-| IFS-FESOM2-SR | SSP2-4.5 r2 and r3, 2015–2030 | all | both |
-| IFS-NEMO-ER | hist-1950 1950–2014; SSP2-4.5 2015–2050 | none | both |
-| IFS-NEMO-ER | "control", 2015–2030 | pr and tas only | none |
-| HadGEM3-GC5E-LL, -HH | historical 1850–2014; SSP2-4.5 2015–2099 | none | tas only, no psl |
-| IFS-NEMO (non-ER) | not in the catalogue | – | – |
+| ICON-ESM-ER | control, 1950â€“2050 | all | both |
+| ICON-ESM-ER | hist-1950 r1, 1950â€“2014 | all | both |
+| ICON-ESM-ER | hist-1950 r2, 1975â€“2014 | no tasmax | both |
+| ICON-ESM-ER | hist-1950 r3, 1975â€“2014 | all | both |
+| ICON-ESM-ER | SSP2-4.5 r1, 2015â€“2050 | all | both |
+| IFS-FESOM2-SR | control, 1950â€“2050 | all | both |
+| IFS-FESOM2-SR | hist-1950 r1, 1950â€“2014 | all | both |
+| IFS-FESOM2-SR | hist-1950 r2 and r3, 1975â€“2014 | all | both |
+| IFS-FESOM2-SR | SSP2-4.5 r1, 2015â€“2070 | all | both |
+| IFS-FESOM2-SR | SSP2-4.5 r2 and r3, 2015â€“2030 | all | both |
+| IFS-NEMO-ER | hist-1950 1950â€“2014; SSP2-4.5 2015â€“2050 | none | both |
+| IFS-NEMO-ER | "control", 2015â€“2030 | pr and tas only | none |
+| HadGEM3-GC5E-LL, -HH | historical 1850â€“2014; SSP2-4.5 2015â€“2099 | none | tas only, no psl |
+| IFS-NEMO (non-ER) | not in the catalogue | â€“ | â€“ |
 
 **Eleven runs have all six fields: four ICON-ESM-ER and seven IFS-FESOM2-SR.**
 
@@ -71,7 +71,7 @@ Native variable names used in the mapping:
 
 | Field | ICON-ESM-ER | IFS-FESOM2-SR |
 |---|---|---|
-| daily pr | `pr` in `2d_daily_mean` (kg m⁻² s⁻¹) | `tprate` in `2D_daily_avg` (m s⁻¹) |
+| daily pr | `pr` in `2d_daily_mean` (kg mâ»Â² sâ»Â¹) | `tprate` in `2D_daily_avg` (m sâ»Â¹) |
 | daily psl | `psl` in `2d_daily_mean` | `mmsl` in `2D_daily_avg` |
 | daily tas | `tas` in `2d_daily_mean` | `mean2t` in `2D_daily_avg` |
 | daily tasmax | `tas` in `2d_daily_max` | `mx2t24` in `2D_daily_max` |
@@ -80,11 +80,11 @@ Native variable names used in the mapping:
 ### 1.4 Met Office HadGEM3-GC5 (JASMIN and CEDA)
 
 - The public JASMIN catalogue lists daily `pr`, `psl`, `tas` (no `tasmax`) for
-  the pre-industrial control at three resolutions: N96-ORCA1 1851–2080,
-  N216-ORCA025 1851–1980, N640-ORCA12 1851–1900. The files themselves return
+  the pre-industrial control at three resolutions: N96-ORCA1 1851â€“2080,
+  N216-ORCA025 1851â€“1980, N640-ORCA12 1851â€“1900. The files themselves return
   `401 Unauthorized`, so they cannot be used without a JASMIN account.
 - The CEDA archive serves HadGEM3-GC5E-LL, -MM and -HH historical runs
-  (1850–2014) without login, but monthly only (`psl`, `tas`, `pr`), as netCDF
+  (1850â€“2014) without login, but monthly only (`psl`, `tas`, `pr`), as netCDF
   on the native grid. Reading them would need `h5netcdf`, which is not installed.
 
 ### 1.5 Proved the data can be read
@@ -101,7 +101,7 @@ kind of collection:
 | IFS-FESOM2-SR through the server-decoded `/zarr` endpoint | `500 Internal Server Error` on every data chunk; not used |
 
 As an end-to-end sample, one winter of ICON-ESM-ER hist-1950 daily `psl`
-(1 Dec 1979 – 29 Feb 1980) was loaded for the UK/Ireland box: 91 days × 49 × 55
+(1 Dec 1979 â€“ 29 Feb 1980) was loaded for the UK/Ireland box: 91 days Ã— 49 Ã— 55
 grid points, about 1 MB, mean 1001.4 hPa. **This is the only real data
 downloaded so far, and it was not saved to disk.**
 
@@ -134,10 +134,13 @@ src/eerie_uk/
                              resolve a field to a dataset, open it lazily
     grib.py                  GRIB decoder for the IFS chunks (section 1.6)
     jasmin.py                JASMIN / CEDA catalogue summaries and access probes
-    regions.py               lon/lat box subsetting, DJF selection, area mean
+    regions.py               lon/lat box subsetting, DJF selection, area mean, ERA5 regridding
+    download.py              the download plan and the resumable year-by-year downloader
     plotting.py              figure helpers (availability grid, map, time series)
 notebooks/
     01_data_inventory.ipynb  step 1, executed, with tables and three figures
+    02_download_plan.ipynb   day 1: domains, full download plan, measured cost, sample maps
+    html/                    HTML copies of the notebooks for easy reading (git-ignored)
 tests/                       19 pytest tests, none need the network
 data/                        empty; for downloaded subsets later (git-ignored)
 ```
@@ -151,12 +154,12 @@ Main functions:
 | `catalogue.build_inventory(summaries)` | the table in section 1.3 |
 | `catalogue.open_variable(model, experiment, frequency, variable)` | lazy array of one field, renamed to its CMIP-style name |
 | `catalogue.check_read(dataset_id, variable)` | load one time step and report success or the exact error |
-| `regions.subset_box(ds, box)` | cut a box; handles 0–360 and −180–180 longitudes, either latitude order, and the IFS flat cell layout |
-| `regions.select_winter(ds, year)` | one December–February season |
+| `regions.subset_box(ds, box)` | cut a box; handles 0â€“360 and âˆ’180â€“180 longitudes, either latitude order, and the IFS flat cell layout |
+| `regions.select_winter(ds, year)` | one Decemberâ€“February season |
 | `jasmin.summarise(df)`, `jasmin.probe_access(summary)` | HadGEM3 listings and whether files download |
 
-Boxes currently defined: `uk_ireland` (11°W–2.5°E, 49–61°N) and
-`north_atlantic` (90°W–40°E, 20–80°N).
+Boxes currently defined: `uk_ireland` (11Â°Wâ€“2.5Â°E, 49â€“61Â°N) and
+`north_atlantic` (90Â°Wâ€“40Â°E, 20â€“80Â°N).
 
 ---
 
@@ -181,9 +184,9 @@ Re-executing the notebook needs internet and takes about four minutes.
   differences, not the effect of eddies.
 - The inventory is from metadata; only the collections in section 1.5 were
   actually read.
-- The server stores each day as one whole-globe chunk (2–4 MB). A regional box
+- The server stores each day as one whole-globe chunk (2â€“4 MB). A regional box
   still downloads global fields: about 1.7 s per day, so roughly 11 hours for
-  one daily variable over 1950–2014 from one run.
+  one daily variable over 1950â€“2014 from one run.
 - Precipitation units differ between the two models (section 1.3).
 - The variable mapping is hand-written and should be re-checked when used.
 - The catalogue is live; this is a snapshot of 9 October 2026.
@@ -197,10 +200,10 @@ Re-executing the notebook needs internet and takes about four minutes.
    `hist-c-0-a-lr20`, `hist-c-lr20-a-0`). From their names these appear to be
    paired runs with and without the ocean-eddy signal in the sea-surface
    temperature. Their variables and periods have not been checked.
-2. **Period.** Proposed for the prototype: monthly `psl` 1950–2014 for the NAO;
-   daily `pr` and `tasmax` 1985–2014 for the extremes; all months.
+2. **Period.** Proposed for the prototype: monthly `psl` 1950â€“2014 for the NAO;
+   daily `pr` and `tasmax` 1985â€“2014 for the extremes; all months.
 3. **Region.** Proposed: save the North-West European Shelf box
-   (20°W–13°E, 40–65°N), show maps over it, and report UK/Ireland as a named
+   (20Â°Wâ€“13Â°E, 40â€“65Â°N), show maps over it, and report UK/Ireland as a named
    sub-region.
 4. **JASMIN account** for the HadGEM3-GC5 resolution ladder, and whether to add
    `h5netcdf` for the CEDA monthly files.

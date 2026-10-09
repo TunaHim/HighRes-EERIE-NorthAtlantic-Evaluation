@@ -105,6 +105,112 @@ def plot_field_map(field, title="", units="", ax=None, lon="lon", lat="lat"):
     return ax
 
 
+CATEGORICAL = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4"]
+
+
+def plot_boxes(boxes, labels=None, extent=None, title="", ax=None):
+    """Outline named lon/lat boxes on a map, one colour per box, with a legend.
+
+    ``boxes`` maps a name to (lon_min, lon_max, lat_min, lat_max).
+    """
+    import cartopy.crs as ccrs
+    import cartopy.feature as cfeature
+
+    labels = labels or {}
+    projection = ccrs.PlateCarree()
+    if ax is None:
+        fig, ax = plt.subplots(figsize=(9.0, 5.2), facecolor=SURFACE, subplot_kw={"projection": projection})
+    ax.add_feature(cfeature.LAND, facecolor=EMPTY)
+    ax.coastlines(resolution="50m", color=MUTED, linewidth=0.5)
+    for (name, (lon_min, lon_max, lat_min, lat_max)), colour in zip(boxes.items(), CATEGORICAL):
+        text = f"{labels.get(name, name)}: {_degrees(lon_min, 'WE')}–{_degrees(lon_max, 'WE')}, {_degrees(lat_min, 'SN')}–{_degrees(lat_max, 'SN')}"
+        ax.add_patch(
+            plt.Rectangle(
+                (lon_min, lat_min), lon_max - lon_min, lat_max - lat_min,
+                fill=False, edgecolor=colour, linewidth=2, transform=projection, label=text, zorder=3,
+            )
+        )
+    if extent is None:
+        lon_lo = min(b[0] for b in boxes.values()) - 6
+        lon_hi = max(b[1] for b in boxes.values()) + 6
+        lat_lo = min(b[2] for b in boxes.values()) - 4
+        lat_hi = max(b[3] for b in boxes.values()) + 4
+        extent = (lon_lo, lon_hi, max(lat_lo, -89), min(lat_hi, 89))
+    ax.set_extent(extent, crs=projection)
+    grid = ax.gridlines(draw_labels=True, color=GRID, linewidth=0.5)
+    grid.top_labels = grid.right_labels = False
+    grid.xlabel_style = grid.ylabel_style = {"size": 8, "color": MUTED}
+    ax.legend(loc="lower left", fontsize=8, frameon=True, facecolor=SURFACE, edgecolor=GRID, labelcolor=INK_SECONDARY)
+    if title:
+        ax.set_title(title, loc="left", fontsize=11, color=INK)
+    return ax
+
+
+def _degrees(value, letters):
+    return f"{abs(value):g}°{letters[0] if value < 0 else letters[1]}"
+
+
+def plot_field_panels(fields, units="", title="", columns=3):
+    """Maps of several 2-D fields side by side on one shared colour scale.
+
+    ``fields`` maps a panel label to a lat/lon DataArray.
+    """
+    import cartopy.crs as ccrs
+
+    projection = ccrs.PlateCarree()
+    names = list(fields)
+    columns = min(columns, len(names))
+    rows = int(np.ceil(len(names) / columns))
+    first = fields[names[0]]
+    aspect = (float(first.lat.max() - first.lat.min()) or 1.0) / (float(first.lon.max() - first.lon.min()) or 1.0)
+    width = 4.2
+    fig, axes = plt.subplots(
+        rows, columns, figsize=(width * columns, width * aspect * 1.25 * rows + 1.0),
+        facecolor=SURFACE, subplot_kw={"projection": projection}, squeeze=False,
+    )
+    low = min(float(f.min()) for f in fields.values())
+    high = max(float(f.max()) for f in fields.values())
+    mesh = None
+    for ax, name in zip(axes.flat, names):
+        field = fields[name]
+        mesh = ax.pcolormesh(
+            field.lon, field.lat, field.transpose("lat", "lon"), cmap=SEQUENTIAL, vmin=low, vmax=high,
+            shading="auto", transform=projection,
+        )
+        ax.coastlines(resolution="50m", color=INK, linewidth=0.5)
+        ax.set_title(name, loc="left", fontsize=9, color=INK_SECONDARY)
+    for ax in axes.flat[len(names):]:
+        ax.set_visible(False)
+    bar = fig.colorbar(mesh, ax=axes, orientation="horizontal", shrink=0.6, pad=0.06, aspect=40)
+    bar.set_label(units, color=INK_SECONDARY, fontsize=9)
+    bar.ax.tick_params(labelsize=8, colors=MUTED)
+    bar.outline.set_visible(False)
+    if title:
+        fig.suptitle(title, x=0.02, ha="left", fontsize=11, color=INK)
+    return axes
+
+
+def plot_bars(values, xlabel="", title="", ax=None):
+    """Horizontal bars for a small labelled series (label -> value), value written at the bar end."""
+    names = list(values)
+    numbers = [values[n] for n in names]
+    if ax is None:
+        fig, ax = plt.subplots(figsize=(7.5, 0.34 * len(names) + 1.0), facecolor=SURFACE)
+    _style(ax)
+    ax.barh(names, numbers, color=BLUE, height=0.62)
+    ax.invert_yaxis()
+    for i, number in enumerate(numbers):
+        ax.text(number, i, f"  {number:.1f}", va="center", fontsize=8, color=INK_SECONDARY)
+    ax.set_xlim(0, max(numbers) * 1.15 if numbers else 1)
+    ax.grid(axis="x", color=GRID, linewidth=0.6)
+    ax.set_axisbelow(True)
+    ax.tick_params(length=0)
+    ax.set_xlabel(xlabel, color=INK_SECONDARY, fontsize=9)
+    if title:
+        ax.set_title(title, loc="left", fontsize=11, color=INK)
+    return ax
+
+
 def plot_series(series, title="", ylabel="", ax=None, time="time"):
     """Single time series as a thin line."""
     if ax is None:
