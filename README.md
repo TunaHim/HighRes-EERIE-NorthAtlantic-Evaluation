@@ -12,12 +12,20 @@ Exploratory analysis for a University of Reading FUTURA application.
    and how are the two linked?
 2. **Secondary.** Where does that representation differ between model
    configurations?
-3. **Optional, if the data support it.** Can paired EERIE experiments isolate the
-   influence of small-scale ocean features (eddies and fronts) on the NAO?
+3. **Optional, if the data support it.** How sensitive is the simulated NAO to
+   small-scale sea-surface temperature (SST) variability, as tested by paired
+   atmosphere-only EERIE experiments with and without filtered SST?
 
 The original question, "does an eddy-rich ocean change the NAO and extremes",
 was demoted to question 3 because both fully usable coupled models have an
 eddy-rich ocean. Comparing them shows model differences, not the effect of eddies.
+Question 3 is worded as SST sensitivity on purpose: an atmosphere-only run forced
+with filtered SST tests the atmosphere's response to a change in SST forcing. It
+does not demonstrate a coupled feedback from ocean eddies.
+
+This is an exploratory prototype. With two models and one member each, a shared
+result is described as "consistent across the two models examined", never as
+robust.
 
 **Rules.** Public data only. No AWI code. Python with xarray, Dask, intake, zarr.
 Work proceeds one step at a time; each step ends with an executed notebook.
@@ -39,7 +47,7 @@ regional extremes* is visible.
 | Domain | Limits | Used for | Why these limits |
 |---|---|---|---|
 | North Atlantic | 90°W–40°E, 20–80°N | monthly sea-level pressure (NAO) | The standard Euro-Atlantic sector for an EOF-based NAO. It contains both centres of action (Icelandic low, Azores high) with room around them, so the leading pattern is not cut off at an edge. |
-| North-west Europe | 20°W–13°E, 40–65°N | temperature, precipitation, extremes | The usual limits of the North-West European Shelf. It spans the NAO rainfall see-saw: wetter Scotland and Norway, drier France and Iberia in a positive-NAO winter. UK and Ireland alone show only part of that. It also adds land points, which makes extreme statistics more robust. |
+| North-west Europe | 20°W–13°E, 40–65°N | temperature, precipitation, extremes | The usual limits of the North-West European Shelf. It spans the NAO rainfall see-saw: wetter Scotland and Norway, drier France and Iberia in a positive-NAO winter. UK and Ireland alone show only part of that. It also adds land points, which gives the extreme statistics a larger sample. |
 | UK and Ireland | 11°W–2.5°E, 49–61°N | headline numbers | The region the application is about. It is cut out of the north-west Europe files, so it needs no separate download. |
 
 Sub-regions for headline numbers inside north-west Europe: **UK and Ireland**,
@@ -60,10 +68,10 @@ NAO is a basin-scale pattern, and 1° files are 16 times smaller.
 | Source | Role | Why it was chosen |
 |---|---|---|
 | ICON-ESM-ER, hist-1950, r1 | coupled model 1 | One of only two models on the DKRZ cloud with all six needed fields (daily pr, psl, tas, tasmax; monthly psl, tas) on the common 0.25° grid. |
-| IFS-FESOM2-SR, hist-1950, r1 | coupled model 2 | The other one. A second, independent model shows which results are robust. |
-| ERA5 | observation-based reference | Without a reference, model results cannot be judged. ERA5 sits on the same server, covers the whole period and has every variable. |
-| IFS-AMIP tco1279 and tco399, `hist` vs `hist-c-0-a-lr20` (and `hist-c-lr20-a-0`) | optional process experiment | The same atmosphere model forced with observed sea-surface temperature and with filtered ("LR20") anomalies. This is the only public controlled test of small-scale ocean influence. The tco399 runs have 10 members each. Monthly pressure only. |
-| E-OBS v33.0e | land observations (not downloaded yet) | Station-based, so a more direct reference for precipitation extremes than ERA5. Waiting for a decision on its non-commercial terms of use. |
+| IFS-FESOM2-SR, hist-1950, r1 | coupled model 2 | The other one. A second, independent model allows a check of whether the main features are consistent across model configurations. Two models with one member each cannot establish robustness. |
+| ERA5 | reanalysis reference | Without a reference, model results cannot be judged. ERA5 sits on the same server, covers the whole period and has every variable. It is a reanalysis, not observations: pressure and temperature are well constrained by observations, precipitation is a model product. |
+| IFS-AMIP tco1279 and tco399, `hist` vs `hist-c-0-a-lr20` (and `hist-c-lr20-a-0`) | optional sensitivity experiment | The same atmosphere model forced with observed SST and with filtered ("LR20") SST anomalies. It tests atmospheric sensitivity to small-scale SST variability. It is the only public controlled experiment of this kind. The tco399 runs have 10 members each. Monthly pressure only. Until the LR20 filter is verified, results are not described as an effect of ocean eddies and fronts. |
+| E-OBS v33.0e | station-based gridded land dataset (supporting) | A more direct reference for precipitation extremes over land than ERA5. Used where it is easy; ERA5 is the main reference for the prototype. Non-commercial research use only. |
 
 Why other candidates were left out:
 
@@ -91,11 +99,11 @@ temperature are not needed for these indices, so they are not downloaded.
 | Daily, coupled models and ERA5 | 1985–2014 | A standard 30-year climate period, and the last 30 years of the historical run, where the observations are best. Daily data are the expensive part (about 14 hours), so the period is kept to what the indices need. |
 | Paired experiments | 1980–2023 | The years they exist. |
 
-All months are downloaded, not winter only. Reason: TXx is set in summer, and
-winter can still be selected afterwards for the NAO link. The NAO-to-extremes
-analysis itself will use winter quantities.
+All months are downloaded, not winter only. Reason: the general extremes
+diagnostics are annual (annual TXx is normally set in summer), while the
+NAO-to-extremes analysis uses winter versions of the indices (section 2).
 
-Fallback if the server proves too slow: shorten the daily period to 1995–2014.
+The daily period is shortened to 1995–2014 only if the download genuinely fails.
 
 ### 1.4 Storage
 
@@ -118,7 +126,74 @@ Fallback if the server proves too slow: shorten the daily period to 1995–2014.
 
 ---
 
-## 2. Roadmap
+## 2. Methods
+
+These definitions are fixed before any result is produced.
+
+### 2.1 Seasons
+
+Winter is December–February. December belongs to the following year's winter:
+DJF 1986 is December 1985 plus January and February 1986. Incomplete first and
+last winters are dropped.
+
+### 2.2 NAO (notebook 04)
+
+| Step | Choice | Reason |
+|---|---|---|
+| Anomalies | Monthly sea-level pressure minus the 1950–2014 mean of each calendar month, then DJF months selected | Keeps a monthly NAO series as well as one value per winter. |
+| Domain | 20–80°N, 90°W–40°E | The standard Euro-Atlantic sector. |
+| Weighting | Each grid point multiplied by √cos(latitude) before the EOF | Otherwise the many small high-latitude cells are over-represented. |
+| Pattern | Leading EOF of winter anomalies, computed separately for each dataset; explained variance reported | |
+| Sign | Fixed so a positive NAO has low pressure near Iceland and high pressure near the Azores | The sign of an EOF is arbitrary. A flipped sign between two datasets means nothing and must be removed before comparing. |
+| Index | Leading principal component, divided by its standard deviation | |
+| Comparison | Pattern correlation of each model's EOF with the ERA5 EOF; year-to-year spread; winter-to-winter persistence | Model and ERA5 indices are not compared year by year: a free-running model has its own sequence of winters. |
+
+### 2.3 Extreme indices (notebook 05)
+
+All per grid cell, base period 1985–2014.
+
+| Index | Definition |
+|---|---|
+| RX1day | Largest daily precipitation total in the period (year or winter). |
+| TXx | Highest daily maximum temperature in the period (year or winter). |
+| R95p | ETCCDI R95pTOT. A wet day has at least 1 mm of precipitation. The threshold is the 95th percentile of wet-day precipitation at that grid cell over 1985–2014. R95p is the total precipitation that fell on days above the threshold, per year or per winter. |
+
+Two sets are computed and kept apart:
+
+| Purpose | Indices | Period |
+|---|---|---|
+| General extremes diagnostics | RX1day, TXx, R95p | annual |
+| NAO relationship | winter RX1day, winter R95p, winter TXx (highest daily maximum within DJF) | DJF |
+
+Annual TXx is normally set in summer, so it is not related to the winter NAO.
+
+### 2.4 NAO-to-extremes link (notebook 06)
+
+The winter NAO index is related only to the winter indices, over the 30 winters
+that have daily data. Maps of correlation and of regression per standard
+deviation of NAO are the main result, with statistical significance marked. The
+question is whether each model reproduces the sign, pattern and strength of the
+link seen in the reference data.
+
+UK and Ireland is the mandatory region. Western Norway and north-west France are
+supporting statistics, not a separate analysis.
+
+### 2.5 Paired experiment (notebook 07, optional)
+
+The same NAO method over 1980–2023. Differences between the runs are judged
+against the spread across the ten members. Results are described as sensitivity
+to small-scale SST variability.
+
+### 2.6 Check of the GRIB decoding fix
+
+Before IFS-FESOM2-SR results are interpreted, the fix in `grib.py` is checked in
+notebook 03: the same message decoded with an older ecCodes that needs no fix
+gives identical values, and the average of decoded daily fields over a month
+reproduces the model's own monthly file.
+
+---
+
+## 3. Roadmap
 
 | Stage | Content | Notebook | State |
 |---|---|---|---|
@@ -129,15 +204,18 @@ Fallback if the server proves too slow: shorten the daily period to 1995–2014.
 | 4 | Extremes: RX1day, TXx, R95p | `05_extremes` | |
 | 5 | NAO-to-extremes link | `06_nao_extremes` | |
 | 6 | Paired experiment (monthly NAO) | `07_paired_experiment` | optional |
-| 7 | Streamlit dashboard, public GitHub repository | | |
+| 7 | Public GitHub repository; Streamlit dashboard if time allows | | |
+
+The notebooks and this README come first. The dashboard is a demonstration and is
+not built at their expense.
 
 Not in version 1, but designed for: future scenario (SSP2-4.5), CMIP6, CMIP7.
 
 ---
 
-## 3. What has been done so far
+## 4. What has been done so far
 
-### 3.1 Step 1: inventory and access
+### 4.1 Step 1: inventory and access
 
 - Environment `eerie-uk-nao` from `environment.yml` (Python 3.11; xarray, dask,
   zarr, intake, cartopy, jupyterlab, pytest; `gribscan` added with pip, which
@@ -161,7 +239,7 @@ Not in version 1, but designed for: future scenario (SSP2-4.5), CMIP6, CMIP7.
   bookkeeping section before decoding; field values are untouched. A lock stops
   ecCodes crashing when several threads decode at once.
 
-### 3.2 Day 1: download plan
+### 4.2 Day 1: download plan
 
 - Confirmed from the public EERIE catalogue what the paired experiments are
   (section 1.2). Not yet verified: the exact definition of the LR20 filter, and
@@ -176,7 +254,7 @@ Not in version 1, but designed for: future scenario (SSP2-4.5), CMIP6, CMIP7.
 
 ---
 
-## 4. What is in this folder
+## 5. What is in this folder
 
 ```
 environment.yml              conda environment (name: eerie-uk-nao)
@@ -200,7 +278,7 @@ Saved files are named `data/<source>/<mon|day>/<variable>_<box>_<year>.nc`.
 
 ---
 
-## 5. How to look at it and run it
+## 6. How to look at it and run it
 
 ```
 conda activate eerie-uk-nao
@@ -216,7 +294,7 @@ restarted at any time. Progress is written to `data/download.log`.
 
 ---
 
-## 6. Known limitations
+## 7. Known limitations
 
 - No same-model eddy-rich versus coarse-ocean coupled pair is publicly
   downloadable at daily frequency. The paired atmosphere-only runs are the
@@ -234,7 +312,7 @@ restarted at any time. Progress is written to `data/download.log`.
 
 ---
 
-## 7. Data sources
+## 8. Data sources
 
 - DKRZ km-scale cloud: https://eerie.cloud.dkrz.de
 - eerie-project intake catalogues: https://github.com/eerie-project/intake_catalogues

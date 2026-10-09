@@ -106,6 +106,80 @@ def plot_field_map(field, title="", units="", ax=None, lon="lon", lat="lat"):
 
 
 CATEGORICAL = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4"]
+# Two hues around a neutral grey midpoint, for differences.
+DIVERGING = LinearSegmentedColormap.from_list(
+    "eerie_diverging", ["#104281", "#3987e5", "#9ec5f4", "#f0efec", "#f4b59b", "#eb6834", "#9c3a12"]
+)
+# One fixed colour per data source, everywhere. Observations are dark grey.
+SOURCE_COLOURS = {
+    "era5": "#52514e",
+    "e-obs": "#898781",
+    "icon-esm-er": "#2a78d6",
+    "ifs-fesom2-sr": "#eb6834",
+}
+SOURCE_LABELS = {
+    "era5": "ERA5",
+    "e-obs": "E-OBS",
+    "icon-esm-er": "ICON-ESM-ER",
+    "ifs-fesom2-sr": "IFS-FESOM2-SR",
+}
+
+
+def plot_line_panels(panels, ylabel="", xlabel="", title="", xticks=None, columns=3, sharey=False):
+    """Small multiples of line charts, one line per data source.
+
+    ``panels`` maps a panel title to ``{source: (x, y)}``. Colours follow the
+    source, the same in every figure, and one legend serves all panels.
+    """
+    names = list(panels)
+    columns = min(columns, len(names))
+    rows = int(np.ceil(len(names) / columns))
+    fig, axes = plt.subplots(
+        rows, columns, figsize=(4.3 * columns, 3.0 * rows + 0.6), facecolor=SURFACE, squeeze=False, sharey=sharey
+    )
+    handles = {}
+    for ax, name in zip(axes.flat, names):
+        _style(ax)
+        for source, (x, y) in panels[name].items():
+            (line,) = ax.plot(
+                x, y, color=SOURCE_COLOURS.get(source, MUTED), linewidth=2, label=SOURCE_LABELS.get(source, source)
+            )
+            handles[line.get_label()] = line
+        ax.grid(axis="y", color=GRID, linewidth=0.6)
+        ax.set_axisbelow(True)
+        ax.set_title(name, loc="left", fontsize=9, color=INK_SECONDARY)
+        if xticks is not None:
+            ax.set_xticks(*xticks)
+        ax.set_xlabel(xlabel, color=INK_SECONDARY, fontsize=9)
+    for ax in axes[:, 0]:
+        ax.set_ylabel(ylabel, color=INK_SECONDARY, fontsize=9)
+    for ax in axes.flat[len(names):]:
+        ax.set_visible(False)
+    fig.legend(
+        handles.values(), handles.keys(), loc="lower center", ncol=len(handles), frameon=False,
+        fontsize=9, labelcolor=INK_SECONDARY, bbox_to_anchor=(0.5, -0.02),
+    )
+    if title:
+        fig.suptitle(title, x=0.02, ha="left", fontsize=11, color=INK)
+    fig.tight_layout(rect=(0, 0.05, 1, 0.96))
+    return axes
+
+
+def plot_histogram_panels(panels, xlabel="", title="", bins=30, columns=3):
+    """Small multiples of distributions, drawn as outlines so sources overlap legibly.
+
+    ``panels`` maps a panel title to ``{source: 1-D values}``.
+    """
+    curves = {}
+    for name, sources in panels.items():
+        everything = np.concatenate([np.asarray(v).ravel() for v in sources.values()])
+        edges = np.linspace(np.nanmin(everything), np.nanmax(everything), bins + 1)
+        centres = 0.5 * (edges[:-1] + edges[1:])
+        curves[name] = {
+            source: (centres, np.histogram(np.asarray(v).ravel(), edges, density=True)[0])
+            for source, v in sources.items()
+        }
+    return plot_line_panels(curves, ylabel="relative frequency", xlabel=xlabel, title=title, columns=columns)
 
 
 def plot_boxes(boxes, labels=None, extent=None, title="", ax=None):
@@ -150,10 +224,11 @@ def _degrees(value, letters):
     return f"{abs(value):g}°{letters[0] if value < 0 else letters[1]}"
 
 
-def plot_field_panels(fields, units="", title="", columns=3):
+def plot_field_panels(fields, units="", title="", columns=3, diverging=False):
     """Maps of several 2-D fields side by side on one shared colour scale.
 
-    ``fields`` maps a panel label to a lat/lon DataArray.
+    ``fields`` maps a panel label to a lat/lon DataArray. ``diverging=True``
+    is for differences: the scale is centred on zero, grey in the middle.
     """
     import cartopy.crs as ccrs
 
@@ -170,11 +245,16 @@ def plot_field_panels(fields, units="", title="", columns=3):
     )
     low = min(float(f.min()) for f in fields.values())
     high = max(float(f.max()) for f in fields.values())
+    cmap = SEQUENTIAL
+    if diverging:
+        # robust limit so one extreme cell does not wash out the map
+        high = max(float(np.nanpercentile(np.abs(f.values), 99)) for f in fields.values())
+        low, cmap = -high, DIVERGING
     mesh = None
     for ax, name in zip(axes.flat, names):
         field = fields[name]
         mesh = ax.pcolormesh(
-            field.lon, field.lat, field.transpose("lat", "lon"), cmap=SEQUENTIAL, vmin=low, vmax=high,
+            field.lon, field.lat, field.transpose("lat", "lon"), cmap=cmap, vmin=low, vmax=high,
             shading="auto", transform=projection,
         )
         ax.coastlines(resolution="50m", color=INK, linewidth=0.5)
