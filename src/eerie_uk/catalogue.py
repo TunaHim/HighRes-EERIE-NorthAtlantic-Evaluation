@@ -283,6 +283,9 @@ def open_dataset(dataset_id: str, flavour: str = "kerchunk", **kwargs):
     """
     import xarray as xr
 
+    from . import grib
+
+    grib.register()  # IFS chunks are raw GRIB
     options = {
         "engine": "zarr",
         "chunks": {},

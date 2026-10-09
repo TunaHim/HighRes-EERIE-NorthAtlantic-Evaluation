@@ -18,3 +18,6 @@ dependencies:
   - jupyterlab
   - nbconvert
   - pytest
+  - pip
+  - pip:
+      - gribscan  # brings eccodes, needed to decode the IFS GRIB chunks
