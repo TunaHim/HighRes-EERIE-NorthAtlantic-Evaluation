@@ -212,7 +212,7 @@ reproduces the model's own monthly file.
 |---|---|---|---|
 | 1 | Data discovery and access | `01_data_inventory` | done |
 | 1b | Domains, download plan, samples | `02_download_plan` | done |
-| 2 | Validation and historical baseline against ERA5 | `03_validation_baseline` | next |
+| 2 | Validation and historical baseline against ERA5 | `03_validation_baseline` | done |
 | 3 | NAO: EOF pattern, index, variability | `04_nao` | |
 | 4 | Extremes: RX1day, TXx, R95p | `05_extremes` | |
 | 5 | NAO-to-extremes link | `06_nao_extremes` | |
@@ -285,6 +285,7 @@ src/eerie_uk/
 notebooks/
     01_data_inventory.ipynb  what exists and what can be read
     02_download_plan.ipynb   domains, plan, measured cost, sample maps
+    03_validation_baseline.ipynb  data checks, GRIB check, mean climate and variability against ERA5
     html/                    HTML copies for easy reading (git-ignored)
 docs/methods.md              the full methods specification
 tests/                       41 pytest tests, none need the network
