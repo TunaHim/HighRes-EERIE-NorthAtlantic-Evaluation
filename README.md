@@ -128,7 +128,14 @@ The daily period is shortened to 1995–2014 only if the download genuinely fail
 
 ## 2. Methods
 
-These definitions are fixed before any result is produced.
+These definitions are fixed before any result is produced. This section is a
+summary; the full specification, including the significance tests and the
+cross-checks, is in [`docs/methods.md`](docs/methods.md).
+
+Analysis units: precipitation mm/day, temperature °C (files hold K and are
+converted on loading), pressure hPa. ERA5 and E-OBS are regridded to the 0.25°
+model grid, bilinearly; conservative regridding of precipitation would be
+better and is not used in the prototype.
 
 ### 2.1 Seasons
 
@@ -147,6 +154,8 @@ last winters are dropped.
 | Sign | Fixed so a positive NAO has low pressure near Iceland and high pressure near the Azores | The sign of an EOF is arbitrary. A flipped sign between two datasets means nothing and must be removed before comparing. |
 | Index | Leading principal component, divided by its standard deviation | |
 | Comparison | Pattern correlation of each model's EOF with the ERA5 EOF; year-to-year spread; winter-to-winter persistence | Model and ERA5 indices are not compared year by year: a free-running model has its own sequence of winters. |
+| Common basis | Each model's winter anomalies are also projected onto the ERA5 leading EOF; pattern correlation and amplitude reported | Separates "is the pattern different" from "is the variability different". |
+| Cross-check | Station-style index: normalised pressure difference, Azores minus Iceland, at the nearest grid points; its correlation with the EOF index is reported | An EOF can mix patterns; the station index is a simple independent definition. |
 
 ### 2.3 Extreme indices (notebook 05)
 
@@ -171,7 +180,11 @@ Annual TXx is normally set in summer, so it is not related to the winter NAO.
 
 The winter NAO index is related only to the winter indices, over the 30 winters
 that have daily data. Maps of correlation and of regression per standard
-deviation of NAO are the main result, with statistical significance marked. The
+deviation of NAO are the main result. Both series are linearly detrended first.
+Significance is a two-sided t-test at 5% with false-discovery-rate control across
+grid points (Wilks 2016; the control level is stated in the notebook). Composites
+of positive-NAO minus negative-NAO winters (upper and lower thirds) with bootstrap
+confidence intervals are supporting evidence. The
 question is whether each model reproduces the sign, pattern and strength of the
 link seen in the reference data.
 
@@ -181,7 +194,7 @@ supporting statistics, not a separate analysis.
 ### 2.5 Paired experiment (notebook 07, optional)
 
 The same NAO method over 1980–2023. Differences between the runs are judged
-against the spread across the ten members. Results are described as sensitivity
+against the spread across the ten members, never from single runs. Results are described as sensitivity
 to small-scale SST variability.
 
 ### 2.6 Check of the GRIB decoding fix
@@ -265,12 +278,16 @@ src/eerie_uk/
     jasmin.py                JASMIN / CEDA catalogue summaries and access probes
     regions.py               boxes, box subsetting, DJF selection, area mean, ERA5 regridding
     download.py              the download plan and the resumable year-by-year downloader
+    eobs.py                  E-OBS download and cut-out
+    store.py                 read the saved files back with common time stamps and units
+    climatology.py           seasonal means, climatologies, comparison statistics
     plotting.py              figure helpers
 notebooks/
     01_data_inventory.ipynb  what exists and what can be read
     02_download_plan.ipynb   domains, plan, measured cost, sample maps
     html/                    HTML copies for easy reading (git-ignored)
-tests/                       32 pytest tests, none need the network
+docs/methods.md              the full methods specification
+tests/                       41 pytest tests, none need the network
 data/                        downloaded cut-outs and download.log (git-ignored)
 ```
 
@@ -284,7 +301,7 @@ Saved files are named `data/<source>/<mon|day>/<variable>_<box>_<year>.nc`.
 conda activate eerie-uk-nao
 cd C:\Users\LENOVO\EERIE-UK-NAO-Extremes
 jupyter lab                                   # open the notebooks
-pytest                                        # 32 offline tests
+pytest                                        # 41 offline tests
 python -m eerie_uk.download --group monthly   # run from src/, or with PYTHONPATH=src
 python -m eerie_uk.download --group daily
 ```

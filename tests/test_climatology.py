@@ -64,6 +64,14 @@ def test_store_round_trip_standardises_month_stamps(tmp_path):
         store.load("fake", "mon", "pr", "uk_ireland", root=tmp_path)
 
 
+def test_store_converts_kelvin_to_celsius(tmp_path):
+    request = download.Request("fake", "", "tas", "tas", "mon", "uk_ireland", 1990, 1990)
+    da = (_monthly() * 0 + 283.15).assign_attrs(units="K")
+    download.save_year(da.sel(time="1990"), download.year_path(tmp_path, request, 1990))
+    loaded = store.load("fake", "mon", "tas", "uk_ireland", root=tmp_path)
+    assert loaded.attrs["units"] == "°C" and float(loaded.mean()) == pytest.approx(10.0, abs=1e-3)
+
+
 def test_store_reports_gaps(tmp_path):
     request = download.Request("fake", "", "tas", "tas", "mon", "uk_ireland", 1989, 1991)
     da = _monthly()

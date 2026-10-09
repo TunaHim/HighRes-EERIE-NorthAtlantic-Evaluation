@@ -3,7 +3,7 @@
 Files are ``data/<source>/<mon|day>/<variable>_<box>_<year>.nc``. Every source
 comes back with the same time convention, so sources can be compared directly:
 monthly data are stamped on the first day of their month, daily data at 00:00
-of their day.
+of their day. Temperatures are converted from K to degrees Celsius on loading.
 """
 
 from __future__ import annotations
@@ -80,5 +80,9 @@ def load(source, frequency, variable, box, years=None, root=DATA_ROOT) -> xr.Dat
             parts.append(ds[variable].load())
     out = xr.concat(parts, "time")
     out = out.assign_coords(time=pd.DatetimeIndex(standard_time(out.time, frequency)))
+    if out.attrs.get("units") == "K":  # files are in K; analysis and figures use Celsius
+        attrs = {**out.attrs, "units": "°C"}
+        out = out - 273.15
+        out.attrs = attrs
     out.attrs["source"] = source
     return out
