@@ -278,7 +278,13 @@ def main(argv=None) -> int:
     parser.add_argument("--group", choices=["monthly", "daily", "all"], default="all")
     parser.add_argument("--source", help="only sources whose name starts with this")
     parser.add_argument("--root", default=str(DATA_ROOT))
+    parser.add_argument("--keep-awake", action="store_true", help="stop Windows idle-sleeping while this runs")
     args = parser.parse_args(argv)
+    if args.keep_awake and os.name == "nt":
+        import ctypes
+
+        # ES_CONTINUOUS | ES_SYSTEM_REQUIRED: lasts only as long as this process.
+        ctypes.windll.kernel32.SetThreadExecutionState(0x80000001)
 
     Path(args.root).mkdir(parents=True, exist_ok=True)
     logging.basicConfig(
