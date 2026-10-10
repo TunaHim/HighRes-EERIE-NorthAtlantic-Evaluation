@@ -213,7 +213,7 @@ reproduces the model's own monthly file.
 | 1 | Data discovery and access | `01_data_inventory` | done |
 | 1b | Domains, download plan, samples | `02_download_plan` | done |
 | 2 | Validation and historical baseline against ERA5 | `03_validation_baseline` | done |
-| 3 | NAO: EOF pattern, index, variability | `04_nao` | |
+| 3 | NAO: EOF pattern, index, variability | `04_nao` | done |
 | 4 | Extremes: RX1day, TXx, R95p | `05_extremes` | |
 | 5 | NAO-to-extremes link | `06_nao_extremes` | |
 | 6 | Paired experiment (monthly NAO) | `07_paired_experiment` | optional |
@@ -281,6 +281,7 @@ src/eerie_uk/
     eobs.py                  E-OBS download and cut-out
     store.py                 read the saved files back with common time stamps and units
     climatology.py           seasonal means, climatologies, comparison statistics
+    nao.py                   winter NAO: anomalies, EOF, sign convention, indices, diagnostics
     plotting.py              figure helpers
 notebooks/
     01_data_inventory.ipynb  what exists and what can be read
@@ -288,7 +289,8 @@ notebooks/
     03_validation_baseline.ipynb  data checks, GRIB check, mean climate and variability against ERA5
     html/                    HTML copies for easy reading (git-ignored)
 docs/methods.md              the full methods specification
-tests/                       41 pytest tests, none need the network
+app_assets/                  small derived tables (Parquet) for later notebooks and the dashboard
+tests/                       48 pytest tests, none need the network
 data/                        downloaded cut-outs and download.log (git-ignored)
 ```
 
@@ -302,7 +304,7 @@ Saved files are named `data/<source>/<mon|day>/<variable>_<box>_<year>.nc`.
 conda activate eerie-uk-nao
 cd C:\Users\LENOVO\EERIE-UK-NAO-Extremes
 jupyter lab                                   # open the notebooks
-pytest                                        # 41 offline tests
+pytest                                        # 48 offline tests
 python -m eerie_uk.download --group monthly   # run from src/, or with PYTHONPATH=src
 python -m eerie_uk.download --group daily
 ```
