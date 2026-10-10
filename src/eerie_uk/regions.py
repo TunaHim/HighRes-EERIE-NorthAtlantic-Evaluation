@@ -143,6 +143,27 @@ def cells_to_regular(da: xr.DataArray, box, step: float = 0.25, lon="lon", lat="
     return xr.DataArray(regular, dims=other + [lat, lon], coords=coords, attrs=da.attrs, name=da.name)
 
 
+def land_mask(lat, lon, resolution: str = "50m") -> xr.DataArray:
+    """True where a grid point lies on land (Natural Earth coastline)."""
+    import cartopy.io.shapereader as shapereader
+    import shapely
+    from shapely.ops import unary_union
+
+    lat = np.asarray(lat, dtype=float)
+    lon = np.asarray(lon, dtype=float)
+    path = shapereader.natural_earth(resolution=resolution, category="physical", name="land")
+    window = shapely.box(lon.min() - 1, lat.min() - 1, lon.max() + 1, lat.max() + 1)
+    land = unary_union([g.intersection(window) for g in shapereader.Reader(path).geometries() if g.intersects(window)])
+    xx, yy = np.meshgrid(lon, lat)
+    mask = shapely.contains_xy(land, xx, yy)
+    return xr.DataArray(mask, coords={"lat": lat, "lon": lon}, dims=("lat", "lon"), name="land")
+
+
+def to_grid(da: xr.DataArray, like: xr.DataArray) -> xr.DataArray:
+    """Bilinear interpolation of ``da`` onto the lat/lon points of ``like``."""
+    return da.interp(lat=like.lat, lon=like.lon, method="linear")
+
+
 def select_winter(ds, year: int, time="time"):
     """Select one DJF winter, labelled by the year of its January.
 

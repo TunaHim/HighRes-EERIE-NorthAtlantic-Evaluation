@@ -96,6 +96,29 @@ def r95p_share(pr: xr.DataArray, threshold: xr.DataArray, period: str = "ANN") -
     return out
 
 
+def indices_for(source: str, root=None, box: str = "nw_europe") -> xr.Dataset:
+    """All indices of one source, computed once and cached under ``data/derived``.
+
+    Reads the saved daily files, so it needs the downloads to be complete.
+    """
+    from pathlib import Path
+
+    from . import store
+    from .download import DATA_ROOT
+
+    root = Path(root or DATA_ROOT)
+    cache = root / "derived" / f"{source}_extremes_{box}.nc"
+    if cache.exists():
+        return xr.open_dataset(cache).load()
+    pr = store.load(source, "day", "pr", box, root=root)
+    tasmax = store.load(source, "day", "tasmax", box, root=root)
+    out = all_indices(pr, tasmax)
+    out.attrs = {"source": source, "box": box, "base_period": f"{BASE[0]}-{BASE[1]}", "wet_day_mm": WET_DAY}
+    cache.parent.mkdir(parents=True, exist_ok=True)
+    out.astype("float32").to_netcdf(cache)
+    return out
+
+
 def all_indices(pr: xr.DataArray, tasmax: xr.DataArray, base=BASE) -> xr.Dataset:
     """Every index of the project for one data source, annual and winter."""
     out = {}

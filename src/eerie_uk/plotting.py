@@ -113,7 +113,7 @@ DIVERGING = LinearSegmentedColormap.from_list(
 # One fixed colour per data source, everywhere. Observations are dark grey.
 SOURCE_COLOURS = {
     "era5": "#52514e",
-    "e-obs": "#898781",
+    "e-obs": "#b5b3aa",
     "icon-esm-er": "#2a78d6",
     "ifs-fesom2-sr": "#eb6834",
 }
