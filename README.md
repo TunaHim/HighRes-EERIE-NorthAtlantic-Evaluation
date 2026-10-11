@@ -53,7 +53,8 @@ Paired atmosphere-only experiment (07): filtering small-scale SST changes the
 winter NAO strength by −1% and +4% in two ten-member ensembles, well inside the
 member spread (0.70 to 1.00 for a single experiment). No detectable sensitivity.
 
-Each notebook has a "Findings" section in plain words and a "Limitations"
+**Start with `notebooks/00_summary.ipynb`.** Each detailed notebook opens with a
+plain-language background section, has a "Findings" section and a "Limitations"
 section. HTML copies are in `notebooks/html/`.
 
 ---
@@ -307,6 +308,7 @@ src/eerie_uk/
     relationships.py         detrended correlation and regression maps, FDR control, composites
     plotting.py              figure helpers
 notebooks/
+    00_summary.ipynb         START HERE: the whole story in six figures and four tables
     01_data_inventory.ipynb  what exists and what can be read
     02_download_plan.ipynb   domains, plan, measured cost, sample maps
     03_validation_baseline.ipynb  data checks, GRIB check, mean climate and variability against ERA5
