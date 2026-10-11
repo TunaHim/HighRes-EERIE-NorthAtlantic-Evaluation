@@ -116,12 +116,19 @@ SOURCE_COLOURS = {
     "e-obs": "#b5b3aa",
     "icon-esm-er": "#2a78d6",
     "ifs-fesom2-sr": "#eb6834",
+    # paired atmosphere-only runs (notebook 07)
+    "hist": "#1baf7a",
+    "hist-c-0-a-lr20": "#eda100",
+    "hist-c-lr20-a-0": "#e87ba4",
 }
 SOURCE_LABELS = {
     "era5": "ERA5",
     "e-obs": "E-OBS",
     "icon-esm-er": "ICON-ESM-ER",
     "ifs-fesom2-sr": "IFS-FESOM2-SR",
+    "hist": "observed SST (hist)",
+    "hist-c-0-a-lr20": "filtered SST anomalies (c-0-a-lr20)",
+    "hist-c-lr20-a-0": "third variant (c-lr20-a-0)",
 }
 
 
@@ -135,7 +142,7 @@ def plot_line_panels(panels, ylabel="", xlabel="", title="", xticks=None, column
     columns = min(columns, len(names))
     rows = int(np.ceil(len(names) / columns))
     fig, axes = plt.subplots(
-        rows, columns, figsize=(4.3 * columns, 3.0 * rows + 0.6), facecolor=SURFACE, squeeze=False, sharey=sharey
+        rows, columns, figsize=(max(4.3 * columns, 8.0), 3.0 * rows + 0.6), facecolor=SURFACE, squeeze=False, sharey=sharey
     )
     handles = {}
     for ax, name in zip(axes.flat, names):
@@ -343,6 +350,36 @@ def plot_series(series, title="", ylabel="", ax=None, time="time"):
     ax.set_axisbelow(True)
     ax.set_ylabel(ylabel, color=INK_SECONDARY, fontsize=9)
     ax.figure.autofmt_xdate()
+    if title:
+        ax.set_title(title, loc="left", fontsize=11, color=INK)
+    return ax
+
+
+def plot_member_dots(groups, xlabel="", title="", reference=None, reference_label="", ax=None):
+    """One row per experiment, one dot per ensemble member, a bar at the ensemble mean.
+
+    ``groups`` maps an experiment key to a 1-D array of member values.
+    ``reference`` draws a vertical line (for example the ERA5 value).
+    """
+    names = list(groups)
+    if ax is None:
+        fig, ax = plt.subplots(figsize=(7.6, 0.75 * len(names) + 1.3), facecolor=SURFACE)
+    _style(ax)
+    for row, name in enumerate(names):
+        values = np.asarray(groups[name], dtype=float)
+        colour = SOURCE_COLOURS.get(name, MUTED)
+        ax.scatter(values, np.full(values.size, row), s=42, color=colour, edgecolors=SURFACE, linewidths=1.0, zorder=3)
+        ax.plot([values.mean()] * 2, [row - 0.3, row + 0.3], color=INK, linewidth=2, zorder=4)
+        ax.text(values.max(), row + 0.32, f"mean {values.mean():.2f}", fontsize=8, color=INK_SECONDARY, ha="right")
+    if reference is not None:
+        ax.axvline(reference, color=SOURCE_COLOURS["era5"], linewidth=1.2, linestyle="--")
+        ax.text(reference, -0.75, reference_label, fontsize=8, color=INK_SECONDARY, ha="center")
+    ax.set_yticks(range(len(names)), [SOURCE_LABELS.get(n, n) for n in names])
+    ax.set_ylim(len(names) - 0.4, -1.0)
+    ax.grid(axis="x", color=GRID, linewidth=0.6)
+    ax.set_axisbelow(True)
+    ax.tick_params(axis="y", length=0)
+    ax.set_xlabel(xlabel, color=INK_SECONDARY, fontsize=9)
     if title:
         ax.set_title(title, loc="left", fontsize=11, color=INK)
     return ax

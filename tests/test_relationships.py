@@ -74,3 +74,14 @@ def test_regress_series_matches_the_map_version():
     assert cell["slope"] == pytest.approx(float(grid.slope.isel(lat=0, lon=0)))
     assert cell["p"] == pytest.approx(float(grid.p.isel(lat=0, lon=0)))
     assert cell["low"] < cell["slope"] < cell["high"]
+
+
+def test_ensemble_difference_detects_a_shift_larger_than_the_spread():
+    rng = np.random.default_rng(5)
+    coords = {"realization": np.arange(10), "lat": [50.0, 60.0]}
+    a = xr.DataArray(rng.normal(0, 1, (10, 2)), coords=coords, dims=("realization", "lat"))
+    b = xr.DataArray(rng.normal(0, 1, (10, 2)), coords=coords, dims=("realization", "lat"))
+    b[:, 1] -= 5.0  # a real shift at the second point only
+    out = rel.ensemble_difference(a, b)
+    assert float(out.difference.isel(lat=1)) == pytest.approx(5.0, abs=1.5)
+    assert float(out.p.isel(lat=1)) < 0.001 and float(out.p.isel(lat=0)) > 0.05

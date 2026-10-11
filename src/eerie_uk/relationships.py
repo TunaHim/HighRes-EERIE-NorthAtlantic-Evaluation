@@ -112,3 +112,15 @@ def regress_series(series, index, detrended: bool = True) -> dict:
         "high": float(fit.slope + half),
         "p": float(2 * stats.t.sf(abs(t_value), dof)),
     }
+
+
+def ensemble_difference(a: xr.DataArray, b: xr.DataArray, dim: str = "realization") -> xr.Dataset:
+    """Mean of ``a`` minus mean of ``b`` across ensemble members, with a Welch t-test.
+
+    The p value says whether the difference between the two experiments is
+    large compared with the spread across members of each.
+    """
+    test = stats.ttest_ind(a.transpose(dim, ...).values, b.transpose(dim, ...).values, axis=0, equal_var=False)
+    difference = a.mean(dim) - b.mean(dim)
+    p = xr.DataArray(np.asarray(test.pvalue), coords=difference.coords, dims=difference.dims)
+    return xr.Dataset({"difference": difference, "p": p})

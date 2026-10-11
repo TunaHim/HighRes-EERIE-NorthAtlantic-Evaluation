@@ -30,9 +30,9 @@ robust.
 **Rules.** Public data only. No AWI code. Python with xarray, Dask, intake, zarr.
 Work proceeds one step at a time; each step ends with an executed notebook.
 
-**Status (11 October 2026).** Notebooks 01 to 06 are executed: inventory,
-download plan, validation and baseline, NAO, extremes, and the NAO-to-extremes
-link. All data are downloaded except ERA5 *daily* (8 of 30 years of
+**Status (11 October 2026).** Notebooks 01 to 07 are executed: inventory,
+download plan, validation and baseline, NAO, extremes, the NAO-to-extremes
+link, and the paired SST-sensitivity experiment. All data are downloaded except ERA5 *daily* (8 of 30 years of
 precipitation, no maximum temperature yet), so notebooks 05 and 06 currently use
 E-OBS as the only reference for extremes; they add ERA5 automatically when it is
 complete. The repository will be made public on GitHub after version 1.
@@ -48,6 +48,10 @@ complete. The repository will be made public on GitHub after version 1.
 | Wettest day of the year, UK and Ireland, vs E-OBS (05) | +48% | +8% |
 | Hottest day of the year, UK and Ireland, vs E-OBS (05) | −3.3 °C | −1.9 °C |
 | NAO link to very-wet-day winter rain, UK and Ireland: correlation; E-OBS 0.51 (06) | 0.36 (not significant) | 0.60 |
+
+Paired atmosphere-only experiment (07): filtering small-scale SST changes the
+winter NAO strength by −1% and +4% in two ten-member ensembles, well inside the
+member spread (0.70 to 1.00 for a single experiment). No detectable sensitivity.
 
 Each notebook has a "Findings" section in plain words and a "Limitations"
 section. HTML copies are in `notebooks/html/`.
@@ -233,7 +237,7 @@ reproduces the model's own monthly file.
 | 3 | NAO: EOF pattern, index, variability | `04_nao` | done |
 | 4 | Extremes: RX1day, TXx, R95p | `05_extremes` | done (E-OBS reference; ERA5 daily pending) |
 | 5 | NAO-to-extremes link | `06_nao_extremes` | done (E-OBS reference; ERA5 daily pending) |
-| 6 | Paired experiment (monthly NAO) | `07_paired_experiment` | optional |
+| 6 | Paired experiment (monthly NAO) | `07_paired_experiment` | done |
 | 7 | Public GitHub repository; Streamlit dashboard if time allows | | |
 
 The notebooks and this README come first. The dashboard is a demonstration and is
@@ -309,11 +313,12 @@ notebooks/
     04_nao.ipynb             winter NAO: pattern, index, strength, cross-checks
     05_extremes.ipynb        RX1day, TXx, R95p (annual and winter) against E-OBS
     06_nao_extremes.ipynb    link between the winter NAO and winter extremes
+    07_paired_experiment.ipynb  NAO sensitivity to filtered SST in atmosphere-only ensembles
     html/                    HTML copies for easy reading (git-ignored)
 docs/methods.md              the full methods specification
 scripts/                     notebook generators (build_notebook_NN.py) and findings text
 app_assets/                  small derived tables (Parquet) for later notebooks and the dashboard
-tests/                       59 pytest tests, none need the network
+tests/                       60 pytest tests, none need the network
 data/                        downloaded cut-outs and download.log (git-ignored)
 ```
 
@@ -327,7 +332,7 @@ Saved files are named `data/<source>/<mon|day>/<variable>_<box>_<year>.nc`.
 conda activate eerie-uk-nao
 cd C:\Users\LENOVO\EERIE-UK-NAO-Extremes
 jupyter lab                                   # open the notebooks
-pytest                                        # 59 offline tests
+pytest                                        # 60 offline tests
 python -m eerie_uk.download --group monthly   # run from src/, or with PYTHONPATH=src
 python -m eerie_uk.download --group daily
 ```
