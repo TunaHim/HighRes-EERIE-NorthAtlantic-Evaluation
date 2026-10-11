@@ -30,10 +30,27 @@ robust.
 **Rules.** Public data only. No AWI code. Python with xarray, Dask, intake, zarr.
 Work proceeds one step at a time; each step ends with an executed notebook.
 
-**Status (9 October 2026).** Step 1 (inventory and loading code) and day 1
-(download plan, downloader, samples) are finished. The full downloads are
-running or about to run; see `data/download.log`. No analysis has been done yet.
-The repository will be made public on GitHub after version 1.
+**Status (11 October 2026).** Notebooks 01 to 06 are executed: inventory,
+download plan, validation and baseline, NAO, extremes, and the NAO-to-extremes
+link. All data are downloaded except ERA5 *daily* (8 of 30 years of
+precipitation, no maximum temperature yet), so notebooks 05 and 06 currently use
+E-OBS as the only reference for extremes; they add ERA5 automatically when it is
+complete. The repository will be made public on GitHub after version 1.
+
+## Main results so far (exploratory; one member per model)
+
+| Topic | ICON-ESM-ER | IFS-FESOM2-SR |
+|---|---|---|
+| Mean winter pressure (notebook 03) | north–south dipole bias, down to −14 hPa in the north | close to ERA5 (RMSE 1.8 hPa) |
+| NAO pattern (04) | leading EOF is a mixture, not a clean NAO | recognisable NAO, southern centre weak and displaced |
+| NAO strength relative to ERA5 (04) | 0.59 | 0.71 |
+| Mean state as an NAO anomaly (04) | +2.3 SD | +0.5 SD |
+| Wettest day of the year, UK and Ireland, vs E-OBS (05) | +48% | +8% |
+| Hottest day of the year, UK and Ireland, vs E-OBS (05) | −3.3 °C | −1.9 °C |
+| NAO link to very-wet-day winter rain, UK and Ireland: correlation; E-OBS 0.51 (06) | 0.36 (not significant) | 0.60 |
+
+Each notebook has a "Findings" section in plain words and a "Limitations"
+section. HTML copies are in `notebooks/html/`.
 
 ---
 
@@ -214,8 +231,8 @@ reproduces the model's own monthly file.
 | 1b | Domains, download plan, samples | `02_download_plan` | done |
 | 2 | Validation and historical baseline against ERA5 | `03_validation_baseline` | done |
 | 3 | NAO: EOF pattern, index, variability | `04_nao` | done |
-| 4 | Extremes: RX1day, TXx, R95p | `05_extremes` | |
-| 5 | NAO-to-extremes link | `06_nao_extremes` | |
+| 4 | Extremes: RX1day, TXx, R95p | `05_extremes` | done (E-OBS reference; ERA5 daily pending) |
+| 5 | NAO-to-extremes link | `06_nao_extremes` | done (E-OBS reference; ERA5 daily pending) |
 | 6 | Paired experiment (monthly NAO) | `07_paired_experiment` | optional |
 | 7 | Public GitHub repository; Streamlit dashboard if time allows | | |
 
@@ -282,15 +299,21 @@ src/eerie_uk/
     store.py                 read the saved files back with common time stamps and units
     climatology.py           seasonal means, climatologies, comparison statistics
     nao.py                   winter NAO: anomalies, EOF, sign convention, indices, diagnostics
+    extremes.py              RX1day, TXx, R95p per year and per winter
+    relationships.py         detrended correlation and regression maps, FDR control, composites
     plotting.py              figure helpers
 notebooks/
     01_data_inventory.ipynb  what exists and what can be read
     02_download_plan.ipynb   domains, plan, measured cost, sample maps
     03_validation_baseline.ipynb  data checks, GRIB check, mean climate and variability against ERA5
+    04_nao.ipynb             winter NAO: pattern, index, strength, cross-checks
+    05_extremes.ipynb        RX1day, TXx, R95p (annual and winter) against E-OBS
+    06_nao_extremes.ipynb    link between the winter NAO and winter extremes
     html/                    HTML copies for easy reading (git-ignored)
 docs/methods.md              the full methods specification
+scripts/                     notebook generators (build_notebook_NN.py) and findings text
 app_assets/                  small derived tables (Parquet) for later notebooks and the dashboard
-tests/                       48 pytest tests, none need the network
+tests/                       59 pytest tests, none need the network
 data/                        downloaded cut-outs and download.log (git-ignored)
 ```
 
@@ -304,7 +327,7 @@ Saved files are named `data/<source>/<mon|day>/<variable>_<box>_<year>.nc`.
 conda activate eerie-uk-nao
 cd C:\Users\LENOVO\EERIE-UK-NAO-Extremes
 jupyter lab                                   # open the notebooks
-pytest                                        # 48 offline tests
+pytest                                        # 59 offline tests
 python -m eerie_uk.download --group monthly   # run from src/, or with PYTHONPATH=src
 python -m eerie_uk.download --group daily
 ```

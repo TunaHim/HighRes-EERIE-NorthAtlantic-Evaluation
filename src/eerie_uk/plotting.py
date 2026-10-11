@@ -165,6 +165,39 @@ def plot_line_panels(panels, ylabel="", xlabel="", title="", xticks=None, column
     return axes
 
 
+def plot_scatter_panels(panels, xlabel="", ylabel="", title="", columns=4):
+    """Small multiples of scatter plots with a least-squares line, one source per panel.
+
+    ``panels`` maps a panel title to ``(source, x, y)``. The colour follows the source.
+    """
+    names = list(panels)
+    columns = min(columns, len(names))
+    rows = int(np.ceil(len(names) / columns))
+    fig, axes = plt.subplots(rows, columns, figsize=(3.3 * columns, 3.1 * rows + 0.4), facecolor=SURFACE, squeeze=False)
+    for ax, name in zip(axes.flat, names):
+        source, x, y = panels[name]
+        x, y = np.asarray(x, dtype=float), np.asarray(y, dtype=float)
+        colour = SOURCE_COLOURS.get(source, MUTED)
+        _style(ax)
+        ax.scatter(x, y, s=30, color=colour, edgecolors=SURFACE, linewidths=1.0, zorder=3)
+        slope, intercept = np.polyfit(x, y, 1)
+        line = np.array([x.min(), x.max()])
+        ax.plot(line, slope * line + intercept, color=colour, linewidth=2)
+        ax.axvline(0, color=AXIS, linewidth=0.8)
+        ax.grid(axis="y", color=GRID, linewidth=0.6)
+        ax.set_axisbelow(True)
+        ax.set_title(name, loc="left", fontsize=9, color=INK_SECONDARY)
+        ax.set_xlabel(xlabel, color=INK_SECONDARY, fontsize=9)
+    for ax in axes[:, 0]:
+        ax.set_ylabel(ylabel, color=INK_SECONDARY, fontsize=9)
+    for ax in axes.flat[len(names):]:
+        ax.set_visible(False)
+    if title:
+        fig.suptitle(title, x=0.02, ha="left", fontsize=11, color=INK)
+    fig.tight_layout(rect=(0, 0, 1, 0.95))
+    return axes
+
+
 def plot_histogram_panels(panels, xlabel="", title="", bins=30, columns=3):
     """Small multiples of distributions, drawn as outlines so sources overlap legibly.
 
@@ -224,11 +257,14 @@ def _degrees(value, letters):
     return f"{abs(value):g}°{letters[0] if value < 0 else letters[1]}"
 
 
-def plot_field_panels(fields, units="", title="", columns=3, diverging=False):
+def plot_field_panels(fields, units="", title="", columns=3, diverging=False, stipple=None, limit=None):
     """Maps of several 2-D fields side by side on one shared colour scale.
 
     ``fields`` maps a panel label to a lat/lon DataArray. ``diverging=True``
     is for differences: the scale is centred on zero, grey in the middle.
+    `stipple` maps a panel label to a boolean lat/lon mask; dots are drawn
+    where it is True (used to mark statistically significant grid points).
+    `limit` fixes the colour range to +-limit (diverging) instead of the data.
     """
     import cartopy.crs as ccrs
 
@@ -249,6 +285,8 @@ def plot_field_panels(fields, units="", title="", columns=3, diverging=False):
     if diverging:
         # robust limit so one extreme cell does not wash out the map
         high = max(float(np.nanpercentile(np.abs(f.values), 99)) for f in fields.values())
+        if limit is not None:
+            high = limit
         low, cmap = -high, DIVERGING
     mesh = None
     for ax, name in zip(axes.flat, names):
@@ -258,6 +296,10 @@ def plot_field_panels(fields, units="", title="", columns=3, diverging=False):
             shading="auto", transform=projection,
         )
         ax.coastlines(resolution="50m", color=INK, linewidth=0.5)
+        if stipple and name in stipple:
+            marked = stipple[name].isel(lat=slice(1, None, 3), lon=slice(1, None, 3))
+            yy, xx = np.meshgrid(marked.lat, marked.lon, indexing="ij")
+            ax.scatter(xx[marked.values], yy[marked.values], s=1.6, color=INK, linewidths=0, transform=projection)
         ax.set_title(name, loc="left", fontsize=9, color=INK_SECONDARY)
     for ax in axes.flat[len(names):]:
         ax.set_visible(False)

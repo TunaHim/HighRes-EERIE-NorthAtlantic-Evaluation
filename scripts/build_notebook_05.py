@@ -1,6 +1,19 @@
 """Generate notebooks/05_extremes.ipynb.  Usage: python build_notebook_05.py OUT.ipynb [findings.md]"""
+import glob
+import os
 import sys
 import nbformat as nbf
+
+_DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "era5", "day")
+HAVE_ERA5 = all(len(glob.glob(os.path.join(_DATA, f"{v}_nw_europe_*.nc"))) == 30 for v in ("pr", "tasmax"))
+REFS = ["e-obs", "era5"] if HAVE_ERA5 else ["e-obs"]
+
+ERA5_NOTE = """
+> **Note on ERA5 daily data.** When this notebook was last run, the ERA5 *daily* files were not yet
+> fully downloaded (the internet connection was too slow), so E-OBS is the only reference here.
+> E-OBS is the more direct reference for extremes over land in any case. The notebook picks up
+> ERA5 automatically, as a second reference, once `data/era5/day/` holds all 30 years: just run it again.
+"""
 
 FINDINGS = open(sys.argv[2], encoding="utf-8").read() if len(sys.argv) > 2 else "_Written after the first run._"
 
@@ -83,6 +96,9 @@ is an average over that area, so it is always lower than what a single rain gaug
 record in a thunderstorm. All four datasets are compared on the same 0.25° grid.
 """)
 
+if not HAVE_ERA5:
+    md(ERA5_NOTE)
+
 md("## 1. Setup and data check")
 
 step("""
@@ -100,8 +116,9 @@ from pathlib import Path
 from eerie_uk import climatology as clim, extremes as ex, plotting, regions, store
 
 pd.set_option('display.width', 220, 'display.float_format', '{:.1f}'.format)
-SOURCES = ['e-obs', 'era5', 'icon-esm-er', 'ifs-fesom2-sr']      # references first
 MODELS = ['icon-esm-er', 'ifs-fesom2-sr']
+""" + f"REFS = {REFS!r}" + """      # reference datasets
+SOURCES = REFS + MODELS
 NAME = plotting.SOURCE_LABELS
 """)
 
@@ -130,12 +147,15 @@ pd.DataFrame([{'source': NAME[s], 'years': indices[s].sizes['year_ann'], 'winter
 step("""
 **What this cell does.** Puts E-OBS on the same grid points as the models. E-OBS uses a 0.25° grid
 shifted by half a cell, so its index maps are interpolated (bilinearly) to the model grid. It also
-builds a land mask from the Natural Earth coastline, for the land-only averages.
+builds a land mask from the Natural Earth coastline, for the land-only averages, and keeps the
+land cells where E-OBS has data as the common set used for all regional numbers.
 """, """
-grid = indices['era5']
+grid = indices['icon-esm-er']
 indices['e-obs'] = regions.to_grid(indices['e-obs'], grid)
 land = regions.land_mask(grid.lat, grid.lon)
-print(f'land cells: {int(land.sum())} of {land.size} ({100 * float(land.mean()):.0f}%)')
+observed = indices['e-obs'].rx1day_ann.isel(year_ann=0).notnull() & indices['e-obs'].txx_ann.isel(year_ann=0).notnull()
+common = land & observed      # the same cells are used for every dataset in regional averages
+print(f'land cells: {int(land.sum())} of {land.size} ({100 * float(land.mean()):.0f}%); land cells with E-OBS data: {int(common.sum())}')
 
 def mean_map(source, name):
     'Average of an index over all its years.'
@@ -167,18 +187,18 @@ and the Cévennes). E-OBS is blank over sea.
 """)
 
 step("""
-**What this cell does.** Shows each model's RX1day as a percent difference from ERA5 (top row) and
-from E-OBS (bottom row). Two references are used because they have opposite weaknesses for rain.
+**What this cell does.** Shows each model's RX1day as a percent difference from each reference
+dataset (one row of maps per reference).
 """, """
 panels = {f'{NAME[m]} vs {NAME[r]}': percent_difference(mean_map(m, 'rx1day_ann'), mean_map(r, 'rx1day_ann'))
-          for r in ('era5', 'e-obs') for m in MODELS}
+          for r in REFS for m in MODELS}
 plotting.plot_field_panels(panels, units='% difference', title='Annual RX1day: model relative to each reference', columns=2, diverging=True);
 """)
 
 md("""
 **Figure 2.** RX1day percent difference. Orange: the model's wettest day is wetter than the
-reference; blue: drier. Where both rows agree in sign, the conclusion does not depend on the
-choice of reference.
+reference; blue: drier. E-OBS smooths intense rain, so a model that is somewhat wetter than E-OBS is not
+necessarily wrong.
 """)
 
 md("""
@@ -243,10 +263,10 @@ land, which is why headline numbers are land-only.
 """)
 
 step("""
-**What this cell does.** Shows each model's TXx minus ERA5 (top) and minus E-OBS (bottom), in °C.
+**What this cell does.** Shows each model's TXx minus each reference dataset, in °C.
 """, """
 panels = {f'{NAME[m]} minus {NAME[r]}': mean_map(m, 'txx_ann') - mean_map(r, 'txx_ann')
-          for r in ('era5', 'e-obs') for m in MODELS}
+          for r in REFS for m in MODELS}
 plotting.plot_field_panels(panels, units='°C', title='Annual TXx: model minus each reference', columns=2, diverging=True);
 """)
 
@@ -305,7 +325,9 @@ on the wet and dry sides of the NAO rainfall pattern.
 """)
 
 step("""
-**What this cell does.** Averages each index over the land cells of each region, for every year,
+**What this cell does.** Averages each index over the land cells of each region, for every year.
+Exactly the same cells are used for every dataset (land cells where E-OBS has data), so coastal
+cells that are partly sea in one dataset cannot distort the comparison. It then
 and collects the results in one long table (`series`) used for the tables and charts below and
 saved for the next notebook.
 """, """
@@ -314,7 +336,7 @@ rows = []
 for s in SOURCES:
     for tag, period in (('ann', 'annual'), ('djf', 'winter')):
         for key in INDEX_LABELS:
-            field = indices[s][f'{key}_{tag}'].where(land).rename({f'year_{tag}': 'year'})
+            field = indices[s][f'{key}_{tag}'].where(common).rename({f'year_{tag}': 'year'})
             for r in regions.SUBREGIONS:
                 values = clim.regional_mean(field, r)
                 rows += [{'source': s, 'region': r, 'period': period, 'index': key, 'year': int(y), 'value': float(v)}
@@ -332,7 +354,7 @@ def headline(region):
     mean = series[series.region == region].groupby(['period', 'index', 'source']).value.mean().unstack('source')[SOURCES]
     out = mean.rename(columns=NAME)
     for m in MODELS:
-        for r in ('era5', 'e-obs'):
+        for r in REFS:
             relative = 100 * (mean[m] - mean[r]) / mean[r]
             absolute = mean[m] - mean[r]
             is_temperature = mean.index.get_level_values('index') == 'txx'
