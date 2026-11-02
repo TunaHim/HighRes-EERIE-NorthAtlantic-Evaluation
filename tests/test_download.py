@@ -160,3 +160,17 @@ def test_extension_plan_is_consistent():
     assert not {(r.source, r.frequency, r.variable, r.box) for r in plan} & {
         (r.source, r.frequency, r.variable, r.box) for r in dl.build_plan()
     }
+
+
+def test_months_and_members_limit_a_request():
+    plan = {r.source: r for r in dl.build_extension_plan() if r.variable == "pr"}
+    assert plan["ifs-amip-tco399.hist"].months == (12, 1, 2) and plan["ifs-amip-tco399.hist"].members == 3
+    assert plan["ifs-amip-tco1279.hist"].months is None
+
+    def opener(dataset_id):
+        return xr.concat([_global("kg m-2 s-1", periods=366)] * 5, "realization").assign_coords(realization=range(5))
+
+    request = dl.Request("fake", "fake", "pr", "pr", "day", "uk_ireland", 2000, 2000, months=(12, 1, 2), members=3)
+    out = dl.fetch_year(request, 2000, opener)
+    assert out.sizes["realization"] == 3
+    assert set(out.time.dt.month.values) == {12, 1, 2} and out.sizes["time"] == 31 + 29 + 31

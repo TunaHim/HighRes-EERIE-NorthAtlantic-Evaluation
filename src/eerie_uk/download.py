@@ -41,6 +41,8 @@ class Request:
     start_year: int
     end_year: int
     coarsen: int = 1  # block-average this many grid cells per side before saving
+    months: tuple | None = None  # keep only these calendar months
+    members: int | None = None  # keep only the first few ensemble members
 
     @property
     def years(self) -> range:
@@ -109,8 +111,12 @@ def build_extension_plan() -> list[Request]:
     """
     amip = "ifs-amip-{res}.hist.v20240901.atmos.gr025.2D_24h"
     plan = [
-        Request(f"ifs-amip-{res}.hist", amip.format(res=res), "tprate", "pr", "day", "nw_europe", *DAILY_YEARS)
-        for res in ("tco1279", "tco399")
+        Request("ifs-amip-tco1279.hist", amip.format(res="tco1279"), "tprate", "pr", "day", "nw_europe", *DAILY_YEARS),
+        # 28 km: 3 of the 5 daily members, winter months only, to limit network traffic.
+        Request(
+            "ifs-amip-tco399.hist", amip.format(res="tco399"), "tprate", "pr", "day", "nw_europe", *DAILY_YEARS,
+            months=(12, 1, 2), members=3,
+        ),
     ]
     for source, dataset, native in (
         ("icon-esm-er", _ICON + "2d_daily_mean", "psl"),
@@ -208,6 +214,10 @@ def fetch(request: Request, start: str, end: str, opener=None) -> xr.DataArray:
         from .catalogue import open_dataset as opener
     source = opener(request.dataset_id)[request.native]
     source = source.sel(time=slice(start, end))
+    if request.months:
+        source = source.sel(time=source.time.dt.month.isin(list(request.months)))
+    if request.members:
+        source = source.isel(realization=slice(request.members))
     if source.sizes["time"] == 0:
         raise LookupError(f"{request.dataset_id} has no data for {start} to {end}")
     out = convert_units(cut_to_box(source, request.box), request.variable).rename(request.variable)
@@ -291,6 +301,8 @@ def measure(request: Request, start: str, end: str, root, opener=None) -> dict:
 def estimate(request: Request, seconds_per_step: float, mb_per_step: float) -> dict:
     """Cost of the full request, extrapolated from a measured sample."""
     steps = len(request.years) * (12 if request.frequency == "mon" else 365.25)
+    if request.months:
+        steps *= len(request.months) / 12
     return {"steps": int(steps), "hours": steps * seconds_per_step / 3600.0, "gb": steps * mb_per_step / 1000.0}
 
 
