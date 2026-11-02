@@ -321,7 +321,7 @@ md("""
    is one clearly offset?
 3. **Section 6:** is the interpretation of the ensemble mean as the SST-forced part clear?
 4. **Wording:** this notebook says "sensitivity to filtered SST forcing" throughout. Is that the
-   right level of caution for the application?
+   right level of caution?
 """)
 
 nb.cells = cells

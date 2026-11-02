@@ -3,21 +3,22 @@
 **North Atlantic climate variability and regional extremes in high-resolution
 Earth-system model simulations.**
 
-Exploratory analysis for a University of Reading FUTURA application.
+An exploratory analysis of how well models represent European extremes and their
+atmospheric drivers, and how far the conclusions can be trusted.
 
 ## Questions
 
-1. **Main.** How do high-resolution coupled Earth-system models represent North
-   Atlantic climate variability (the NAO) and extremes over the UK and Ireland,
-   and how are the two linked?
-2. **Secondary.** Where does that representation differ between model
-   configurations?
-3. **Optional, if the data support it.** How sensitive is the simulated NAO to
-   small-scale sea-surface temperature (SST) variability, as tested by paired
-   atmosphere-only EERIE experiments with and without filtered SST?
+1. **Main.** How do high-resolution Earth-system models represent extreme
+   precipitation over north-west Europe, and its atmospheric drivers, and how far
+   do the conclusions depend on model resolution and on internal variability?
+2. **Drivers.** How is the winter NAO represented, how is it linked to extremes,
+   and what weather leads up to the heaviest rainfall days?
+3. **Sensitivity.** How sensitive is the simulated NAO to small-scale sea-surface
+   temperature (SST) variability, as tested by paired atmosphere-only EERIE
+   experiments with and without filtered SST?
 
 The original question, "does an eddy-rich ocean change the NAO and extremes",
-was demoted to question 3 because both fully usable coupled models have an
+became question 3 because both fully usable coupled models have an
 eddy-rich ocean. Comparing them shows model differences, not the effect of eddies.
 Question 3 is worded as SST sensitivity on purpose: an atmosphere-only run forced
 with filtered SST tests the atmosphere's response to a change in SST forcing. It
@@ -30,12 +31,12 @@ robust.
 **Rules.** Public data only. No AWI code. Python with xarray, Dask, intake, zarr.
 Work proceeds one step at a time; each step ends with an executed notebook.
 
-**Status (11 October 2026).** Notebooks 01 to 07 are executed: inventory,
-download plan, validation and baseline, NAO, extremes, the NAO-to-extremes
-link, and the paired SST-sensitivity experiment. All data are downloaded except ERA5 *daily* (8 of 30 years of
-precipitation, no maximum temperature yet), so notebooks 05 and 06 currently use
-E-OBS as the only reference for extremes; they add ERA5 automatically when it is
-complete. The repository will be made public on GitHub after version 1.
+**Status (2 November 2026).** Notebooks 00 to 07 are executed. They currently use
+E-OBS as the only reference for daily extremes, because ERA5 daily is still
+downloading; they add ERA5 automatically when rerun. In progress: daily
+precipitation from the 9 km and 28 km atmosphere-only runs (resolution), and daily
+pressure at 1 degree (weather leading up to extremes). Complexity and air quality
+are not tested: no suitable public data were found.
 
 ## Main results so far (exploratory; one member per model)
 
@@ -70,7 +71,7 @@ regional extremes* is visible.
 |---|---|---|---|
 | North Atlantic | 90°W–40°E, 20–80°N | monthly sea-level pressure (NAO) | The standard Euro-Atlantic sector for an EOF-based NAO. It contains both centres of action (Icelandic low, Azores high) with room around them, so the leading pattern is not cut off at an edge. |
 | North-west Europe | 20°W–13°E, 40–65°N | temperature, precipitation, extremes | The usual limits of the North-West European Shelf. It spans the NAO rainfall see-saw: wetter Scotland and Norway, drier France and Iberia in a positive-NAO winter. UK and Ireland alone show only part of that. It also adds land points, which gives the extreme statistics a larger sample. |
-| UK and Ireland | 11°W–2.5°E, 49–61°N | headline numbers | The region the application is about. It is cut out of the north-west Europe files, so it needs no separate download. |
+| UK and Ireland | 11°W–2.5°E, 49–61°N | headline numbers | The headline region. It is cut out of the north-west Europe files, so it needs no separate download. |
 
 Sub-regions for headline numbers inside north-west Europe: **UK and Ireland**,
 **western Norway** (4.5–8.5°E, 58–63°N) and **north-west France**

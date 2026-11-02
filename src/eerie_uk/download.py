@@ -100,6 +100,27 @@ def build_plan() -> list[Request]:
     return plan
 
 
+def build_extension_plan() -> list[Request]:
+    """Downloads added for the resolution and event analyses, 1985-2014.
+
+    "resolution": daily precipitation of the 9 km run and the 28 km ensemble
+    (same atmosphere model, same observed SST). "pressure": daily sea-level
+    pressure at 1 degree for the weather leading up to extremes.
+    """
+    amip = "ifs-amip-{res}.hist.v20240901.atmos.gr025.2D_24h"
+    plan = [
+        Request(f"ifs-amip-{res}.hist", amip.format(res=res), "tprate", "pr", "day", "nw_europe", *DAILY_YEARS)
+        for res in ("tco1279", "tco399")
+    ]
+    for source, dataset, native in (
+        ("icon-esm-er", _ICON + "2d_daily_mean", "psl"),
+        ("ifs-fesom2-sr", _FESOM + "2D_daily_avg", "mmsl"),
+        ("era5", "era5-dkrz.surface_analysis_daily", "psl"),
+    ):
+        plan.append(Request(source, dataset, native, "psl", "day", "north_atlantic", *DAILY_YEARS, coarsen=NAO_COARSEN))
+    return plan
+
+
 # --- pure helpers ------------------------------------------------------------
 
 # Factor that turns a precipitation unit into mm per day.
@@ -275,7 +296,7 @@ def estimate(request: Request, seconds_per_step: float, mb_per_step: float) -> d
 
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    parser.add_argument("--group", choices=["monthly", "daily", "all"], default="all")
+    parser.add_argument("--group", choices=["monthly", "daily", "all", "resolution", "pressure"], default="all")
     parser.add_argument("--source", help="only sources whose name starts with this")
     parser.add_argument("--root", default=str(DATA_ROOT))
     parser.add_argument("--keep-awake", action="store_true", help="stop Windows idle-sleeping while this runs")
@@ -292,11 +313,15 @@ def main(argv=None) -> int:
         format="%(asctime)s %(levelname)s %(message)s",
         handlers=[logging.FileHandler(Path(args.root) / "download.log"), logging.StreamHandler()],
     )
-    wanted = {"monthly": ("mon",), "daily": ("day",), "all": ("mon", "day")}[args.group]
     failures = 0
-    for request in build_plan():
-        if request.frequency not in wanted:
-            continue
+    if args.group in ("resolution", "pressure"):
+        requests = [
+            r for r in build_extension_plan() if (r.variable == "pr") == (args.group == "resolution")
+        ]
+    else:
+        wanted = {"monthly": ("mon",), "daily": ("day",), "all": ("mon", "day")}[args.group]
+        requests = [r for r in build_plan() if r.frequency in wanted]
+    for request in requests:
         if args.source and not request.source.startswith(args.source):
             continue
         failed = run(request, args.root)

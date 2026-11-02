@@ -150,3 +150,13 @@ def test_select_cells_pads_the_box():
     padded = regions.select_cells(ds, "uk_ireland", pad=1.0)
     assert padded.sizes["value"] > tight.sizes["value"]
     assert float(padded.lon.min()) == -12.0
+
+
+def test_extension_plan_is_consistent():
+    plan = dl.build_extension_plan()
+    assert all(r.frequency == "day" and (r.start_year, r.end_year) == (1985, 2014) for r in plan)
+    assert {r.source for r in plan if r.variable == "pr"} == {"ifs-amip-tco1279.hist", "ifs-amip-tco399.hist"}
+    assert all(r.box == "north_atlantic" and r.coarsen == 4 for r in plan if r.variable == "psl")
+    assert not {(r.source, r.frequency, r.variable, r.box) for r in plan} & {
+        (r.source, r.frequency, r.variable, r.box) for r in dl.build_plan()
+    }
