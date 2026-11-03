@@ -120,6 +120,9 @@ SOURCE_COLOURS = {
     "hist": "#1baf7a",
     "hist-c-0-a-lr20": "#eda100",
     "hist-c-lr20-a-0": "#e87ba4",
+    # resolution pair (notebook 08)
+    "ifs-amip-tco1279.hist": "#4a3aa7",
+    "ifs-amip-tco399.hist": "#1baf7a",
 }
 SOURCE_LABELS = {
     "era5": "ERA5",
@@ -129,6 +132,8 @@ SOURCE_LABELS = {
     "hist": "observed SST (hist)",
     "hist-c-0-a-lr20": "filtered SST anomalies (c-0-a-lr20)",
     "hist-c-lr20-a-0": "third variant (c-lr20-a-0)",
+    "ifs-amip-tco1279.hist": "IFS 9 km",
+    "ifs-amip-tco399.hist": "IFS 28 km",
 }
 
 
@@ -148,8 +153,9 @@ def plot_line_panels(panels, ylabel="", xlabel="", title="", xticks=None, column
     for ax, name in zip(axes.flat, names):
         _style(ax)
         for source, (x, y) in panels[name].items():
+            base = source.split("#")[0]  # "name#2" = member 2 of a source: same colour and label
             (line,) = ax.plot(
-                x, y, color=SOURCE_COLOURS.get(source, MUTED), linewidth=2, label=SOURCE_LABELS.get(source, source)
+                x, y, color=SOURCE_COLOURS.get(base, MUTED), linewidth=2, label=SOURCE_LABELS.get(base, base)
             )
             handles[line.get_label()] = line
         ax.grid(axis="y", color=GRID, linewidth=0.6)

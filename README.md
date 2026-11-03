@@ -32,9 +32,8 @@ robust.
 Work proceeds one step at a time; each step ends with an executed notebook.
 
 **Status (3 November 2026).** Notebooks 00 to 07 are executed, with both E-OBS and
-ERA5 as references for daily extremes. In progress: daily precipitation from the
-28 km atmosphere-only ensemble (3 members, winter) for the resolution comparison
-with the 9 km run, and daily pressure at 1 degree for the weather leading up to
+ERA5 as references for daily extremes. Notebook 08 compares 9 km and 28 km
+resolution. In progress: daily pressure at 1 degree for the weather leading up to
 extremes. Complexity and air quality are not tested: no suitable public data were
 found.
 
@@ -49,6 +48,12 @@ found.
 | Wettest day of the year, UK and Ireland, vs E-OBS / ERA5 (05) | +48% / +60% | +8% / +17% |
 | Hottest day of the year, UK and Ireland, vs E-OBS / ERA5 (05) | −3.3 / −2.0 °C | −1.9 / −0.6 °C |
 | NAO link to very-wet-day winter rain, UK and Ireland: correlation; E-OBS 0.51, ERA5 0.35 (06) | 0.36 | 0.60 |
+
+Resolution (08): in the IFS atmosphere-only runs, going from 28 km to 9 km makes
+winter rainfall extremes 5–12% heavier. That helps over steep terrain (western
+Norway) but brings no overall gain at the 25 km scale. The NAO-to-extremes
+conclusion does not change with resolution, but varies strongly between members
+of the same run (UK and Ireland correlation 0.04 to 0.33).
 
 Paired atmosphere-only experiment (07): filtering small-scale SST changes the
 winter NAO strength by −1% and +4% in two ten-member ensembles, well inside the
@@ -317,6 +322,7 @@ notebooks/
     05_extremes.ipynb        RX1day, TXx, R95p (annual and winter) against E-OBS and ERA5
     06_nao_extremes.ipynb    link between the winter NAO and winter extremes
     07_paired_experiment.ipynb  NAO sensitivity to filtered SST in atmosphere-only ensembles
+    08_resolution.ipynb      winter precipitation extremes at 9 km and 28 km (same model, same SST)
     html/                    HTML copies for easy reading (git-ignored)
 docs/methods.md              the full methods specification
 scripts/                     notebook generators (build_notebook_NN.py) and findings text
