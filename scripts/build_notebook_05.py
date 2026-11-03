@@ -128,7 +128,7 @@ the first and last year, the number of yearly files and any gaps. Thirty files a
 column are required before the indices mean anything.
 """, """
 inventory = store.available()
-daily = inventory[inventory.frequency == 'day'].reset_index(drop=True)
+daily = inventory[(inventory.frequency == 'day') & (inventory.box == 'nw_europe') & inventory.source.isin(SOURCES)].reset_index(drop=True)
 daily
 """)
 

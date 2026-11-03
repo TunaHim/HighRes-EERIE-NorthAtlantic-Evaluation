@@ -53,6 +53,7 @@ checked against a reference before moving on.
 | **ICON-ESM-ER**, **IFS-FESOM2-SR** | two EERIE coupled models with eddy-rich oceans, historical run, one member each | 1950–2014 monthly, 1985–2014 daily |
 | **ERA5** | reanalysis reference for pressure, temperature and mean precipitation | 1950–2014 monthly |
 | **E-OBS** | station-based gridded dataset, land only; reference for extremes | 1985–2014 daily |
+| **ERA5 daily** | second reference for extremes | 1985–2014 daily |
 | **IFS atmosphere-only ensembles** | paired experiments with observed and with filtered sea-surface temperature, ten members each | 1980–2023 monthly |
 
 All data are public. Everything is exploratory: two models with one member each can show what is
@@ -201,8 +202,9 @@ plotting.plot_field_panels({f'{NAME[m]} vs E-OBS': 100 * (mean_rx[m] - mean_rx['
 md("""
 **Figure 4.** Orange: the model's wettest day is wetter than in E-OBS. **IFS-FESOM2-SR is within
 about 10%** over most of the region. **ICON-ESM-ER is roughly 50% too wet** almost everywhere.
-Both models' hottest days are cooler than E-OBS (by 2–3 °C over UK and Ireland); part of that may
-come from comparing 25 km grid cells with low-lying stations.
+Against ERA5 the excess is larger still (+60% and +17%). For the hottest day, ICON-ESM-ER is about
+2 °C too cool against ERA5 as well as E-OBS. IFS-FESOM2-SR is only 0.6 °C cooler than ERA5, so most
+of its 2 °C gap to E-OBS comes from comparing 25 km grid cells with low-lying stations.
 """)
 
 md("""
@@ -248,10 +250,11 @@ link[link.region == 'UK and Ireland'].drop(columns='region').set_index(['index',
 
 md("""
 **Reading the table.** Where the range from `low` to `high` excludes zero, the link is
-distinguishable from chance in 29 winters. **E-OBS and IFS-FESOM2-SR agree** on a clear link
-between the NAO and rainfall extremes (correlations 0.5–0.6). **ICON-ESM-ER has the right sign but
-a weaker link** that cannot be distinguished from chance. The mildest winter day (TXx) has only a
-weak link over UK and Ireland, in the real world as well.
+distinguishable from chance in 29 winters. The two references agree on the sign but not on the
+strength over UK and Ireland: about 0.5 in E-OBS, about 0.33 in ERA5. **IFS-FESOM2-SR** (0.57 and
+0.60) sits at the E-OBS end. **ICON-ESM-ER** (0.28 and 0.36) is close to ERA5 here, but it has the
+wrong sign over north-west France and a weak link in western Norway. The mildest winter day (TXx)
+has only a weak link over UK and Ireland in both references.
 """)
 
 md("""
@@ -287,8 +290,8 @@ md("""
 | Mean winter circulation | too-strong north–south pressure contrast | close to ERA5 |
 | NAO pattern | mixed across two patterns | recognisable, southern centre weak |
 | NAO strength | 0.59 of ERA5 | 0.71 of ERA5 |
-| Rainfall extremes, UK and Ireland | about 50% too heavy | within about 10% of E-OBS |
-| Hottest day of the year | about 3 °C cooler than E-OBS | about 2 °C cooler than E-OBS |
+| Rainfall extremes, UK and Ireland | 50–60% too heavy | within 10–20% of the references |
+| Hottest day of the year | about 2 °C too cool against ERA5 | within 1 °C of ERA5 |
 | NAO link to winter rainfall extremes | right sign, weak, misplaced boundary | reproduced in sign, pattern and strength |
 
 1. **Each step depends on the one before.** ICON-ESM-ER's circulation bias shows up again as a wet

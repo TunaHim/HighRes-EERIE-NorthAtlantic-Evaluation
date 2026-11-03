@@ -31,12 +31,12 @@ robust.
 **Rules.** Public data only. No AWI code. Python with xarray, Dask, intake, zarr.
 Work proceeds one step at a time; each step ends with an executed notebook.
 
-**Status (2 November 2026).** Notebooks 00 to 07 are executed. They currently use
-E-OBS as the only reference for daily extremes, because ERA5 daily is still
-downloading; they add ERA5 automatically when rerun. In progress: daily
-precipitation from the 9 km and 28 km atmosphere-only runs (resolution), and daily
-pressure at 1 degree (weather leading up to extremes). Complexity and air quality
-are not tested: no suitable public data were found.
+**Status (3 November 2026).** Notebooks 00 to 07 are executed, with both E-OBS and
+ERA5 as references for daily extremes. In progress: daily precipitation from the
+28 km atmosphere-only ensemble (3 members, winter) for the resolution comparison
+with the 9 km run, and daily pressure at 1 degree for the weather leading up to
+extremes. Complexity and air quality are not tested: no suitable public data were
+found.
 
 ## Main results so far (exploratory; one member per model)
 
@@ -46,9 +46,9 @@ are not tested: no suitable public data were found.
 | NAO pattern (04) | leading EOF is a mixture, not a clean NAO | recognisable NAO, southern centre weak and displaced |
 | NAO strength relative to ERA5 (04) | 0.59 | 0.71 |
 | Mean state as an NAO anomaly (04) | +2.3 SD | +0.5 SD |
-| Wettest day of the year, UK and Ireland, vs E-OBS (05) | +48% | +8% |
-| Hottest day of the year, UK and Ireland, vs E-OBS (05) | −3.3 °C | −1.9 °C |
-| NAO link to very-wet-day winter rain, UK and Ireland: correlation; E-OBS 0.51 (06) | 0.36 (not significant) | 0.60 |
+| Wettest day of the year, UK and Ireland, vs E-OBS / ERA5 (05) | +48% / +60% | +8% / +17% |
+| Hottest day of the year, UK and Ireland, vs E-OBS / ERA5 (05) | −3.3 / −2.0 °C | −1.9 / −0.6 °C |
+| NAO link to very-wet-day winter rain, UK and Ireland: correlation; E-OBS 0.51, ERA5 0.35 (06) | 0.36 | 0.60 |
 
 Paired atmosphere-only experiment (07): filtering small-scale SST changes the
 winter NAO strength by −1% and +4% in two ten-member ensembles, well inside the
@@ -237,8 +237,8 @@ reproduces the model's own monthly file.
 | 1b | Domains, download plan, samples | `02_download_plan` | done |
 | 2 | Validation and historical baseline against ERA5 | `03_validation_baseline` | done |
 | 3 | NAO: EOF pattern, index, variability | `04_nao` | done |
-| 4 | Extremes: RX1day, TXx, R95p | `05_extremes` | done (E-OBS reference; ERA5 daily pending) |
-| 5 | NAO-to-extremes link | `06_nao_extremes` | done (E-OBS reference; ERA5 daily pending) |
+| 4 | Extremes: RX1day, TXx, R95p | `05_extremes` | done |
+| 5 | NAO-to-extremes link | `06_nao_extremes` | done |
 | 6 | Paired experiment (monthly NAO) | `07_paired_experiment` | done |
 | 7 | Public GitHub repository; Streamlit dashboard if time allows | | |
 
@@ -314,7 +314,7 @@ notebooks/
     02_download_plan.ipynb   domains, plan, measured cost, sample maps
     03_validation_baseline.ipynb  data checks, GRIB check, mean climate and variability against ERA5
     04_nao.ipynb             winter NAO: pattern, index, strength, cross-checks
-    05_extremes.ipynb        RX1day, TXx, R95p (annual and winter) against E-OBS
+    05_extremes.ipynb        RX1day, TXx, R95p (annual and winter) against E-OBS and ERA5
     06_nao_extremes.ipynb    link between the winter NAO and winter extremes
     07_paired_experiment.ipynb  NAO sensitivity to filtered SST in atmosphere-only ensembles
     html/                    HTML copies for easy reading (git-ignored)
