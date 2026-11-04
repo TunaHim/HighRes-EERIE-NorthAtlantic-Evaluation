@@ -31,7 +31,7 @@ robust.
 **Rules.** Public data only. No AWI code. Python with xarray, Dask, intake, zarr.
 Work proceeds one step at a time; each step ends with an executed notebook.
 
-**Status (3 November 2026).** Notebooks 00 to 07 are executed, with both E-OBS and
+**Status (4 November 2026).** Notebooks 00 to 07 are executed, with both E-OBS and
 ERA5 as references for daily extremes. Notebook 08 compares 9 km and 28 km
 resolution. In progress: daily pressure at 1 degree for the weather leading up to
 extremes. Complexity and air quality are not tested: no suitable public data were
@@ -54,6 +54,11 @@ winter rainfall extremes 5–12% heavier. That helps over steep terrain (western
 Norway) but brings no overall gain at the 25 km scale. The NAO-to-extremes
 conclusion does not change with resolution, but varies strongly between members
 of the same run (UK and Ireland correlation 0.04 to 0.33).
+
+Event anatomy (09): both models bring their heaviest UK winter rain through the
+same pattern as the real world, a deep low to the north-west (pattern correlation
+0.94-0.95 on the event day). ICON-ESM-ER's storms show less build-up two days before.
+Both models have a storm track 13-17% too active over the UK.
 
 Paired atmosphere-only experiment (07): filtering small-scale SST changes the
 winter NAO strength by −1% and +4% in two ten-member ensembles, well inside the
@@ -323,6 +328,7 @@ notebooks/
     06_nao_extremes.ipynb    link between the winter NAO and winter extremes
     07_paired_experiment.ipynb  NAO sensitivity to filtered SST in atmosphere-only ensembles
     08_resolution.ipynb      winter precipitation extremes at 9 km and 28 km (same model, same SST)
+    09_event_anatomy.ipynb   weather behind the heaviest winter rain days; storminess; persistent highs
     html/                    HTML copies for easy reading (git-ignored)
 docs/methods.md              the full methods specification
 scripts/                     notebook generators (build_notebook_NN.py) and findings text
