@@ -31,7 +31,7 @@ robust.
 **Rules.** Public data only. No AWI code. Python with xarray, Dask, intake, zarr.
 Work proceeds one step at a time; each step ends with an executed notebook.
 
-**Status (4 November 2026).** Notebooks 00 to 07 are executed, with both E-OBS and
+**Status (4 November 2026).** Notebooks 00 to 09 are executed, with both E-OBS and
 ERA5 as references for daily extremes. Notebook 08 compares 9 km and 28 km
 resolution. In progress: daily pressure at 1 degree for the weather leading up to
 extremes. Complexity and air quality are not tested: no suitable public data were
