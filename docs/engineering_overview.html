@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data Engineering Overview</title>
+<style>
+:root{--bg:#f9f9f7;--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#898781;--line:#e1e0d9;--axis:#c3c2b7;
+--blue:#2a78d6;--blue-soft:#cde2fb;--orange:#eb6834;--orange-soft:#fbe0d4;--aqua:#1baf7a;--aqua-soft:#d3f1e5;--yellow:#eda100;--yellow-soft:#fcefc9;--violet:#4a3aa7;--violet-soft:#e2def7;}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0d0d0d;--surface:#1a1a19;--ink:#ffffff;--ink2:#c3c2b7;--muted:#898781;--line:#2c2c2a;--axis:#383835;
+--blue:#3987e5;--blue-soft:#17324f;--orange:#d95926;--orange-soft:#3d2216;--aqua:#199e70;--aqua-soft:#12342a;--yellow:#c98500;--yellow-soft:#3a2d0c;--violet:#9085e9;--violet-soft:#2a2550;}}
+:root[data-theme="dark"]{--bg:#0d0d0d;--surface:#1a1a19;--ink:#ffffff;--ink2:#c3c2b7;--muted:#898781;--line:#2c2c2a;--axis:#383835;
+--blue:#3987e5;--blue-soft:#17324f;--orange:#d95926;--orange-soft:#3d2216;--aqua:#199e70;--aqua-soft:#12342a;--yellow:#c98500;--yellow-soft:#3a2d0c;--violet:#9085e9;--violet-soft:#2a2550;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:1060px;margin:0 auto;padding:28px 16px 64px}
+h1{font-size:26px;margin:0 0 4px}
+h2{font-size:19px;margin:40px 0 8px}
+p.lead{color:var(--ink2);margin:0 0 20px;max-width:760px}
+p{max-width:780px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:12px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.grid .card{margin:0}
+.card h3{font-size:15px;margin:0 0 6px}
+.card p{margin:0;color:var(--ink2);font-size:14px}
+.tag{display:inline-block;font-size:12px;padding:1px 8px;border-radius:10px;margin-bottom:6px}
+.tag.blue{background:var(--blue-soft);color:var(--blue)} .tag.orange{background:var(--orange-soft);color:var(--orange)}
+.tag.aqua{background:var(--aqua-soft);color:var(--aqua)} .tag.violet{background:var(--violet-soft);color:var(--violet)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:16px 0}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.stat b{display:block;font-size:24px;font-weight:600}
+.stat span{color:var(--ink2);font-size:13px}
+table{border-collapse:collapse;width:100%;font-size:14px;background:var(--surface)}
+th,td{border-bottom:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+th{color:var(--ink2);font-weight:600}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+.wrap{overflow-x:auto}
+svg text{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.svgbox{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px;overflow-x:auto}
+.note{color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<main>
+<h1>How the data pipeline works</h1>
+<p class="lead">The data and software side of the EERIE-UK-NAO-Extremes project, in pictures: where the data comes
+from, how it is turned into a small local archive, how the analysis code is organised and checked, and how it could be
+scaled up. Status: 4 November 2026.</p>
+
+<div class="stats">
+  <div class="stat"><b>945</b><span>datasets listed on the DKRZ server</span></div>
+  <div class="stat"><b>~250–300 GB</b><span>streamed over the internet (estimate)</span></div>
+  <div class="stat"><b>4.2 GB</b><span>kept on disk, about 1.5% of it</span></div>
+  <div class="stat"><b>~1,200</b><span>yearly data files</span></div>
+  <div class="stat"><b>13 modules</b><span>about 2,100 lines of Python</span></div>
+  <div class="stat"><b>66 tests</b><span>all offline, all passing</span></div>
+</div>
+
+<h2>1. The pipeline at a glance</h2>
+<p>Data flows from left to right. Each box is one stage; the text under it names the code that does it.</p>
+<div class="svgbox">
+<svg viewBox="0 0 1000 430" width="100%" role="img" aria-label="Pipeline from data sources to outputs">
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--muted)"/></marker></defs>
+  <!-- sources -->
+  <text x="10" y="22" font-size="13" font-weight="600" fill="var(--ink2)">1 · SOURCES (internet)</text>
+  <rect x="10" y="34" width="190" height="86" rx="8" fill="var(--blue-soft)" stroke="var(--blue)"/>
+  <text x="22" y="56" font-size="13" font-weight="600" fill="var(--ink)">DKRZ km-scale cloud</text>
+  <text x="22" y="74" font-size="12" fill="var(--ink2)">ICON-ESM-ER, IFS-FESOM2-SR,</text>
+  <text x="22" y="90" font-size="12" fill="var(--ink2)">IFS atmosphere-only runs, ERA5</text>
+  <text x="22" y="108" font-size="11" fill="var(--ink2)">STAC metadata, Zarr over HTTPS</text>
+  <rect x="10" y="132" width="190" height="62" rx="8" fill="var(--blue-soft)" stroke="var(--blue)"/>
+  <text x="22" y="154" font-size="13" font-weight="600" fill="var(--ink)">KNMI / Copernicus</text>
+  <text x="22" y="172" font-size="12" fill="var(--ink2)">E-OBS station data, netCDF</text>
+  <text x="22" y="187" font-size="12" fill="var(--ink2)">2 files, 1.6 GB</text>
+  <rect x="10" y="206" width="190" height="62" rx="8" fill="var(--surface)" stroke="var(--axis)" stroke-dasharray="4 3"/>
+  <text x="22" y="228" font-size="13" font-weight="600" fill="var(--ink)">GitHub intake catalogues</text>
+  <text x="22" y="246" font-size="12" fill="var(--ink2)">descriptions of EERIE runs,</text>
+  <text x="22" y="261" font-size="12" fill="var(--ink2)">JASMIN / CEDA listings</text>
+  <rect x="10" y="280" width="190" height="48" rx="8" fill="var(--surface)" stroke="var(--axis)" stroke-dasharray="4 3"/>
+  <text x="22" y="300" font-size="13" font-weight="600" fill="var(--muted)">JASMIN (HadGEM3)</text>
+  <text x="22" y="317" font-size="12" fill="var(--muted)">checked: needs a login</text>
+
+  <!-- discovery -->
+  <text x="236" y="22" font-size="13" font-weight="600" fill="var(--ink2)">2 · FIND</text>
+  <rect x="236" y="34" width="150" height="120" rx="8" fill="var(--surface)" stroke="var(--axis)"/>
+  <text x="248" y="56" font-size="13" font-weight="600" fill="var(--ink)">Inventory</text>
+  <text x="248" y="76" font-size="12" fill="var(--ink2)">list all datasets,</text>
+  <text x="248" y="92" font-size="12" fill="var(--ink2)">read their variables</text>
+  <text x="248" y="108" font-size="12" fill="var(--ink2)">and periods, map</text>
+  <text x="248" y="124" font-size="12" fill="var(--ink2)">model names to CMIP</text>
+  <text x="248" y="144" font-size="11" fill="var(--blue)">catalogue.py</text>
+
+  <!-- access -->
+  <text x="420" y="22" font-size="13" font-weight="600" fill="var(--ink2)">3 · READ AND CUT</text>
+  <rect x="420" y="34" width="180" height="234" rx="8" fill="var(--surface)" stroke="var(--axis)"/>
+  <text x="432" y="56" font-size="13" font-weight="600" fill="var(--ink)">For every year:</text>
+  <text x="432" y="78" font-size="12" fill="var(--ink2)">① open lazily (xarray, Dask)</text>
+  <text x="432" y="98" font-size="12" fill="var(--ink2)">② decode GRIB chunks</text>
+  <text x="432" y="118" font-size="12" fill="var(--ink2)">③ cut the region in memory</text>
+  <text x="432" y="138" font-size="12" fill="var(--ink2)">④ regrid ERA5 / E-OBS</text>
+  <text x="432" y="158" font-size="12" fill="var(--ink2)">⑤ common units: mm/day,</text>
+  <text x="446" y="174" font-size="12" fill="var(--ink2)">hPa, °C</text>
+  <text x="432" y="194" font-size="12" fill="var(--ink2)">⑥ save compressed netCDF</text>
+  <text x="432" y="214" font-size="12" fill="var(--ink2)">⑦ retry, resume, log</text>
+  <text x="432" y="242" font-size="11" fill="var(--blue)">download.py · grib.py</text>
+  <text x="432" y="257" font-size="11" fill="var(--blue)">regions.py · eobs.py</text>
+
+  <!-- store -->
+  <text x="634" y="22" font-size="13" font-weight="600" fill="var(--ink2)">4 · KEEP</text>
+  <rect x="634" y="34" width="150" height="120" rx="8" fill="var(--aqua-soft)" stroke="var(--aqua)"/>
+  <text x="646" y="56" font-size="13" font-weight="600" fill="var(--ink)">Local archive</text>
+  <text x="646" y="76" font-size="12" fill="var(--ink2)">data/, 4.2 GB</text>
+  <text x="646" y="92" font-size="12" fill="var(--ink2)">one file per source,</text>
+  <text x="646" y="108" font-size="12" fill="var(--ink2)">variable, region, year</text>
+  <text x="646" y="124" font-size="12" fill="var(--ink2)">same time stamps</text>
+  <text x="646" y="144" font-size="11" fill="var(--blue)">store.py</text>
+
+  <!-- analysis -->
+  <text x="818" y="22" font-size="13" font-weight="600" fill="var(--ink2)">5 · ANALYSE</text>
+  <rect x="818" y="34" width="172" height="234" rx="8" fill="var(--surface)" stroke="var(--axis)"/>
+  <text x="830" y="56" font-size="13" font-weight="600" fill="var(--ink)">Analysis library</text>
+  <text x="830" y="78" font-size="12" fill="var(--ink2)">climatology.py — means,</text>
+  <text x="846" y="94" font-size="12" fill="var(--ink2)">biases, skill scores</text>
+  <text x="830" y="114" font-size="12" fill="var(--ink2)">nao.py — EOF, NAO index</text>
+  <text x="830" y="134" font-size="12" fill="var(--ink2)">extremes.py — RX1day,</text>
+  <text x="846" y="150" font-size="12" fill="var(--ink2)">TXx, R95p</text>
+  <text x="830" y="170" font-size="12" fill="var(--ink2)">relationships.py — maps,</text>
+  <text x="846" y="186" font-size="12" fill="var(--ink2)">significance (FDR)</text>
+  <text x="830" y="206" font-size="12" fill="var(--ink2)">events.py — composites,</text>
+  <text x="846" y="222" font-size="12" fill="var(--ink2)">storminess, highs</text>
+  <text x="830" y="248" font-size="11" fill="var(--blue)">plotting.py for figures</text>
+
+  <!-- arrows top row -->
+  <line x1="200" y1="77" x2="234" y2="77" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="200" y1="237" x2="234" y2="120" stroke="var(--muted)" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+  <line x1="386" y1="94" x2="418" y2="94" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="200" y1="163" x2="418" y2="163" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="600" y1="94" x2="632" y2="94" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="784" y1="94" x2="816" y2="94" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="604" y="84" font-size="11" fill="var(--muted)">1.5%</text>
+
+  <!-- outputs row -->
+  <text x="10" y="362" font-size="13" font-weight="600" fill="var(--ink2)">6 · RESULTS</text>
+  <rect x="236" y="340" width="190" height="78" rx="8" fill="var(--violet-soft)" stroke="var(--violet)"/>
+  <text x="248" y="362" font-size="13" font-weight="600" fill="var(--ink)">10 notebooks</text>
+  <text x="248" y="380" font-size="12" fill="var(--ink2)">built by scripts/, executed,</text>
+  <text x="248" y="396" font-size="12" fill="var(--ink2)">HTML copies for reading</text>
+  <rect x="446" y="340" width="190" height="78" rx="8" fill="var(--violet-soft)" stroke="var(--violet)"/>
+  <text x="458" y="362" font-size="13" font-weight="600" fill="var(--ink)">Result tables</text>
+  <text x="458" y="380" font-size="12" fill="var(--ink2)">small Parquet files in</text>
+  <text x="458" y="396" font-size="12" fill="var(--ink2)">app_assets/ (dashboard-ready)</text>
+  <rect x="656" y="340" width="190" height="78" rx="8" fill="var(--surface)" stroke="var(--axis)" stroke-dasharray="4 3"/>
+  <text x="668" y="362" font-size="13" font-weight="600" fill="var(--ink)">Next</text>
+  <text x="668" y="380" font-size="12" fill="var(--ink2)">public GitHub, report,</text>
+  <text x="668" y="396" font-size="12" fill="var(--ink2)">slides, dashboard</text>
+  <path d="M904 268 L904 318 L331 318 L331 338" fill="none" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="541" y1="318" x2="541" y2="338" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="636" y1="379" x2="654" y2="379" stroke="var(--muted)" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+</svg>
+</div>
+<p class="note">Dashed boxes: sources only consulted for metadata, or not usable without a login; planned next steps.</p>
+
+<h2>2. Why so much is streamed and so little is kept</h2>
+<p>The DKRZ server stores each day as one file for the <em>whole globe</em>. Whatever region you ask for, the whole
+globe comes over the internet. The pipeline cuts out the North Atlantic or north-west Europe box in memory, saves
+only that, and throws the rest away.</p>
+<div class="svgbox">
+<svg viewBox="0 0 1000 170" width="100%" role="img" aria-label="Whole globe chunk versus saved cut-out">
+  <rect x="20" y="20" width="360" height="130" rx="6" fill="var(--blue-soft)" stroke="var(--blue)"/>
+  <text x="200" y="80" text-anchor="middle" font-size="14" font-weight="600" fill="var(--ink)">one day, whole globe</text>
+  <text x="200" y="100" text-anchor="middle" font-size="12" fill="var(--ink2)">1–4 MB per variable per day</text>
+  <rect x="255" y="35" width="45" height="32" fill="var(--orange-soft)" stroke="var(--orange)"/>
+  <line x1="390" y1="85" x2="560" y2="85" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="475" y="74" text-anchor="middle" font-size="12" fill="var(--ink2)">cut in memory</text>
+  <rect x="570" y="55" width="70" height="60" rx="4" fill="var(--orange-soft)" stroke="var(--orange)"/>
+  <text x="660" y="80" font-size="14" font-weight="600" fill="var(--ink)">north-west Europe</text>
+  <text x="660" y="100" font-size="12" fill="var(--ink2)">about 30–50 kB per day after compression</text>
+  <text x="660" y="120" font-size="12" fill="var(--ink2)">(pressure for the NAO: averaged to 1° first, 16× smaller)</text>
+</svg>
+</div>
+
+<div class="wrap" style="margin-top:12px">
+<table>
+<thead><tr><th>Source</th><th>What was kept</th><th>Years</th><th class="num">On disk</th></tr></thead>
+<tbody>
+<tr><td>ICON-ESM-ER (coupled)</td><td>monthly pressure, temperature, rain; daily rain, max temperature, pressure</td><td>1950–2014 / 1985–2014</td><td class="num">1.0 GB</td></tr>
+<tr><td>IFS-FESOM2-SR (coupled)</td><td>the same</td><td>1950–2014 / 1985–2014</td><td class="num">1.0 GB</td></tr>
+<tr><td>ERA5 (reanalysis)</td><td>the same</td><td>1950–2014 / 1985–2014</td><td class="num">1.0 GB</td></tr>
+<tr><td>IFS atmosphere-only, 9 km and 28 km</td><td>daily rain (28 km: 3 members, winter)</td><td>1985–2014</td><td class="num">0.8 GB</td></tr>
+<tr><td>IFS atmosphere-only, SST experiments</td><td>monthly pressure, 1 or 10 members</td><td>1980–2023</td><td class="num">0.2 GB</td></tr>
+<tr><td>E-OBS (stations)</td><td>daily rain and max temperature, land</td><td>1985–2014</td><td class="num">0.2 GB</td></tr>
+<tr><td>Derived indices (cache)</td><td>RX1day, TXx, R95p per grid cell</td><td>1985–2014</td><td class="num">0.05 GB</td></tr>
+<tr><th>Total</th><th></th><th></th><th class="num">4.2 GB</th></tr>
+</tbody>
+</table>
+</div>
+
+<h2>3. Problems the pipeline had to solve</h2>
+<div class="grid">
+  <div class="card"><span class="tag orange">decoding</span><h3>Unreadable model files</h3>
+  <p>IFS-FESOM2-SR data are raw GRIB messages that today's ecCodes library misreads. A small decoder removes one
+  bookkeeping section first. Checked twice: an older library gives identical values, and a month of decoded daily
+  data averages exactly to the model's own monthly file.</p></div>
+  <div class="card"><span class="tag orange">grids</span><h3>Different grids</h3>
+  <p>ERA5 uses rows of different length (a reduced Gaussian grid) and E-OBS a grid shifted by half a cell. Both are
+  interpolated to the models' 0.25° grid so that maps can be subtracted point by point.</p></div>
+  <div class="card"><span class="tag orange">units and time</span><h3>Different conventions</h3>
+  <p>Rain came in kg m⁻² s⁻¹, m s⁻¹ and m per day; months were stamped at their end, middle or start. Everything is
+  converted to mm/day, hPa and °C, and every month to its first day, with tests for each rule.</p></div>
+  <div class="card"><span class="tag blue">reliability</span><h3>Slow and broken connections</h3>
+  <p>Hotel Wi-Fi, laptop sleep and server time-outs. One file per year, written atomically, so a failure costs one
+  year; three retries; a restart continues where it stopped; everything logged.</p></div>
+  <div class="card"><span class="tag blue">safety</span><h3>Not on mobile data</h3>
+  <p>A small guard watches the network every 5 seconds and stops all downloads if the laptop joins any network other
+  than the one allowed, so 200 GB never goes over a phone contract.</p></div>
+  <div class="card"><span class="tag blue">concurrency</span><h3>Parallel reading crashed</h3>
+  <p>The GRIB library crashed when several threads decoded at once. A lock around decoding fixed it, while downloads
+  still run in parallel.</p></div>
+  <div class="card"><span class="tag aqua">cost control</span><h3>Measure before downloading</h3>
+  <p>Every download was first tried on a few days, timed and sized, and the full cost estimated (hours, GB) before
+  starting. That is how the 28 km ensemble was cut from 110 GB to about 16 GB.</p></div>
+  <div class="card"><span class="tag aqua">honesty</span><h3>Fair comparisons</h3>
+  <p>Regional averages use exactly the same land cells for every dataset, so coastal cells that are partly sea in
+  one dataset cannot bias the comparison.</p></div>
+</div>
+
+<h2>4. How the code is organised and checked</h2>
+<div class="svgbox">
+<svg viewBox="0 0 1000 220" width="100%" role="img" aria-label="Layers of the code and the checks around them">
+  <rect x="20" y="20" width="300" height="180" rx="8" fill="var(--surface)" stroke="var(--axis)"/>
+  <text x="36" y="44" font-size="13" font-weight="600" fill="var(--ink)">Data layer</text>
+  <text x="36" y="66" font-size="12" fill="var(--ink2)">catalogue · download · grib · eobs</text>
+  <text x="36" y="84" font-size="12" fill="var(--ink2)">regions · store</text>
+  <text x="36" y="112" font-size="12" fill="var(--ink2)">Every source is turned into the same</text>
+  <text x="36" y="128" font-size="12" fill="var(--ink2)">"CMIP-style" names and units, so the</text>
+  <text x="36" y="144" font-size="12" fill="var(--ink2)">analysis never needs to know where</text>
+  <text x="36" y="160" font-size="12" fill="var(--ink2)">the data came from.</text>
+  <rect x="350" y="20" width="300" height="180" rx="8" fill="var(--surface)" stroke="var(--axis)"/>
+  <text x="366" y="44" font-size="13" font-weight="600" fill="var(--ink)">Analysis layer</text>
+  <text x="366" y="66" font-size="12" fill="var(--ink2)">climatology · nao · extremes</text>
+  <text x="366" y="84" font-size="12" fill="var(--ink2)">relationships · events · plotting</text>
+  <text x="366" y="112" font-size="12" fill="var(--ink2)">Pure functions on xarray data:</text>
+  <text x="366" y="128" font-size="12" fill="var(--ink2)">the same code runs on a model, a</text>
+  <text x="366" y="144" font-size="12" fill="var(--ink2)">reanalysis or station data, and on</text>
+  <text x="366" y="160" font-size="12" fill="var(--ink2)">one member or a whole ensemble.</text>
+  <rect x="680" y="20" width="300" height="180" rx="8" fill="var(--surface)" stroke="var(--axis)"/>
+  <text x="696" y="44" font-size="13" font-weight="600" fill="var(--ink)">Presentation layer</text>
+  <text x="696" y="66" font-size="12" fill="var(--ink2)">scripts/build_notebook_NN.py</text>
+  <text x="696" y="84" font-size="12" fill="var(--ink2)">notebooks/ · notebooks/html/</text>
+  <text x="696" y="112" font-size="12" fill="var(--ink2)">Notebooks are generated by scripts,</text>
+  <text x="696" y="128" font-size="12" fill="var(--ink2)">then executed top to bottom, so text,</text>
+  <text x="696" y="144" font-size="12" fill="var(--ink2)">numbers and figures always match the</text>
+  <text x="696" y="160" font-size="12" fill="var(--ink2)">code that produced them.</text>
+  <line x1="320" y1="110" x2="348" y2="110" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="650" y1="110" x2="678" y2="110" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)"/>
+</svg>
+</div>
+<div class="wrap" style="margin-top:12px">
+<table>
+<thead><tr><th>Safeguard</th><th>What it does</th></tr></thead>
+<tbody>
+<tr><td>66 offline tests (pytest)</td><td>Each calculation is tested on small made-up data with a known answer: the EOF sign convention, the winter-year rule, R95p on a toy series, the GRIB fix, unit conversion, resuming a failed download, significance testing.</td></tr>
+<tr><td>Frozen methods (docs/methods.md)</td><td>Definitions fixed before any result was produced, so results cannot quietly steer the method.</td></tr>
+<tr><td>Data checks in the notebooks</td><td>Every analysis starts by checking that files are complete, time axes are correct and values are physical.</td></tr>
+<tr><td>Version control (git)</td><td>20 commits so far, each describing one step; the history shows how the work developed.</td></tr>
+<tr><td>Reproducible environment</td><td>environment.yml rebuilds the same Python setup on any machine.</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>5. Scaling up: what changes and what stays</h2>
+<p>The project runs on one laptop over a public Wi-Fi. The design is ready to grow: the yearly file is a natural unit
+of work, and the analysis does not care where the data came from. The main bottleneck today is the network.</p>
+<div class="svgbox">
+<svg viewBox="0 0 1000 250" width="100%" role="img" aria-label="Laptop today versus computing next to the data">
+  <text x="20" y="24" font-size="13" font-weight="600" fill="var(--ink2)">TODAY</text>
+  <rect x="20" y="36" width="180" height="70" rx="8" fill="var(--blue-soft)" stroke="var(--blue)"/>
+  <text x="110" y="66" text-anchor="middle" font-size="13" font-weight="600" fill="var(--ink)">data centre (DKRZ)</text>
+  <text x="110" y="84" text-anchor="middle" font-size="12" fill="var(--ink2)">petabytes of output</text>
+  <line x1="200" y1="71" x2="380" y2="71" stroke="var(--orange)" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="290" y="60" text-anchor="middle" font-size="12" fill="var(--orange)">whole globe, ~2 MB/s</text>
+  <text x="290" y="92" text-anchor="middle" font-size="12" fill="var(--ink2)">bottleneck</text>
+  <rect x="384" y="36" width="160" height="70" rx="8" fill="var(--surface)" stroke="var(--axis)"/>
+  <text x="464" y="66" text-anchor="middle" font-size="13" font-weight="600" fill="var(--ink)">laptop</text>
+  <text x="464" y="84" text-anchor="middle" font-size="12" fill="var(--ink2)">3 downloads in parallel</text>
+
+  <text x="20" y="148" font-size="13" font-weight="600" fill="var(--ink2)">AT SCALE</text>
+  <rect x="20" y="160" width="300" height="76" rx="8" fill="var(--blue-soft)" stroke="var(--blue)"/>
+  <text x="170" y="184" text-anchor="middle" font-size="13" font-weight="600" fill="var(--ink)">computer next to the data</text>
+  <text x="170" y="202" text-anchor="middle" font-size="12" fill="var(--ink2)">DKRZ Levante, JASMIN, LUMI</text>
+  <text x="170" y="220" text-anchor="middle" font-size="12" fill="var(--ink2)">many years processed at once (Slurm, Dask)</text>
+  <line x1="320" y1="198" x2="500" y2="198" stroke="var(--aqua)" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="410" y="188" text-anchor="middle" font-size="12" fill="var(--aqua)">only results travel</text>
+  <rect x="504" y="160" width="200" height="76" rx="8" fill="var(--surface)" stroke="var(--axis)"/>
+  <text x="604" y="190" text-anchor="middle" font-size="13" font-weight="600" fill="var(--ink)">your laptop</text>
+  <text x="604" y="208" text-anchor="middle" font-size="12" fill="var(--ink2)">indices, maps, tables (MB)</text>
+  <rect x="740" y="160" width="240" height="76" rx="8" fill="var(--violet-soft)" stroke="var(--violet)"/>
+  <text x="860" y="190" text-anchor="middle" font-size="13" font-weight="600" fill="var(--ink)">same analysis code</text>
+  <text x="860" y="208" text-anchor="middle" font-size="12" fill="var(--ink2)">no change to notebooks</text>
+  <line x1="704" y1="198" x2="738" y2="198" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)"/>
+</svg>
+</div>
+
+<div class="wrap" style="margin-top:12px">
+<table>
+<thead><tr><th>To scale to…</th><th>What it needs</th><th>Code that changes</th></tr></thead>
+<tbody>
+<tr><td><b>More members of the same models</b></td><td>More downloads; the analysis already handles a "member" dimension (used in notebooks 07 and 08).</td><td>Add lines to the download plan only.</td></tr>
+<tr><td><b>CMIP6 and, later, CMIP7 models</b></td><td>A new reader that maps their variable names to the same CMIP-style names. CMIP data are already in that format.</td><td>One new "backend" module next to catalogue.py; analysis unchanged.</td></tr>
+<tr><td><b>Future scenarios and storylines</b></td><td>Scenario runs (already listed on the server) and control runs to separate forced change from internal variability.</td><td>New periods in the plan; one new notebook.</td></tr>
+<tr><td><b>Much larger volumes</b></td><td>Run next to the data on a supercomputer: one job per year, many in parallel (Slurm job arrays or a Dask cluster). Nothing crosses the internet except results.</td><td>A small job script; the yearly-file design already fits.</td></tr>
+<tr><td><b>Less network traffic from a laptop</b></td><td>Ask the server to cut the region before sending (server-side subsetting), instead of fetching whole-globe chunks.</td><td>The open step in download.py.</td></tr>
+<tr><td><b>Cloud storage and sharing</b></td><td>Save as chunked Zarr instead of netCDF, so others can read the archive directly over the web.</td><td>The save step in download.py.</td></tr>
+<tr><td><b>Automatic checks on every change</b></td><td>Run the 66 tests on GitHub for every push (continuous integration).</td><td>One configuration file.</td></tr>
+<tr><td><b>An interactive dashboard</b></td><td>Read the small Parquet tables already saved in app_assets/.</td><td>A new app; no recomputation.</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>6. In one sentence</h2>
+<div class="card"><p style="color:var(--ink);font-size:15px">Public climate-model output from a remote data centre is
+discovered automatically, read without downloading whole files to disk, decoded, harmonised and cut to the region of
+interest year by year with retries and safeguards, stored as a small tested archive, and analysed by a library whose
+functions do not care which model, reanalysis or observation dataset they receive, which is what makes the same
+pipeline usable for more members, CMIP6 and CMIP7.</p></div>
+</main>
+</body>
+</html>
