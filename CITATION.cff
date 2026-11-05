@@ -6,7 +6,6 @@ authors:
   - family-names: "Pradhan"
     given-names: "Himansu Kesari"
 date-released: 2026-11-05
-version: "1.0.0"
 license: MIT
 repository-code: "https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation"
 url: "https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/"
