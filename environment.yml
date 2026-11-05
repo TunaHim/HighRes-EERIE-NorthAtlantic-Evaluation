@@ -13,10 +13,14 @@ dependencies:
   - requests
   - fsspec
   - cftime
+  - scipy
+  - netcdf4
+  - pyarrow
   - matplotlib
   - cartopy  # optional: maps only
   - jupyterlab
   - nbconvert
+  - nbformat
   - pytest
   - pip
   - pip:

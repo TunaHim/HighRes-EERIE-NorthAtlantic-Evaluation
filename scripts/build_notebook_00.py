@@ -60,8 +60,10 @@ checked against a reference before moving on.
 | **IFS atmosphere-only ensembles** | paired experiments with observed and with filtered sea-surface temperature, ten members each | 1980–2023 monthly |
 | **IFS atmosphere-only, 9 km and 28 km** | same model and SST at two resolutions; 1 and 3 members | 1985–2014 daily (28 km: winter) |
 
-All data are public. Everything is exploratory: two models with one member each can show what is
-*consistent across the two models examined*, not what is robust.
+All data are public. **Each coupled model is a single run (member r1)**, so the results are
+indications, not a ranking of the models: two models with one member each can show what is
+*consistent across the two models examined*, not what is robust. The main contribution is the
+evaluation method and diagnostic pipeline, which can be rerun on more members and models.
 
 ## How to read this notebook
 

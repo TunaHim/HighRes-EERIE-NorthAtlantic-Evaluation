@@ -454,13 +454,17 @@ md("""
 
 step("""
 **What this cell does.** Saves the regional link table and the composite table to `app_assets/`
-for the dashboard and the summary notebook.
+for the dashboard and the summary notebook, each with a JSON provenance file (code version, date,
+inputs, period).
 """, """
 out = Path('../app_assets')
-link.to_parquet(out / 'nao_extremes_regional_link.parquet', index=False)
-composites.to_parquet(out / 'nao_extremes_composites.parquet', index=False)
+from eerie_uk import provenance
+inputs = {'nao_index': 'app_assets/nao_index_winter.parquet', 'extremes': 'app_assets/extremes_regional.parquet'}
+common = dict(inputs=inputs, period='winters 1986-2014', method='docs/methods.md section 5', nao_index='nao_on_era5_pattern')
+provenance.write_table(link, out / 'nao_extremes_regional_link.parquet', 'Detrended correlation and regression of land-average winter extremes on the winter NAO, per region and dataset', **common)
+provenance.write_table(composites, out / 'nao_extremes_composites.parquet', 'UK and Ireland winter extremes: ten most positive minus ten most negative NAO winters, bootstrap 95% range', **common)
 summary = pd.concat({'RX1day': rx_summary, 'R95p': r95_summary, 'TXx': tx_summary}, names=['index']).reset_index(level=0)
-summary.to_parquet(out / 'nao_extremes_map_summary.parquet', index=False)
+provenance.write_table(summary, out / 'nao_extremes_map_summary.parquet', 'Map summaries of the NAO link per index and dataset: share of significant land cells (FDR), mean |r|, pattern correlation with references', **common)
 print('saved', len(link), 'regional rows,', len(composites), 'composite rows,', len(summary), 'map-summary rows')
 summary.reset_index(drop=True)
 """)

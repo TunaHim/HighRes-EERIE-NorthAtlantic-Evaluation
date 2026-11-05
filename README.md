@@ -1,4 +1,4 @@
-# EERIE-UK-NAO-Extremes
+﻿# EERIE-UK-NAO-Extremes
 
 **How well do high-resolution climate models represent winter extremes over the UK and Ireland,
 their atmospheric drivers, and how far can the conclusions be trusted?**
@@ -12,6 +12,12 @@ conclusions depend on model resolution and on chance.
 
 All data are public. All analysis code, tests and executed notebooks are in this repository.
 
+> **Read this first.** Each coupled model is represented by a **single run** (member r1). Single
+> runs carry their own chance weather, so the results below are indications, not a ranking of the
+> models. The main contribution of the project is the **evaluation method and diagnostic
+> pipeline**: a reproducible chain of tests that can be rerun on more members, more models, CMIP6
+> and CMIP7 to give definitive answers.
+
 ---
 
 ## Key findings
@@ -21,9 +27,9 @@ All data are public. All analysis code, tests and executed notebooks are in this
 
 1. **The circulation sets up everything downstream.** ICON-ESM-ER's winter pressure is too low in
    the north and too high in the subtropics: its average winter looks like a permanent +2.3 SD
-   positive NAO. The same bias reappears as a wet bias, as 50–60% too-heavy rain extremes over the
+   positive NAO. The same bias reappears as a wet bias, as 50â€“60% too-heavy rain extremes over the
    UK and Ireland, and as a misplaced NAO rainfall response. IFS-FESOM2-SR's mean circulation is
-   close to ERA5 and its rain extremes are within 10–20% of the references.
+   close to ERA5 and its rain extremes are within 10â€“20% of the references.
 2. **Both models have a weaker NAO than the real world** (59% and 71% of ERA5's strength). Ten
    identical atmosphere-only runs show that a single run can vary between 70% and 100%, so part of
    this is chance; ICON-ESM-ER lies below that whole range.
@@ -31,10 +37,10 @@ All data are public. All analysis code, tests and executed notebooks are in this
    strength. ICON-ESM-ER has the right sign in the north, a weak link in Norway and the wrong sign
    over north-west France.
 4. **Both models bring their heaviest UK winter rain through the right weather:** a deep low just
-   north-west of the islands (pattern correlation 0.94–0.95 with ERA5). ICON-ESM-ER's storms show
-   less build-up in the days before. Both models' storm tracks are 13–17% too active over the UK.
+   north-west of the islands (pattern correlation 0.94â€“0.95 with ERA5). ICON-ESM-ER's storms show
+   less build-up in the days before. Both models' storm tracks are 13â€“17% too active over the UK.
 5. **Higher resolution is not automatically better.** In the same model with the same ocean,
-   9 km instead of 28 km makes winter rain extremes 5–12% heavier: closer to observations over the
+   9 km instead of 28 km makes winter rain extremes 5â€“12% heavier: closer to observations over the
    mountains of western Norway, too heavy over the UK and Ireland. The conclusion about the NAO's
    influence does not change with resolution, but it varies strongly between identical runs
    (UK and Ireland correlation 0.04 to 0.33). **Internal variability matters as much as resolution.**
@@ -42,7 +48,7 @@ All data are public. All analysis code, tests and executed notebooks are in this
    always on numbers; for example the NAO link over the UK and Ireland has a correlation of 0.51 in
    E-OBS and 0.35 in ERA5.
 7. **No detectable sensitivity of the NAO to small-scale sea-surface temperature** in two
-   ten-member atmosphere-only ensembles (changes of −1% and +4%, well within the member spread).
+   ten-member atmosphere-only ensembles (changes of âˆ’1% and +4%, well within the member spread).
 
 ---
 
@@ -96,19 +102,19 @@ code cell and a caption under every figure, and ends with findings, limitations 
 
 | Source | Role | Period |
 |---|---|---|
-| ICON-ESM-ER, `hist-1950`, r1 (MPI-M) | coupled model, eddy-rich ocean | 1950–2014 monthly; 1985–2014 daily |
-| IFS-FESOM2-SR, `hist-1950`, r1 (ECMWF, AWI) | coupled model, eddy-rich ocean | 1950–2014 monthly; 1985–2014 daily |
-| IFS atmosphere-only, observed and filtered SST (ECMWF) | sensitivity experiment, 10 members at 28 km | 1980–2023 monthly |
-| IFS atmosphere-only at 9 km and 28 km | resolution comparison (1 and 3 members) | 1985–2014 daily (28 km: winter) |
-| ERA5 (Copernicus / ECMWF) | reanalysis reference | 1950–2014 monthly; 1985–2014 daily |
-| E-OBS v33.0e (ECA&D) | station-based reference over land | 1985–2014 daily |
+| ICON-ESM-ER, `hist-1950`, r1 (MPI-M) | coupled model, eddy-rich ocean | 1950â€“2014 monthly; 1985â€“2014 daily |
+| IFS-FESOM2-SR, `hist-1950`, r1 (ECMWF, AWI) | coupled model, eddy-rich ocean | 1950â€“2014 monthly; 1985â€“2014 daily |
+| IFS atmosphere-only, observed and filtered SST (ECMWF) | sensitivity experiment, 10 members at 28 km | 1980â€“2023 monthly |
+| IFS atmosphere-only at 9 km and 28 km | resolution comparison (1 and 3 members) | 1985â€“2014 daily (28 km: winter) |
+| ERA5 (Copernicus / ECMWF) | reanalysis reference | 1950â€“2014 monthly; 1985â€“2014 daily |
+| E-OBS v33.0e (ECA&D) | station-based reference over land | 1985â€“2014 daily |
 
 Model and ERA5 data are read from the DKRZ km-scale cloud (`eerie.cloud.dkrz.de`, Zarr over HTTPS);
 E-OBS from the ECA&D distribution. Only regional cut-outs are kept (about 4 GB in total); the data
 are not part of this repository and can be re-downloaded with the commands below.
 
-**Domains.** North Atlantic (90°W–40°E, 20–80°N) for the NAO; north-west Europe (20°W–13°E,
-40–65°N) for temperature, precipitation and extremes; UK and Ireland (11°W–2.5°E, 49–61°N) as the
+**Domains.** North Atlantic (90Â°Wâ€“40Â°E, 20â€“80Â°N) for the NAO; north-west Europe (20Â°Wâ€“13Â°E,
+40â€“65Â°N) for temperature, precipitation and extremes; UK and Ireland (11Â°Wâ€“2.5Â°E, 49â€“61Â°N) as the
 headline region, with western Norway and north-west France as the wet and dry sides of the NAO
 rainfall pattern.
 
@@ -123,16 +129,16 @@ resolution ladder requires a JASMIN login. The full reasoning is in
 
 Fixed in [`docs/methods.md`](docs/methods.md) before results were produced.
 
-- **Winter** is December–February, labelled by the year of its January.
-- **NAO:** leading EOF of winter sea-level-pressure anomalies over the North Atlantic, √cos(latitude)
+- **Winter** is Decemberâ€“February, labelled by the year of its January.
+- **NAO:** leading EOF of winter sea-level-pressure anomalies over the North Atlantic, âˆšcos(latitude)
   weighting, sign fixed (positive = low near Iceland, high near the Azores). Models are also measured
   along the ERA5 pattern, and checked against a station-style Azores-minus-Iceland index.
 - **Extremes (ETCCDI):** RX1day (wettest day), TXx (hottest day), R95p (total rain on days above the
-  local 95th percentile of wet days, base period 1985–2014), each per year and per winter.
+  local 95th percentile of wet days, base period 1985â€“2014), each per year and per winter.
 - **NAO-to-extremes link:** detrended correlation and regression maps, two-sided t-test with
   false-discovery-rate control across grid points (Wilks 2016), composites with bootstrap intervals.
-- **Fair comparison:** all datasets on the same 0.25° grid; regional averages over the same land
-  cells; units mm/day, °C and hPa.
+- **Fair comparison:** all datasets on the same 0.25Â° grid; regional averages over the same land
+  cells; units mm/day, Â°C and hPa.
 - **Chance:** judged from the spread between ensemble members wherever members exist.
 
 ---
@@ -140,9 +146,9 @@ Fixed in [`docs/methods.md`](docs/methods.md) before results were produced.
 ## How it is built
 
 ```
-DKRZ cloud (STAC + Zarr) ─┐
-ECA&D (E-OBS netCDF) ─────┼─► find ─► read, decode, cut, harmonise ─► local archive ─► analysis library ─► notebooks
-public catalogues ────────┘   catalogue.py   download.py, grib.py, regions.py   store.py   nao, extremes, events, ...
+DKRZ cloud (STAC + Zarr) â”€â”
+ECA&D (E-OBS netCDF) â”€â”€â”€â”€â”€â”¼â”€â–º find â”€â–º read, decode, cut, harmonise â”€â–º local archive â”€â–º analysis library â”€â–º notebooks
+public catalogues â”€â”€â”€â”€â”€â”€â”€â”€â”˜   catalogue.py   download.py, grib.py, regions.py   store.py   nao, extremes, events, ...
 ```
 
 - **Data layer** (`src/eerie_uk/`): `catalogue.py` lists and describes datasets; `download.py` cuts
@@ -154,7 +160,11 @@ public catalogues ────────┘   catalogue.py   download.py, grib
   station data, and on one member or a whole ensemble.
 - **Presentation layer:** `scripts/build_notebook_NN.py` generates each notebook, which is then
   executed top to bottom, so text, numbers and figures always come from the code.
-- **Tests:** 75 offline tests (`pytest`) on synthetic data with known answers.
+- **Tests:** offline tests (`pytest`) on synthetic data with known answers, run automatically on
+  GitHub for every push (`.github/workflows/tests.yml`).
+- **Provenance:** every result table in `app_assets/` has a JSON file of the same name (and the
+  same record inside the Parquet file) giving the code version (git commit), date, input datasets
+  with their server version tags, period and method section.
 
 A pictorial version, including how the pipeline would scale to more members, CMIP6/CMIP7 and
 supercomputers, is in [`docs/engineering_overview.html`](docs/engineering_overview.html).
@@ -166,7 +176,7 @@ supercomputers, is in [`docs/engineering_overview.html`](docs/engineering_overvi
 ```bash
 conda env create -f environment.yml          # Python 3.11, xarray, dask, zarr, cartopy, ...
 conda activate eerie-uk-nao
-pytest                                       # 75 offline tests
+pytest                                       # offline tests
 
 # download the regional cut-outs (about 4 GB on disk; much more is streamed)
 set PYTHONPATH=src                           # Windows; on Linux/macOS: export PYTHONPATH=src
@@ -181,7 +191,7 @@ powershell -ExecutionPolicy Bypass -File scripts\build_all.ps1
 ```
 
 Downloads resume where they stopped: each year is a separate file, and existing files are skipped.
-The server sends whole-globe chunks, so the network traffic (roughly 250–300 GB for everything) is
+The server sends whole-globe chunks, so the network traffic (roughly 250â€“300 GB for everything) is
 far larger than what is kept; a connection without a data limit is needed.
 
 ---
@@ -190,11 +200,11 @@ far larger than what is kept; a connection without a data limit is needed.
 
 ```
 src/eerie_uk/      analysis and data-access library
-notebooks/         executed notebooks 00–09
+notebooks/         executed notebooks 00â€“09
 scripts/           notebook generators, findings text, build script
 tests/             offline tests
 docs/              methods, visual overviews, figures
-app_assets/        small result tables (Parquet) used by the summary and a future dashboard
+app_assets/        small result tables (Parquet), each with a JSON provenance record
 environment.yml    conda environment
 data/              downloaded cut-outs (not in the repository)
 ```

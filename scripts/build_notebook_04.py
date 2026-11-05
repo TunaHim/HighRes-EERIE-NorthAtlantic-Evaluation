@@ -327,13 +327,17 @@ step("""
 **What this cell does.** Saves the winter NAO indices as a small Parquet table in `app_assets/`,
 for the NAO-to-extremes notebook and the dashboard. Three versions are kept per source: the index
 from the source's own pattern, the index on the common ERA5 pattern, and the station-style index.
+A JSON file of the same name records how the table was made: code version (git commit), date,
+input datasets with their server versions, and period.
 """, """
 table = pd.concat([pd.DataFrame({'year': eofs[s].index.year.values, 'source': s,
                                  'nao_own_pattern': eofs[s].index.values,
                                  'nao_on_era5_pattern': projected_index[s].values,
                                  'nao_station_style': station[s].values}) for s in SOURCES], ignore_index=True)
 out = Path('../app_assets'); out.mkdir(exist_ok=True)
-table.to_parquet(out / 'nao_index_winter.parquet', index=False)
+from eerie_uk import provenance
+inputs = {s: provenance.dataset_ids(s, 'mon', 'psl', 'north_atlantic') for s in SOURCES}
+provenance.write_table(table, out / 'nao_index_winter.parquet', 'Winter (DJF) NAO index per source: own leading EOF, projection on the ERA5 EOF (ERA5 SD units), station-style index', inputs=inputs, period='winters 1951-2014', method='docs/methods.md section 3')
 print(len(table), 'rows saved to app_assets/nao_index_winter.parquet')
 table.groupby('source')[['nao_own_pattern', 'nao_on_era5_pattern', 'nao_station_style']].agg(['mean', 'std']).round(2)
 """)

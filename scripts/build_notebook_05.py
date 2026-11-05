@@ -433,10 +433,13 @@ md("""
 step("""
 **What this cell does.** Saves the regional series as a small Parquet table in `app_assets/`, for
 the NAO-to-extremes notebook and the dashboard. The gridded indices are already cached under
-`data/derived/`.
+`data/derived/`. A JSON file of the same name records how the table was made: code version (git
+commit), date, input datasets with their server versions, and period.
 """, """
 out = Path('../app_assets'); out.mkdir(exist_ok=True)
-series.to_parquet(out / 'extremes_regional.parquet', index=False)
+from eerie_uk import provenance
+inputs = {s: provenance.dataset_ids(s, 'day', 'pr', 'nw_europe') + provenance.dataset_ids(s, 'day', 'tasmax', 'nw_europe') for s in SOURCES}
+provenance.write_table(series, out / 'extremes_regional.parquet', 'Land-average RX1day, R95p, R95p share and TXx per source, region, year and winter (same land cells for every source)', inputs=inputs, period='1985-2014 (winters 1986-2014)', method='docs/methods.md section 4')
 print(len(series), 'rows saved to app_assets/extremes_regional.parquet')
 """)
 
