@@ -1,0 +1,33 @@
+{
+  "description": "Regional correlations of winter rainfall extremes with the NAO: bootstrap 95% interval, leave-one-winter-out range, effective sample size",
+  "created": "2026-11-05T22:02:04+00:00",
+  "git_commit": "94f1e84d841ee843b5870ce45d327d4da6f38310",
+  "code": "eerie_uk (this repository)",
+  "python": "3.11.17",
+  "xarray": "2026.9.0",
+  "pandas": "3.0.6",
+  "inputs": {
+    "nao_index": "app_assets/nao_index_winter.parquet",
+    "extremes": "app_assets/extremes_regional.parquet"
+  },
+  "rows": 24,
+  "columns": [
+    "region",
+    "index",
+    "dataset",
+    "r",
+    "low",
+    "high",
+    "r without one winter, min",
+    "r without one winter, max",
+    "most influential winter",
+    "r without it",
+    "lag-1 NAO",
+    "lag-1 series",
+    "effective winters",
+    "p (effective)"
+  ],
+  "period": "winters 1986-2014",
+  "method": "docs/methods.md section 5",
+  "nao_index": "nao_on_era5_pattern"
+}

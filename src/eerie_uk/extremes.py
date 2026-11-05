@@ -88,6 +88,21 @@ def wet_day_total(pr: xr.DataArray, period: str = "ANN") -> xr.DataArray:
     return out
 
 
+def wet_days(pr: xr.DataArray, period: str = "ANN") -> xr.DataArray:
+    """Number of wet days (at least 1 mm) per period. ETCCDI R1mm."""
+    out = _by_period((pr >= WET_DAY).where(pr.notnull()), period).sum("time", min_count=1)
+    out.attrs = {"units": "days", "long_name": f"wet days ({period})"}
+    return out
+
+
+def wet_day_intensity(pr: xr.DataArray, period: str = "ANN") -> xr.DataArray:
+    """Average rain per wet day, per period (mm/day). ETCCDI SDII."""
+    count = wet_days(pr, period)
+    out = wet_day_total(pr, period) / count.where(count > 0)
+    out.attrs = {"units": "mm/day", "long_name": f"rain per wet day ({period})"}
+    return out
+
+
 def r95p_share(pr: xr.DataArray, threshold: xr.DataArray, period: str = "ANN") -> xr.DataArray:
     """R95p as a percentage of the wet-day total, per period."""
     total = wet_day_total(pr, period)

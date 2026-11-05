@@ -1,0 +1,26 @@
+{
+  "description": "UK and Ireland land, winters 1986-2014: wet days per winter and rain per wet day, with differences from each reference",
+  "created": "2026-11-05T22:02:04+00:00",
+  "git_commit": "94f1e84d841ee843b5870ce45d327d4da6f38310",
+  "code": "eerie_uk (this repository)",
+  "python": "3.11.17",
+  "xarray": "2026.9.0",
+  "pandas": "3.0.6",
+  "inputs": {
+    "nao_index": "app_assets/nao_index_winter.parquet",
+    "extremes": "app_assets/extremes_regional.parquet"
+  },
+  "rows": 4,
+  "columns": [
+    "dataset",
+    "wet days per winter",
+    "rain per wet day (mm)",
+    "wet days vs E-OBS %",
+    "rain per wet day vs E-OBS %",
+    "wet days vs ERA5 %",
+    "rain per wet day vs ERA5 %"
+  ],
+  "period": "winters 1986-2014",
+  "method": "docs/methods.md section 5",
+  "nao_index": "nao_on_era5_pattern"
+}

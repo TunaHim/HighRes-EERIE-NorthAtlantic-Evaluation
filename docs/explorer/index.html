@@ -94,6 +94,7 @@ The map covers north-west Europe; the charts on the right follow the selected re
   </select></label>
   <span id="status">loading data…</span>
 </div>
+<p class="note" id="indexNote"></p>
 
 <div class="grid">
   <div class="panel"><h2 id="mapTitle">Map</h2><p class="sub" id="mapSub"></p><div id="map" class="plot"></div></div>
@@ -124,10 +125,14 @@ const css = name => getComputedStyle(document.documentElement).getPropertyValue(
 const NAMES = {'e-obs': 'E-OBS', 'era5': 'ERA5', 'icon-esm-er': 'ICON-ESM-ER', 'ifs-fesom2-sr': 'IFS-FESOM2-SR'};
 const COLOUR = {'e-obs': '--eobs', 'era5': '--era5', 'icon-esm-er': '--icon', 'ifs-fesom2-sr': '--ifs'};
 const INDEX = {
-  rx1day: {label: 'Wettest day', unit: 'mm', rain: true},
-  r95p: {label: 'Rain on very wet days', unit: 'mm', rain: true},
-  r95p_share: {label: 'Share of rain on very wet days', unit: '%', rain: true},
-  txx: {label: 'Hottest day', unit: '°C', rain: false},
+  rx1day: {label: 'Wettest day', unit: 'mm', rain: true,
+    note: 'RX1day (ETCCDI): the largest rainfall total on a single day in each year or winter, in mm. The most direct measure of a flood-producing day, and the noisiest index.'},
+  r95p: {label: 'Rain on very wet days', unit: 'mm', rain: true,
+    note: 'R95p (ETCCDI R95pTOT): the total rain, in mm per year or winter, that falls on days wetter than the local 95th percentile of wet days (wet day: at least 1 mm; threshold from 1985–2014 at each grid cell).'},
+  r95p_share: {label: 'Share of rain on very wet days', unit: '%', rain: true,
+    note: 'R95p as a percentage of all rain on wet days: how much of the total comes from the heaviest days.'},
+  txx: {label: 'Hottest day', unit: '°C', rain: false,
+    note: 'TXx (ETCCDI): the highest daily maximum temperature in each year or winter, in °C. In winter it measures the mildest day.'},
 };
 const REGION = {uk_ireland: 'UK and Ireland', western_norway: 'Western Norway', nw_france: 'North-west France'};
 const SOURCES = ['e-obs', 'era5', 'icon-esm-er', 'ifs-fesom2-sr'];
@@ -252,6 +257,7 @@ function drawScatter(s) {
 function update() {
   if (!D) return;
   const s = state();
+  $('indexNote').textContent = INDEX[s.index].note + ' Models are compared with E-OBS (stations, land only) and ERA5 (reanalysis); correlations use detrended winters, each model with its own NAO.';
   drawMap(s); drawSeries(s); drawTable(s); drawScatter(s);
   try { localStorage.setItem('explorer', JSON.stringify(s)); } catch (e) {}
 }

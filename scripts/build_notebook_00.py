@@ -24,8 +24,9 @@ def step(explain, source):
 md("""
 # 00 · Summary: North Atlantic variability and UK/Ireland extremes in two EERIE models
 
-**Start here.** This notebook tells the whole story in seven figures and five tables. Each section
-points to the notebook that has the full analysis, the method and the limitations.
+**Start here.** This notebook tells the whole story in one summary figure, then step by step in
+seven more figures and a few tables. Each section points to the notebook that has the full
+analysis, the method and the limitations.
 
 ## The question
 
@@ -92,6 +93,97 @@ REFS = """ + repr(REFS) + """
 """)
 
 md("""
+## The story in one figure
+
+The four columns follow the chain of the project from left to right, for each model: the
+average winter circulation, the NAO, the link from the NAO to very-wet-day rain, and the rain bias.
+""")
+
+step("""
+**What this cell does.** Builds the summary figure from the saved data and the result tables:
+(A) each model's average winter sea-level pressure minus ERA5, with that difference expressed as
+an NAO state; (B) the model's NAO pattern, measured along the ERA5 pattern, with ERA5's pattern as
+black contour lines and the model's NAO strength relative to ERA5; (C) the correlation of winter
+very-wet-day rain (R95p) with the model's own NAO, with dots where significant after
+false-discovery-rate control, and the UK and Ireland value next to both references; (D) the
+model's winter R95p relative to E-OBS.
+""", """
+def summary_figure():
+    WINTERS = (1986, 2014)
+    nao_table = pd.read_parquet('../app_assets/nao_index_winter.parquet')
+
+    def nao_index(source, years=None):
+        part = nao_table[nao_table.source == source]
+        index = xr.DataArray(part.nao_on_era5_pattern.values, coords={'year': part.year.values}, dims='year')
+        return index.sel(year=slice(*years)) if years else index
+
+    # A: mean circulation bias and its NAO equivalent
+    psl_all = {s: store.load(s, 'mon', 'psl', 'north_atlantic') for s in ['era5'] + MODELS}
+    winters_psl = {s: nao.winter_anomalies(psl_all[s]) for s in psl_all}
+    era5_eof = nao.leading_eof(winters_psl['era5'])
+    mean_psl = {s: clim.season_means(psl_all[s], 'DJF').sel(year=slice(*WINTERS)).mean('year') for s in psl_all}
+    offset = {m: nao.project_map(mean_psl[m] - mean_psl['era5'], era5_eof.vector) / era5_eof.amplitude for m in MODELS}
+
+    # B: NAO pattern along the common ERA5 pattern, 1951-2014, and its strength
+    pattern = {m: nao.regress(winters_psl[m].sel(year=nao_index(m).year), nao_index(m)) for m in MODELS}
+    strength = {m: float(nao_index(m).std(ddof=1)) for m in MODELS}
+
+    # C and D: NAO link to winter R95p and the R95p bias, north-west Europe
+    indices = {d: ex.indices_for(d) for d in ['e-obs', 'era5'] + MODELS}
+    grid = indices['icon-esm-er']
+    indices['e-obs'] = regions.to_grid(indices['e-obs'], grid)
+    land = regions.land_mask(grid.lat, grid.lon)
+    common = land & indices['e-obs'].r95p_djf.isel(year_djf=0).notnull()
+    uk = regions.BOXES['uk_ireland']
+    inside = (grid.lon >= uk[0]) & (grid.lon <= uk[1]) & (grid.lat >= uk[2]) & (grid.lat <= uk[3])
+
+    def r95(d):
+        return indices[d].r95p_djf.rename(year_djf='year').sel(year=slice(*WINTERS))
+
+    def uk_mean(field):
+        return float(regions.area_mean(field.where(common & inside)))
+
+    link = {d: rel.correlate(r95(d), nao_index('era5' if d in ('e-obs', 'era5') else d, WINTERS)) for d in ['e-obs', 'era5'] + MODELS}
+    uk_r = {}
+    for d in link:
+        series = regions.area_mean(r95(d).where(common & inside))
+        uk_r[d] = rel.regress_series(series.values, nao_index('era5' if d in ('e-obs', 'era5') else d, WINTERS).sel(year=series.year).values)['r']
+    bias = {m: 100 * (r95(m).mean('year') / r95('e-obs').mean('year') - 1) for m in MODELS}
+    uk_bias = {m: 100 * (uk_mean(r95(m).mean('year')) / uk_mean(r95('e-obs').mean('year')) - 1) for m in MODELS}
+
+    columns = [
+        {'title': 'A  Mean winter circulation', 'units': 'sea-level pressure minus ERA5 (hPa)', 'limit': 12},
+        {'title': 'B  NAO pattern (lines: ERA5)', 'units': 'hPa per +1 SD of the NAO', 'limit': 6},
+        {'title': 'C  NAO link to very-wet-day rain', 'units': 'correlation with the NAO, winter R95p', 'limit': 0.9},
+        {'title': 'D  Very-wet-day rain bias', 'units': 'winter R95p minus E-OBS (%)', 'limit': 100},
+    ]
+    rows = [NAME[m] for m in MODELS]
+    cells = {}
+    for m in MODELS:
+        row = NAME[m]
+        cells[(row, 0)] = {'field': mean_psl[m] - mean_psl['era5'], 'note': f'mean state = {offset[m]:+.1f} SD of NAO'}
+        cells[(row, 1)] = {'field': pattern[m], 'contour': era5_eof.pattern, 'note': f'strength {strength[m]:.0%} of ERA5'}
+        cells[(row, 2)] = {'field': link[m].r.where(land), 'stipple': rel.fdr_mask(link[m].p) & land,
+                           'note': f"UK & Ireland r = {uk_r[m]:.2f} (E-OBS {uk_r['e-obs']:.2f}, ERA5 {uk_r['era5']:.2f})"}
+        cells[(row, 3)] = {'field': bias[m].where(common), 'note': f'UK & Ireland {uk_bias[m]:+.0f}%'}
+    plotting.plot_chain(columns, rows, cells,
+                        title='From North Atlantic circulation to UK and Ireland winter rain extremes, winters 1986-2014 (B: 1951-2014)');
+
+summary_figure()
+""")
+
+md("""
+**Summary figure.** Read each row from left to right. **ICON-ESM-ER (top):** (A) pressure far too
+low in the north and too high in the south, equivalent to a +2.1 SD positive-NAO winter on
+average; (B) an NAO only 59% as strong as ERA5's, with its southern centre displaced towards
+Europe; (C) a positive link in the north but the wrong sign over France; (D) 62% too much
+very-wet-day rain over UK and Ireland, and too wet almost everywhere. **IFS-FESOM2-SR (bottom):**
+(A) a mean circulation close to ERA5; (B) a recognisable NAO at 71% of ERA5's strength; (C) a link
+with the observed sign and pattern; (D) within about 10% over UK and Ireland. Section 5 shows that
+ICON-ESM-ER's circulation offset accounts for only part of its wet bias.
+""")
+
+md("""
 ## 1. Where: three nested domains
 """)
 
@@ -125,6 +217,13 @@ md("""
 14 hPa too low in the north and up to 8 hPa too high in the subtropics, which means westerly winds
 that are too strong on average. ICON-ESM-ER is also about 30% too wet in winter over north-west
 Europe, and both models are about 0.8 °C too cold.
+
+**What it means physically.** A stronger-than-observed pressure drop from the subtropics to
+Iceland drives stronger westerly winds. Those carry more moist Atlantic air onto the windward
+coasts and mountains of western Scotland, Ireland and Norway, so a wet bias there is expected.
+The bias projects onto the NAO pattern: ICON-ESM-ER's *average* winter looks like a strongly
+positive NAO winter of the real world. Whether the wet bias follows from this alone is tested in
+section 5.
 """)
 
 md("""
@@ -146,6 +245,14 @@ md("""
 textbook pattern. IFS-FESOM2-SR is recognisably the same, with a weak southern centre displaced
 towards the Mediterranean. ICON-ESM-ER's southern centre sits over the North Sea: its leading
 pattern is a mixture and not a clean NAO.
+
+**Why ICON-ESM-ER's pattern is "mixed".** The leading pattern is the one that explains the most
+variance. In ICON-ESM-ER the first two patterns explain 29% and 21%, and the sampling error of each
+share is about ±5% (North et al. 1982). Two patterns that close cannot be told apart reliably:
+the computation then returns two arbitrary blends of them. The real NAO pattern is indeed split
+between ICON-ESM-ER's first and second patterns (overlaps 0.76 and 0.58). In this model the NAO
+and a second mode of similar strength share the variability. This is why every model in this
+project is measured along the *same* ERA5 pattern rather than along its own leading pattern.
 """)
 
 step("""
@@ -211,6 +318,14 @@ about 10%** over most of the region. **ICON-ESM-ER is roughly 50% too wet** almo
 Against ERA5 the excess is larger still (+60% and +17%). For the hottest day, ICON-ESM-ER is about
 2 °C too cool against ERA5 as well as E-OBS. IFS-FESOM2-SR is only 0.6 °C cooler than ERA5, so most
 of its 2 °C gap to E-OBS comes from comparing 25 km grid cells with low-lying stations.
+
+**What it means physically.** ICON-ESM-ER's wet bias is not confined to windward coasts and
+mountains, where a too-strong westerly flow would put it; it covers inland France and Iberia too.
+It is also far larger than chance: in notebook 08, identical runs of one model differ by only 1–3%
+in these 30-year averages. Section 5 splits it into what the circulation explains and what it
+does not. ERA5 gives slightly lower rainfall extremes than E-OBS over UK and Ireland, so every model
+bias looks larger against ERA5; for rain extremes over land, E-OBS is the more direct reference,
+though it too smooths the most intense local rain.
 """)
 
 md("""
@@ -261,6 +376,51 @@ strength over UK and Ireland: about 0.5 in E-OBS, about 0.33 in ERA5. **IFS-FESO
 0.60) sits at the E-OBS end. **ICON-ESM-ER** (0.28 and 0.36) is close to ERA5 here, but it has the
 wrong sign over north-west France and a weak link in western Norway. The mildest winter day (TXx)
 has only a weak link over UK and Ireland in both references.
+""")
+
+step("""
+**What this cell does.** Shows how certain those UK and Ireland correlations are (notebook 06,
+section 10): the bootstrap 95% interval, the range when any one winter is left out, and the
+effective number of independent winters.
+""", """
+certainty = pd.read_parquet('../app_assets/nao_extremes_correlation_uncertainty.parquet')
+columns = ['r', 'low', 'high', 'r without one winter, min', 'r without one winter, max', 'effective winters']
+certainty[certainty.region == 'UK and Ireland'].set_index(['index', 'dataset'])[columns]
+""")
+
+md("""
+**Reading the table.** The intervals are wide and overlap: **over UK and Ireland, 29 winters cannot
+tell any dataset's NAO link from another's**, including the two references (0.51 and 0.35). No
+single winter drives any value, and memory between winters is negligible. The model differences
+that do pass formal tests lie elsewhere: ICON-ESM-ER's link is too weak in western Norway and has
+the wrong sign in north-west France. IFS-FESOM2-SR is consistent with both references in all three
+regions.
+""")
+
+step("""
+**What this cell does.** Tests the chain "circulation bias, therefore wet bias" (notebook 06,
+section 11). The observed change in rain extremes per standard deviation of NAO, multiplied by the
+model's mean circulation offset, gives the bias the offset alone would produce. The table compares
+it with the actual bias over UK and Ireland land, and adds wet-day frequency and rain per wet day.
+""", """
+explained = pd.read_parquet('../app_assets/circulation_explained_bias.parquet')
+wet = pd.read_parquet('../app_assets/wet_day_frequency_intensity.parquet').set_index('dataset')
+display(explained.set_index(['index', 'reference', 'model']))
+wet
+""")
+
+md("""
+**What it means physically.** ICON-ESM-ER's average winter sits 2.1 SD along the NAO over these
+winters. With the observed NAO response, that offset accounts for **38–74% of its very-wet-day
+rain bias and 18–39% of its wettest-day bias** over UK and Ireland (the range spans the two
+references; with the model's own response the shares are higher, about 100% and 40–50%). The
+offset explains the extra rain on windward coasts and mountains, but not the wet bias inland and in
+the south, where a positive-NAO-like flow should make the model *drier*. The second table shows
+why: **ICON-ESM-ER rains too often (+34% to +43% wet days) and too hard (+21% to +28% rain per wet
+day)**. Too many wet days fits a too-strong, too-persistent westerly flow; too much rain on each wet
+day points to how the model produces rain. Both contribute. This is an association supported by
+diagnostics, not a demonstrated cause, and it relies on a linear response extended to an offset
+beyond most ordinary NAO winters.
 """)
 
 md("""
@@ -361,15 +521,18 @@ md("""
 | Mean winter circulation | too-strong north–south pressure contrast | close to ERA5 |
 | NAO pattern | mixed across two patterns | recognisable, southern centre weak |
 | NAO strength | 0.59 of ERA5 | 0.71 of ERA5 |
-| Rainfall extremes, UK and Ireland | 50–60% too heavy | within 10–20% of the references |
+| Rainfall extremes, UK and Ireland | 50–60% too heavy; too many wet days and too much rain per wet day | within 10–20% of the references |
+| Share of the wet bias consistent with the circulation offset | 38–74% (very wet days), 18–39% (wettest day) | offset small (0.2 SD) |
 | Hottest day of the year | about 2 °C too cool against ERA5 | within 1 °C of ERA5 |
-| NAO link to winter rainfall extremes | right sign, weak, misplaced boundary | reproduced in sign, pattern and strength |
+| NAO link to winter rainfall extremes | right sign over UK; too weak in Norway, wrong sign in France | reproduced in sign, pattern and strength |
 | Weather behind the heaviest rain days | same pattern, weaker build-up | same pattern and build-up |
 | Storm track over the UK | 17% too active | 13% too active |
 
-1. **Each step depends on the one before.** ICON-ESM-ER's circulation bias shows up again as a wet
-   bias, as a mean state that resembles a permanent positive NAO, as too-heavy rainfall extremes
-   and as a misplaced NAO rainfall response. Checking the chain in order made that visible.
+1. **Each step depends on the one before, but only partly.** ICON-ESM-ER's circulation bias shows
+   up again as a mean state that resembles a permanent positive NAO and as a misplaced NAO rainfall
+   response. That offset is consistent with a large part of its very-wet-day rain bias over UK and
+   Ireland, but less than half of its wettest-day bias: the model also rains too hard on each wet
+   day. Checking the chain in order, and then putting a number on each link, made that visible.
 2. **A model can get the regional link right while its NAO is too weak.** IFS-FESOM2-SR reproduces
    how extremes respond to a given NAO swing, but produces smaller swings.
 3. **Single members are a real limit.** The ensemble experiment shows that NAO strength ranges
@@ -377,9 +540,10 @@ md("""
 4. **Higher resolution is not automatically better.** In IFS, 9 km gives heavier rain extremes,
    which helps over mountains and overshoots elsewhere; conclusions about the NAO's influence do
    not change with resolution but vary strongly between identical runs.
-5. **Two good references can disagree.** E-OBS and ERA5 agree on patterns but not always on
-   numbers (for example the strength of the NAO link over UK and Ireland), so "the observed
-   value" itself carries uncertainty.
+5. **Two good references can disagree, and 29 winters are few.** E-OBS and ERA5 agree on patterns
+   but not always on numbers (for example the strength of the NAO link over UK and Ireland, 0.51
+   against 0.35). Over UK and Ireland, no correlation can be told apart from another within its
+   sampling uncertainty; the clear model differences are in western Norway and north-west France.
 6. **In one atmosphere model, the seasonal NAO does not depend measurably on small-scale
    sea-surface temperature.**
 
@@ -421,6 +585,7 @@ control runs to separate forced change from internal variability.
 | `09_event_anatomy` | the weather behind the heaviest winter rain days, storminess, persistent highs |
 
 Methods: `docs/methods.md`. Code: `src/eerie_uk/`, with offline tests in `tests/`.
+The summary figure is also saved as `docs/figures/summary_chain.png`.
 """)
 
 nb.cells = cells

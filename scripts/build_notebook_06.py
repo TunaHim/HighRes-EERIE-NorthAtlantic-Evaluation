@@ -75,9 +75,11 @@ with two other index definitions to show how much the choice matters.
 7. NAO and the mildest winter day (TXx)
 8. Regional numbers for UK and Ireland, and sensitivity to the index definition
 9. Positive against negative NAO winters
-10. Saved outputs
-11. Limitations
-12. Open questions
+10. How certain are the regional correlations?
+11. How much of ICON-ESM-ER's wet bias does its circulation explain?
+12. Saved outputs
+13. Limitations
+14. Open questions
 """)
 
 md("""
@@ -124,7 +126,7 @@ import numpy as np
 import pandas as pd
 import xarray as xr
 from pathlib import Path
-from eerie_uk import climatology as clim, extremes as ex, plotting, regions, relationships as rel, store
+from eerie_uk import climatology as clim, extremes as ex, nao, plotting, regions, relationships as rel, store
 
 pd.set_option('display.width', 220, 'display.float_format', '{:.2f}'.format)
 MODELS = ['icon-esm-er', 'ifs-fesom2-sr']
@@ -449,11 +451,236 @@ if its NAO is weaker.
 """)
 
 md("""
-## 10. Saved outputs
+## 10. How certain are the regional correlations?
+
+The comparisons above rest on correlations from 29 winters: for example 0.60 in IFS-FESOM2-SR
+against 0.51 in E-OBS and 0.35 in ERA5 for UK and Ireland R95p. Before reading anything into such
+differences, three checks:
+
+1. **Bootstrap interval.** Draw 29 winters at random with replacement, keeping each winter's NAO
+   and extreme value together, recompute the correlation, and repeat 5000 times. The middle 95% of
+   the results is the interval.
+2. **Leave one winter out.** Recompute the correlation 29 times, each time without one winter. If
+   one exceptional winter (for example 2010 or 1989) carried the result, this shows it.
+3. **Memory between winters.** If both series had year-to-year memory, the 29 winters would not be
+   29 independent pieces of information. The effective number of winters (Bretherton et al. 1999)
+   uses the lag-1 autocorrelations of both series; the p value is recomputed with it.
+
+All series are detrended, as before.
 """)
 
 step("""
-**What this cell does.** Saves the regional link table and the composite table to `app_assets/`
+**What this cell does.** Runs the three checks for every region, rainfall index and dataset, and
+shows the UK and Ireland rows.
+""", """
+rows = []
+for region in regions.SUBREGIONS:
+    for key in ('rx1day', 'r95p'):
+        for d in DATASETS:
+            part = regional[(regional.region == region) & (regional['index'] == key) & (regional.source == d)].sort_values('year')
+            check = rel.correlation_uncertainty(part.value.values, nao_index(NAO_OF[d]).sel(year=part.year.values).values,
+                                                years=part.year.values)
+            rows.append({'region': regions.LABELS[region], 'index': INDEX_LABELS[key], 'dataset': NAME[d], 'source': d, **check})
+certainty = pd.DataFrame(rows)
+certainty[certainty.region == 'UK and Ireland'].drop(columns=['region', 'source']).reset_index(drop=True)
+""")
+
+md("""
+**How to read this table.** `low` and `high` bound the bootstrap 95% interval of the correlation
+`r`. The next two columns give the range of `r` when any one winter is left out, then the single
+most influential winter and the correlation without it. `effective winters` is the sample size
+after allowing for memory between winters, and `p (effective)` the p value that uses it.
+""")
+
+step("""
+**What this cell does.** Draws the correlations and their intervals for the three regions, R95p
+first. Where two intervals overlap widely, 29 winters cannot tell the two values apart.
+""", """
+for key in ('r95p', 'rx1day'):
+    groups = {}
+    for region in regions.SUBREGIONS:
+        part = certainty[(certainty.region == regions.LABELS[region]) & (certainty['index'] == INDEX_LABELS[key])]
+        groups[regions.LABELS[region]] = list(part[['source', 'r', 'low', 'high']].itertuples(index=False, name=None))
+    plotting.plot_intervals(groups, xlabel='correlation with the winter NAO (bootstrap 95% interval)',
+                            title=f'Winter {INDEX_LABELS[key].split()[0]} and the NAO: correlation and its uncertainty, 1986-2014');
+""")
+
+md("""
+**Figures 10 and 11.** Dots: correlation over 29 winters. Bars: bootstrap 95% interval. The grey
+line is zero. Upper figure R95p, lower figure RX1day.
+""")
+
+step("""
+**What this cell does.** Tests whether each model's correlation differs from each reference's by
+more than chance (Fisher z test for two independent samples of 29 winters). The two references
+describe the *same* winters, so they are not independent of each other and are not tested against
+each other this way.
+""", """
+rows = []
+for region in regions.SUBREGIONS:
+    for key in ('rx1day', 'r95p'):
+        part = certainty[(certainty.region == regions.LABELS[region]) & (certainty['index'] == INDEX_LABELS[key])].set_index('source')
+        for m in MODELS:
+            row = {'region': regions.LABELS[region], 'index': INDEX_LABELS[key], 'model': NAME[m], 'model r': part.r[m]}
+            for ref in REFS:
+                row[f'{NAME[ref]} r'] = part.r[ref]
+                row[f'p, model vs {NAME[ref]}'] = rel.correlation_difference(part.r[m], 29, part.r[ref], 29)
+            rows.append(row)
+differences = pd.DataFrame(rows)
+differences
+""")
+
+md("""
+**How to read this table.** A small p value (below 0.05) means the model's correlation is
+distinguishable from that reference's in 29 winters. A large p value means the two correlations
+are consistent with each other within sampling uncertainty, not that they are equal.
+""")
+
+md("""
+## 11. How much of ICON-ESM-ER's wet bias does its circulation explain?
+
+Notebooks 03 to 05 suggested a chain for ICON-ESM-ER: its average winter circulation looks like a
+permanently positive NAO (notebook 04: +2.3 SD over 1951–2014), and positive-NAO winters are wet
+winters over UK and Ireland, so the shifted circulation should make the model too wet. Until now
+that chain is an argument. This section puts a number on it.
+
+**The test.** The observed regression maps of sections 5 and 6 say how much RX1day and R95p change
+per +1 SD of NAO in the real world. Multiplying them by the model's mean circulation offset (in
+the same NAO units) gives the bias the model *would* have if its only error were that offset:
+
+> expected bias from circulation = observed change per SD of NAO × model's mean NAO offset
+
+Comparing that with the actual bias shows how much of the bias the circulation can account for.
+The same is done for IFS-FESOM2-SR as a control: its offset is small, so little should be
+explained.
+
+**What this is not.** The response is assumed to be linear, and ICON-ESM-ER's offset lies beyond
+most ordinary NAO winters, so the number is an extrapolation. A match shows that the bias is
+*consistent with* the circulation offset; it does not prove the offset causes it, and a shortfall
+points to other causes (how the model makes rain, its resolution, its orography).
+""")
+
+step("""
+**What this cell does.** Computes each model's mean circulation offset for the winters used here
+(1986–2014): the difference between its average winter sea-level pressure and ERA5's, projected
+onto the ERA5 NAO pattern and expressed in ERA5 standard deviations, exactly as in notebook 04.
+""", """
+psl = {s: store.load(s, 'mon', 'psl', 'north_atlantic') for s in ('era5',) + tuple(MODELS)}
+era5_nao = nao.leading_eof(nao.winter_anomalies(psl['era5']))
+mean_psl = {s: clim.season_means(psl[s], 'DJF').sel(year=slice(*WINTERS)).mean('year') for s in psl}
+offset = {m: nao.project_map(mean_psl[m] - mean_psl['era5'], era5_nao.vector) / era5_nao.amplitude for m in MODELS}
+pd.Series({NAME[m]: v for m, v in offset.items()}, name='mean circulation offset, 1986-2014 (ERA5 NAO SD)').to_frame()
+""")
+
+step("""
+**What this cell does.** For winter RX1day and R95p and each reference, computes the actual mean
+bias of each model and the part expected from its circulation offset. It then summarises them over
+UK and Ireland land (the same land cells for every dataset) and compares their maps over the land
+of north-west Europe.
+""", """
+common = land & winter_field('e-obs', 'rx1day').isel(year=0).notnull()
+uk = regions.BOXES['uk_ireland']
+
+def uk_mean(field):
+    inside = (field.lon >= uk[0]) & (field.lon <= uk[1]) & (field.lat >= uk[2]) & (field.lat <= uk[3])
+    return float(regions.area_mean(field.where(common & inside)))
+
+explained_rows, explained_maps = [], {}
+for key in ('rx1day', 'r95p'):
+    for ref in REFS:
+        slope = (rx if key == 'rx1day' else r95)[ref].slope
+        reference_mean = winter_field(ref, key).sel(year=slice(*WINTERS)).mean('year')
+        for m in MODELS:
+            bias = winter_field(m, key).sel(year=slice(*WINTERS)).mean('year') - reference_mean
+            expected = rel.circulation_part(slope, offset[m])
+            both = common & bias.notnull() & expected.notnull()
+            explained_maps[(key, ref, m)] = (bias.where(common), expected.where(common))
+            explained_rows.append({
+                'index': INDEX_LABELS[key], 'reference': NAME[ref], 'model': NAME[m],
+                'UK and Ireland bias': uk_mean(bias), 'expected from circulation': uk_mean(expected),
+                'share explained %': 100 * uk_mean(expected) / uk_mean(bias),
+                'pattern correlation (land)': clim.pattern_stats(expected.where(both), bias.where(both))['pattern correlation'],
+            })
+explained = pd.DataFrame(explained_rows)
+explained
+""")
+
+md("""
+**How to read this table.** `UK and Ireland bias` is the model's average winter value minus the
+reference's (mm), `expected from circulation` the part its circulation offset would produce, and
+`share explained` the ratio of the two. `pattern correlation` says whether the expected bias has
+the same *geography* as the actual bias across north-west European land (1 = same shape).
+""")
+
+step("""
+**What this cell does.** Maps the actual winter R95p bias of ICON-ESM-ER against E-OBS next to the
+part expected from its circulation offset, and the remainder (actual minus expected), all on one
+colour scale.
+""", """
+bias, expected = explained_maps[('r95p', 'e-obs', 'icon-esm-er')]
+plotting.plot_field_panels({'actual bias': bias, 'expected from circulation offset': expected, 'remainder': bias - expected},
+                           units='mm per winter', diverging=True,
+                           title='ICON-ESM-ER winter R95p bias against E-OBS: actual, expected from its circulation, remainder');
+""")
+
+md("""
+**Figure 12.** Left: ICON-ESM-ER's winter very-wet-day rain minus E-OBS. Middle: the bias its mean
+circulation offset alone would produce, using the observed NAO response. Right: what is left. Where
+the right panel is still strongly orange, something other than the large-scale circulation makes
+the model too wet.
+""")
+
+step("""
+**What this cell does.** A sensitivity test: repeats the UK and Ireland estimate with the
+*model's own* NAO response instead of the observed one. If the two estimates agree, the answer does
+not depend on which response is assumed.
+""", """
+rows = []
+for key in ('rx1day', 'r95p'):
+    own = (rx if key == 'rx1day' else r95)['icon-esm-er'].slope
+    for ref in REFS:
+        actual = explained[(explained.model == NAME['icon-esm-er']) & (explained.reference == NAME[ref]) & (explained['index'] == INDEX_LABELS[key])]
+        rows.append({'index': INDEX_LABELS[key], 'reference': NAME[ref], 'UK and Ireland bias': float(actual['UK and Ireland bias'].iloc[0]),
+                     'expected, observed response': float(actual['expected from circulation'].iloc[0]),
+                     'expected, ICON-ESM-ER own response': uk_mean(rel.circulation_part(own, offset['icon-esm-er']))})
+pd.DataFrame(rows)
+""")
+
+step("""
+**What this cell does.** Asks where the remaining wet bias comes from. Winter rain on wet days is
+the number of wet days (at least 1 mm) times the average rain per wet day. The cell computes both,
+for every dataset, over UK and Ireland land, 1986–2014: a model that rains too *often* has too
+many wet days; a model that rains too *hard* has too much rain per wet day.
+""", """
+rows = []
+for d in DATASETS:
+    daily = store.load(d, 'day', 'pr', 'nw_europe')
+    daily = daily.sel(time=daily.time.dt.month.isin([12, 1, 2]))
+    count, intensity = ex.wet_days(daily, 'DJF'), ex.wet_day_intensity(daily, 'DJF')
+    if d == 'e-obs':
+        count, intensity = regions.to_grid(count, grid), regions.to_grid(intensity, grid)
+    rows.append({'dataset': NAME[d],
+                 'wet days per winter': uk_mean(count.sel(year=slice(*WINTERS)).mean('year')),
+                 'rain per wet day (mm)': uk_mean(intensity.sel(year=slice(*WINTERS)).mean('year'))})
+wet = pd.DataFrame(rows).set_index('dataset')
+for ref in REFS:
+    wet[f'wet days vs {NAME[ref]} %'] = 100 * (wet['wet days per winter'] / wet.loc[NAME[ref], 'wet days per winter'] - 1)
+    wet[f'rain per wet day vs {NAME[ref]} %'] = 100 * (wet['rain per wet day (mm)'] / wet.loc[NAME[ref], 'rain per wet day (mm)'] - 1)
+wet
+""")
+
+md("""
+**How to read this table.** The percentage columns compare each dataset with each reference.
+Positive values in both "wet days" and "rain per wet day" mean the dataset rains both too often
+and too hard.
+""")
+
+md("""
+## 12. Saved outputs
+""")
+
+step("""
+**What this cell does.** Saves the regional link table, the composite table, the uncertainty table and the circulation table to `app_assets/`
 for the dashboard and the summary notebook, each with a JSON provenance file (code version, date,
 inputs, period).
 """, """
@@ -464,13 +691,17 @@ common = dict(inputs=inputs, period='winters 1986-2014', method='docs/methods.md
 provenance.write_table(link, out / 'nao_extremes_regional_link.parquet', 'Detrended correlation and regression of land-average winter extremes on the winter NAO, per region and dataset', **common)
 provenance.write_table(composites, out / 'nao_extremes_composites.parquet', 'UK and Ireland winter extremes: ten most positive minus ten most negative NAO winters, bootstrap 95% range', **common)
 summary = pd.concat({'RX1day': rx_summary, 'R95p': r95_summary, 'TXx': tx_summary}, names=['index']).reset_index(level=0)
+provenance.write_table(certainty.drop(columns='source'), out / 'nao_extremes_correlation_uncertainty.parquet', 'Regional correlations of winter rainfall extremes with the NAO: bootstrap 95% interval, leave-one-winter-out range, effective sample size', **common)
+provenance.write_table(wet.reset_index(), out / 'wet_day_frequency_intensity.parquet', 'UK and Ireland land, winters 1986-2014: wet days per winter and rain per wet day, with differences from each reference', **common)
+provenance.write_table(explained, out / 'circulation_explained_bias.parquet', 'Winter rainfall-extreme bias over UK and Ireland and the part expected from the mean circulation offset (observed NAO response x offset)', **common, offsets={NAME[m]: round(v, 3) for m, v in offset.items()})
 provenance.write_table(summary, out / 'nao_extremes_map_summary.parquet', 'Map summaries of the NAO link per index and dataset: share of significant land cells (FDR), mean |r|, pattern correlation with references', **common)
-print('saved', len(link), 'regional rows,', len(composites), 'composite rows,', len(summary), 'map-summary rows')
+print('saved', len(link), 'regional rows,', len(composites), 'composite rows,', len(summary), 'map-summary rows,',
+      len(certainty), 'uncertainty rows,', len(explained), 'circulation rows')
 summary.reset_index(drop=True)
 """)
 
 md("""
-## 11. Limitations
+## 13. Limitations
 
 - **29 winters and one member per model.** This is the main limitation. A real but moderate link
   can easily fail to reach significance, and a model can differ from the reference by chance alone.
@@ -488,16 +719,24 @@ md("""
 - **FDR level 10%.** A common choice for spatially correlated climate fields (Wilks 2016); a
   stricter level would mark fewer cells.
 - **References.** E-OBS smooths intense rain and covers land only; ERA5 rain is a model product.
+- **The circulation test is linear and uses one index.** It applies the response of ordinary NAO
+  winters to a mean offset of about 2 SD, and it ignores other parts of the circulation bias that
+  do not project onto the NAO pattern. It measures consistency, not cause.
 """)
 
 md("""
-## 12. Open questions
+## 14. Open questions
 
-1. Over UK and Ireland the two references disagree on the strength of the link (correlation 0.51 in
-   E-OBS, 0.35 in ERA5). Which is closer to the truth, and why?
+1. Over UK and Ireland the two references give different strengths of the link (correlation 0.51 in
+   E-OBS, 0.35 in ERA5). Section 10 shows the difference is within sampling noise; a longer record
+   (E-OBS goes back to 1950) would show whether it is real.
 2. Is ICON-ESM-ER's wrong-sign response over north-west France a consequence of its displaced NAO
    pattern (notebook 04)?
-3. With more members, would the models' links become significant over UK and Ireland?
+3. ICON-ESM-ER rains too hard on wet days (section 11). Is that how its convection and cloud
+   processes make rain, or a trace of its finer native grid that survives regridding to 0.25°?
+   Conservative regridding, and comparison with a denser national station dataset, would help
+   separate the two.
+4. With more members, would the models' links become significant over UK and Ireland?
    Notebook 08 shows how widely the link varies between identical runs.
 """)
 

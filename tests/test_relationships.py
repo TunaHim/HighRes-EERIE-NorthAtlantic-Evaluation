@@ -85,3 +85,44 @@ def test_ensemble_difference_detects_a_shift_larger_than_the_spread():
     out = rel.ensemble_difference(a, b)
     assert float(out.difference.isel(lat=1)) == pytest.approx(5.0, abs=1.5)
     assert float(out.p.isel(lat=1)) < 0.001 and float(out.p.isel(lat=0)) > 0.05
+
+def test_correlation_uncertainty_brackets_true_link():
+    rng = np.random.default_rng(3)
+    x = rng.standard_normal(200)
+    y = 0.6 * x + 0.8 * rng.standard_normal(200)
+    result = rel.correlation_uncertainty(y, x, detrended=False, draws=2000)
+    assert result["low"] < 0.6 < result["high"]
+    assert result["low"] < result["r"] < result["high"]
+    assert result["r without one winter, min"] <= result["r"] <= result["r without one winter, max"]
+    assert result["effective winters"] <= 200
+
+
+def test_correlation_uncertainty_finds_influential_winter():
+    rng = np.random.default_rng(0)
+    x = rng.standard_normal(29) * 0.1
+    y = rng.standard_normal(29) * 0.1
+    x[10], y[10] = 5.0, 5.0  # one extreme winter makes the whole correlation
+    result = rel.correlation_uncertainty(y, x, years=np.arange(1986, 2015), detrended=False)
+    assert result["most influential winter"] == 1996
+    assert abs(result["r without it"]) < 0.5 < result["r"]
+
+
+def test_effective_sample_size_shrinks_with_memory():
+    rng = np.random.default_rng(1)
+    noise = rng.standard_normal((2, 500))
+    red = np.empty_like(noise)
+    red[:, 0] = noise[:, 0]
+    for k in range(1, 500):
+        red[:, k] = 0.7 * red[:, k - 1] + noise[:, k]
+    assert rel.effective_sample_size(red[0], red[1]) < 0.7 * 500
+    assert rel.effective_sample_size(noise[0], noise[1]) == pytest.approx(500, rel=0.1)
+
+
+def test_correlation_difference():
+    assert rel.correlation_difference(0.5, 30, 0.5, 30) == pytest.approx(1.0)
+    assert rel.correlation_difference(0.9, 100, 0.0, 100) < 0.001
+
+
+def test_circulation_part_scales_slope():
+    slope = xr.DataArray([1.0, -2.0], dims="x")
+    assert list(rel.circulation_part(slope, 2.3).values) == pytest.approx([2.3, -4.6])

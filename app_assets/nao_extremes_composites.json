@@ -1,7 +1,7 @@
 {
   "description": "UK and Ireland winter extremes: ten most positive minus ten most negative NAO winters, bootstrap 95% range",
-  "created": "2026-11-05T16:44:57+00:00",
-  "git_commit": "6ed84207098a300e56524795f86f28b37eedec4c",
+  "created": "2026-11-05T22:02:04+00:00",
+  "git_commit": "94f1e84d841ee843b5870ce45d327d4da6f38310",
   "code": "eerie_uk (this repository)",
   "python": "3.11.17",
   "xarray": "2026.9.0",

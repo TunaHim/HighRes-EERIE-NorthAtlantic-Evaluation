@@ -12,6 +12,7 @@ OUT = ROOT / "docs" / "figures"
 
 # output name -> (notebook, which figure in that notebook, counting from 1)
 FIGURES = {
+    "summary_chain.png": ("00_summary.ipynb", 1),
     "domains.png": ("02_download_plan.ipynb", 1),
     "psl_bias.png": ("03_validation_baseline.ipynb", 2),
     "nao_patterns.png": ("04_nao.ipynb", 1),
@@ -20,6 +21,8 @@ FIGURES = {
     "member_spread.png": ("07_paired_experiment.ipynb", 3),
     "resolution.png": ("08_resolution.ipynb", 2),
     "event_composites.png": ("09_event_anatomy.ipynb", 1),
+    "nao_uncertainty.png": ("06_nao_extremes.ipynb", 10),
+    "circulation_part.png": ("06_nao_extremes.ipynb", 12),
 }
 
 

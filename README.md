@@ -1,25 +1,44 @@
 # HighRes-EERIE-NorthAtlantic-Evaluation
 
-**How well do high-resolution climate models represent winter extremes over the UK and Ireland,
-their atmospheric drivers, and how far can the conclusions be trusted?**
+**North Atlantic circulation, UK and Ireland winter extremes, and how far high-resolution climate
+models can be trusted on them**
 
-An exploratory analysis of public output from the EU project [EERIE](https://eerie-project.eu)
-(European Eddy-Rich Earth System Models). Two coupled models, ICON-ESM-ER and IFS-FESOM2-SR, are
-evaluated against the ERA5 reanalysis and the station-based E-OBS dataset, step by step: the mean
-winter circulation, the North Atlantic Oscillation (NAO), precipitation and temperature extremes,
-the link between the NAO and extremes, the weather behind the heaviest rain days, and how much the
-conclusions depend on model resolution and on chance.
+[![tests](https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation/actions/workflows/tests.yml/badge.svg)](https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation/actions/workflows/tests.yml)
+[![website](https://img.shields.io/badge/website-online-2a78d6)](https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/)
+[![licence: MIT](https://img.shields.io/badge/licence-MIT-52514e)](LICENSE)
 
-**Project website:** https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/
-(the findings in pictures, an interactive explorer of the extremes, how the pipeline is built, the methods, and every notebook as a web page).
+**Question.** Do two high-resolution coupled climate models from the EU project
+[EERIE](https://eerie-project.eu), ICON-ESM-ER and IFS-FESOM2-SR, reproduce winter rain and
+temperature extremes over the UK and Ireland *and the atmospheric circulation that drives them*,
+when evaluated against the ERA5 reanalysis and the station-based E-OBS dataset? And how much do
+the answers depend on resolution, on chance and on the choice of reference?
 
-All data are public. All analysis code, tests and executed notebooks are in this repository.
+**Explore:** [project website](https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/) ·
+[interactive explorer](https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/explorer/) ·
+[summary notebook](notebooks/00_summary.ipynb) ·
+[methods](https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/methods.html)
 
-> **Read this first.** Each coupled model is represented by a **single run** (member r1). Single
-> runs carry their own chance weather, so the results below are indications, not a ranking of the
-> models. The main contribution of the project is the **evaluation method and diagnostic
-> pipeline**: a reproducible chain of tests that can be rerun on more members, more models, CMIP6
-> and CMIP7 to give definitive answers.
+![From North Atlantic circulation to UK and Ireland winter rain extremes](docs/figures/summary_chain.png)
+
+*Read each row from left to right. **A** Average winter sea-level pressure minus ERA5, and that
+difference expressed as an NAO state. **B** The model's NAO pattern (colours) against ERA5's (black
+lines), and its strength relative to ERA5. **C** Correlation of winter very-wet-day rain (R95p) with
+the NAO; dots: significant after false-discovery-rate control. **D** Winter R95p relative to E-OBS.
+ICON-ESM-ER (top) has a strongly biased circulation, a weak NAO, a misplaced rain response and
+62% too much very-wet-day rain over the UK and Ireland. IFS-FESOM2-SR (bottom) is close to the
+references at every step. Winters 1986–2014 (B: 1951–2014); one run per model.*
+
+> **Read this first.** Each coupled model is represented by a **single run** (member r1), and the
+> link to extremes rests on 29 winters. Single runs carry their own chance weather, so the results
+> are indications, not a ranking of the models. The main contribution of the project is the
+> **evaluation method and diagnostic pipeline**: a reproducible chain of tests that can be rerun on
+> more members, more models, CMIP6 and CMIP7 to give definitive answers.
+
+**Main message.** A credible large-scale circulation is a precondition for credible regional rain
+extremes, but not a guarantee: in ICON-ESM-ER the shifted circulation explains only part of the
+wet bias, and in IFS higher resolution shifts rain extremes by 5–12% but leaves their link to the
+NAO within the range that chance alone produces. Evaluating extremes needs the circulation, the rain-producing processes and internal
+variability to be checked together.
 
 ---
 
@@ -28,28 +47,41 @@ All data are public. All analysis code, tests and executed notebooks are in this
 *Exploratory results: two coupled models with one member each, so a shared result is described as
 "consistent across the two models examined", not as robust.*
 
-1. **The circulation sets up everything downstream.** ICON-ESM-ER's winter pressure is too low in
-   the north and too high in the subtropics: its average winter looks like a permanent +2.3 SD
-   positive NAO. The same bias reappears as a wet bias, as 50–60% too-heavy rain extremes over the
-   UK and Ireland, and as a misplaced NAO rainfall response. IFS-FESOM2-SR's mean circulation is
-   close to ERA5 and its rain extremes are within 10–20% of the references.
-2. **Both models have a weaker NAO than the real world** (59% and 71% of ERA5's strength). Ten
-   identical atmosphere-only runs show that a single run can vary between 70% and 100%, so part of
-   this is chance; ICON-ESM-ER lies below that whole range.
-3. **The NAO link to winter rain extremes is reproduced by IFS-FESOM2-SR** in sign, pattern and
-   strength. ICON-ESM-ER has the right sign in the north, a weak link in Norway and the wrong sign
-   over north-west France.
-4. **Both models bring their heaviest UK winter rain through the right weather:** a deep low just
+**The three that matter most**
+
+1. **A biased circulation explains part, not all, of a wet bias.** ICON-ESM-ER's winter pressure is
+   too low in the north and too high in the subtropics: its average winter sits 2.1–2.3 SD along
+   the NAO, like a permanent strongly positive NAO winter. Multiplied by the observed NAO response,
+   that offset is consistent with 38–74% of its very-wet-day rain bias over the UK and Ireland, but
+   only 18–39% of its wettest-day bias, mostly on windward coasts and mountains. The rest is a broad
+   wet bias that reaches places where such a circulation should make it *drier*: the model rains
+   both too often (+34% to +43% wet days) and too hard (+21% to +28% rain per wet day).
+   IFS-FESOM2-SR's circulation is close to ERA5 and its rain extremes are within 10–20% of the
+   references.
+2. **The NAO link to winter rain extremes is reproduced by IFS-FESOM2-SR** in sign, pattern and
+   strength, and it is consistent with both references in all three regions. ICON-ESM-ER has the
+   right sign over the UK and Ireland, but a link that is too weak in western Norway and of the
+   wrong sign in north-west France; those two differences pass formal tests. Over the UK and
+   Ireland itself, 29 winters cannot tell any dataset apart from another (bootstrap intervals of
+   about ±0.25 around correlations of 0.3 to 0.6).
+3. **Higher resolution is not automatically better.** In the same model with the same ocean, 9 km
+   instead of 28 km makes winter rain extremes 5–12% heavier: closer to observations over the
+   mountains of western Norway, too heavy over the UK and Ireland. The NAO link over the UK and
+   Ireland varies more between identical 28 km runs (correlation 0.04 to 0.33) than between
+   resolutions (9 km: 0.19). **Internal variability matters as much as resolution.**
+
+**Further findings**
+
+4. **Both models have a weaker NAO than the real world** (59% and 71% of ERA5's strength). Ten
+   identical atmosphere-only runs vary between 70% and 100%, so part of this is chance; ICON-ESM-ER
+   lies below that whole range. Its leading pattern mixes the NAO with a second mode of similar
+   strength, so every model is measured along the common ERA5 pattern.
+5. **Both models bring their heaviest UK winter rain through the right weather:** a deep low just
    north-west of the islands (pattern correlation 0.94–0.95 with ERA5). ICON-ESM-ER's storms show
    less build-up in the days before. Both models' storm tracks are 13–17% too active over the UK.
-5. **Higher resolution is not automatically better.** In the same model with the same ocean,
-   9 km instead of 28 km makes winter rain extremes 5–12% heavier: closer to observations over the
-   mountains of western Norway, too heavy over the UK and Ireland. The conclusion about the NAO's
-   influence does not change with resolution, but it varies strongly between identical runs
-   (UK and Ireland correlation 0.04 to 0.33). **Internal variability matters as much as resolution.**
-6. **The observations themselves carry uncertainty.** E-OBS and ERA5 agree on patterns but not
-   always on numbers; for example the NAO link over the UK and Ireland has a correlation of 0.51 in
-   E-OBS and 0.35 in ERA5.
+6. **The references themselves carry uncertainty.** E-OBS and ERA5 agree on patterns but not
+   always on numbers: the NAO link over the UK and Ireland has a correlation of 0.51 in E-OBS and
+   0.35 in ERA5, a difference that is within sampling noise for 29 winters.
 7. **No detectable sensitivity of the NAO to small-scale sea-surface temperature** in two
    ten-member atmosphere-only ensembles (changes of −1% and +4%, well within the member spread).
 
@@ -61,8 +93,10 @@ All data are public. All analysis code, tests and executed notebooks are in this
 |---|---|
 | ![NAO patterns](docs/figures/nao_patterns.png) | ![Wettest day bias](docs/figures/rx1day_bias.png) |
 | **The NAO in ERA5 and both models** (notebook 04). Blue: lower pressure in a positive-NAO winter. | **Wettest day of the year, model relative to E-OBS** (notebook 05). Orange: too wet. |
-| ![NAO and very wet days](docs/figures/nao_r95p.png) | ![Resolution](docs/figures/resolution.png) |
-| **Correlation of winter very-wet-day rain with the NAO** (notebook 06). Dots: significant after false-discovery-rate control. | **9 km relative to 28 km, same model and ocean** (notebook 08). Dots: outside the 28 km member range. |
+| ![NAO and very wet days](docs/figures/nao_r95p.png) | ![Circulation part of the bias](docs/figures/circulation_part.png) |
+| **Correlation of winter very-wet-day rain with the NAO** (notebook 06). Dots: significant after false-discovery-rate control. | **ICON-ESM-ER's very-wet-day rain bias: actual, expected from its circulation offset, remainder** (notebook 06). |
+| ![Correlation uncertainty](docs/figures/nao_uncertainty.png) | ![Resolution](docs/figures/resolution.png) |
+| **Correlation of winter very-wet-day rain with the NAO, with bootstrap 95% intervals** (notebook 06). | **9 km relative to 28 km, same model and ocean** (notebook 08). Dots: outside the 28 km member range. |
 | ![Event composites](docs/figures/event_composites.png) | ![Member spread](docs/figures/member_spread.png) |
 | **Pressure anomaly on the 30 wettest winter days over the UK and Ireland** (notebook 09). | **NAO strength of every member of three ten-member ensembles** (notebook 07): the spread is chance. |
 
@@ -72,8 +106,8 @@ All data are public. All analysis code, tests and executed notebooks are in this
 
 | If you have | Read |
 |---|---|
-| 5 minutes | this page and the figures above |
-| 15 minutes | [`notebooks/00_summary.ipynb`](notebooks/00_summary.ipynb): the whole story in seven figures |
+| 5 minutes | the summary figure and key findings above |
+| 15 minutes | [`notebooks/00_summary.ipynb`](notebooks/00_summary.ipynb): the whole story in one summary figure and seven more, with physical interpretation |
 | a visual overview | the [project website](https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/): what was done and found, and how the data gets from the data centre to the notebooks |
 | your own questions | the [interactive explorer](https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/explorer/): maps and yearly series of every extreme index, for each dataset and region, in the browser |
 | an hour | the core notebooks below |
@@ -183,16 +217,31 @@ conda activate eerie-uk-nao
 pytest                                       # offline tests
 
 # download the regional cut-outs (about 4 GB on disk; much more is streamed)
-set PYTHONPATH=src                           # Windows; on Linux/macOS: export PYTHONPATH=src
+$env:PYTHONPATH = 'src'                      # PowerShell; cmd: set PYTHONPATH=src; Linux/macOS: export PYTHONPATH=src
 python -m eerie_uk.download --group monthly
 python -m eerie_uk.download --group daily
 python -m eerie_uk.download --group resolution
 python -m eerie_uk.download --group pressure
 python -m eerie_uk.eobs
 
-# rebuild and execute every notebook (Windows PowerShell)
-powershell -ExecutionPolicy Bypass -File scripts\build_all.ps1
+# rebuild and execute every notebook, then the website (Windows; on Linux/macOS use pwsh)
+conda run -n eerie-uk-nao powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build_all.ps1
+conda run -n eerie-uk-nao python scripts/export_figures.py
+conda run -n eerie-uk-nao python scripts/build_explorer_data.py
+conda run -n eerie-uk-nao python scripts/build_site.py
 ```
+
+**What can be checked without downloading anything**
+
+| Without data | How |
+|---|---|
+| the analysis library and its tests | `pytest` (offline; the same suite runs on GitHub Actions on every push) |
+| every result, figure and number | the executed notebooks in `notebooks/` (also on the website), run top to bottom |
+| the result tables | `app_assets/*.parquet`, each with a `.json` provenance record (code version, inputs, period) |
+| the explorer | `docs/explorer/data.json`, the data behind the interactive page |
+
+Rerunning the analysis itself needs the regional cut-outs (about 4 GB on disk, roughly 250–300 GB
+of network traffic to create them).
 
 Downloads resume where they stopped: each year is a separate file, and existing files are skipped.
 The server sends whole-globe chunks, so the network traffic (roughly 250–300 GB for everything) is

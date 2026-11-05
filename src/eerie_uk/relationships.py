@@ -2,8 +2,10 @@
 
 Primary method: correlation and regression at every grid point, both series
 linearly detrended, two-sided t-test, false-discovery-rate control across grid
-points (Wilks 2016). Supporting method: composites of high-index minus
-low-index winters with bootstrap confidence intervals.
+points (Wilks 2016). Supporting methods: composites of high-index minus
+low-index winters with bootstrap confidence intervals; bootstrap, leave-one-out
+and effective-sample-size checks on regional correlations; and the part of a
+mean bias that a shifted mean circulation alone would produce.
 """
 
 from __future__ import annotations
@@ -112,6 +114,96 @@ def regress_series(series, index, detrended: bool = True) -> dict:
         "high": float(fit.slope + half),
         "p": float(2 * stats.t.sf(abs(t_value), dof)),
     }
+
+
+def _detrended(values) -> np.ndarray:
+    values = np.asarray(values, dtype=float)
+    t = np.arange(values.size, dtype=float)
+    return values - np.polyval(np.polyfit(t, values, 1), t)
+
+
+def lag1(values) -> float:
+    """Lag-1 autocorrelation of a 1-D series."""
+    values = np.asarray(values, dtype=float) - np.mean(values)
+    return float(np.sum(values[:-1] * values[1:]) / np.sum(values**2))
+
+
+def effective_sample_size(x, y) -> float:
+    """Number of independent winters behind a correlation of two autocorrelated series.
+
+    Bretherton et al. (1999): n (1 - a b) / (1 + a b), with a and b the lag-1
+    autocorrelations. Only positive memory reduces the sample; it is never
+    allowed to exceed n.
+    """
+    product = lag1(x) * lag1(y)
+    n = len(x)
+    return float(min(n, n * (1 - product) / (1 + product)))
+
+
+def correlation_uncertainty(series, index, years=None, detrended: bool = True,
+                            draws: int = 5000, seed: int = 0) -> dict:
+    """How certain is one correlation between a winter series and the NAO?
+
+    Returns the correlation with
+    - a bootstrap 95% interval (winters resampled in pairs, with replacement),
+    - the smallest and largest correlation when any single winter is left out,
+      and the winter whose removal changes it most,
+    - the effective sample size after year-to-year memory, and the p value
+      that uses it (one degree of freedom less if the series were detrended).
+    """
+    y = np.asarray(series, dtype=float)
+    x = np.asarray(index, dtype=float)
+    years = np.arange(x.size) if years is None else np.asarray(years)
+    if detrended:
+        x, y = _detrended(x), _detrended(y)
+    n = x.size
+    r = float(np.corrcoef(x, y)[0, 1])
+
+    rng = np.random.default_rng(seed)
+    picks = rng.integers(0, n, (draws, n))
+    xs, ys = x[picks], y[picks]
+    xs = xs - xs.mean(axis=1, keepdims=True)
+    ys = ys - ys.mean(axis=1, keepdims=True)
+    boot = (xs * ys).sum(axis=1) / np.sqrt((xs**2).sum(axis=1) * (ys**2).sum(axis=1))
+
+    left_out = np.array([np.corrcoef(np.delete(x, k), np.delete(y, k))[0, 1] for k in range(n)])
+    most = int(np.argmax(np.abs(left_out - r)))
+
+    n_eff = effective_sample_size(x, y)
+    dof = max(n_eff - 2 - (1 if detrended else 0), 1.0)
+    t_value = r * np.sqrt(dof / (1 - r**2))
+    return {
+        "r": r,
+        "low": float(np.percentile(boot, 2.5)),
+        "high": float(np.percentile(boot, 97.5)),
+        "r without one winter, min": float(left_out.min()),
+        "r without one winter, max": float(left_out.max()),
+        "most influential winter": int(years[most]),
+        "r without it": float(left_out[most]),
+        "lag-1 NAO": lag1(x),
+        "lag-1 series": lag1(y),
+        "effective winters": n_eff,
+        "p (effective)": float(2 * stats.t.sf(abs(t_value), dof)),
+    }
+
+
+def correlation_difference(r1: float, n1: float, r2: float, n2: float) -> float:
+    """Two-sided p value for the difference of two correlations from independent samples (Fisher z)."""
+    z = (np.arctanh(r1) - np.arctanh(r2)) / np.sqrt(1 / (n1 - 3) + 1 / (n2 - 3))
+    return float(2 * stats.norm.sf(abs(z)))
+
+
+def circulation_part(slope: xr.DataArray, offset: float) -> xr.DataArray:
+    """Part of a mean bias that a shifted mean circulation would produce on its own.
+
+    ``slope`` is the observed change in a field per +1 SD of the NAO (from a
+    reference), ``offset`` the model's mean circulation bias expressed in the
+    same NAO units. The product is the bias expected if the model's only error
+    were that its average winter sits ``offset`` SD along the NAO. It assumes a
+    linear response, applied beyond the range of ordinary NAO winters when the
+    offset is large, so it is a diagnostic of consistency, not an attribution.
+    """
+    return slope * offset
 
 
 def ensemble_difference(a: xr.DataArray, b: xr.DataArray, dim: str = "realization") -> xr.Dataset:

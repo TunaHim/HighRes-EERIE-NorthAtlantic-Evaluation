@@ -175,12 +175,53 @@ verifying LR20.</p>
 <li>check minimum, maximum, mean and the spatial pattern.</li>
 </ol>
 <h2>8. Priorities</h2>
-<p><a href="notebooks/03_validation_baseline.html">Notebooks 03</a> → 04 → 05 → 06 first. <a href="notebooks/07_paired_experiment.html">Notebook 07</a> and the Streamlit dashboard are
+<p><a href="notebooks/03_validation_baseline.html">Notebooks 03</a> → 04 → 05 → 06 first. <a href="notebooks/07_paired_experiment.html">Notebook 07</a> and the interactive explorer are
 optional and are never built at the expense of clean notebooks and the README.</p>
+<h2>9. Additions after the first results (<a href="notebooks/06_nao_extremes.html">notebook 06</a>, sections 10 and 11)</h2>
+<p>Added on 5 November 2026, after the results above were produced, to test how far they hold.
+They do not change any earlier choice.</p>
+<div class="tw"><table>
+<thead>
+<tr>
+  <th>Check</th>
+  <th>Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Uncertainty of a regional correlation</td>
+  <td>Bootstrap: 5000 resamples of the 29 winters with replacement, NAO and extreme value kept together; the 2.5th and 97.5th percentiles give the 95% interval. Series detrended first.</td>
+</tr>
+<tr>
+  <td>Influence of single winters</td>
+  <td>Correlation recomputed 29 times, each time without one winter; the range and the most influential winter are reported.</td>
+</tr>
+<tr>
+  <td>Memory between winters</td>
+  <td>Effective sample size n(1 − a·b)/(1 + a·b), with a and b the lag-1 autocorrelations of the two series (Bretherton et al. 1999), never above n; p value recomputed with it.</td>
+</tr>
+<tr>
+  <td>Model against reference</td>
+  <td>Fisher z test for two correlations from independent samples (29 winters each). Not applied between E-OBS and ERA5, which describe the same winters.</td>
+</tr>
+<tr>
+  <td>Circulation part of a mean bias</td>
+  <td>Observed regression of the index on the NAO (per +1 SD of the ERA5 NAO, from E-OBS or ERA5) × the model's mean winter sea-level-pressure bias projected onto the ERA5 NAO pattern (in ERA5 SD, 1986–2014). Compared with the actual mean bias over UK and Ireland land and as a land pattern correlation. Repeated with the model's own regression as a sensitivity test. Linear; a consistency diagnostic, not an attribution.</td>
+</tr>
+<tr>
+  <td>Wet-day frequency and intensity</td>
+  <td>Winter wet days (at least 1 mm; ETCCDI R1mm) and rain per wet day (ETCCDI SDII), UK and Ireland land, 1986–2014.</td>
+</tr>
+</tbody>
+</table></div>
 <h2>References</h2>
 <ul>
+<li>Bretherton, C. S., et al. (1999). The effective number of spatial degrees of freedom of a
+time-varying field. <em>J. Climate</em>, 12, 1990–2009.</li>
 <li>Cornes, R. C., et al. (2018). An ensemble version of the E-OBS temperature and
 precipitation data sets. <em>J. Geophys. Res. Atmos.</em>, 123. doi:10.1029/2017JD028200</li>
+<li>North, G. R., et al. (1982). Sampling errors in the estimation of empirical orthogonal
+functions. <em>Mon. Wea. Rev.</em>, 110, 699–706.</li>
 <li>Wilks, D. S. (2016). &quot;The stippling shows statistically significant grid
 points&quot;. <em>Bull. Amer. Meteor. Soc.</em>, 97, 2263–2273.</li>
 <li>Zhang, X., et al. (2005). Avoiding inhomogeneity in percentile-based indices of

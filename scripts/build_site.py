@@ -34,7 +34,7 @@ SUMMARY = ("How well do high-resolution climate models (EERIE: ICON-ESM-ER, IFS-
            "against ERA5 and E-OBS, with resolution (9 km vs 28 km) and internal-variability tests.")
 
 NOTEBOOKS = {
-    "00_summary": "Summary: the whole story in seven figures",
+    "00_summary": "Summary: the whole story in one figure, then step by step",
     "01_data_inventory": "Which public EERIE data exist and can be read",
     "02_download_plan": "Data plan: domains, datasets, periods and cost",
     "03_validation_baseline": "Is the mean winter climate credible?",

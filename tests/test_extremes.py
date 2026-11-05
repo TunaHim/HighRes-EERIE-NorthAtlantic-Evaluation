@@ -78,3 +78,10 @@ def test_all_indices_has_every_index_for_both_periods():
             assert f"{name}_{tag}" in out
     assert out.sizes["year_ann"] == 4 and out.sizes["year_djf"] == 3
     assert float(out.r95p_share_ann.max()) <= 100.0
+
+
+def test_wet_days_and_intensity():
+    # one year: 300 days of 0.5 mm (dry), 65 wet days of 4 mm
+    pr = _daily([0.5] * 300 + [4.0] * 65)
+    assert float(ex.wet_days(pr).isel(year=0, lat=0, lon=0)) == 65
+    assert float(ex.wet_day_intensity(pr).isel(year=0, lat=0, lon=0)) == pytest.approx(4.0)

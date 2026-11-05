@@ -389,3 +389,91 @@ def plot_member_dots(groups, xlabel="", title="", reference=None, reference_labe
     if title:
         ax.set_title(title, loc="left", fontsize=11, color=INK)
     return ax
+
+def plot_intervals(groups, xlabel="", title="", reference_line=0.0):
+    """Estimates with 95% intervals, one panel per group (a "forest plot").
+
+    ``groups`` maps a panel title to a list of ``(source, estimate, low, high)``.
+    The dot colour follows the source; the grey line marks ``reference_line``.
+    """
+    names = list(groups)
+    fig, axes = plt.subplots(1, len(names), figsize=(3.4 * len(names), 2.6), facecolor=SURFACE,
+                             sharex=True, squeeze=False)
+    for ax, name in zip(axes.flat, names):
+        rows = groups[name]
+        for k, (source, estimate, low, high) in enumerate(rows):
+            colour = SOURCE_COLOURS.get(source, MUTED)
+            ax.plot([low, high], [k, k], color=colour, linewidth=2.2, solid_capstyle="round")
+            ax.plot(estimate, k, "o", color=colour, markersize=6, markeredgecolor=SURFACE)
+        ax.axvline(reference_line, color=AXIS, linewidth=1)
+        ax.set_yticks(range(len(rows)), [SOURCE_LABELS.get(r[0], r[0]) for r in rows])
+        ax.set_ylim(len(rows) - 0.5, -0.5)
+        ax.set_title(name, loc="left", fontsize=9, color=INK_SECONDARY)
+        ax.grid(axis="x", color=GRID, linewidth=0.6)
+        ax.set_axisbelow(True)
+        _style(ax)
+    for ax in axes.flat[1:]:
+        ax.tick_params(labelleft=False)
+    fig.supxlabel(xlabel, fontsize=9, color=INK_SECONDARY)
+    if title:
+        fig.suptitle(title, x=0.02, ha="left", fontsize=11, color=INK)
+    fig.tight_layout()
+    return axes
+
+
+def plot_chain(columns, rows, cells, title=""):
+    """A grid of maps that reads as a chain: one column per step, one row per model.
+
+    ``columns`` is a list of ``{"title", "units", "limit"}`` (one colour scale per
+    column, diverging, +-limit). ``rows`` is a list of row labels. ``cells`` maps
+    ``(row, column number)`` to ``{"field", "note", "stipple", "contour"}``: the
+    map, a one-line result written above it, an optional boolean mask drawn as
+    dots, and an optional field drawn as black contour lines (a reference).
+    Every panel has the same size, so maps of different regions line up.
+    """
+    import cartopy.crs as ccrs
+
+    projection = ccrs.PlateCarree()
+    width, height, gap, top, left = 3.3, 2.15, 0.25, 0.55, 0.45
+    head, note, bar = 0.32, 0.26, 0.85
+    total_w = left + len(columns) * width + (len(columns) - 1) * gap + 0.1
+    total_h = top + head + len(rows) * (height + note) + bar + 0.15
+    fig = plt.figure(figsize=(total_w, total_h), facecolor=SURFACE)
+    axes = np.empty((len(rows), len(columns)), dtype=object)
+    for j, column in enumerate(columns):
+        x0 = (left + j * (width + gap)) / total_w
+        fig.text(x0, 1 - (top + head * 0.55) / total_h, column["title"], fontsize=10, color=INK, weight="bold", va="center")
+        mesh = None
+        for i, row in enumerate(rows):
+            y0 = 1 - (top + head + (i + 1) * (height + note) - 0.0) / total_h
+            ax = fig.add_axes([x0, y0, width / total_w, height / total_h], projection=projection)
+            axes[i, j] = ax
+            cell = cells[(row, j)]
+            field = cell["field"]
+            ax.set_extent([float(field.lon.min()), float(field.lon.max()), float(field.lat.min()), float(field.lat.max())],
+                          crs=projection)
+            ax.set_aspect("auto")
+            mesh = ax.pcolormesh(field.lon, field.lat, field.transpose("lat", "lon"), cmap=DIVERGING,
+                                 vmin=-column["limit"], vmax=column["limit"], shading="auto", transform=projection)
+            if cell.get("contour") is not None:
+                ref = cell["contour"]
+                levels = [v for v in np.linspace(-column["limit"], column["limit"], 9) if abs(v) > 1e-9]
+                ax.contour(ref.lon, ref.lat, ref.transpose("lat", "lon"), levels=levels, colors=INK,
+                           linewidths=0.6, transform=projection)
+            if cell.get("stipple") is not None:
+                marked = cell["stipple"].isel(lat=slice(1, None, 3), lon=slice(1, None, 3))
+                yy, xx = np.meshgrid(marked.lat, marked.lon, indexing="ij")
+                ax.scatter(xx[marked.values], yy[marked.values], s=1.4, color=INK, linewidths=0, transform=projection)
+            ax.coastlines(resolution="50m", color=INK, linewidth=0.45)
+            ax.set_title(cell.get("note", ""), loc="left", fontsize=8.5, color=INK, pad=3)
+            if j == 0:
+                ax.text(-0.05, 0.5, row, transform=ax.transAxes, rotation=90, ha="right", va="center",
+                        fontsize=10, color=INK, weight="bold")
+        cax = fig.add_axes([x0 + 0.08 * width / total_w, 0.55 * bar / total_h, 0.84 * width / total_w, 0.12 / total_h])
+        colorbar = fig.colorbar(mesh, cax=cax, orientation="horizontal")
+        colorbar.set_label(column["units"], color=INK_SECONDARY, fontsize=8)
+        colorbar.ax.tick_params(labelsize=7.5, colors=MUTED)
+        colorbar.outline.set_visible(False)
+    if title:
+        fig.text(0.01, 1 - 0.28 / total_h, title, fontsize=12, color=INK, va="center")
+    return axes
