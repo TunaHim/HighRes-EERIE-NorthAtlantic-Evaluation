@@ -43,6 +43,12 @@ th{color:var(--ink2);font-weight:600}
 .trust h3{margin:0 0 6px;font-size:15px}
 .trust p{margin:0;font-size:14px;color:var(--ink2)}
 .big{font-size:22px;font-weight:600;color:var(--ink)}
+.go{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:0 0 8px}
+.go a{display:block;text-decoration:none;background:var(--blue-soft);border:1px solid var(--blue);border-radius:10px;padding:10px 14px;color:var(--ink)}
+.go a:hover{background:var(--surface)}
+.go b{display:block;color:var(--blue);font-size:15px}
+.go span{font-size:13px;color:var(--ink2)}
+a{color:var(--blue)}
 </style>
 </head>
 <body>
@@ -56,6 +62,12 @@ observations before the next one builds on it.</p>
 <b>Read this first.</b> Each coupled model is represented by a single run. Single runs carry their own chance
 weather, so the verdicts below are indications, not a ranking of the models. The main contribution is the
 evaluation method and diagnostic pipeline, which can be rerun on more members, models, CMIP6 and CMIP7.</div>
+
+<div class="go">
+  <a href="explorer/index.html"><b>Explore the data</b><span>Maps and year-by-year series of every extreme index, for each dataset and region</span></a>
+  <a href="notebooks/00_summary.html"><b>Read the summary notebook</b><span>The whole story in seven figures, with the code</span></a>
+  <a href="engineering_overview.html"><b>See how it is built</b><span>From the supercomputer centre to the notebooks</span></a>
+</div>
 
 <div class="chain">
   <div class="stage" style="--c:var(--blue)"><div class="n">1 · DATA</div><h3>Find and prepare</h3><p>Public EERIE output, ERA5 and E-OBS, cut to three nested regions, checked and harmonised.</p></div>
@@ -76,7 +88,7 @@ evaluation method and diagnostic pipeline, which can be rerun on more members, m
       <i class="dot info"></i><span>Periods: 1950–2014 monthly (64 winters for the NAO), 1985–2014 daily (a standard 30-year period).</span>
       <i class="dot info"></i><span>About 250–300 GB streamed, 4.2 GB kept; every source in the same units, time stamps and grid.</span>
     </div>
-    <div class="nb">Notebooks 01, 02 · details in engineering_overview.html</div>
+    <div class="nb">Notebooks 01, 02 · details in <a href="engineering_overview.html">How it is built</a></div>
   </div>
   <img src="figures/domains.png" alt="The three analysis domains">
 </div>
@@ -203,7 +215,7 @@ evaluation method and diagnostic pipeline, which can be rerun on more members, m
 <p>More members, to separate model behaviour from chance; CMIP6 and CMIP7 through the same analysis
 code; and physical climate storylines that use the event composites to ask how a given type of
 heavy-rain winter would look under further warming.</p>
-<p class="nb">Exploratory results: two coupled models with one member each. Full methods in docs/methods.md; every number comes from the executed notebooks in this repository.</p>
+<p class="nb">Exploratory results: two coupled models with one member each. Full methods on the <a href="methods.html">methods page</a>; every number comes from the <a href="notebooks/index.html">executed notebooks</a>.</p>
 </main>
 </body>
 </html>

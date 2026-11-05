@@ -11,7 +11,7 @@ the link between the NAO and extremes, the weather behind the heaviest rain days
 conclusions depend on model resolution and on chance.
 
 **Project website:** https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/
-(the findings in pictures, how the pipeline is built, and every notebook as a web page).
+(the findings in pictures, an interactive explorer of the extremes, how the pipeline is built, the methods, and every notebook as a web page).
 
 All data are public. All analysis code, tests and executed notebooks are in this repository.
 
@@ -237,6 +237,13 @@ data/              downloaded cut-outs (not in the repository)
   project.
 
 ---
+
+## How to cite
+
+Himansu Kesari Pradhan (2026). *HighRes-EERIE-NorthAtlantic-Evaluation: winter extremes, the NAO and
+high-resolution climate models.* https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation
+
+Citation details are in [`CITATION.cff`](CITATION.cff) (GitHub's "Cite this repository" button uses it).
 
 ## Licence
 

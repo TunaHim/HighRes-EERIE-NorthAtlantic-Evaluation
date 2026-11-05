@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use this code or its results, please cite it as below."
+title: "HighRes-EERIE-NorthAtlantic-Evaluation: winter extremes, the NAO and high-resolution climate models"
+type: software
+authors:
+  - family-names: "Pradhan"
+    given-names: "Himansu Kesari"
+date-released: 2026-11-05
+version: "1.0.0"
+license: MIT
+repository-code: "https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation"
+url: "https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/"
+abstract: >-
+  An exploratory evaluation of public output from the EU project EERIE (ICON-ESM-ER and
+  IFS-FESOM2-SR) against ERA5 and E-OBS: the winter North Atlantic Oscillation, precipitation
+  and temperature extremes over the UK and Ireland, the link between them, the weather behind
+  the heaviest rain days, and how the conclusions depend on resolution (9 km versus 28 km) and
+  on internal variability.
+keywords:
+  - climate model evaluation
+  - North Atlantic Oscillation
+  - precipitation extremes
+  - high-resolution climate models
+  - EERIE
+  - ERA5
+  - E-OBS
+  - United Kingdom
+  - Ireland

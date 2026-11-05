@@ -1,29 +1,56 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Notebooks</title>
+<title>Notebooks · HighRes-EERIE-NorthAtlantic-Evaluation</title>
 <style>
 :root{--bg:#f9f9f7;--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--line:#e1e0d9;--blue:#2a78d6}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0d0d0d;--surface:#1a1a19;--ink:#fff;--ink2:#c3c2b7;--line:#2c2c2a;--blue:#3987e5}}
 :root[data-theme="dark"]{--bg:#0d0d0d;--surface:#1a1a19;--ink:#fff;--ink2:#c3c2b7;--line:#2c2c2a;--blue:#3987e5}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-main{max-width:1100px;margin:0 auto;padding:28px 16px 64px}
-table{border-collapse:collapse;width:100%;background:var(--surface)} td,th{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:1100px;margin:0 auto;padding:28px 16px 40px}
+h1{font-size:26px;margin:0 0 8px} h2{font-size:19px;margin:34px 0 8px} h3{font-size:16px;margin:22px 0 6px}
+table{border-collapse:collapse;width:100%;background:var(--surface);font-size:14px}
+.tw{overflow-x:auto}
+td,th{border-bottom:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+th{color:var(--ink2)}
+code{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:0 4px;font-size:13px}
+pre{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px;overflow-x:auto}
+pre code{border:0;padding:0}
 a{color:var(--blue)}
-</style>
+.lead{color:var(--ink2)}
+</style><!-- site:head -->
+<meta name="description" content="Every analysis step as an executed Jupyter notebook: data inventory, mean climate, NAO, extremes, NAO-extremes link, SST experiment, resolution and event anatomy.">
+<meta name="author" content="Himansu Kesari Pradhan">
+<link rel="canonical" href="https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/notebooks/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232a78d6'/%3E%3Cpath d='M5 20c4-8 8-8 11 0s7 8 11 0' stroke='white' stroke-width='3' fill='none'/%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HighRes-EERIE-NorthAtlantic-Evaluation">
+<meta property="og:title" content="Notebooks · HighRes-EERIE-NorthAtlantic-Evaluation">
+<meta property="og:description" content="Every analysis step as an executed Jupyter notebook: data inventory, mean climate, NAO, extremes, NAO-extremes link, SST experiment, resolution and event anatomy.">
+<meta property="og:url" content="https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/notebooks/">
+<meta property="og:image" content="https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/figures/social_card.png">
+<meta name="twitter:card" content="summary_large_image">
 <style>
 .sitenav{position:sticky;top:0;z-index:10;background:var(--surface,#fcfcfb);border-bottom:1px solid var(--line,#e1e0d9)}
 .sitenav div{max-width:1100px;margin:0 auto;padding:10px 16px;display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;font:14px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
 .sitenav b{margin-right:8px;color:var(--ink,#0b0b0b)}
 .sitenav a{color:var(--ink2,#52514e);text-decoration:none}
 .sitenav a:hover,.sitenav a.here{color:var(--blue,#2a78d6)}
+.sitefoot{border-top:1px solid var(--line,#e1e0d9);margin-top:32px;background:var(--surface,#fcfcfb);color:var(--ink2,#52514e)}
+.sitefoot div.in{max-width:1100px;margin:0 auto;padding:18px 16px 26px;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px 28px;font:13px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.sitefoot b{display:block;color:var(--ink,#0b0b0b);margin-bottom:3px}
+.sitefoot a{color:var(--blue,#2a78d6)}
+.sitefoot p{margin:0}
 </style>
+<!-- /site:head -->
 </head><body>
-<nav class="sitenav"><div><b>HighRes-EERIE-NorthAtlantic-Evaluation</b><a href="../index.html">What was found</a><a href="../engineering_overview.html">How it is built</a><a href="../notebooks/index.html" class="here">Notebooks</a><a href="../explorer/index.html">Explorer</a><a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation">Code on GitHub</a></div></nav>
-<main><h1>Notebooks</h1>
-<p>Every analysis step as an executed notebook. Each opens with a plain-language explanation of its terms,
-has a note above every code cell and a caption under every figure, and ends with findings, limitations
-and open questions. Start with 00.</p>
-<table><thead><tr><th>Notebook</th><th>Question</th><th>Source</th></tr></thead><tbody>
+<!-- site:nav --><nav class="sitenav"><div><b>HighRes-EERIE-NorthAtlantic-Evaluation</b><a href="../index.html">What was found</a><a href="../engineering_overview.html">How it is built</a><a href="../methods.html">Methods</a><a href="../notebooks/index.html" class="here">Notebooks</a><a href="../explorer/index.html">Explorer</a><a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation">Code on GitHub</a></div></nav><!-- /site:nav -->
+<main>
+<h1>Notebooks</h1>
+<p class="lead">Every analysis step as an executed notebook. Each opens with a plain-language explanation of its
+terms, has a note above every code cell and a caption under every figure, and ends with findings, limitations and
+open questions. Start with 00.</p>
+<div class="tw"><table><thead><tr><th>Notebook</th><th>Question</th><th>Source</th></tr></thead><tbody>
 <tr><td><a href="00_summary.html">00_summary</a></td><td>Summary: the whole story in seven figures</td><td><a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation/blob/main/notebooks/00_summary.ipynb">.ipynb</a></td></tr>
 <tr><td><a href="01_data_inventory.html">01_data_inventory</a></td><td>Which public EERIE data exist and can be read</td><td><a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation/blob/main/notebooks/01_data_inventory.ipynb">.ipynb</a></td></tr>
 <tr><td><a href="02_download_plan.html">02_download_plan</a></td><td>Data plan: domains, datasets, periods and cost</td><td><a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation/blob/main/notebooks/02_download_plan.ipynb">.ipynb</a></td></tr>
@@ -34,4 +61,19 @@ and open questions. Start with 00.</p>
 <tr><td><a href="07_paired_experiment.html">07_paired_experiment</a></td><td>Is the NAO sensitive to small-scale sea-surface temperature?</td><td><a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation/blob/main/notebooks/07_paired_experiment.ipynb">.ipynb</a></td></tr>
 <tr><td><a href="08_resolution.html">08_resolution</a></td><td>Does 9 km resolution improve winter rain extremes over 28 km?</td><td><a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation/blob/main/notebooks/08_resolution.ipynb">.ipynb</a></td></tr>
 <tr><td><a href="09_event_anatomy.html">09_event_anatomy</a></td><td>What weather brings the heaviest winter rain?</td><td><a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation/blob/main/notebooks/09_event_anatomy.ipynb">.ipynb</a></td></tr>
-</tbody></table></main></body></html>
+</tbody></table></div>
+<p class="lead">To rerun them: clone the repository, create the conda environment from <code>environment.yml</code>,
+download the regional data with <code>python -m eerie_uk.download</code> and run <code>scripts/build_all.ps1</code>.
+Step-by-step instructions are in the <a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation#reproduce">README</a>.</p>
+</main><!-- site:foot --><footer class="sitefoot"><div class="in">
+<div><b>HighRes-EERIE-NorthAtlantic-Evaluation</b><p>An exploratory evaluation by Himansu Kesari Pradhan, 2026. Code under the
+<a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation/blob/main/LICENSE">MIT licence</a>; source, tests and notebooks on
+<a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation">GitHub</a>. Page built 5 November 2026.</p></div>
+<div><b>Data credits</b><p>EERIE model output: EERIE consortium (MPI-M, ECMWF, AWI and partners), served by DKRZ.
+ERA5: Hersbach et al. (2020), Copernicus Climate Change Service. E-OBS: Cornes et al. (2018); we acknowledge the
+E-OBS dataset and the data providers in the ECA&amp;D project.</p></div>
+<div><b>How to cite</b><p>Himansu Kesari Pradhan (2026). HighRes-EERIE-NorthAtlantic-Evaluation: winter extremes, the NAO and high-resolution climate
+models. https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation (<a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation/blob/main/CITATION.cff">CITATION.cff</a>).<br>
+<a href="../methods.html">Methods</a> · <a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation/issues">Questions and comments</a></p></div>
+</div></footer><!-- /site:foot -->
+</body></html>

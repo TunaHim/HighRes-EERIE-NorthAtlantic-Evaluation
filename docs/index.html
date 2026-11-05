@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Project Overview</title>
+<title>HighRes-EERIE-NorthAtlantic-Evaluation: winter extremes, the NAO and high-resolution climate models</title>
 <style>
 :root{--bg:#f9f9f7;--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#898781;--line:#e1e0d9;--axis:#c3c2b7;
 --blue:#2a78d6;--blue-soft:#cde2fb;--orange:#eb6834;--orange-soft:#fbe0d4;--aqua:#1baf7a;--aqua-soft:#d3f1e5;--violet:#4a3aa7;--violet-soft:#e2def7;--yellow:#eda100;--yellow-soft:#fcefc9;}
@@ -43,18 +43,42 @@ th{color:var(--ink2);font-weight:600}
 .trust h3{margin:0 0 6px;font-size:15px}
 .trust p{margin:0;font-size:14px;color:var(--ink2)}
 .big{font-size:22px;font-weight:600;color:var(--ink)}
+.go{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:0 0 8px}
+.go a{display:block;text-decoration:none;background:var(--blue-soft);border:1px solid var(--blue);border-radius:10px;padding:10px 14px;color:var(--ink)}
+.go a:hover{background:var(--surface)}
+.go b{display:block;color:var(--blue);font-size:15px}
+.go span{font-size:13px;color:var(--ink2)}
+a{color:var(--blue)}
 </style>
-
+<!-- site:head -->
+<meta name="description" content="How well do high-resolution climate models (EERIE: ICON-ESM-ER, IFS-FESOM2-SR) represent winter extremes over the UK and Ireland and their driver, the North Atlantic Oscillation? An evaluation against ERA5 and E-OBS, with resolution (9 km vs 28 km) and internal-variability tests.">
+<meta name="author" content="Himansu Kesari Pradhan">
+<link rel="canonical" href="https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232a78d6'/%3E%3Cpath d='M5 20c4-8 8-8 11 0s7 8 11 0' stroke='white' stroke-width='3' fill='none'/%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HighRes-EERIE-NorthAtlantic-Evaluation">
+<meta property="og:title" content="HighRes-EERIE-NorthAtlantic-Evaluation: winter extremes, the NAO and high-resolution climate models">
+<meta property="og:description" content="How well do high-resolution climate models (EERIE: ICON-ESM-ER, IFS-FESOM2-SR) represent winter extremes over the UK and Ireland and their driver, the North Atlantic Oscillation? An evaluation against ERA5 and E-OBS, with resolution (9 km vs 28 km) and internal-variability tests.">
+<meta property="og:url" content="https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/">
+<meta property="og:image" content="https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/figures/social_card.png">
+<meta name="twitter:card" content="summary_large_image">
 <style>
 .sitenav{position:sticky;top:0;z-index:10;background:var(--surface,#fcfcfb);border-bottom:1px solid var(--line,#e1e0d9)}
 .sitenav div{max-width:1100px;margin:0 auto;padding:10px 16px;display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;font:14px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
 .sitenav b{margin-right:8px;color:var(--ink,#0b0b0b)}
 .sitenav a{color:var(--ink2,#52514e);text-decoration:none}
 .sitenav a:hover,.sitenav a.here{color:var(--blue,#2a78d6)}
+.sitefoot{border-top:1px solid var(--line,#e1e0d9);margin-top:32px;background:var(--surface,#fcfcfb);color:var(--ink2,#52514e)}
+.sitefoot div.in{max-width:1100px;margin:0 auto;padding:18px 16px 26px;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px 28px;font:13px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.sitefoot b{display:block;color:var(--ink,#0b0b0b);margin-bottom:3px}
+.sitefoot a{color:var(--blue,#2a78d6)}
+.sitefoot p{margin:0}
 </style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareSourceCode", "name": "HighRes-EERIE-NorthAtlantic-Evaluation", "description": "How well do high-resolution climate models (EERIE: ICON-ESM-ER, IFS-FESOM2-SR) represent winter extremes over the UK and Ireland and their driver, the North Atlantic Oscillation? An evaluation against ERA5 and E-OBS, with resolution (9 km vs 28 km) and internal-variability tests.", "url": "https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/", "codeRepository": "https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation", "license": "https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation/blob/main/LICENSE", "programmingLanguage": "Python", "author": {"@type": "Person", "name": "Himansu Kesari Pradhan"}, "keywords": ["climate model evaluation", "North Atlantic Oscillation", "precipitation extremes", "EERIE", "high resolution", "ERA5", "E-OBS", "UK", "Ireland"]}</script>
+<!-- /site:head -->
 </head>
 <body>
-<nav class="sitenav"><div><b>HighRes-EERIE-NorthAtlantic-Evaluation</b><a href="index.html" class="here">What was found</a><a href="engineering_overview.html">How it is built</a><a href="notebooks/index.html">Notebooks</a><a href="explorer/index.html">Explorer</a><a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation">Code on GitHub</a></div></nav>
+<!-- site:nav --><nav class="sitenav"><div><b>HighRes-EERIE-NorthAtlantic-Evaluation</b><a href="index.html" class="here">What was found</a><a href="engineering_overview.html">How it is built</a><a href="methods.html">Methods</a><a href="notebooks/index.html">Notebooks</a><a href="explorer/index.html">Explorer</a><a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation">Code on GitHub</a></div></nav><!-- /site:nav -->
 <main>
 <h1>What was done and what was found</h1>
 <p class="lead">HighRes-EERIE-NorthAtlantic-Evaluation asks how well two high-resolution climate models, ICON-ESM-ER and
@@ -65,6 +89,12 @@ observations before the next one builds on it.</p>
 <b>Read this first.</b> Each coupled model is represented by a single run. Single runs carry their own chance
 weather, so the verdicts below are indications, not a ranking of the models. The main contribution is the
 evaluation method and diagnostic pipeline, which can be rerun on more members, models, CMIP6 and CMIP7.</div>
+
+<div class="go">
+  <a href="explorer/index.html"><b>Explore the data</b><span>Maps and year-by-year series of every extreme index, for each dataset and region</span></a>
+  <a href="notebooks/00_summary.html"><b>Read the summary notebook</b><span>The whole story in seven figures, with the code</span></a>
+  <a href="engineering_overview.html"><b>See how it is built</b><span>From the supercomputer centre to the notebooks</span></a>
+</div>
 
 <div class="chain">
   <div class="stage" style="--c:var(--blue)"><div class="n">1 · DATA</div><h3>Find and prepare</h3><p>Public EERIE output, ERA5 and E-OBS, cut to three nested regions, checked and harmonised.</p></div>
@@ -85,7 +115,7 @@ evaluation method and diagnostic pipeline, which can be rerun on more members, m
       <i class="dot info"></i><span>Periods: 1950–2014 monthly (64 winters for the NAO), 1985–2014 daily (a standard 30-year period).</span>
       <i class="dot info"></i><span>About 250–300 GB streamed, 4.2 GB kept; every source in the same units, time stamps and grid.</span>
     </div>
-    <div class="nb">Notebooks <a href="notebooks/01_data_inventory.html">01</a>, <a href="notebooks/02_download_plan.html">02</a> · details in engineering_overview.html</div>
+    <div class="nb">Notebooks <a href="notebooks/01_data_inventory.html">01</a>, <a href="notebooks/02_download_plan.html">02</a> · details in <a href="engineering_overview.html">How it is built</a></div>
   </div>
   <img src="figures/domains.png" alt="The three analysis domains">
 </div>
@@ -212,7 +242,18 @@ evaluation method and diagnostic pipeline, which can be rerun on more members, m
 <p>More members, to separate model behaviour from chance; CMIP6 and CMIP7 through the same analysis
 code; and physical climate storylines that use the event composites to ask how a given type of
 heavy-rain winter would look under further warming.</p>
-<p class="nb">Exploratory results: two coupled models with one member each. Full methods in docs/methods.md; every number comes from the executed notebooks in this repository.</p>
+<p class="nb">Exploratory results: two coupled models with one member each. Full methods on the <a href="methods.html">methods page</a>; every number comes from the <a href="notebooks/index.html">executed notebooks</a>.</p>
 </main>
+<!-- site:foot --><footer class="sitefoot"><div class="in">
+<div><b>HighRes-EERIE-NorthAtlantic-Evaluation</b><p>An exploratory evaluation by Himansu Kesari Pradhan, 2026. Code under the
+<a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation/blob/main/LICENSE">MIT licence</a>; source, tests and notebooks on
+<a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation">GitHub</a>. Page built 5 November 2026.</p></div>
+<div><b>Data credits</b><p>EERIE model output: EERIE consortium (MPI-M, ECMWF, AWI and partners), served by DKRZ.
+ERA5: Hersbach et al. (2020), Copernicus Climate Change Service. E-OBS: Cornes et al. (2018); we acknowledge the
+E-OBS dataset and the data providers in the ECA&amp;D project.</p></div>
+<div><b>How to cite</b><p>Himansu Kesari Pradhan (2026). HighRes-EERIE-NorthAtlantic-Evaluation: winter extremes, the NAO and high-resolution climate
+models. https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation (<a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation/blob/main/CITATION.cff">CITATION.cff</a>).<br>
+<a href="methods.html">Methods</a> · <a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation/issues">Questions and comments</a></p></div>
+</div></footer><!-- /site:foot -->
 </body>
 </html>
