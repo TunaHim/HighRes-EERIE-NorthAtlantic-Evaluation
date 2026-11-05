@@ -1,4 +1,4 @@
-# EERIE-UK-NAO-Extremes
+# HighRes-EERIE-NorthAtlantic-Evaluation
 
 **How well do high-resolution climate models represent winter extremes over the UK and Ireland,
 their atmospheric drivers, and how far can the conclusions be trusted?**
