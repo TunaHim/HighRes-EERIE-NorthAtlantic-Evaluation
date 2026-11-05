@@ -52,7 +52,7 @@ ERA5 (reanalysis reference), ICON-ESM-ER r1 and IFS-FESOM2-SR r1.
 7. Does the mean-state bias look like the NAO?
 8. Saved outputs
 9. Limitations
-10. What to check
+10. Open questions
 """)
 
 md("""
@@ -354,17 +354,13 @@ md("""
 """)
 
 md("""
-## 10. What to check
+## 10. Open questions
 
-1. **Figure 1 and the pattern table:** do the model patterns look like the NAO to you, with centres
-   in sensible places?
-2. **The famous-winters table:** does the ERA5 index pick out the winters you expect?
-3. **Index choice:** do you agree to use the index along the common ERA5 pattern for the
-   NAO-to-extremes analysis, with each model's own-pattern index as a sensitivity check?
-4. **Section 7:** is the mean-state finding for ICON-ESM-ER something to carry into the extremes
-   notebooks as a stated caveat?
-5. **Go for day 4:** the extremes notebook (RX1day, TXx, R95p; annual and winter), once the daily
-   downloads are complete.
+1. Is the weak NAO of both models a property of the models or of single members? Notebook 07 shows
+   that identical atmosphere-only runs give NAO strengths from 0.70 to 1.00 of ERA5's.
+2. Would a different domain or period give ICON-ESM-ER a cleaner leading pattern?
+3. Does ICON-ESM-ER's positive-NAO-like mean state alter how its extremes respond to the NAO?
+   Notebook 06 addresses this.
 """)
 
 nb.cells = cells

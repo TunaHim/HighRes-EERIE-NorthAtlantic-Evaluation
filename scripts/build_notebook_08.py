@@ -54,7 +54,7 @@ members that is a weak test, so only clear differences are reported as such.
 7. Which resolution is closer to the references?
 8. Does the NAO-to-extremes conclusion depend on resolution?
 9. Limitations
-10. What to check
+10. Open questions
 """)
 
 md("""
@@ -363,12 +363,13 @@ md("""
 """)
 
 md("""
-## 10. What to check
+## 10. Open questions
 
-1. **Figure 2 and the regional table:** where does 9 km differ from 28 km by more than chance?
-2. **Section 7:** is 9 km closer to both references, to one, or to neither?
-3. **Section 8:** does the NAO-to-extremes conclusion change with resolution?
-4. **Wording of the findings:** is the answer to "does resolution help" stated with the right caution?
+1. Does the benefit of 9 km over mountains grow when compared at its native resolution, against a
+   high-resolution station dataset?
+2. How many members are needed before the NAO-to-extremes correlation of one configuration can be
+   distinguished from another's?
+3. Do coupled models at different ocean and atmosphere resolutions show the same pattern?
 """)
 
 nb.cells = cells

@@ -24,7 +24,7 @@ def step(explain, source):
 md("""
 # 00 · Summary: North Atlantic variability and UK/Ireland extremes in two EERIE models
 
-**Start here.** This notebook tells the whole story in six figures and four tables. Each section
+**Start here.** This notebook tells the whole story in seven figures and five tables. Each section
 points to the notebook that has the full analysis, the method and the limitations.
 
 ## The question
@@ -33,14 +33,17 @@ points to the notebook that has the full analysis, the method and the limitation
 > Oscillation (NAO) and extremes over the UK and Ireland, and do they reproduce the link between
 > the two?
 
-A secondary, optional question: is the simulated NAO sensitive to small-scale sea-surface
-temperature variability?
+Two further questions: do the conclusions depend on model resolution and on internal
+variability, and is the simulated NAO sensitive to small-scale sea-surface temperature?
 
 ## The chain of reasoning
 
 ```
 mean winter circulation  ->  NAO (pattern, strength)  ->  regional extremes  ->  NAO-to-extremes link
      notebook 03                   notebook 04               notebook 05            notebook 06
+
+weather behind the extremes: notebook 09
+how far to trust it: resolution (notebook 08), identical runs (notebooks 07 and 08)
 ```
 
 A model can only be trusted on the last step if the earlier ones are credible, so each step is
@@ -55,6 +58,7 @@ checked against a reference before moving on.
 | **E-OBS** | station-based gridded dataset, land only; reference for extremes | 1985–2014 daily |
 | **ERA5 daily** | second reference for extremes | 1985–2014 daily |
 | **IFS atmosphere-only ensembles** | paired experiments with observed and with filtered sea-surface temperature, ten members each | 1980–2023 monthly |
+| **IFS atmosphere-only, 9 km and 28 km** | same model and SST at two resolutions; 1 and 3 members | 1985–2014 daily (28 km: winter) |
 
 All data are public. Everything is exploratory: two models with one member each can show what is
 *consistent across the two models examined*, not what is robust.
@@ -283,7 +287,72 @@ it says nothing about a coupled effect of ocean eddies, and the exact filter is 
 """)
 
 md("""
-## 7. What was learned
+## 7. Does higher resolution help? (notebook 08)
+
+The cleanest test available: the **same** atmosphere model (IFS) with the **same** observed
+sea-surface temperature, run at about 9 km and at about 28 km (three members), winters 1986–2014.
+""")
+
+step("""
+**What this cell does.** Averages the wettest winter day (RX1day) over the land of each region for
+the two references, the 9 km run and each of the three 28 km members.
+""", """
+def winter_rx1day(source):
+    daily = store.load(source, 'day', 'pr', 'nw_europe')
+    daily = daily.sel(time=daily.time.dt.month.isin([12, 1, 2]))
+    return ex.rx1day(daily, 'DJF').sel(year=slice(1986, 2014)).mean('year')
+res = {'IFS 9 km': winter_rx1day('ifs-amip-tco1279.hist')}
+lo = winter_rx1day('ifs-amip-tco399.hist')
+res.update({f'IFS 28 km, member {int(m)}': lo.sel(realization=m) for m in lo.realization.values})
+res['E-OBS'] = regions.to_grid(ex.indices_for('e-obs').rx1day_djf.mean('year_djf'), lo)
+res['ERA5'] = ex.indices_for('era5').rx1day_djf.mean('year_djf')
+land_cells = regions.land_mask(lo.lat, lo.lon) & res['E-OBS'].notnull()
+pd.DataFrame({regions.LABELS[r]: {k: float(clim.regional_mean(v.where(land_cells), r)) for k, v in res.items()}
+              for r in regions.SUBREGIONS}).round(1)
+""")
+
+md("""
+**Reading the table** (mm, wettest winter day, land average). At 9 km the wettest winter day is
+5–12% heavier than at 28 km. Over western Norway, where 28 km falls short, that brings 9 km closer
+to both references; over UK and Ireland, where 28 km is already about right, 9 km overshoots.
+Across the whole region 9 km brings no overall improvement at the 25 km scale compared here.
+The NAO-to-extremes correlation over UK and Ireland ranges from 0.04 to 0.33 between the three
+identical 28 km runs, and 9 km (0.19) falls inside that range: **the conclusion depends more on
+internal variability than on resolution.**
+""")
+
+md("""
+## 8. What weather brings the heaviest rain? (notebook 09)
+""")
+
+step("""
+**What this cell does.** Finds the 30 wettest winter days over UK and Ireland land in ERA5 and in
+each model, and maps the average pressure anomaly on those days.
+""", """
+from eerie_uk import events as ev
+def winter_days(da):
+    da = da.sel(time=slice('1985-12-01', '2014-02-28'))
+    return da.sel(time=da.time.dt.month.isin([12, 1, 2]))
+composite = {}
+for s in ['era5'] + MODELS:
+    rain = winter_days(store.load(s, 'day', 'pr', 'nw_europe'))
+    uk = clim.regional_mean(rain.where(land_cells), 'uk_ireland')
+    pressure = winter_days(store.load(s, 'day', 'psl', 'north_atlantic'))
+    composite[NAME[s]] = ev.lagged_composite(pressure - pressure.mean('time'), ev.top_events(uk, 30, 5), lags=(0,)).sel(lag=0)
+plotting.plot_field_panels(composite, units='hPa', diverging=True,
+                           title='Pressure anomaly on the 30 wettest winter days over UK and Ireland, 1986-2014');
+""")
+
+md("""
+**Figure 7.** In the real world (left) heavy UK winter rain comes with a deep low just north-west of
+the islands and higher pressure to the south. **Both models produce their heaviest rain days
+through the same weather** (pattern correlation 0.94–0.95 with ERA5). The difference is in the
+build-up: two days earlier, IFS-FESOM2-SR's pattern still resembles ERA5's (0.85), ICON-ESM-ER's
+much less (0.72). Both models also have a storm track 13–17% too active over the UK.
+""")
+
+md("""
+## 9. What was learned
 
 | Step | ICON-ESM-ER | IFS-FESOM2-SR |
 |---|---|---|
@@ -293,6 +362,8 @@ md("""
 | Rainfall extremes, UK and Ireland | 50–60% too heavy | within 10–20% of the references |
 | Hottest day of the year | about 2 °C too cool against ERA5 | within 1 °C of ERA5 |
 | NAO link to winter rainfall extremes | right sign, weak, misplaced boundary | reproduced in sign, pattern and strength |
+| Weather behind the heaviest rain days | same pattern, weaker build-up | same pattern and build-up |
+| Storm track over the UK | 17% too active | 13% too active |
 
 1. **Each step depends on the one before.** ICON-ESM-ER's circulation bias shows up again as a wet
    bias, as a mean state that resembles a permanent positive NAO, as too-heavy rainfall extremes
@@ -301,10 +372,16 @@ md("""
    how extremes respond to a given NAO swing, but produces smaller swings.
 3. **Single members are a real limit.** The ensemble experiment shows that NAO strength ranges
    from 0.70 to 1.00 between ten identical runs. Several of the differences reported here are of that size.
-4. **In one atmosphere model, the seasonal NAO does not depend measurably on small-scale
+4. **Higher resolution is not automatically better.** In IFS, 9 km gives heavier rain extremes,
+   which helps over mountains and overshoots elsewhere; conclusions about the NAO's influence do
+   not change with resolution but vary strongly between identical runs.
+5. **Two good references can disagree.** E-OBS and ERA5 agree on patterns but not always on
+   numbers (for example the strength of the NAO link over UK and Ireland), so "the observed
+   value" itself carries uncertainty.
+6. **In one atmosphere model, the seasonal NAO does not depend measurably on small-scale
    sea-surface temperature.**
 
-## 8. Main limitations
+## 10. Main limitations
 
 - One member per coupled model; 64 winters for the NAO, 29 for the link to extremes.
 - Two models: results are "consistent across the two models examined" at most.
@@ -314,14 +391,18 @@ md("""
 - The decoding fix for IFS-FESOM2-SR data was checked against an older decoder and against the
   model's own monthly files, not against an independent tool.
 - The paired experiment is atmosphere-only and its filter definition is unverified.
+- The resolution comparison uses one 9 km run and three 28 km members, winter only, compared at 25 km.
+- Model complexity and air quality are not tested.
 
-## 9. What would come next
+## 11. What would come next
 
 The analysis code takes any dataset that provides monthly sea-level pressure and daily
 precipitation and maximum temperature under CMIP-style names. The same notebooks could therefore
 be run on more EERIE members, on CMIP6 models, and on CMIP7 output when it becomes available.
 Adding members is the single most valuable next step, because it would separate model behaviour
-from chance.
+from chance. A natural extension is physical climate storylines: using the event composites of
+notebook 09 to ask how a given type of heavy-rain winter would look under further warming, with
+control runs to separate forced change from internal variability.
 
 ## Where to find the details
 
@@ -334,6 +415,8 @@ from chance.
 | `05_extremes` | RX1day, TXx, R95p, annual and winter |
 | `06_nao_extremes` | the NAO-to-extremes link |
 | `07_paired_experiment` | NAO sensitivity to filtered sea-surface temperature |
+| `08_resolution` | winter precipitation extremes at 9 km and 28 km |
+| `09_event_anatomy` | the weather behind the heaviest winter rain days, storminess, persistent highs |
 
 Methods: `docs/methods.md`. Code: `src/eerie_uk/`, with offline tests in `tests/`.
 """)

@@ -45,7 +45,7 @@ svg text{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
 <h1>How the data pipeline works</h1>
 <p class="lead">The data and software side of the EERIE-UK-NAO-Extremes project, in pictures: where the data comes
 from, how it is turned into a small local archive, how the analysis code is organised and checked, and how it could be
-scaled up. Status: 4 November 2026.</p>
+scaled up.</p>
 
 <div class="stats">
   <div class="stat"><b>945</b><span>datasets listed on the DKRZ server</span></div>
@@ -208,11 +208,11 @@ only that, and throws the rest away.</p>
   <p>Rain came in kg m⁻² s⁻¹, m s⁻¹ and m per day; months were stamped at their end, middle or start. Everything is
   converted to mm/day, hPa and °C, and every month to its first day, with tests for each rule.</p></div>
   <div class="card"><span class="tag blue">reliability</span><h3>Slow and broken connections</h3>
-  <p>Hotel Wi-Fi, laptop sleep and server time-outs. One file per year, written atomically, so a failure costs one
+  <p>Slow networks, sleeping laptops and server time-outs. One file per year, written atomically, so a failure costs one
   year; three retries; a restart continues where it stopped; everything logged.</p></div>
-  <div class="card"><span class="tag blue">safety</span><h3>Not on mobile data</h3>
-  <p>A small guard watches the network every 5 seconds and stops all downloads if the laptop joins any network other
-  than the one allowed, so 200 GB never goes over a phone contract.</p></div>
+  <div class="card"><span class="tag blue">safety</span><h3>Network guard</h3>
+  <p>A small guard (scripts/network_guard.ps1) watches the network every 5 seconds and stops all downloads if the
+  machine joins any network other than the one allowed, so hundreds of gigabytes never go over a metered connection.</p></div>
   <div class="card"><span class="tag blue">concurrency</span><h3>Parallel reading crashed</h3>
   <p>The GRIB library crashed when several threads decoded at once. A lock around decoding fixed it, while downloads
   still run in parallel.</p></div>
@@ -262,14 +262,14 @@ only that, and throws the rest away.</p>
 <tr><td>66 offline tests (pytest)</td><td>Each calculation is tested on small made-up data with a known answer: the EOF sign convention, the winter-year rule, R95p on a toy series, the GRIB fix, unit conversion, resuming a failed download, significance testing.</td></tr>
 <tr><td>Frozen methods (docs/methods.md)</td><td>Definitions fixed before any result was produced, so results cannot quietly steer the method.</td></tr>
 <tr><td>Data checks in the notebooks</td><td>Every analysis starts by checking that files are complete, time axes are correct and values are physical.</td></tr>
-<tr><td>Version control (git)</td><td>20 commits so far, each describing one step; the history shows how the work developed.</td></tr>
+<tr><td>Version control (git)</td><td>Each commit describes one step; the history shows how the work developed.</td></tr>
 <tr><td>Reproducible environment</td><td>environment.yml rebuilds the same Python setup on any machine.</td></tr>
 </tbody>
 </table>
 </div>
 
 <h2>5. Scaling up: what changes and what stays</h2>
-<p>The project runs on one laptop over a public Wi-Fi. The design is ready to grow: the yearly file is a natural unit
+<p>The project runs on one laptop over an ordinary internet connection. The design is ready to grow: the yearly file is a natural unit
 of work, and the analysis does not care where the data came from. The main bottleneck today is the network.</p>
 <div class="svgbox">
 <svg viewBox="0 0 1000 250" width="100%" role="img" aria-label="Laptop today versus computing next to the data">

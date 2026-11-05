@@ -16,26 +16,26 @@ def step(explain, source):
 
 
 md("""
-# 02 · Download plan — please review before anything big is downloaded
+# 02 · Data plan: domains, datasets, periods and cost
 
-**Purpose of this notebook.** Nothing large has been downloaded yet. This notebook shows *exactly*
-what I propose to download — which regions, which datasets, which years — together with a small
-real sample from every source, so you can check the domains, periods, units and grids first.
+**Purpose of this notebook.** Before any large download, this notebook fixes *exactly* what is
+downloaded (which regions, datasets and years) and tests every download on a short real sample, so
+that domains, periods, units and grids can be checked and the full cost estimated in advance.
 
 **How to read it.** Every code cell has a short note above it saying what it does and why.
-Every figure has a caption underneath. The last section, *What to check*, lists the decisions
-I need from you.
+Every figure has a caption underneath. The last section lists the design decisions this plan
+fixes, with the reason for each.
 
 **Sections**
 1. The three analysis domains and the sub-regions
 2. Every dataset in the plan
-3. The paired "with eddies / without eddies" experiments: what they are, and go / no-go
+3. The paired experiments: observed and filtered sea-surface temperature
 4. A small real sample from every source (speed, size, units, values)
 5. Cost of the full download: time and disk space
 6. Sample maps: do the cut-outs line up?
-7. E-OBS station-based observations (identified, not downloaded)
+7. E-OBS station-based data
 8. Known issues
-9. What to check
+9. Decisions fixed by this plan
 """)
 
 step("""
@@ -56,12 +56,12 @@ pd.set_option('display.max_colwidth', 90, 'display.width', 220, 'display.float_f
 md("""
 ## 1. Domains
 
-The analysis works on three nested scales, as you proposed: the large-scale circulation
+The analysis works on three nested scales: the large-scale circulation
 (North Atlantic), the European response (north-west Europe), and the headline region (UK and Ireland).
 """)
 
 step("""
-**What this cell does.** Draws the three nested domains on one map, so you can see how much ocean
+**What this cell does.** Draws the three nested domains on one map, showing how much ocean
 and land each one covers.
 """, """
 domains = {name: regions.BOXES[name] for name in regions.DOMAINS}
@@ -75,7 +75,7 @@ is cut out of the north-west Europe files later; it needs no separate download.
 """)
 
 step("""
-**What this cell does.** Zooms in on north-west Europe and shows the three sub-regions I propose
+**What this cell does.** Zooms in on north-west Europe and shows the three sub-regions used
 for headline numbers. The NAO makes the north wetter and the south drier (or the reverse), so one
 average over the whole box would cancel out; sub-regions keep that contrast visible.
 """, """
@@ -85,8 +85,8 @@ plotting.plot_boxes(inner, regions.LABELS, title='North-west Europe and the prop
 
 md("""
 **Figure 2.** UK and Ireland is the headline region. Western Norway and north-west France are my
-suggestion for a wet northern and a drier southern counterpart. They are proposals: they can be
-moved or dropped without downloading anything again.
+chosen as a wet northern and a drier southern counterpart. They can be moved without
+downloading anything again, because they are cut from the north-west Europe files.
 """)
 
 step("""
@@ -134,10 +134,9 @@ md("""
 """)
 
 md("""
-## 3. The paired experiments: what they are, and go / no-go
+## 3. The paired experiments: observed and filtered sea-surface temperature
 
-In step 1 I only guessed what these runs were from their names. I have now checked the descriptions
-in the public EERIE intake catalogue on GitHub (`dkrz/disk/model-output/ifs-amip-*/main.yaml`):
+The descriptions of these runs come from the public EERIE intake catalogue on GitHub (`dkrz/disk/model-output/ifs-amip-*/main.yaml`):
 
 | Run | What the catalogue says |
 |---|---|
@@ -145,22 +144,23 @@ in the public EERIE intake catalogue on GitHub (`dkrz/disk/model-output/ifs-amip
 | `ifs-amip-tco1279 . hist-c-0-a-lr20` | the same, "*filtered anomalies* ... SST anomalies are filtered with LR20" |
 | `ifs-amip-tco399 . hist` | "medium-resolution (tco399, ~28 km)" version of the historical run |
 | `ifs-amip-tco399 . hist-c-0-a-lr20` | medium-resolution run with filtered SST anomalies |
-| `ifs-amip-tco399 . hist-c-lr20-a-0` | third medium-resolution variant; the catalogue entry I read does not describe it |
+| `ifs-amip-tco399 . hist-c-lr20-a-0` | third medium-resolution variant; not described in the catalogue |
 
 **What that means.** These are atmosphere-only runs: the same atmosphere model, given observed
 sea-surface temperature in one run and a *smoothed* version (small-scale ocean features filtered
-out) in the other. That is a controlled test of what ocean eddies and fronts do to the atmosphere.
+out) in the other. That is a controlled test of the atmosphere's sensitivity to small-scale SST
+variability.
 
-**What I found on the server.** Monthly `avg_msl` (pressure), `mean2t`, `mx2t`, `tprate` on the
+**What the server provides.** Monthly `avg_msl` (pressure), `mean2t`, `mx2t`, `tprate` on the
 0.25° grid for 1980–2023. Daily mean temperature and precipitation exist, but daily *maximum*
 temperature does not on this grid. The ~28 km runs come as **10 members each**, which is very
 valuable for a noisy quantity like the NAO.
 
-**Go / no-go: go, for monthly pressure (NAO) only.** Daily extremes from these runs are left out of
-the prototype.
+**Use in this project:** monthly pressure for the NAO (notebook 07). Daily precipitation of the
+9 km and 28 km historical runs is used later for the resolution comparison (notebook 08).
 
-**Two things I have not verified:** exactly what the "LR20" filter is (I read it as a low-pass
-spatial filter, but the catalogue does not define it), and what `hist-c-lr20-a-0` changes. The name
+**Two things not verified:** exactly what the "LR20" filter is (presumably a low-pass
+spatial filter; the catalogue does not define it), and what `hist-c-lr20-a-0` changes. The name
 suggests the filter is applied to the climatology instead of the anomalies. Both need the EERIE
 documentation before any result from these runs is interpreted.
 """)
@@ -220,8 +220,7 @@ mm/day with daily maxima of tens of mm/day. `missing` should be 0.
 md("""
 ## 5. Cost of the full download
 
-The sample speeds are scaled up to the full periods. These are estimates: the server speed varies,
-and the laptop's connection dropped once for a few minutes during my tests.
+The sample speeds are scaled up to the full periods. These are estimates: the server speed varies.
 """)
 
 step("""
@@ -258,7 +257,7 @@ ones together are small.
 
 step("""
 **What this cell does.** The same chart for disk space, to confirm the plan fits comfortably on
-the laptop (39.5 GB were free on C: when I checked).
+an ordinary laptop disk.
 """, """
 plotting.plot_bars(dict(zip(labels, cost['GB on disk'])), xlabel='estimated GB on disk', title='Estimated disk space per dataset');
 """)
@@ -355,9 +354,9 @@ the same places in all three.
 """)
 
 md("""
-## 7. E-OBS (station-based observations) — identified, not downloaded
+## 7. E-OBS station-based data
 
-You allowed E-OBS as a land reference. I have located the current files but **not downloaded them**:
+E-OBS is used as the land reference for extremes. It is distributed as two files:
 
 | File | Content | Size |
 |---|---|---|
@@ -365,12 +364,11 @@ You allowed E-OBS as a land reference. I have located the current files but **no
 | `tx_ens_mean_0.25deg_reg_v33.0e.nc` | daily maximum temperature, same grid | 857 MB |
 
 Source: the ECA&D / Copernicus E-OBS access page (`surfobs.climate.copernicus.eu`). These are single
-files for the whole of Europe and the whole period, so about 1.6 GB to download in one go, after
-which I would cut them to the north-west Europe box and delete the originals.
+files for the whole of Europe and the whole period, so about 1.6 GB to download in one go. They are
+cut to the north-west Europe box and the originals deleted (`eerie_uk.eobs`).
 
-**Why I stopped here.** E-OBS has terms of use: the data are "strictly for use in non-commercial
-research and non-commercial education projects". Accepting terms is your decision, not mine.
-E-OBS is land-only, on the same 0.25° grid as the models, and is a more direct observation of
+**Terms of use.** The data are "strictly for use in non-commercial research and non-commercial
+education projects" (ECA&D data policy). E-OBS is land-only, on the same 0.25° grid as the models, and is a more direct observation of
 extremes than ERA5, whose precipitation comes from a forecast model.
 """)
 
@@ -379,40 +377,37 @@ md("""
 
 - **Estimates, not guarantees.** Download times come from samples of 3 time steps (monthly) or
   10 (daily). The server was sometimes several times slower in earlier tests.
-- **Connection drops.** The laptop lost its connection once for a few minutes while I was testing
-  (`getaddrinfo failed`). The downloader retries each year three times and skips years already
+- **Connection drops.** Short network failures (for example `getaddrinfo failed`) do occur. The downloader retries each year three times and skips years already
   saved, so a rerun simply continues.
-- **ERA5 is interpolated.** ERA5 is stored on its own grid (rows of different length); I interpolate
-  it linearly to 0.25°. That slightly smooths sharp precipitation maxima.
+- **ERA5 is interpolated.** ERA5 is stored on its own grid (rows of different length); it is interpolated
+  linearly to 0.25°. That slightly smooths sharp precipitation maxima.
 - **ERA5 precipitation is a model product.** It is not a direct observation. E-OBS would be the
   better reference for RX1day and R95p over land.
 - **Time stamps differ.** ICON-ESM-ER stamps a month at its end (31 January 23:59), IFS at mid-month,
   ERA5 at the first of the month. This is handled when years and seasons are selected, but it is a
-  place where mistakes can hide, so the next notebook checks it explicitly.
+  place where mistakes can hide, so notebook 03 checks it explicitly.
 - **Model calendars are real calendars** (with leap days), so no calendar conversion is needed.
 - **Only member r1** of each coupled model is in the plan. Members r2 and r3 (1975–2014) exist and
-  could be added later for the NAO, at small cost.
+  could be added for the NAO at small cost.
 - **Paired experiments:** the meaning of "LR20" and of `hist-c-lr20-a-0` is not yet verified
   (section 3).
+- **Later additions.** Daily pressure (for notebook 09) and daily precipitation of the 9 km and
+  28 km atmosphere-only runs (for notebook 08) were added later, defined in
+  `eerie_uk.download.build_extension_plan()`. To limit network traffic, the 28 km run uses its
+  first three members and winter months only.
 """)
 
 md("""
-## 9. What to check
+## 9. Decisions fixed by this plan
 
-Please look at these and tell me yes, no, or what to change:
-
-1. **Domains (Figure 1).** North Atlantic 90°W–40°E, 20–80°N for pressure; north-west Europe
-   20°W–13°E, 40–65°N for temperature and precipitation; UK and Ireland 11°W–2.5°E, 49–61°N.
-2. **Sub-regions (Figure 2).** UK and Ireland, western Norway, north-west France. Keep, move or drop?
-3. **Periods (plan table).** Monthly 1950–2014, daily 1985–2014, paired experiments 1980–2023.
-4. **Sources (plan table).** ICON-ESM-ER r1, IFS-FESOM2-SR r1, ERA5, and the five paired runs
-   for monthly pressure.
-5. **Pressure saved at 1° instead of 0.25°.** Fine for the NAO; say so if you want it kept at 0.25°.
-6. **Cost (section 5).** Are the total hours and gigabytes acceptable?
-7. **E-OBS (section 7).** Do you accept its non-commercial research terms, and shall I download it?
-8. **Go.** If all is fine, I start the monthly downloads, then the daily ones overnight.
-
-Nothing further will be downloaded until you answer.
+| Decision | Choice | Reason |
+|---|---|---|
+| Domains | North Atlantic 90°W–40°E, 20–80°N (pressure); north-west Europe 20°W–13°E, 40–65°N (temperature, precipitation); UK and Ireland 11°W–2.5°E, 49–61°N | Large-scale circulation, European response, headline region (README, section 1) |
+| Sub-regions | UK and Ireland, western Norway, north-west France | The two sides of the NAO rainfall see-saw around the headline region |
+| Periods | Monthly 1950–2014; daily 1985–2014; paired experiments 1980–2023 | 64 winters for the NAO; a standard 30-year period for extremes; the full span of the experiments |
+| Sources | ICON-ESM-ER r1, IFS-FESOM2-SR r1, ERA5, E-OBS, IFS atmosphere-only runs | The only public EERIE runs with all fields needed (notebook 01) |
+| Pressure resolution | 1° instead of 0.25° | Ample for the NAO, 16 times smaller on disk |
+| Storage | Compressed netCDF, one file per source, variable, region and year | A failed download costs one year; reruns resume |
 """)
 
 nb.cells = cells

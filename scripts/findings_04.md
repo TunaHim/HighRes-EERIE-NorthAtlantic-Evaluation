@@ -22,6 +22,6 @@
 5. **ICON-ESM-ER lives in a permanently positive-NAO-like state.** Its average winter pressure differs from ERA5 by the equivalent of a +2.3 SD NAO winter. This puts a number on the dipole bias seen in notebook 03. IFS-FESOM2-SR is at +0.5 SD.
 6. **No model shows the weak upward trend or the slight winter-to-winter memory seen in ERA5.** Both ERA5 values are at the edge of significance (trend p = 0.05; memory 0.22 against a ±0.24 noise range), so their absence in a single model member is not evidence of a model fault.
 
-**Consequence for the next notebooks.** Because ICON-ESM-ER's own leading EOF is a mixture, the NAO-to-extremes analysis should use the index measured along the **common ERA5 pattern** for all three sources, with each model's own-pattern index as a sensitivity check. Both are saved. This is my recommendation; please confirm it in "What to check".
+**Consequence for the next notebooks.** Because ICON-ESM-ER's own leading EOF is a mixture, the NAO-to-extremes analysis should use the index measured along the **common ERA5 pattern** for all three sources, with each model's own-pattern index as a sensitivity check. Both are saved.
 
 **Bottom line.** IFS-FESOM2-SR reproduces the NAO pattern credibly but too weakly. ICON-ESM-ER has NAO-like variability that is weaker still, split across two patterns, and superimposed on a mean state that already resembles a strong positive NAO. These are exploratory results from one member each.

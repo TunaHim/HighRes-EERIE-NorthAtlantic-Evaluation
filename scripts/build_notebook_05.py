@@ -10,7 +10,7 @@ REFS = ["e-obs", "era5"] if HAVE_ERA5 else ["e-obs"]
 
 ERA5_NOTE = """
 > **Note on ERA5 daily data.** When this notebook was last run, the ERA5 *daily* files were not yet
-> fully downloaded (the internet connection was too slow), so E-OBS is the only reference here.
+> available, so E-OBS is the only reference here.
 > E-OBS is the more direct reference for extremes over land in any case. The notebook picks up
 > ERA5 automatically, as a second reference, once `data/era5/day/` holds all 30 years: just run it again.
 """
@@ -63,7 +63,7 @@ notebook relates extremes to the *winter* NAO.
 8. Year-to-year behaviour
 9. Saved outputs
 10. Limitations
-11. What to check
+11. Open questions
 """)
 
 md("""
@@ -458,15 +458,13 @@ md("""
 """)
 
 md("""
-## 11. What to check
+## 11. Open questions
 
-1. **Section 1 tables:** 30 yearly files and no gaps for every source and variable.
-2. **Figures 1–2:** is the pattern of RX1day credible, and is the model difference from the two
-   references acceptable for a prototype?
-3. **Figure 7:** the same question for TXx.
-4. **The UK and Ireland table:** these are the headline numbers. Do you want a different region or
-   an additional index?
-5. **Go for day 5:** the NAO-to-extremes notebook, the centrepiece.
+1. How much of ICON-ESM-ER's excess extreme rainfall comes from its circulation bias, and how much
+   from its precipitation physics? Its excess also appears where the circulation bias is small.
+2. Why are ICON-ESM-ER's hottest days about 2 °C too cool even against ERA5, while its average summer
+   temperature is close to ERA5's?
+3. Would conservative regridding of the references change the rainfall comparison noticeably?
 """)
 
 nb.cells = cells

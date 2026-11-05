@@ -40,7 +40,7 @@ the SST detail.
 
 **What has and has not been verified.** The descriptions above are from the public EERIE
 catalogue. The exact definition of the "LR20" filter, and what the third variant changes, are **not**
-documented there and I have not verified them. Results are therefore described as *sensitivity to
+documented there and have not been verified. Results are therefore described as *sensitivity to
 filtered SST forcing*. They are **not** a statement about a coupled effect of ocean eddies: an
 atmosphere-only run cannot show how the ocean would respond in turn.
 
@@ -61,7 +61,7 @@ Daily data were not downloaded for these runs, so this notebook is about the NAO
 5. Is the NAO stronger or weaker?
 6. Does the atmosphere follow the observed NAO winters?
 7. Limitations
-8. What to check
+8. Open questions
 """)
 
 md("""
@@ -314,14 +314,13 @@ md("""
 """)
 
 md("""
-## 8. What to check
+## 8. Open questions
 
-1. **Section 3:** is the mean-pressure change small compared with the NAO itself?
-2. **Figure 3 and its table:** are the three experiments indistinguishable in NAO strength, or
-   is one clearly offset?
-3. **Section 6:** is the interpretation of the ensemble mean as the SST-forced part clear?
-4. **Wording:** this notebook says "sensitivity to filtered SST forcing" throughout. Is that the
-   right level of caution?
+1. What exactly does the LR20 filter remove, and at what spatial scale?
+2. Would the atmosphere respond more to filtered SST at 9 km than at 28 km? The 9 km pair has only
+   one member each, too few to say.
+3. Does filtering SST affect daily extremes or the storm track even where the seasonal-mean NAO is
+   unchanged?
 """)
 
 nb.cells = cells

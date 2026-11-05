@@ -10,7 +10,7 @@ REFS = ["e-obs", "era5"] if HAVE_ERA5 else ["e-obs"]
 
 ERA5_NOTE = """
 > **Note on ERA5 daily data.** When this notebook was last run, the ERA5 *daily* files were not yet
-> fully downloaded (the internet connection was too slow), so E-OBS is the only reference here.
+> available, so E-OBS is the only reference here.
 > E-OBS is the more direct reference for extremes over land in any case. The notebook picks up
 > ERA5 automatically, as a second reference, once `data/era5/day/` holds all 30 years: just run it again.
 """
@@ -77,7 +77,7 @@ with two other index definitions to show how much the choice matters.
 9. Positive against negative NAO winters
 10. Saved outputs
 11. Limitations
-12. What to check
+12. Open questions
 """)
 
 md("""
@@ -487,16 +487,14 @@ md("""
 """)
 
 md("""
-## 12. What to check
+## 12. Open questions
 
-1. **Figure 1:** do both models show the textbook wet-north, dry-south response of ordinary winter
-   rain? This is the precondition for everything else.
-2. **Figures 2–7:** for each index, do the model panels resemble the reference panels in sign and
-   pattern?
-3. **UK and Ireland table (section 8):** is the level of evidence stated honestly, given 29 winters?
-4. **Sensitivity table:** does any conclusion depend on which NAO index is used?
-5. **Next step:** the optional paired experiment (notebook 07), or go straight to the summary
-   notebook, README and dashboard?
+1. Over UK and Ireland the two references disagree on the strength of the link (correlation 0.51 in
+   E-OBS, 0.35 in ERA5). Which is closer to the truth, and why?
+2. Is ICON-ESM-ER's wrong-sign response over north-west France a consequence of its displaced NAO
+   pattern (notebook 04)?
+3. With more members, would the models' links become significant over UK and Ireland?
+   Notebook 08 shows how widely the link varies between identical runs.
 """)
 
 nb.cells = cells

@@ -51,7 +51,7 @@ and how often high pressure sits over the UK for days on end (a simple blocking 
 7. Storminess
 8. Persistent high pressure over the UK (blocking proxy)
 9. Limitations
-10. What to check
+10. Open questions
 """)
 
 md("""
@@ -319,12 +319,12 @@ md("""
 """)
 
 md("""
-## 10. What to check
+## 10. Open questions
 
-1. **Figure 1:** do the model event patterns look like ERA5's?
-2. **Figure 2:** do the storms approach the UK in the same way?
-3. **Section 7:** is the model storm track in the right place, and of the right strength?
-4. **Section 8:** do the models have too little persistent high pressure over the UK?
+1. Is ICON-ESM-ER's weaker precursor two days before events a real difference in how its storms
+   develop? Upper-air data (the jet stream) would show this more directly.
+2. Does the too-active storm track over the UK explain the models' wet biases, or only part of them?
+3. How do the weather patterns behind summer heat extremes compare?
 """)
 
 nb.cells = cells

@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project Overview</title>
+<style>
+:root{--bg:#f9f9f7;--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#898781;--line:#e1e0d9;--axis:#c3c2b7;
+--blue:#2a78d6;--blue-soft:#cde2fb;--orange:#eb6834;--orange-soft:#fbe0d4;--aqua:#1baf7a;--aqua-soft:#d3f1e5;--violet:#4a3aa7;--violet-soft:#e2def7;--yellow:#eda100;--yellow-soft:#fcefc9;}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0d0d0d;--surface:#1a1a19;--ink:#ffffff;--ink2:#c3c2b7;--muted:#898781;--line:#2c2c2a;--axis:#383835;
+--blue:#3987e5;--blue-soft:#17324f;--orange:#d95926;--orange-soft:#3d2216;--aqua:#199e70;--aqua-soft:#12342a;--violet:#9085e9;--violet-soft:#2a2550;--yellow:#c98500;--yellow-soft:#3a2d0c;}}
+:root[data-theme="dark"]{--bg:#0d0d0d;--surface:#1a1a19;--ink:#ffffff;--ink2:#c3c2b7;--muted:#898781;--line:#2c2c2a;--axis:#383835;
+--blue:#3987e5;--blue-soft:#17324f;--orange:#d95926;--orange-soft:#3d2216;--aqua:#199e70;--aqua-soft:#12342a;--violet:#9085e9;--violet-soft:#2a2550;--yellow:#c98500;--yellow-soft:#3a2d0c;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:1100px;margin:0 auto;padding:28px 16px 64px}
+h1{font-size:26px;margin:0 0 6px}
+h2{font-size:19px;margin:42px 0 10px}
+p{max-width:800px}
+.lead{color:var(--ink2);margin:0 0 18px}
+.chain{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:18px 0 6px}
+.stage{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:10px;padding:12px 14px}
+.stage .n{font-size:12px;color:var(--c);font-weight:600;letter-spacing:.04em}
+.stage h3{margin:2px 0 6px;font-size:15px}
+.stage p{margin:0;font-size:13px;color:var(--ink2)}
+.step{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:18px;align-items:start;background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--c);border-radius:10px;padding:16px 18px;margin:14px 0}
+@media (max-width:780px){.step{grid-template-columns:1fr}}
+.step h3{margin:0 0 4px;font-size:17px}
+.step .q{color:var(--ink2);margin:0 0 10px;font-style:italic}
+.step img{width:100%;border-radius:6px;border:1px solid var(--line);background:#fff}
+.verdict{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:14px;margin:8px 0}
+.dot{width:11px;height:11px;border-radius:50%;margin-top:5px}
+.good{background:var(--aqua)} .mixed{background:var(--yellow)} .poor{background:var(--orange)} .info{background:var(--blue)}
+.nb{font-size:12px;color:var(--muted);margin-top:8px}
+table{border-collapse:collapse;width:100%;font-size:14px;background:var(--surface)}
+th,td{border-bottom:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+th{color:var(--ink2);font-weight:600}
+.wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--ink2);margin:6px 0 0}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.trust{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.trust .card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.trust h3{margin:0 0 6px;font-size:15px}
+.trust p{margin:0;font-size:14px;color:var(--ink2)}
+.big{font-size:22px;font-weight:600;color:var(--ink)}
+</style>
+</head>
+<body>
+<main>
+<h1>What was done and what was found</h1>
+<p class="lead">EERIE-UK-NAO-Extremes asks how well two high-resolution climate models, ICON-ESM-ER and
+IFS-FESOM2-SR, represent winter extremes over the UK and Ireland and their atmospheric drivers, and
+how far those conclusions can be trusted. The work follows one chain: each step is checked against
+observations before the next one builds on it.</p>
+
+<div class="chain">
+  <div class="stage" style="--c:var(--blue)"><div class="n">1 · DATA</div><h3>Find and prepare</h3><p>Public EERIE output, ERA5 and E-OBS, cut to three nested regions, checked and harmonised.</p></div>
+  <div class="stage" style="--c:var(--aqua)"><div class="n">2 · EVALUATION</div><h3>Is the climate right?</h3><p>Mean circulation, temperature and rain; then extremes: RX1day, TXx, R95p.</p></div>
+  <div class="stage" style="--c:var(--violet)"><div class="n">3 · DRIVERS</div><h3>Why do extremes happen?</h3><p>The NAO, its link to extremes, and the weather behind the heaviest rain days.</p></div>
+  <div class="stage" style="--c:var(--orange)"><div class="n">4 · TRUST</div><h3>How far to trust it?</h3><p>Resolution, internal variability between identical runs, and disagreement between references.</p></div>
+</div>
+<div class="legend"><span><i class="dot good"></i>close to observations</span><span><i class="dot mixed"></i>partly right</span><span><i class="dot poor"></i>clearly biased</span><span><i class="dot info"></i>fact or method</span></div>
+
+<h2>1 · Data</h2>
+<div class="step" style="--c:var(--blue)">
+  <div>
+    <h3>From 945 public datasets to one tested archive</h3>
+    <p class="q">Which simulations have what we need, and can they actually be read?</p>
+    <div class="verdict">
+      <i class="dot info"></i><span>945 datasets inventoried on the DKRZ server; 11 runs from two models have all the daily and monthly fields needed.</span>
+      <i class="dot info"></i><span>Three domains: North Atlantic (NAO), north-west Europe (extremes), UK and Ireland (headline), plus western Norway and north-west France.</span>
+      <i class="dot info"></i><span>Periods: 1950–2014 monthly (64 winters for the NAO), 1985–2014 daily (a standard 30-year period).</span>
+      <i class="dot info"></i><span>About 250–300 GB streamed, 4.2 GB kept; every source in the same units, time stamps and grid.</span>
+    </div>
+    <div class="nb">Notebooks 01, 02 · details in engineering_overview.html</div>
+  </div>
+  <img src="figures/domains.png" alt="The three analysis domains">
+</div>
+
+<h2>2 · Evaluation</h2>
+<div class="step" style="--c:var(--aqua)">
+  <div>
+    <h3>Mean winter climate</h3>
+    <p class="q">Before trusting extremes: is the basic winter climate credible?</p>
+    <div class="verdict">
+      <i class="dot good"></i><span><b>IFS-FESOM2-SR:</b> winter pressure close to ERA5 (typical difference 1.8 hPa, pattern correlation 0.99).</span>
+      <i class="dot poor"></i><span><b>ICON-ESM-ER:</b> pressure too low in the north, too high in the subtropics: westerlies too strong; winter rain +29%.</span>
+      <i class="dot mixed"></i><span>Both about 0.8 °C too cold in winter.</span>
+    </div>
+    <div class="nb">Notebook 03</div>
+  </div>
+  <img src="figures/psl_bias.png" alt="Winter pressure bias of both models">
+</div>
+<div class="step" style="--c:var(--aqua)">
+  <div>
+    <h3>Extremes</h3>
+    <p class="q">How heavy is the wettest day, how hot the hottest?</p>
+    <div class="verdict">
+      <i class="dot good"></i><span><b>IFS-FESOM2-SR:</b> wettest day of the year over UK and Ireland +8% against E-OBS, +17% against ERA5; hottest day within 1 °C of ERA5.</span>
+      <i class="dot poor"></i><span><b>ICON-ESM-ER:</b> wettest day +48% / +60%; hottest day about 2 °C too cool.</span>
+      <i class="dot info"></i><span>Most of IFS-FESOM2-SR's apparent hot-day deficit against stations is a grid-cell-versus-station effect, revealed by adding ERA5.</span>
+    </div>
+    <div class="nb">Notebook 05</div>
+  </div>
+  <img src="figures/rx1day_bias.png" alt="Wettest day of the year relative to E-OBS">
+</div>
+
+<h2>3 · Drivers</h2>
+<div class="step" style="--c:var(--violet)">
+  <div>
+    <h3>The North Atlantic Oscillation</h3>
+    <p class="q">Is the main driver of winter weather realistic?</p>
+    <div class="verdict">
+      <i class="dot mixed"></i><span><b>IFS-FESOM2-SR:</b> recognisable NAO (pattern correlation 0.87), strength 71% of ERA5's.</span>
+      <i class="dot poor"></i><span><b>ICON-ESM-ER:</b> leading pattern mixed across two modes, strength 59%; its average winter resembles a +2.3 SD positive NAO.</span>
+    </div>
+    <div class="nb">Notebook 04</div>
+  </div>
+  <img src="figures/nao_patterns.png" alt="NAO patterns in ERA5 and both models">
+</div>
+<div class="step" style="--c:var(--violet)">
+  <div>
+    <h3>From the NAO to extremes</h3>
+    <p class="q">Do positive-NAO winters bring heavier rain extremes, as in the real world?</p>
+    <div class="verdict">
+      <i class="dot good"></i><span><b>IFS-FESOM2-SR</b> reproduces the link in sign, pattern and strength (UK and Ireland correlation 0.60).</span>
+      <i class="dot mixed"></i><span><b>ICON-ESM-ER:</b> right sign in the north (0.36), weak in Norway, wrong sign over north-west France.</span>
+      <i class="dot info"></i><span>Observed: 0.51 in E-OBS, 0.35 in ERA5; strong in western Norway (0.81).</span>
+    </div>
+    <div class="nb">Notebook 06 · 29 winters, detrended, FDR-controlled significance</div>
+  </div>
+  <img src="figures/nao_r95p.png" alt="Correlation of winter very-wet-day rain with the NAO">
+</div>
+<div class="step" style="--c:var(--violet)">
+  <div>
+    <h3>The weather behind the heaviest rain</h3>
+    <p class="q">Do the models get heavy rain for the right reason?</p>
+    <div class="verdict">
+      <i class="dot good"></i><span>Both models: the same deep low north-west of the islands as ERA5 on the event day (pattern correlation 0.94–0.95).</span>
+      <i class="dot mixed"></i><span>Build-up two days earlier: IFS-FESOM2-SR 0.85, ICON-ESM-ER 0.72.</span>
+      <i class="dot mixed"></i><span>Storm track 13–17% too active over the UK; persistent highs slightly too rare.</span>
+    </div>
+    <div class="nb">Notebook 09 · 30 wettest winter days per dataset</div>
+  </div>
+  <img src="figures/event_composites.png" alt="Pressure anomaly on the wettest winter days">
+</div>
+
+<h2>4 · How far to trust it</h2>
+<div class="step" style="--c:var(--orange)">
+  <div>
+    <h3>Resolution</h3>
+    <p class="q">Same model, same ocean, 9 km instead of 28 km: are rain extremes better?</p>
+    <div class="verdict">
+      <i class="dot info"></i><span>9 km gives 5–12% heavier winter rain extremes, mostly beyond the spread between 28 km members.</span>
+      <i class="dot good"></i><span>Closer to observations over the mountains of western Norway.</span>
+      <i class="dot mixed"></i><span>Overshoots over the UK and Ireland; no overall gain at the 25 km scale compared.</span>
+    </div>
+    <div class="nb">Notebook 08 · 1 run at 9 km, 3 members at 28 km, winters 1986–2014</div>
+  </div>
+  <img src="figures/resolution.png" alt="9 km relative to 28 km">
+</div>
+<div class="step" style="--c:var(--orange)">
+  <div>
+    <h3>Internal variability</h3>
+    <p class="q">How much do identical runs differ by chance alone?</p>
+    <div class="verdict">
+      <i class="dot info"></i><span>NAO strength in ten identical runs: from 0.70 to 1.00 of ERA5's.</span>
+      <i class="dot info"></i><span>NAO link to UK and Ireland rain extremes in three identical runs: correlation from 0.04 to 0.33; 9 km (0.19) lies inside that range.</span>
+      <i class="dot info"></i><span>Filtering small-scale sea-surface temperature: −1% and +4% change in NAO strength, far inside the spread.</span>
+    </div>
+    <div class="nb">Notebooks 07, 08</div>
+  </div>
+  <img src="figures/member_spread.png" alt="NAO strength of every ensemble member">
+</div>
+
+<div class="trust">
+  <div class="card"><h3>What holds</h3><p>The chain from circulation bias to rain bias in ICON-ESM-ER; IFS-FESOM2-SR's credible circulation, extremes and NAO link; both models' realistic heavy-rain weather pattern.</p></div>
+  <div class="card"><h3>What is uncertain</h3><p>The strength of the NAO link over the UK (identical runs disagree, and so do the two references); the exact NAO strength of single members.</p></div>
+  <div class="card"><h3>What is not tested</h3><p>Model complexity; air quality; coupled sensitivity to ocean eddies; summer drivers; the future.</p></div>
+</div>
+
+<h2>In one table</h2>
+<div class="wrap">
+<table>
+<thead><tr><th>Question</th><th>ICON-ESM-ER</th><th>IFS-FESOM2-SR</th></tr></thead>
+<tbody>
+<tr><td>Mean winter circulation</td><td>too-strong north–south contrast</td><td>close to ERA5</td></tr>
+<tr><td>NAO pattern / strength</td><td>mixed / 59%</td><td>recognisable / 71%</td></tr>
+<tr><td>Wettest day, UK and Ireland</td><td>+48% to +60%</td><td>+8% to +17%</td></tr>
+<tr><td>Hottest day, against ERA5</td><td>−2.0 °C</td><td>−0.6 °C</td></tr>
+<tr><td>NAO link to winter rain extremes</td><td>right sign, weak, misplaced boundary</td><td>reproduced</td></tr>
+<tr><td>Weather behind the heaviest rain</td><td>right pattern, weaker build-up</td><td>right pattern and build-up</td></tr>
+<tr><td>Storm track over the UK</td><td>+17%</td><td>+13%</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>What comes next</h2>
+<p>More members, to separate model behaviour from chance; CMIP6 and CMIP7 through the same analysis
+code; and physical climate storylines that use the event composites to ask how a given type of
+heavy-rain winter would look under further warming.</p>
+<p class="nb">Exploratory results: two coupled models with one member each. Full methods in docs/methods.md; every number comes from the executed notebooks in this repository.</p>
+</main>
+</body>
+</html>

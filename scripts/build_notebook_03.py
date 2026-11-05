@@ -23,12 +23,12 @@ md("""
 the two EERIE models credible? Each model is compared with ERA5 for sea-level pressure,
 2 m temperature and precipitation.
 
-**What is used.** Monthly data only, 1950–2014, from the files downloaded on day 1:
+**What is used.** Monthly data only, 1950–2014, from the files described in notebook 02:
 ICON-ESM-ER (r1), IFS-FESOM2-SR (r1) and ERA5. Climate maps use **1985–2014**, the same 30 years
 as the daily data that the extremes will come from. Time series use the full 1950–2014.
 
 **How to read it.** Every code cell has a note above it. Every figure has a caption. Section 2
-has the findings in plain words; the last section lists what to check.
+has the findings in plain words; the last section lists open questions.
 
 **An important reminder.** A free-running climate model makes its own weather. Its winter of 1990
 is not *the* winter of 1990. So a model and ERA5 should agree in their **averages, year-to-year
@@ -45,7 +45,7 @@ spread and seasonal cycle**, not year by year.
 8. Year-to-year variability and time series
 9. Summary table
 10. Limitations
-11. What to check
+11. Open questions
 """)
 
 md("""
@@ -144,9 +144,9 @@ IFS-FESOM2-SR arrives as raw GRIB messages that the current ecCodes library cann
 `eerie_uk.grib` removes a bookkeeping section from each message before decoding (see the README).
 That fix deserves an independent check before any result depends on it.
 
-**Check A, done on day 1 outside this notebook.** The same raw message (daily mean sea-level
+**Check A, done outside this notebook.** The same raw message (daily mean sea-level
 pressure, 1 January 1950) was decoded twice: once with an older ecCodes (2.28) that reads the
-message unmodified, and once with the current ecCodes (2.49) after my fix. Both gave exactly the
+message unmodified, and once with the current ecCodes (2.49) after the fix. Both gave exactly the
 same field: 1,038,240 values, minimum 95060.4014 Pa, maximum 104629.0508 Pa.
 
 **Check B, below.** The model publishes daily *and* monthly files. If daily values are decoded
@@ -438,15 +438,13 @@ md("""
 """)
 
 md("""
-## 11. What to check
+## 11. Open questions
 
-1. **Section 3 tables:** 780 months, complete time axis and no missing values for all nine fields.
-2. **Figures 1–3:** do you agree both models place the Icelandic low and Azores high credibly
-   enough to go on to the NAO?
-3. **Figures 4 and 6:** are the temperature and precipitation biases acceptable for a prototype,
-   or is there one you want investigated before the extremes?
-4. **Findings (section 2):** is this the level of interpretation you want, or more cautious / more detailed?
-5. **Go for day 3:** the NAO notebook (EOF pattern, index, variability, ERA5 against both models).
+1. How much of ICON-ESM-ER's pressure dipole bias would remain in other members of the same model?
+2. Is the cold winter bias shared by both models a feature of the 2 m temperature diagnostic, of the
+   land surface, or of the circulation?
+3. How much of the wet bias over mountains is a limitation of ERA5 precipitation rather than of the
+   models? Notebook 05 adds the station-based E-OBS data to test this.
 """)
 
 nb.cells = cells
