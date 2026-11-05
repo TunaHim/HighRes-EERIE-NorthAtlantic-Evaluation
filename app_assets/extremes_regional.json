@@ -1,0 +1,38 @@
+{
+  "description": "Land-average RX1day, R95p, R95p share and TXx per source, region, year and winter (same land cells for every source)",
+  "created": "2026-11-05T16:43:46+00:00",
+  "git_commit": "6ed84207098a300e56524795f86f28b37eedec4c",
+  "code": "eerie_uk (this repository)",
+  "python": "3.11.17",
+  "xarray": "2026.9.0",
+  "pandas": "3.0.6",
+  "inputs": {
+    "e-obs": [
+      "e-obs",
+      "e-obs"
+    ],
+    "era5": [
+      "era5-dkrz.surface_forecast_daily",
+      "era5-dkrz.surface_forecast_daily"
+    ],
+    "icon-esm-er": [
+      "icon-esm-er.hist-1950.v20240618.atmos.gr025.2d_daily_mean",
+      "icon-esm-er.hist-1950.v20240618.atmos.gr025.2d_daily_max"
+    ],
+    "ifs-fesom2-sr": [
+      "ifs-fesom2-sr.hist-1950.v20240304.atmos.gr025.2D_daily_avg",
+      "ifs-fesom2-sr.hist-1950.v20240304.atmos.gr025.2D_daily_max"
+    ]
+  },
+  "rows": 2832,
+  "columns": [
+    "source",
+    "region",
+    "period",
+    "index",
+    "year",
+    "value"
+  ],
+  "period": "1985-2014 (winters 1986-2014)",
+  "method": "docs/methods.md section 4"
+}

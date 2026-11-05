@@ -1,0 +1,25 @@
+{
+  "description": "Map summaries of the NAO link per index and dataset: share of significant land cells (FDR), mean |r|, pattern correlation with references",
+  "created": "2026-11-05T16:44:57+00:00",
+  "git_commit": "6ed84207098a300e56524795f86f28b37eedec4c",
+  "code": "eerie_uk (this repository)",
+  "python": "3.11.17",
+  "xarray": "2026.9.0",
+  "pandas": "3.0.6",
+  "inputs": {
+    "nao_index": "app_assets/nao_index_winter.parquet",
+    "extremes": "app_assets/extremes_regional.parquet"
+  },
+  "rows": 12,
+  "columns": [
+    "index",
+    "dataset",
+    "land cells significant %",
+    "mean |r| over land",
+    "pattern correlation with E-OBS",
+    "pattern correlation with ERA5"
+  ],
+  "period": "winters 1986-2014",
+  "method": "docs/methods.md section 5",
+  "nao_index": "nao_on_era5_pattern"
+}

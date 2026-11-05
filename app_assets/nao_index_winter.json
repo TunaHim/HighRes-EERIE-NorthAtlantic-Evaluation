@@ -1,0 +1,30 @@
+{
+  "description": "Winter (DJF) NAO index per source: own leading EOF, projection on the ERA5 EOF (ERA5 SD units), station-style index",
+  "created": "2026-11-05T16:42:43+00:00",
+  "git_commit": "6ed84207098a300e56524795f86f28b37eedec4c",
+  "code": "eerie_uk (this repository)",
+  "python": "3.11.17",
+  "xarray": "2026.9.0",
+  "pandas": "3.0.6",
+  "inputs": {
+    "era5": [
+      "era5-dkrz.surface_analysis_monthly"
+    ],
+    "icon-esm-er": [
+      "icon-esm-er.hist-1950.v20240618.atmos.gr025.2d_monthly_mean"
+    ],
+    "ifs-fesom2-sr": [
+      "ifs-fesom2-sr.hist-1950.v20240304.atmos.gr025.2D_monthly_avg"
+    ]
+  },
+  "rows": 192,
+  "columns": [
+    "year",
+    "source",
+    "nao_own_pattern",
+    "nao_on_era5_pattern",
+    "nao_station_style"
+  ],
+  "period": "winters 1951-2014",
+  "method": "docs/methods.md section 3"
+}
