@@ -79,10 +79,16 @@ def main():
     overview = (DOCS / "project_overview.html").read_text(encoding="utf-8")
     (DOCS / "index.html").write_text(with_nav(link_notebook_mentions(overview), "index.html"), encoding="utf-8")
 
-    engineering = (DOCS / "engineering_overview.html").read_text(encoding="utf-8")
-    engineering = re.sub(r'<nav class="sitenav">.*?</nav>\n?', "", engineering, flags=re.S)
-    engineering = engineering.replace(NAV_STYLE + "\n", "")
-    (DOCS / "engineering_overview.html").write_text(with_nav(engineering, "engineering_overview.html"), encoding="utf-8")
+    for page, here, prefix in (
+        (DOCS / "engineering_overview.html", "engineering_overview.html", ""),
+        (DOCS / "explorer" / "index.html", "explorer/index.html", "../"),
+    ):
+        if not page.exists():
+            continue
+        html = page.read_text(encoding="utf-8")
+        html = re.sub(r'<nav class="sitenav">.*?</nav>\n?', "", html, flags=re.S)
+        html = html.replace(NAV_STYLE + "\n", "")
+        page.write_text(with_nav(html, here, prefix), encoding="utf-8")
 
     target = DOCS / "notebooks"
     target.mkdir(exist_ok=True)

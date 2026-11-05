@@ -75,6 +75,7 @@ All data are public. All analysis code, tests and executed notebooks are in this
 | 5 minutes | this page and the figures above |
 | 15 minutes | [`notebooks/00_summary.ipynb`](notebooks/00_summary.ipynb): the whole story in seven figures |
 | a visual overview | the [project website](https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/): what was done and found, and how the data gets from the data centre to the notebooks |
+| your own questions | the [interactive explorer](https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/explorer/): maps and yearly series of every extreme index, for each dataset and region, in the browser |
 | an hour | the core notebooks below |
 
 **Core story**

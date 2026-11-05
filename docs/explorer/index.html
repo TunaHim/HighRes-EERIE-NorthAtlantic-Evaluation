@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Extremes Explorer</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.34.0/plotly.min.js"></script>
+<style>
+:root{--bg:#f9f9f7;--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#898781;--line:#e1e0d9;--axis:#c3c2b7;--blue:#2a78d6;
+--eobs:#b5b3aa;--era5:#52514e;--icon:#2a78d6;--ifs:#eb6834;}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0d0d0d;--surface:#1a1a19;--ink:#ffffff;--ink2:#c3c2b7;--muted:#898781;--line:#2c2c2a;--axis:#383835;--blue:#3987e5;
+--eobs:#898781;--era5:#e1e0d9;--icon:#3987e5;--ifs:#d95926;}}
+:root[data-theme="dark"]{--bg:#0d0d0d;--surface:#1a1a19;--ink:#ffffff;--ink2:#c3c2b7;--muted:#898781;--line:#2c2c2a;--axis:#383835;--blue:#3987e5;
+--eobs:#898781;--era5:#e1e0d9;--icon:#3987e5;--ifs:#d95926;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:1180px;margin:0 auto;padding:22px 16px 60px}
+h1{font-size:24px;margin:0 0 4px}
+.lead{color:var(--ink2);margin:0 0 14px;max-width:820px}
+.controls{display:flex;flex-wrap:wrap;gap:10px 16px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;position:sticky;top:44px;z-index:5}
+.controls label{display:flex;flex-direction:column;font-size:12px;color:var(--ink2);gap:3px}
+select{font:14px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:5px 8px;border:1px solid var(--axis);border-radius:6px;background:var(--surface);color:var(--ink)}
+.grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:14px;margin-top:14px}
+@media (max-width:900px){.grid{grid-template-columns:1fr}.controls{position:static}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.panel h2{font-size:15px;margin:2px 0 2px}
+.panel .sub{font-size:13px;color:var(--ink2);margin:0 0 4px;min-height:20px}
+.plot{width:100%;height:430px}
+.plot.small{height:330px}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.sw{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:middle}
+.note{font-size:13px;color:var(--muted);margin-top:14px;max-width:900px}
+details{margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+summary{cursor:pointer;font-weight:600}
+#status{color:var(--muted);font-size:14px}
+</style>
+
+<style>
+.sitenav{position:sticky;top:0;z-index:10;background:var(--surface,#fcfcfb);border-bottom:1px solid var(--line,#e1e0d9)}
+.sitenav div{max-width:1100px;margin:0 auto;padding:10px 16px;display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;font:14px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.sitenav b{margin-right:8px;color:var(--ink,#0b0b0b)}
+.sitenav a{color:var(--ink2,#52514e);text-decoration:none}
+.sitenav a:hover,.sitenav a.here{color:var(--blue,#2a78d6)}
+</style>
+</head>
+<body>
+<nav class="sitenav"><div><b>HighRes-EERIE-NorthAtlantic-Evaluation</b><a href="../index.html">What was found</a><a href="../engineering_overview.html">How it is built</a><a href="../notebooks/index.html">Notebooks</a><a href="../explorer/index.html" class="here">Explorer</a><a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation">Code on GitHub</a></div></nav>
+<main>
+<h1>Extremes explorer</h1>
+<p class="lead">Explore the extreme indices behind the project: choose an index, a period, a dataset and what to show.
+The map covers north-west Europe; the charts on the right follow the selected region. All values are 1985–2014
+(winters 1986–2014). Models are single runs, so differences between them include chance.</p>
+
+<div class="controls">
+  <label>Index<select id="index">
+    <option value="rx1day">Wettest day (RX1day)</option>
+    <option value="r95p">Rain on very wet days (R95p)</option>
+    <option value="r95p_share">Share of rain on very wet days</option>
+    <option value="txx">Hottest day (TXx)</option>
+  </select></label>
+  <label>Period<select id="period"><option value="djf">Winter (Dec–Feb)</option><option value="ann">Whole year</option></select></label>
+  <label>Dataset<select id="source">
+    <option value="e-obs">E-OBS (stations)</option><option value="era5">ERA5 (reanalysis)</option>
+    <option value="icon-esm-er" selected>ICON-ESM-ER (model)</option><option value="ifs-fesom2-sr">IFS-FESOM2-SR (model)</option>
+  </select></label>
+  <label>Show on the map<select id="view">
+    <option value="mean">Average value</option>
+    <option value="diff-e-obs">Difference from E-OBS</option>
+    <option value="diff-era5">Difference from ERA5</option>
+    <option value="nao">Correlation with the winter NAO</option>
+  </select></label>
+  <label>Region<select id="region">
+    <option value="uk_ireland">UK and Ireland</option><option value="western_norway">Western Norway</option><option value="nw_france">North-west France</option>
+  </select></label>
+  <span id="status">loading data…</span>
+</div>
+
+<div class="grid">
+  <div class="panel"><h2 id="mapTitle">Map</h2><p class="sub" id="mapSub"></p><div id="map" class="plot"></div></div>
+  <div class="panel"><h2 id="seriesTitle">Year by year</h2><p class="sub" id="seriesSub"></p><div id="series" class="plot"></div></div>
+</div>
+<div class="grid">
+  <div class="panel"><h2>Regional averages (land)</h2><p class="sub" id="tableSub"></p><div id="table"></div></div>
+  <div class="panel"><h2 id="scatterTitle">Link with the winter NAO</h2><p class="sub" id="scatterSub"></p><div id="scatter" class="plot small"></div></div>
+</div>
+
+<details><summary>What the indices and options mean</summary>
+<p><b>Wettest day (RX1day):</b> the largest one-day rainfall in the year or winter. <b>Rain on very wet days (R95p):</b>
+total rain on days wetter than the local 95th percentile of wet days (wet day: at least 1 mm). <b>Share of rain on very
+wet days:</b> R95p as a percentage of all wet-day rain. <b>Hottest day (TXx):</b> the highest daily maximum temperature.</p>
+<p><b>Difference from a reference:</b> percent for the rainfall indices, °C for TXx. Orange means the dataset is wetter
+or warmer than the reference, blue drier or cooler. <b>Correlation with the winter NAO:</b> how consistently the winter
+index rises in positive-NAO winters (detrended, 29 winters); models use their own NAO, E-OBS and ERA5 the ERA5 NAO.
+Values beyond about ±0.38 are individually significant at the 5% level.</p>
+<p><b>Regional averages</b> use the same land cells for every dataset (land where E-OBS has data).</p>
+</details>
+<p class="note">Maps are averaged to 0.5° for this page; the notebooks use the full 0.25° grid. Data and methods:
+see the notebooks and docs/methods.md in the repository. The provenance of the data behind this page (code version,
+inputs, date) is stored in data.json.</p>
+</main>
+
+<script>
+const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+const NAMES = {'e-obs': 'E-OBS', 'era5': 'ERA5', 'icon-esm-er': 'ICON-ESM-ER', 'ifs-fesom2-sr': 'IFS-FESOM2-SR'};
+const COLOUR = {'e-obs': '--eobs', 'era5': '--era5', 'icon-esm-er': '--icon', 'ifs-fesom2-sr': '--ifs'};
+const INDEX = {
+  rx1day: {label: 'Wettest day', unit: 'mm', rain: true},
+  r95p: {label: 'Rain on very wet days', unit: 'mm', rain: true},
+  r95p_share: {label: 'Share of rain on very wet days', unit: '%', rain: true},
+  txx: {label: 'Hottest day', unit: '°C', rain: false},
+};
+const REGION = {uk_ireland: 'UK and Ireland', western_norway: 'Western Norway', nw_france: 'North-west France'};
+const SOURCES = ['e-obs', 'era5', 'icon-esm-er', 'ifs-fesom2-sr'];
+let D = null;
+const $ = id => document.getElementById(id);
+const state = () => ({index: $('index').value, period: $('period').value, source: $('source').value, view: $('view').value, region: $('region').value});
+
+function layout(extra) {
+  return Object.assign({
+    paper_bgcolor: css('--surface'), plot_bgcolor: css('--surface'),
+    font: {family: 'system-ui, -apple-system, Segoe UI, Roboto, sans-serif', size: 12, color: css('--ink2')},
+    margin: {l: 50, r: 16, t: 10, b: 40},
+  }, extra);
+}
+const config = {displaylogo: false, responsive: true, modeBarButtonsToRemove: ['lasso2d', 'select2d']};
+
+function sequential() { return [[0, '#cde2fb'], [0.25, '#86b6ef'], [0.5, '#3987e5'], [0.75, '#1c5cab'], [1, '#0d366b']]; }
+function diverging() { return [[0, '#104281'], [0.17, '#3987e5'], [0.33, '#9ec5f4'], [0.5, '#f0efec'], [0.67, '#f4b59b'], [0.83, '#eb6834'], [1, '#9c3a12']]; }
+
+function mapField(s) {
+  const key = `${s.source}|${s.index}|${s.period}`;
+  if (s.view === 'mean') return {z: D.maps[key], diverging: false, unit: INDEX[s.index].unit, what: 'average'};
+  if (s.view === 'nao') return {z: D.nao_correlation[`${s.source}|${s.index}`], diverging: true, unit: 'correlation', what: 'nao', limit: 1};
+  const ref = s.view.slice(5);
+  const a = D.maps[key], b = D.maps[`${ref}|${s.index}|${s.period}`];
+  const percent = INDEX[s.index].rain && s.index !== 'r95p_share';
+  const z = a.map((row, i) => row.map((v, j) => {
+    const r = b[i][j];
+    if (v === null || r === null) return null;
+    return percent ? (r > 0 ? 100 * (v - r) / r : null) : v - r;
+  }));
+  return {z, diverging: true, unit: percent ? '% difference' : (s.index === 'txx' ? '°C difference' : 'percentage points'), what: 'diff', ref};
+}
+
+function robustLimit(z) {
+  const v = z.flat().filter(x => x !== null).map(Math.abs).sort((p, q) => p - q);
+  return v.length ? v[Math.floor(0.98 * (v.length - 1))] : 1;
+}
+
+function drawMap(s) {
+  const f = mapField(s);
+  const box = D.regions[s.region];
+  const heat = {type: 'heatmap', x: D.lon, y: D.lat, z: f.z, zsmooth: false, hoverongaps: false,
+    colorscale: f.diverging ? diverging() : sequential(),
+    colorbar: {title: {text: f.unit, side: 'right'}, thickness: 12, outlinewidth: 0},
+    hovertemplate: '%{y:.1f}°N %{x:.1f}°E<br>%{z:.2f} ' + f.unit + '<extra></extra>'};
+  if (f.diverging) { const L = f.limit || robustLimit(f.z); heat.zmin = -L; heat.zmax = L; }
+  const coast = {type: 'scatter', mode: 'lines', x: D.coastline.lon, y: D.coastline.lat, line: {color: css('--ink'), width: 0.8}, hoverinfo: 'skip', showlegend: false};
+  const rect = {type: 'scatter', mode: 'lines', x: [box[0], box[1], box[1], box[0], box[0]], y: [box[2], box[2], box[3], box[3], box[2]],
+    line: {color: css('--ink'), width: 2, dash: 'dot'}, hoverinfo: 'skip', showlegend: false};
+  Plotly.react('map', [heat, coast, rect], layout({
+    xaxis: {range: [-20, 13], title: 'longitude (°E)', gridcolor: css('--line'), zeroline: false},
+    yaxis: {range: [40, 65], title: 'latitude (°N)', gridcolor: css('--line'), zeroline: false},
+  }), config);
+  const period = s.period === 'djf' ? 'winter' : 'year';
+  $('mapTitle').textContent = `${INDEX[s.index].label} (${period}) — ${NAMES[s.source]}`;
+  $('mapSub').textContent = f.what === 'average' ? `Average 1985–2014, ${f.unit}. Dotted box: selected region.`
+    : f.what === 'nao' ? 'Correlation of the winter index with the winter NAO, 1986–2014 (detrended). Orange: higher in positive-NAO winters.'
+    : `Difference from ${NAMES[f.ref]} (${f.unit}). Orange: wetter or warmer than ${NAMES[f.ref]}.`;
+}
+
+function regional(source, s) {
+  const period = s.period === 'djf' ? 'winter' : 'annual';
+  return D.regional[`${source}|${s.region}|${period}|${s.index}`];
+}
+
+function drawSeries(s) {
+  const traces = SOURCES.map(src => {
+    const r = regional(src, s);
+    return {type: 'scatter', mode: 'lines', name: NAMES[src], x: r.year, y: r.value,
+      line: {color: css(COLOUR[src]), width: src === s.source ? 3 : 1.6},
+      hovertemplate: NAMES[src] + ' %{x}: %{y:.1f} ' + INDEX[s.index].unit + '<extra></extra>'};
+  });
+  Plotly.react('series', traces, layout({
+    xaxis: {gridcolor: css('--line'), zeroline: false, title: s.period === 'djf' ? 'winter (year of January)' : 'year'},
+    yaxis: {gridcolor: css('--line'), zeroline: false, title: INDEX[s.index].unit},
+    legend: {orientation: 'h', y: -0.22}, margin: {l: 50, r: 16, t: 10, b: 80},
+  }), config);
+  $('seriesTitle').textContent = `${INDEX[s.index].label} in ${REGION[s.region]}, year by year`;
+  $('seriesSub').textContent = 'Land average. E-OBS and ERA5 follow the real years; the models have their own weather, so their lines are not expected to rise and fall with them.';
+}
+
+function mean(a) { return a.reduce((p, q) => p + q, 0) / a.length; }
+function sd(a) { const m = mean(a); return Math.sqrt(a.reduce((p, q) => p + (q - m) ** 2, 0) / (a.length - 1)); }
+
+function drawTable(s) {
+  const unit = INDEX[s.index].unit, percent = INDEX[s.index].rain && s.index !== 'r95p_share';
+  const m = Object.fromEntries(SOURCES.map(src => [src, mean(regional(src, s).value)]));
+  const d = (src, ref) => percent ? `${(100 * (m[src] - m[ref]) / m[ref]).toFixed(0)}%` : `${(m[src] - m[ref]).toFixed(1)}`;
+  let html = `<table><thead><tr><th>Dataset</th><th class="num">Average (${unit})</th><th class="num">Year-to-year SD</th><th class="num">vs E-OBS</th><th class="num">vs ERA5</th></tr></thead><tbody>`;
+  for (const src of SOURCES) {
+    const v = regional(src, s).value;
+    html += `<tr><td><span class="sw" style="background:${css(COLOUR[src])}"></span>${NAMES[src]}</td><td class="num">${m[src].toFixed(1)}</td><td class="num">${sd(v).toFixed(1)}</td>` +
+      `<td class="num">${src === 'e-obs' ? '–' : d(src, 'e-obs')}</td><td class="num">${src === 'era5' ? '–' : d(src, 'era5')}</td></tr>`;
+  }
+  $('table').innerHTML = html + '</tbody></table>';
+  $('tableSub').textContent = `${INDEX[s.index].label}, ${REGION[s.region]}, ${s.period === 'djf' ? 'winters 1986–2014' : '1985–2014'}. Differences in ${percent ? 'percent' : unit}.`;
+}
+
+function pearson(x, y) {
+  const mx = mean(x), my = mean(y);
+  let a = 0, b = 0, c = 0;
+  for (let i = 0; i < x.length; i++) { a += (x[i] - mx) * (y[i] - my); b += (x[i] - mx) ** 2; c += (y[i] - my) ** 2; }
+  return a / Math.sqrt(b * c);
+}
+
+function drawScatter(s) {
+  const src = s.source, r = regional(src, {...s, period: 'djf'}), nao = D.nao[D.nao_of[src]];
+  const byYear = Object.fromEntries(nao.year.map((y, i) => [y, nao.value[i]]));
+  const x = [], y = [];
+  r.year.forEach((yr, i) => { if (byYear[yr] !== undefined) { x.push(byYear[yr]); y.push(r.value[i]); } });
+  const rho = pearson(x, y);
+  Plotly.react('scatter', [{type: 'scatter', mode: 'markers', x, y, text: r.year,
+    marker: {size: 9, color: css(COLOUR[src]), line: {color: css('--surface'), width: 1}},
+    hovertemplate: 'winter %{text}: NAO %{x:.2f}, %{y:.1f} ' + INDEX[s.index].unit + '<extra></extra>'}],
+    layout({xaxis: {title: 'winter NAO (ERA5 standard deviations)', gridcolor: css('--line'), zeroline: true, zerolinecolor: css('--axis')},
+            yaxis: {title: `winter ${INDEX[s.index].label.toLowerCase()} (${INDEX[s.index].unit})`, gridcolor: css('--line'), zeroline: false}}), config);
+  $('scatterTitle').textContent = `Winter NAO and ${INDEX[s.index].label.toLowerCase()}: ${NAMES[src]}, ${REGION[s.region]}`;
+  $('scatterSub').textContent = `One dot per winter, 1986–2014. Correlation ${rho.toFixed(2)} (not detrended).` + (src === 'e-obs' ? ' E-OBS uses the ERA5 NAO.' : '');
+}
+
+function update() {
+  if (!D) return;
+  const s = state();
+  drawMap(s); drawSeries(s); drawTable(s); drawScatter(s);
+  try { localStorage.setItem('explorer', JSON.stringify(s)); } catch (e) {}
+}
+
+fetch('data.json').then(r => r.json()).then(data => {
+  D = data;
+  try { const saved = JSON.parse(localStorage.getItem('explorer') || '{}'); for (const k in saved) if ($(k)) $(k).value = saved[k]; } catch (e) {}
+  $('status').textContent = '';
+  ['index', 'period', 'source', 'view', 'region'].forEach(id => $(id).addEventListener('change', update));
+  update();
+}).catch(err => { $('status').textContent = 'Could not load data.json: ' + err; });
+</script>
+</body>
+</html>
