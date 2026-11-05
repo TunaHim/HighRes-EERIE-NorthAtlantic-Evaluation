@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Notebooks</title>
+<style>
+:root{--bg:#f9f9f7;--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--line:#e1e0d9;--blue:#2a78d6}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0d0d0d;--surface:#1a1a19;--ink:#fff;--ink2:#c3c2b7;--line:#2c2c2a;--blue:#3987e5}}
+:root[data-theme="dark"]{--bg:#0d0d0d;--surface:#1a1a19;--ink:#fff;--ink2:#c3c2b7;--line:#2c2c2a;--blue:#3987e5}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:1100px;margin:0 auto;padding:28px 16px 64px}
+table{border-collapse:collapse;width:100%;background:var(--surface)} td,th{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left}
+a{color:var(--blue)}
+</style>
+<style>
+.sitenav{position:sticky;top:0;z-index:10;background:var(--surface,#fcfcfb);border-bottom:1px solid var(--line,#e1e0d9)}
+.sitenav div{max-width:1100px;margin:0 auto;padding:10px 16px;display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;font:14px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.sitenav b{margin-right:8px;color:var(--ink,#0b0b0b)}
+.sitenav a{color:var(--ink2,#52514e);text-decoration:none}
+.sitenav a:hover,.sitenav a.here{color:var(--blue,#2a78d6)}
+</style>
+</head><body>
+<nav class="sitenav"><div><b>HighRes-EERIE-NorthAtlantic-Evaluation</b><a href="../index.html">What was found</a><a href="../engineering_overview.html">How it is built</a><a href="../notebooks/index.html" class="here">Notebooks</a><a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation">Code on GitHub</a></div></nav>
+<main><h1>Notebooks</h1>
+<p>Every analysis step as an executed notebook. Each opens with a plain-language explanation of its terms,
+has a note above every code cell and a caption under every figure, and ends with findings, limitations
+and open questions. Start with 00.</p>
+<table><thead><tr><th>Notebook</th><th>Question</th><th>Source</th></tr></thead><tbody>
+<tr><td><a href="00_summary.html">00_summary</a></td><td>Summary: the whole story in seven figures</td><td><a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation/blob/main/notebooks/00_summary.ipynb">.ipynb</a></td></tr>
+<tr><td><a href="01_data_inventory.html">01_data_inventory</a></td><td>Which public EERIE data exist and can be read</td><td><a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation/blob/main/notebooks/01_data_inventory.ipynb">.ipynb</a></td></tr>
+<tr><td><a href="02_download_plan.html">02_download_plan</a></td><td>Data plan: domains, datasets, periods and cost</td><td><a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation/blob/main/notebooks/02_download_plan.ipynb">.ipynb</a></td></tr>
+<tr><td><a href="03_validation_baseline.html">03_validation_baseline</a></td><td>Is the mean winter climate credible?</td><td><a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation/blob/main/notebooks/03_validation_baseline.ipynb">.ipynb</a></td></tr>
+<tr><td><a href="04_nao.html">04_nao</a></td><td>Is the NAO realistic in pattern and strength?</td><td><a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation/blob/main/notebooks/04_nao.ipynb">.ipynb</a></td></tr>
+<tr><td><a href="05_extremes.html">05_extremes</a></td><td>Extremes: RX1day, TXx and R95p</td><td><a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation/blob/main/notebooks/05_extremes.ipynb">.ipynb</a></td></tr>
+<tr><td><a href="06_nao_extremes.html">06_nao_extremes</a></td><td>Do the models link the NAO to extremes as the real world does?</td><td><a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation/blob/main/notebooks/06_nao_extremes.ipynb">.ipynb</a></td></tr>
+<tr><td><a href="07_paired_experiment.html">07_paired_experiment</a></td><td>Is the NAO sensitive to small-scale sea-surface temperature?</td><td><a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation/blob/main/notebooks/07_paired_experiment.ipynb">.ipynb</a></td></tr>
+<tr><td><a href="08_resolution.html">08_resolution</a></td><td>Does 9 km resolution improve winter rain extremes over 28 km?</td><td><a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation/blob/main/notebooks/08_resolution.ipynb">.ipynb</a></td></tr>
+<tr><td><a href="09_event_anatomy.html">09_event_anatomy</a></td><td>What weather brings the heaviest winter rain?</td><td><a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation/blob/main/notebooks/09_event_anatomy.ipynb">.ipynb</a></td></tr>
+</tbody></table></main></body></html>

@@ -10,6 +10,9 @@ winter circulation, the North Atlantic Oscillation (NAO), precipitation and temp
 the link between the NAO and extremes, the weather behind the heaviest rain days, and how much the
 conclusions depend on model resolution and on chance.
 
+**Project website:** https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/
+(the findings in pictures, how the pipeline is built, and every notebook as a web page).
+
 All data are public. All analysis code, tests and executed notebooks are in this repository.
 
 > **Read this first.** Each coupled model is represented by a **single run** (member r1). Single
@@ -71,7 +74,7 @@ All data are public. All analysis code, tests and executed notebooks are in this
 |---|---|
 | 5 minutes | this page and the figures above |
 | 15 minutes | [`notebooks/00_summary.ipynb`](notebooks/00_summary.ipynb): the whole story in seven figures |
-| a visual overview | [`docs/project_overview.html`](docs/project_overview.html) (what was done and found) and [`docs/engineering_overview.html`](docs/engineering_overview.html) (how the data gets from the data centre to the notebooks); download and open in a browser |
+| a visual overview | the [project website](https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/): what was done and found, and how the data gets from the data centre to the notebooks |
 | an hour | the core notebooks below |
 
 **Core story**
@@ -233,6 +236,10 @@ data/              downloaded cut-outs (not in the repository)
   project.
 
 ---
+
+## Licence
+
+Code: MIT (see [`LICENSE`](LICENSE)). Data remain under their providers' terms (above).
 
 ## Author
 
