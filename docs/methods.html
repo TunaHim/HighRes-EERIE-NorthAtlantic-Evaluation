@@ -96,8 +96,9 @@ then they test SST forcing, not a coupled feedback.</li>
 <ol>
 <li>Monthly sea-level pressure minus the 1950–2014 mean of each calendar month
 gives anomalies.</li>
-<li>Select December–February and average per winter (65 winters). The monthly
-winter series is kept as well.</li>
+<li>Select December–February and average per complete winter. For the 1950–2014
+monthly data this gives 64 winters (1951–2014); the incomplete winter of
+January–February 1950 is dropped. The monthly winter series is kept as well.</li>
 <li>Domain 20–80°N, 90°W–40°E. Multiply by √cos(latitude) before the EOF.</li>
 <li>Leading EOF per dataset; report explained variance and pattern correlation
 with the ERA5 leading EOF.</li>
@@ -107,7 +108,11 @@ principal component if needed.</li>
 <li>Index: leading principal component divided by its 1950–2014 standard
 deviation.</li>
 <li>Also project each model's anomalies onto the ERA5 leading EOF, to compare on
-a common basis.</li>
+a common basis. <em>NAO strength</em> is the standard deviation of this projected
+series divided by the standard deviation of ERA5's own projected series: the
+same reference pattern and the same amplitude scale for every dataset. It is
+not the variance explained, and not each dataset's own standardised index
+(which has a standard deviation of 1 by construction).</li>
 <li>Cross-check against a station-style index, Azores minus Iceland pressure;
 report the correlation with the EOF index.</li>
 <li>Diagnostics: year-to-year standard deviation, lag-1 winter autocorrelation,
@@ -135,8 +140,8 @@ linear trend with confidence interval. Spectrum optional.</li>
   <td>year (usually summer) and DJF</td>
 </tr>
 <tr>
-  <td>R95p (ETCCDI R95pTOT)</td>
-  <td>A wet day has at least 1 mm. The threshold is the 95th percentile of wet-day precipitation at the cell over 1985–2014. R95p is the total precipitation on days above the threshold (the whole daily total, not the excess). Also reported as a percentage of total wet-day precipitation.</td>
+  <td>R95p (after ETCCDI R95pTOT)</td>
+  <td>A wet day has at least 1 mm. R95p is the total precipitation on days above a threshold (the whole daily total, not the excess). For the annual index the threshold is the 95th percentile of all wet days at the cell over 1985–2014, as in ETCCDI. For the winter index a separate, winter-specific threshold is used: the 95th percentile of DJF wet days only. This seasonal version is an adaptation, not the standard ETCCDI index. Thresholds are computed separately for each dataset, so each is judged against its own very-wet-day level. Also reported as a percentage of total wet-day precipitation.</td>
   <td>year and DJF</td>
 </tr>
 </tbody>
@@ -152,7 +157,7 @@ supporting.</p>
 <li>The winter NAO is related only to winter indices: DJF RX1day, DJF R95p,
 DJF TXx. Annual TXx stays in <a href="notebooks/05_extremes.html">notebook 05</a>.</li>
 <li>Primary method: grid-point correlation, and regression per one standard
-deviation of NAO, over 1985–2014 (30 winters), with both series linearly
+deviation of NAO, over 1986–2014 (29 complete winters), with both series linearly
 detrended.</li>
 <li>Significance: two-sided t-test at 5%, with false-discovery-rate control across
 grid points (Wilks 2016).</li>
@@ -231,7 +236,7 @@ temperature extremes. <em>J. Climate</em>, 18, 1641–1651.</li>
 </main><!-- site:foot --><footer class="sitefoot"><div class="in">
 <div><b>HighRes-EERIE-NorthAtlantic-Evaluation</b><p>An exploratory evaluation by Himansu Kesari Pradhan, 2026. Code under the
 <a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation/blob/main/LICENSE">MIT licence</a>; source, tests and notebooks on
-<a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation">GitHub</a>. Page built 5 November 2026.</p></div>
+<a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation">GitHub</a>. Page built 6 November 2026.</p></div>
 <div><b>Data credits</b><p>EERIE model output: EERIE consortium (MPI-M, ECMWF, AWI and partners), served by DKRZ.
 ERA5: Hersbach et al. (2020), Copernicus Climate Change Service. E-OBS: Cornes et al. (2018); we acknowledge the
 E-OBS dataset and the data providers in the ECA&amp;D project.</p></div>

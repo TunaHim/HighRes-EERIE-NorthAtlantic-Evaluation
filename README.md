@@ -25,10 +25,13 @@ difference expressed as an NAO state. **B** The model's NAO pattern (colours) ag
 lines), and its strength relative to ERA5. **C** Correlation of winter very-wet-day rain (R95p) with
 the NAO; dots: significant after false-discovery-rate control. **D** Winter R95p relative to E-OBS.
 ICON-ESM-ER (top) has a strongly biased circulation, a weak NAO, a misplaced rain response and
-62% too much very-wet-day rain over the UK and Ireland. IFS-FESOM2-SR (bottom) is close to the
-references at every step. Winters 1986–2014 (B: 1951–2014); one run per model.*
+62% more winter R95p than E-OBS over the UK and Ireland (regional land average, 1986–2014).
+IFS-FESOM2-SR (bottom) generally represents the circulation and the rain extremes more
+realistically, although its NAO is too weak (71% of ERA5's strength) and its southern pressure
+centre is weaker and displaced. Winters 1986–2014 (B: 1951–2014); one run per model.*
 
-> **Read this first.** Each coupled model is represented by a **single run** (member r1), and the
+> **Read this first.** This is a **research prototype**. Each coupled model is represented by a
+> **single run** (member r1), and the
 > link to extremes rests on 29 winters. Single runs carry their own chance weather, so the results
 > are indications, not a ranking of the models. The main contribution of the project is the
 > **evaluation method and diagnostic pipeline**: a reproducible chain of tests that can be rerun on
@@ -57,7 +60,9 @@ variability to be checked together.
    wet bias that reaches places where such a circulation should make it *drier*: the model rains
    both too often (+34% to +43% wet days) and too hard (+21% to +28% rain per wet day).
    IFS-FESOM2-SR's circulation is close to ERA5 and its rain extremes are within 10–20% of the
-   references.
+   references. The remaining bias suggests that circulation alone does not explain ICON-ESM-ER's
+   rainfall, which points to its precipitation frequency, intensity and regional processes. All
+   shares come from a linear consistency diagnostic, not a demonstrated cause.
 2. **The NAO link to winter rain extremes is reproduced by IFS-FESOM2-SR** in sign, pattern and
    strength, and it is consistent with both references in all three regions. ICON-ESM-ER has the
    right sign over the UK and Ireland, but a link that is too weak in western Norway and of the
@@ -72,18 +77,24 @@ variability to be checked together.
 
 **Further findings**
 
-4. **Both models have a weaker NAO than the real world** (59% and 71% of ERA5's strength). Ten
+4. **Both models have a weaker NAO than the real world** (59% and 71% of ERA5's strength).
+   *Strength* is the standard deviation of each dataset's winter pressure anomalies projected onto
+   the ERA5 leading EOF, divided by the same quantity for ERA5: one common pattern and scale for
+   all, not each model's own EOF or its variance explained. Ten
    identical atmosphere-only runs vary between 70% and 100%, so part of this is chance; ICON-ESM-ER
    lies below that whole range. Its leading pattern mixes the NAO with a second mode of similar
    strength, so every model is measured along the common ERA5 pattern.
 5. **Both models bring their heaviest UK winter rain through the right weather:** a deep low just
    north-west of the islands (pattern correlation 0.94–0.95 with ERA5). ICON-ESM-ER's storms show
-   less build-up in the days before. Both models' storm tracks are 13–17% too active over the UK.
+   less build-up in the days before. Both models show 13–17% higher winter variability of the
+   day-to-day pressure change over the UK than ERA5, indicating enhanced synoptic storminess (a
+   proxy; individual cyclones are not tracked).
 6. **The references themselves carry uncertainty.** E-OBS and ERA5 agree on patterns but not
    always on numbers: the NAO link over the UK and Ireland has a correlation of 0.51 in E-OBS and
    0.35 in ERA5, a difference that is within sampling noise for 29 winters.
-7. **No detectable sensitivity of the NAO to small-scale sea-surface temperature** in two
+7. **No detectable change in NAO strength under the tested small-scale SST filtering** in two
    ten-member atmosphere-only ensembles (changes of −1% and +4%, well within the member spread).
+   This tests atmospheric sensitivity to SST forcing only, not coupled ocean-eddy feedbacks.
 
 ---
 
@@ -99,6 +110,39 @@ variability to be checked together.
 | **Correlation of winter very-wet-day rain with the NAO, with bootstrap 95% intervals** (notebook 06). | **9 km relative to 28 km, same model and ocean** (notebook 08). Dots: outside the 28 km member range. |
 | ![Event composites](docs/figures/event_composites.png) | ![Member spread](docs/figures/member_spread.png) |
 | **Pressure anomaly on the 30 wettest winter days over the UK and Ireland** (notebook 09). | **NAO strength of every member of three ten-member ensembles** (notebook 07): the spread is chance. |
+
+---
+
+## Status: a research prototype, and where it could go
+
+This repository is a **research prototype**: a complete, tested chain from public data to
+conclusions, run on what one laptop and the public EERIE archive allow (two coupled models, one
+member each, 29 winters of daily data). It is built so that the same chain can be scaled up, not
+as a final evaluation of the EERIE models.
+
+**Scientific scope**
+
+| Step | What it would add |
+|---|---|
+| More members of the same models | separates model behaviour from chance; turns "indications" into ranges with uncertainty |
+| More models: other EERIE configurations, HighResMIP, CMIP6, CMIP7 | places the two EERIE models in a multi-model spread, and tests whether resolution matters across models |
+| Longer daily records (1950 onwards) | more winters for the NAO-to-extremes link, which is the most sample-limited result |
+| Rain-producing processes | wet-day frequency and intensity by weather type, convective against large-scale rain, to explain the wet bias the circulation does not |
+| Summer and other drivers | heat extremes, persistent highs and the East Atlantic pattern next to the NAO |
+| Physical climate storylines | using the heavy-rain event composites to ask how such a winter would look under further warming |
+
+**Technical scope**
+
+| Step | What it would need |
+|---|---|
+| Run next to the data (DKRZ Levante, JASMIN) instead of streaming to a laptop | the same analysis code with a different catalogue backend; `src/eerie_uk/jasmin.py` already reads the public JASMIN catalogue of the Met Office HadGEM3-GC5 EERIE runs, a third model |
+| Parallel processing of many members and models | Dask distributed on the cluster, one task per dataset and year |
+| CMIP6 and CMIP7 input | a reader that maps their variable names onto the CMIP-style names already used here |
+| More robust statistics | moving-block bootstrap, conservative regridding of precipitation, cyclone tracking instead of the storminess proxy |
+| Automated reruns | the existing GitHub Actions tests plus scheduled notebook execution on a cluster when new data appear |
+
+The engineering page shows how each part of the pipeline would change:
+[How it is built](https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/engineering_overview.html).
 
 ---
 

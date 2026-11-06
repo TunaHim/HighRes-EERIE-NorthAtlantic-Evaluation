@@ -241,8 +241,8 @@ md("""
 
 step("""
 **What this cell does.** Maps the standard deviation of the day-to-day change of pressure in
-winter: where it is large, storms pass often and fast. This is a simple measure of the North
-Atlantic storm track.
+winter: where it is large, storms pass often and fast. This is a simple *proxy* for synoptic
+storminess along the North Atlantic storm track; individual cyclones are not tracked.
 """, """
 storminess = {d: ev.day_to_day_change(psl[d]) for d in CIRCULATION}
 plotting.plot_field_panels({NAME[d]: storminess[d] for d in CIRCULATION}, units='hPa per day',
@@ -250,12 +250,12 @@ plotting.plot_field_panels({NAME[d]: storminess[d] for d in CIRCULATION}, units=
 """)
 
 md("""
-**Figure 3.** The storm track: the band of high values where Atlantic storms travel, typically from
+**Figure 3.** Storminess: the band of high values marks where Atlantic storms travel, typically from
 Newfoundland towards Iceland and Norway.
 """)
 
 step("""
-**What this cell does.** Shows each model's storminess minus ERA5's, so a storm track that is too
+**What this cell does.** Shows each model's storminess minus ERA5's, so storminess that is too
 strong, too weak or displaced stands out, and summarises it over the UK.
 """, """
 plotting.plot_field_panels({f'{NAME[m]} minus ERA5': storminess[m] - storminess['era5'] for m in CIRCULATION[1:]},
@@ -323,7 +323,8 @@ md("""
 
 1. Is ICON-ESM-ER's weaker precursor two days before events a real difference in how its storms
    develop? Upper-air data (the jet stream) would show this more directly.
-2. Does the too-active storm track over the UK explain the models' wet biases, or only part of them?
+2. Does the enhanced storminess over the UK explain part of the models' wet biases? Cyclone
+   tracking would show whether it means more storms, stronger storms or a shifted track.
 3. How do the weather patterns behind summer heat extremes compare?
 """)
 

@@ -224,7 +224,7 @@ plotting.plot_field_panels({NAME[s]: f for s, f in psl_std.items()}, units='hPa'
 
 md("""
 **Figure 3.** Winter pressure variability. In ERA5 it peaks near Iceland and Greenland. With only
-30 winters this field is itself uncertain, so moderate differences between panels are expected
+29 winters this field is itself uncertain, so moderate differences between panels are expected
 even from a perfect model.
 """)
 
@@ -354,13 +354,13 @@ md("""
 """)
 
 step("""
-**What this cell does.** Turns the same 65 winters into distributions: how often each winter-mean
+**What this cell does.** Turns the 64 winters (1951–2014) into distributions: how often each winter-mean
 temperature occurs in each source. Overlapping outlines mean the model produces the same range of
 winters as ERA5.
 """, """
 plotting.plot_histogram_panels({k: {s: xy[1] for s, xy in v.items()} for k, v in tas_series.items()},
                                xlabel='winter mean temperature (°C)', bins=12,
-                               title='Distribution of winter mean temperature, 65 winters');
+                               title='Distribution of winter mean temperature, 64 winters');
 """)
 
 md("""
@@ -373,7 +373,7 @@ step("""
 """, """
 plotting.plot_histogram_panels({k: {s: xy[1] for s, xy in v.items()} for k, v in pr_series.items()},
                                xlabel='winter mean precipitation (mm/day)', bins=12,
-                               title='Distribution of winter mean precipitation, 65 winters');
+                               title='Distribution of winter mean precipitation, 64 winters');
 """)
 
 md("""
@@ -425,7 +425,7 @@ md("""
 ## 10. Limitations
 
 - **One member per model.** Differences from ERA5 mix real model bias with chance, especially for
-  variability over 30 winters.
+  variability over 29 winters.
 - **ERA5 is the yardstick, not the truth.** Its pressure and temperature are well constrained by
   observations; its precipitation is a model product.
 - **ERA5 was interpolated** from its own grid to the model grid, which smooths it slightly.

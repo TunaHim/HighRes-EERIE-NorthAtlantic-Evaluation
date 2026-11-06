@@ -30,8 +30,9 @@ Files on disk hold temperature in K; it is converted to °C when loaded.
 
 1. Monthly sea-level pressure minus the 1950–2014 mean of each calendar month
    gives anomalies.
-2. Select December–February and average per winter (65 winters). The monthly
-   winter series is kept as well.
+2. Select December–February and average per complete winter. For the 1950–2014
+   monthly data this gives 64 winters (1951–2014); the incomplete winter of
+   January–February 1950 is dropped. The monthly winter series is kept as well.
 3. Domain 20–80°N, 90°W–40°E. Multiply by √cos(latitude) before the EOF.
 4. Leading EOF per dataset; report explained variance and pattern correlation
    with the ERA5 leading EOF.
@@ -41,7 +42,11 @@ Files on disk hold temperature in K; it is converted to °C when loaded.
 6. Index: leading principal component divided by its 1950–2014 standard
    deviation.
 7. Also project each model's anomalies onto the ERA5 leading EOF, to compare on
-   a common basis.
+   a common basis. *NAO strength* is the standard deviation of this projected
+   series divided by the standard deviation of ERA5's own projected series: the
+   same reference pattern and the same amplitude scale for every dataset. It is
+   not the variance explained, and not each dataset's own standardised index
+   (which has a standard deviation of 1 by construction).
 8. Cross-check against a station-style index, Azores minus Iceland pressure;
    report the correlation with the EOF index.
 9. Diagnostics: year-to-year standard deviation, lag-1 winter autocorrelation,
@@ -55,7 +60,7 @@ Per grid cell on the 0.25° grid, base period 1985–2014.
 |---|---|---|
 | RX1day | largest daily precipitation | year and DJF |
 | TXx | highest daily maximum temperature | year (usually summer) and DJF |
-| R95p (ETCCDI R95pTOT) | A wet day has at least 1 mm. The threshold is the 95th percentile of wet-day precipitation at the cell over 1985–2014. R95p is the total precipitation on days above the threshold (the whole daily total, not the excess). Also reported as a percentage of total wet-day precipitation. | year and DJF |
+| R95p (after ETCCDI R95pTOT) | A wet day has at least 1 mm. R95p is the total precipitation on days above a threshold (the whole daily total, not the excess). For the annual index the threshold is the 95th percentile of all wet days at the cell over 1985–2014, as in ETCCDI. For the winter index a separate, winter-specific threshold is used: the 95th percentile of DJF wet days only. This seasonal version is an adaptation, not the standard ETCCDI index. Thresholds are computed separately for each dataset, so each is judged against its own very-wet-day level. Also reported as a percentage of total wet-day precipitation. | year and DJF |
 
 The threshold is estimated from the same years it is applied to, which biases
 exceedance counts slightly inside the base period (Zhang et al. 2005). This is
@@ -70,7 +75,7 @@ supporting.
 - The winter NAO is related only to winter indices: DJF RX1day, DJF R95p,
   DJF TXx. Annual TXx stays in notebook 05.
 - Primary method: grid-point correlation, and regression per one standard
-  deviation of NAO, over 1985–2014 (30 winters), with both series linearly
+  deviation of NAO, over 1986–2014 (29 complete winters), with both series linearly
   detrended.
 - Significance: two-sided t-test at 5%, with false-discovery-rate control across
   grid points (Wilks 2016).

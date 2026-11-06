@@ -64,7 +64,7 @@ IFS-FESOM2-SR, represent winter extremes over the UK and Ireland and their atmos
 how far those conclusions can be trusted. The work follows one chain: each step is checked against
 observations before the next one builds on it.</p>
 <div style="background:var(--yellow-soft);border:1px solid var(--yellow);border-radius:10px;padding:12px 16px;margin:4px 0 14px;max-width:900px;font-size:14px">
-<b>Read this first.</b> Each coupled model is represented by a single run. Single runs carry their own chance
+<b>Read this first.</b> This is a research prototype. Each coupled model is represented by a single run. Single runs carry their own chance
 weather, so the verdicts below are indications, not a ranking of the models. The main contribution is the
 evaluation method and diagnostic pipeline, which can be rerun on more members, models, CMIP6 and CMIP7.</div>
 
@@ -79,7 +79,9 @@ evaluation method and diagnostic pipeline, which can be rerun on more members, m
 <figcaption><b>The story in one figure.</b> Read each row from left to right: (A) average winter pressure minus ERA5,
 expressed as an NAO state; (B) the model's NAO pattern against ERA5's (black lines) and its strength; (C) correlation of
 winter very-wet-day rain with the NAO; (D) very-wet-day rain relative to E-OBS. ICON-ESM-ER (top) is biased at every
-step; IFS-FESOM2-SR (bottom) is close to the references at every step. Winters 1986–2014 (B: 1951–2014), one run per model.</figcaption>
+step, with 62% more winter R95p than E-OBS over UK and Ireland (regional land average). IFS-FESOM2-SR (bottom) generally
+represents circulation and rain extremes more realistically, although its NAO is too weak (71% of ERA5's) and its southern
+centre weaker and displaced. Winters 1986–2014 (B: 1951–2014), one run per model.</figcaption>
 </figure>
 <p class="message"><b>Main message.</b> A credible large-scale circulation is a precondition for credible regional rain
 extremes, but not a guarantee: in ICON-ESM-ER the shifted circulation explains only part of the wet bias, and in IFS
@@ -151,7 +153,7 @@ produces.</p>
     <p class="q">Is the main driver of winter weather realistic?</p>
     <div class="verdict">
       <i class="dot mixed"></i><span><b>IFS-FESOM2-SR:</b> recognisable NAO (pattern correlation 0.87), strength 71% of ERA5's.</span>
-      <i class="dot poor"></i><span><b>ICON-ESM-ER:</b> leading pattern mixed across two modes, strength 59%; its average winter resembles a +2.3 SD positive NAO.</span>
+      <i class="dot poor"></i><span><b>ICON-ESM-ER:</b> leading pattern mixed across two modes, strength 59% (strength: standard deviation of the winter index along the common ERA5 pattern, relative to ERA5's); its average winter resembles a +2.3 SD positive NAO.</span>
     </div>
     <p class="why"><b>Why "mixed".</b> ICON-ESM-ER's first two patterns explain 29% and 21% of the variance, closer than
     their sampling error allows to separate (North et al. 1982), so the real NAO is split between them (overlaps 0.76 and
@@ -196,7 +198,7 @@ produces.</p>
     <div class="verdict">
       <i class="dot good"></i><span>Both models: the same deep low north-west of the islands as ERA5 on the event day (pattern correlation 0.94–0.95).</span>
       <i class="dot mixed"></i><span>Build-up two days earlier: IFS-FESOM2-SR 0.85, ICON-ESM-ER 0.72.</span>
-      <i class="dot mixed"></i><span>Storm track 13–17% too active over the UK; persistent highs slightly too rare.</span>
+      <i class="dot mixed"></i><span>Day-to-day pressure variability 13–17% higher over the UK than ERA5 (enhanced synoptic storminess; a proxy, cyclones not tracked); persistent highs slightly too rare.</span>
     </div>
     <div class="nb">Notebook 09 · 30 wettest winter days per dataset</div>
   </div>
@@ -224,7 +226,7 @@ produces.</p>
     <div class="verdict">
       <i class="dot info"></i><span>NAO strength in ten identical runs: from 0.70 to 1.00 of ERA5's.</span>
       <i class="dot info"></i><span>NAO link to UK and Ireland rain extremes in three identical runs: correlation from 0.04 to 0.33; 9 km (0.19) lies inside that range.</span>
-      <i class="dot info"></i><span>Filtering small-scale sea-surface temperature: −1% and +4% change in NAO strength, far inside the spread.</span>
+      <i class="dot info"></i><span>Filtering small-scale sea-surface temperature: −1% and +4% change in NAO strength, far inside the spread (no detectable change in NAO strength; atmosphere-only, not a coupled test).</span>
     </div>
     <div class="nb">Notebooks 07, 08</div>
   </div>
@@ -250,15 +252,20 @@ produces.</p>
 <tr><td>Hottest day, against ERA5</td><td>−2.0 °C</td><td>−0.6 °C</td></tr>
 <tr><td>NAO link to winter rain extremes</td><td>right sign over UK; too weak in Norway, wrong sign in France</td><td>reproduced in all three regions</td></tr>
 <tr><td>Weather behind the heaviest rain</td><td>right pattern, weaker build-up</td><td>right pattern and build-up</td></tr>
-<tr><td>Storm track over the UK</td><td>+17%</td><td>+13%</td></tr>
+<tr><td>Storminess over the UK (day-to-day pressure variability)</td><td>+17%</td><td>+13%</td></tr>
 </tbody>
 </table>
 </div>
 
-<h2>What comes next</h2>
-<p>More members, to separate model behaviour from chance; CMIP6 and CMIP7 through the same analysis
-code; and physical climate storylines that use the event composites to ask how a given type of
-heavy-rain winter would look under further warming.</p>
+<h2>Status and future scope</h2>
+<p>This is a <b>research prototype</b>: a complete, tested chain from public data to conclusions, run on what one laptop and
+the public archive allow (two coupled models, one member each, 29 winters of daily data). It is built to be scaled up.</p>
+<div class="trust">
+  <div class="card"><h3>More members</h3><p>Separates model behaviour from chance, the main limit today: the NAO link over the UK varies between identical runs as much as between datasets.</p></div>
+  <div class="card"><h3>More models</h3><p>Other EERIE configurations, HighResMIP, CMIP6 and CMIP7 through the same code, to place these two models in a multi-model spread and test resolution across models.</p></div>
+  <div class="card"><h3>More science</h3><p>Rain-producing processes behind the wet bias; longer daily records; summer drivers; physical climate storylines built on the heavy-rain event composites.</p></div>
+  <div class="card"><h3>Scaling up technically</h3><p>Run next to the data on DKRZ Levante or JASMIN instead of streaming to a laptop; Dask distributed across members and years; a CMIP reader; block bootstrap, conservative regridding, cyclone tracking. Details: <a href="engineering_overview.html">How it is built</a>.</p></div>
+</div>
 <p class="nb">Exploratory results: two coupled models with one member each. Full methods on the <a href="methods.html">methods page</a>; every number comes from the <a href="notebooks/index.html">executed notebooks</a>.</p>
 </main>
 </body>

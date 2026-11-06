@@ -179,7 +179,8 @@ average; (B) an NAO only 59% as strong as ERA5's, with its southern centre displ
 Europe; (C) a positive link in the north but the wrong sign over France; (D) 62% too much
 very-wet-day rain over UK and Ireland, and too wet almost everywhere. **IFS-FESOM2-SR (bottom):**
 (A) a mean circulation close to ERA5; (B) a recognisable NAO at 71% of ERA5's strength; (C) a link
-with the observed sign and pattern; (D) within about 10% over UK and Ireland. Section 5 shows that
+with the observed sign and pattern; (D) within about 10% over UK and Ireland. IFS-FESOM2-SR is the more realistic of the two, but not
+perfect: its NAO is too weak and its southern centre weak and displaced. Section 5 shows that
 ICON-ESM-ER's circulation offset accounts for only part of its wet bias.
 """)
 
@@ -273,6 +274,8 @@ pd.DataFrame(rows).set_index('')
 
 md("""
 **Reading the table.** Both models have a **weaker NAO than ERA5** (59% and 71% of its strength).
+*Strength* here is the standard deviation of the winter index measured along the common ERA5
+pattern, relative to ERA5's own: the same pattern and scale for every dataset.
 ICON-ESM-ER's *average* winter resembles a +2.3 SD positive-NAO winter of the real world.
 Notebook 07 adds an important caution: ten runs of one atmosphere model give NAO strengths anywhere
 from 0.70 to 1.00, so a single member's 0.71 may be partly chance; 0.59 lies below that whole range.
@@ -444,7 +447,7 @@ md("""
 **Figure 6.** Green: observed sea-surface temperature. Yellow and pink: two versions with the
 small-scale detail filtered out. The three rows overlap almost completely: **filtering changes the
 NAO strength by −1% and +4%, far less than the spread between members of one experiment.**
-No sensitivity is detectable. This is an atmosphere-only test of sea-surface-temperature forcing;
+No change in NAO strength is detectable. This is an atmosphere-only test of sea-surface-temperature forcing;
 it says nothing about a coupled effect of ocean eddies, and the exact filter is not verified.
 """)
 
@@ -510,7 +513,8 @@ md("""
 the islands and higher pressure to the south. **Both models produce their heaviest rain days
 through the same weather** (pattern correlation 0.94–0.95 with ERA5). The difference is in the
 build-up: two days earlier, IFS-FESOM2-SR's pattern still resembles ERA5's (0.85), ICON-ESM-ER's
-much less (0.72). Both models also have a storm track 13–17% too active over the UK.
+much less (0.72). Both models also show 13–17% higher day-to-day pressure variability over the UK
+than ERA5, indicating enhanced synoptic storminess (a proxy; individual cyclones are not tracked).
 """)
 
 md("""
@@ -526,7 +530,7 @@ md("""
 | Hottest day of the year | about 2 °C too cool against ERA5 | within 1 °C of ERA5 |
 | NAO link to winter rainfall extremes | right sign over UK; too weak in Norway, wrong sign in France | reproduced in sign, pattern and strength |
 | Weather behind the heaviest rain days | same pattern, weaker build-up | same pattern and build-up |
-| Storm track over the UK | 17% too active | 13% too active |
+| Storminess over the UK (day-to-day pressure variability) | 17% higher than ERA5 | 13% higher than ERA5 |
 
 1. **Each step depends on the one before, but only partly.** ICON-ESM-ER's circulation bias shows
    up again as a mean state that resembles a permanent positive NAO and as a misplaced NAO rainfall
@@ -544,8 +548,8 @@ md("""
    but not always on numbers (for example the strength of the NAO link over UK and Ireland, 0.51
    against 0.35). Over UK and Ireland, no correlation can be told apart from another within its
    sampling uncertainty; the clear model differences are in western Norway and north-west France.
-6. **In one atmosphere model, the seasonal NAO does not depend measurably on small-scale
-   sea-surface temperature.**
+6. **In one atmosphere model, NAO strength shows no detectable change under the tested
+   small-scale SST filtering**; other aspects of the atmosphere, and coupled feedbacks, are not tested.
 
 ## 10. Main limitations
 
@@ -560,7 +564,10 @@ md("""
 - The resolution comparison uses one 9 km run and three 28 km members, winter only, compared at 25 km.
 - Model complexity and air quality are not tested.
 
-## 11. What would come next
+## 11. Status and what would come next
+
+This project is a **research prototype**: a complete, tested chain from public data to
+conclusions, built to be scaled up rather than a final evaluation of the EERIE models.
 
 The analysis code takes any dataset that provides monthly sea-level pressure and daily
 precipitation and maximum temperature under CMIP-style names. The same notebooks could therefore
