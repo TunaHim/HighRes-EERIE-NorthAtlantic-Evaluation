@@ -554,7 +554,7 @@ Comparing that with the actual bias shows how much of the bias the circulation c
 The same is done for IFS-FESOM2-SR as a control: its offset is small, so little should be
 explained.
 
-**What this is not.** The response is assumed to be linear, and ICON-ESM-ER's offset lies beyond
+**What this is not.** This is a linear decomposition test. The response is assumed to be linear, and ICON-ESM-ER's offset lies beyond
 most ordinary NAO winters, so the number is an extrapolation. A match shows that the bias is
 *consistent with* the circulation offset; it does not prove the offset causes it, and a shortfall
 points to other causes (how the model makes rain, its resolution, its orography).

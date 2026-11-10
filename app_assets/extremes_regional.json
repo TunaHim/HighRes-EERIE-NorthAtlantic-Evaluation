@@ -1,7 +1,7 @@
 {
   "description": "Land-average RX1day, R95p, R95p share and TXx per source, region, year and winter (same land cells for every source)",
-  "created": "2026-11-05T16:43:46+00:00",
-  "git_commit": "6ed84207098a300e56524795f86f28b37eedec4c",
+  "created": "2026-11-10T17:34:30+00:00",
+  "git_commit": "afb3c23d9a7e939da36f22cb69a3e5cb46e14c2a",
   "code": "eerie_uk (this repository)",
   "python": "3.11.17",
   "xarray": "2026.9.0",

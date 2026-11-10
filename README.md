@@ -83,7 +83,8 @@ variability to be checked together.
    all, not each model's own EOF or its variance explained. Ten
    identical atmosphere-only runs vary between 70% and 100%, so part of this is chance; ICON-ESM-ER
    lies below that whole range. Its leading pattern mixes the NAO with a second mode of similar
-   strength, so every model is measured along the common ERA5 pattern.
+   strength, in all five North Atlantic domains tested, so every model is measured along the
+   common ERA5 pattern; the strengths are robust to the domain (0.56–0.61 and 0.68–0.72).
 5. **Both models bring their heaviest UK winter rain through the right weather:** a deep low just
    north-west of the islands (pattern correlation 0.94–0.95 with ERA5). ICON-ESM-ER's storms show
    less build-up in the days before. Both models show 13–17% higher winter variability of the

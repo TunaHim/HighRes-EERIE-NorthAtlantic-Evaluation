@@ -47,6 +47,9 @@ th{color:var(--ink2);font-weight:600}
 .hero img{width:100%;display:block;border-radius:6px;background:#fff}
 .hero figcaption{font-size:13px;color:var(--ink2);margin-top:8px;max-width:none}
 .message{background:var(--surface);border-left:4px solid var(--violet);padding:10px 14px;border-radius:6px;max-width:none;margin:0 0 14px}
+.fig{margin:0}
+.fig figcaption{font-size:12.5px;line-height:1.5;color:var(--ink2);margin-top:6px;max-width:none}
+.fig figcaption b{color:var(--ink)}
 .why{font-size:13.5px;color:var(--ink2);margin:10px 0 0;padding-top:8px;border-top:1px dashed var(--line)}
 .go{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:0 0 8px}
 .go a{display:block;text-decoration:none;background:var(--blue-soft);border:1px solid var(--blue);border-radius:10px;padding:10px 14px;color:var(--ink)}
@@ -109,7 +112,11 @@ produces.</p>
     </div>
     <div class="nb">Notebooks 01, 02 · details in <a href="engineering_overview.html">How it is built</a></div>
   </div>
-  <img src="figures/domains.png" alt="The three analysis domains">
+  <figure class="fig"><img src="figures/domains.png" alt="The three analysis domains"><figcaption><b>How to read.</b> The three nested analysis regions on a longitude–latitude map. Largest box: the North
+Atlantic (20–80°N, 90°W–40°E), where the NAO pattern is computed from sea-level pressure. Middle box: north-west Europe,
+where temperature, rainfall and extremes are evaluated on a common 0.25° grid. Smallest box: UK and Ireland, the headline
+region for all regional averages. Western Norway and north-west France are used as contrasts on the wet and dry sides
+of the NAO.</figcaption></figure>
 </div>
 
 <h2>2 · Evaluation</h2>
@@ -127,7 +134,11 @@ produces.</p>
     therefore looks like a strongly positive NAO winter.</p>
     <div class="nb">Notebook 03</div>
   </div>
-  <img src="figures/psl_bias.png" alt="Winter pressure bias of both models">
+  <figure class="fig"><img src="figures/psl_bias.png" alt="Winter pressure bias of both models"><figcaption><b>How to read.</b> Average winter (December–February) sea-level pressure of each model minus ERA5,
+1985–2014, in hPa. Orange: pressure too high; blue: too low; pale: close to ERA5. ICON-ESM-ER (left) shows a north–south
+dipole: up to about 14 hPa too low near Iceland and the Arctic and up to about 8 hPa too high over the subtropical
+Atlantic and Mediterranean. A stronger pressure drop from south to north means stronger westerly winds into Europe.
+IFS-FESOM2-SR (right) stays within a few hPa almost everywhere.</figcaption></figure>
 </div>
 <div class="step" style="--c:var(--aqua)">
   <div>
@@ -143,7 +154,12 @@ produces.</p>
     30-year averages.</p>
     <div class="nb">Notebook 05</div>
   </div>
-  <img src="figures/rx1day_bias.png" alt="Wettest day of the year relative to E-OBS">
+  <figure class="fig"><img src="figures/rx1day_bias.png" alt="Wettest day of the year relative to E-OBS"><figcaption><b>How to read.</b> The wettest day of the year (RX1day), averaged over 1985–2014, of each model
+relative to each reference, in percent of the reference. Top row against E-OBS (stations, land only, so the sea is
+blank); bottom row against ERA5 (reanalysis, land and sea). Left column ICON-ESM-ER, right column IFS-FESOM2-SR. Orange:
+the model's wettest day is heavier than observed; blue: lighter. ICON-ESM-ER is orange almost everywhere, typically
++50%; IFS-FESOM2-SR is mostly pale, within about ±20%. The bias against ERA5 is larger because ERA5's extremes are lower
+than E-OBS's.</figcaption></figure>
 </div>
 
 <h2>3 · Drivers</h2>
@@ -157,10 +173,16 @@ produces.</p>
     </div>
     <p class="why"><b>Why "mixed".</b> ICON-ESM-ER's first two patterns explain 29% and 21% of the variance, closer than
     their sampling error allows to separate (North et al. 1982), so the real NAO is split between them (overlaps 0.76 and
-    0.58). Every model is therefore measured along the common ERA5 pattern.</p>
+    0.58). The mixing persists in all five domains tested, so it is a property of the model, not of the box; the NAO
+    strengths along ERA5's pattern barely change (0.56–0.61 and 0.68–0.72). Every model is therefore measured along the
+    common ERA5 pattern.</p>
     <div class="nb">Notebook 04</div>
   </div>
-  <img src="figures/nao_patterns.png" alt="NAO patterns in ERA5 and both models">
+  <figure class="fig"><img src="figures/nao_patterns.png" alt="NAO patterns in ERA5 and both models"><figcaption><b>How to read.</b> The leading pattern of winter sea-level-pressure variability (first EOF), 64
+winters 1951–2014, in hPa per +1 standard deviation of each dataset's own index. Blue: lower pressure in a positive-NAO
+winter; orange: higher. ERA5 (left) shows the textbook NAO: low near Iceland, high near the Azores. IFS-FESOM2-SR
+(right) has the same dipole, with a weaker southern centre shifted towards the Mediterranean. ICON-ESM-ER (middle) has
+its southern centre over Europe and the North Sea: its leading pattern mixes the NAO with a second mode.</figcaption></figure>
 </div>
 <div class="step" style="--c:var(--violet)">
   <div>
@@ -174,7 +196,12 @@ produces.</p>
     </div>
     <div class="nb">Notebook 06 · 29 winters, detrended, FDR-controlled significance, bootstrap and leave-one-winter-out checks</div>
   </div>
-  <img src="figures/nao_uncertainty.png" alt="Correlation of winter very-wet-day rain with the NAO, with bootstrap intervals, for three regions">
+  <figure class="fig"><img src="figures/nao_uncertainty.png" alt="Correlation of winter very-wet-day rain with the NAO, with bootstrap intervals, for three regions"><figcaption><b>How to read.</b> Correlation between the winter NAO and winter very-wet-day rain (R95p),
+land average of each region, 29 winters 1986–2014, both series detrended. One panel per region. Dots: the correlation;
+bars: bootstrap 95% interval (winters resampled 5000 times). Grey line: zero. Light grey E-OBS and dark grey ERA5 are
+the references, each paired with the ERA5 NAO; blue ICON-ESM-ER and orange IFS-FESOM2-SR use their own NAO. Overlapping
+bars mean the values cannot be told apart in 29 winters: true for all four over UK and Ireland. ICON-ESM-ER's bar lies
+below both references in western Norway and on the wrong side of zero in north-west France.</figcaption></figure>
 </div>
 <div class="step" style="--c:var(--violet)">
   <div>
@@ -185,11 +212,18 @@ produces.</p>
       <i class="dot mixed"></i><span>Consistent with <b>38–74%</b> of ICON-ESM-ER's very-wet-day rain bias and <b>18–39%</b> of its wettest-day bias over UK and Ireland, mostly on windward coasts and mountains.</span>
       <i class="dot poor"></i><span>The rest is a broad wet bias: ICON-ESM-ER rains too often (+34% to +43% wet days) and too hard (+21% to +28% rain per wet day). IFS-FESOM2-SR is within about 10% on both.</span>
     </div>
-    <p class="why"><b>Reading it.</b> An association supported by diagnostics, not a demonstrated cause. It assumes a
-    linear response, applied to an offset beyond most ordinary NAO winters.</p>
+    <p class="why"><b>Reading it.</b> A linear decomposition test: an association supported by diagnostics, not a
+    demonstrated cause. It applies the response of ordinary NAO winters to an offset beyond most of them. The remainder
+    may come from how the model makes rain, from circulation errors that do not project onto the NAO, or from a
+    non-linear response of storms to a shifted mean flow.</p>
     <div class="nb">Notebook 06 · section 11</div>
   </div>
-  <img src="figures/circulation_part.png" alt="ICON-ESM-ER very-wet-day rain bias: actual, expected from circulation, remainder">
+  <figure class="fig"><img src="figures/circulation_part.png" alt="ICON-ESM-ER very-wet-day rain bias: actual, expected from circulation, remainder"><figcaption><b>How to read.</b> ICON-ESM-ER's winter very-wet-day rain (R95p) bias against E-OBS, in mm per
+winter, 1986–2014, land only. Left: the actual bias. Middle: the bias its mean circulation offset alone would produce,
+computed as the observed change in R95p per +1 SD of NAO times the model's offset of 2.1 SD. Right: the remainder,
+actual minus expected. The middle panel puts extra rain on windward coasts and mountains (western Scotland, western
+Norway) and less rain in the south. The right panel stays orange over most of the continent and Iberia: a wet bias that
+the circulation offset does not account for. A linear decomposition test, not a proof of cause.</figcaption></figure>
 </div>
 <div class="step" style="--c:var(--violet)">
   <div>
@@ -202,7 +236,12 @@ produces.</p>
     </div>
     <div class="nb">Notebook 09 · 30 wettest winter days per dataset</div>
   </div>
-  <img src="figures/event_composites.png" alt="Pressure anomaly on the wettest winter days">
+  <figure class="fig"><img src="figures/event_composites.png" alt="Pressure anomaly on the wettest winter days"><figcaption><b>How to read.</b> Average sea-level-pressure anomaly, in hPa, on the 30 wettest winter days
+over UK and Ireland land, 1986–2014, with events at least five days apart. Each panel uses the dataset's own wettest days
+and its own winter-mean pressure. The E-OBS panel shows ERA5 pressure on E-OBS's wettest days. Blue: lower pressure than
+usual, the storm; orange: higher. All four show a deep low just north-west of Ireland and Scotland with higher pressure
+to the south: south-westerly flow carrying moist Atlantic air onto the islands. Pattern correlation with ERA5: 0.94–0.95
+for both models.</figcaption></figure>
 </div>
 
 <h2>4 · How far to trust it</h2>
@@ -214,10 +253,22 @@ produces.</p>
       <i class="dot info"></i><span>9 km gives 5–12% heavier winter rain extremes, mostly beyond the spread between 28 km members.</span>
       <i class="dot good"></i><span>Closer to observations over the mountains of western Norway.</span>
       <i class="dot mixed"></i><span>Overshoots over the UK and Ireland; no overall gain at the 25 km scale compared.</span>
+      <i class="dot info"></i><span>The NAO link to UK and Ireland rain extremes at 9 km (0.19) lies inside the range of the three 28 km runs (0.04 to 0.33): it changes more by chance than by resolution.</span>
     </div>
+    <p class="why"><b>Why this test is clean.</b> Comparing two different models mixes resolution with everything else.
+    Here only the grid spacing differs: same model, same sea-surface temperature, same years. Both runs are compared on a
+    common 0.25° grid, so the question is whether running at 9 km improves rain at the 25 km scale. Both use parameterised
+    convection; at 9 km the model is in the convective "grey zone".</p>
     <div class="nb">Notebook 08 · 1 run at 9 km, 3 members at 28 km, winters 1986–2014</div>
   </div>
-  <img src="figures/resolution.png" alt="9 km relative to 28 km">
+  <figure class="fig"><img src="figures/resolution.png" alt="9 km relative to 28 km"><figcaption><b>How to read.</b> The same atmosphere model (IFS) with the same observed sea-surface temperature,
+run at 9 km and at 28 km. Each map shows the 9 km run minus the average of three 28 km runs, as a percentage of the 28 km
+value, winters 1986–2014, both on the same 0.25° grid. Left: average winter precipitation. Right: the wettest winter day.
+Orange: wetter at 9 km; blue: drier. <b>Dots:</b> the 9 km value lies outside the range of the three 28 km runs, so the
+difference is larger than chance alone produces between identical runs. Orange with dots along west-facing coasts and
+mountains (western Norway, western Scotland, the Alps) is a resolution effect. Colour without dots is within chance. Over the
+open Atlantic the 9 km run is a few percent wetter in the winter mean; the 28 km runs differ so little there that even this
+small change is dotted.</figcaption></figure>
 </div>
 <div class="step" style="--c:var(--orange)">
   <div>
@@ -230,7 +281,11 @@ produces.</p>
     </div>
     <div class="nb">Notebooks 07, 08</div>
   </div>
-  <img src="figures/member_spread.png" alt="NAO strength of every ensemble member">
+  <figure class="fig"><img src="figures/member_spread.png" alt="NAO strength of every ensemble member"><figcaption><b>How to read.</b> NAO strength of every member of three ten-member atmosphere-only
+ensembles of IFS at 28 km, 43 winters 1981–2023. Strength is the standard deviation of the winter index along the ERA5
+pattern, in ERA5 units. One dot per member; black bar: ensemble mean; dashed line: ERA5. Top row: observed sea-surface
+temperature; middle and bottom: two variants with small-scale temperature detail filtered out. The members of one
+experiment range from 0.70 to 1.00, purely by chance; the three experiments overlap almost completely.</figcaption></figure>
 </div>
 
 <div class="trust">

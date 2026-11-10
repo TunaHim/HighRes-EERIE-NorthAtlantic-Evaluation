@@ -29,6 +29,15 @@ def _style(ax):
     ax.tick_params(colors=MUTED, labelsize=9)
 
 
+def _lonlat_labels(ax, left=True, bottom=True):
+    """Light longitude/latitude grid lines, labelled on the left and bottom edges only."""
+    grid = ax.gridlines(draw_labels=True, color=GRID, linewidth=0.4, alpha=0.8)
+    grid.top_labels = grid.right_labels = False
+    grid.left_labels, grid.bottom_labels = left, bottom
+    grid.xlabel_style = grid.ylabel_style = {"size": 7, "color": MUTED}
+    return grid
+
+
 def plot_availability(inventory, targets, title="", ax=None):
     """Grid of runs (rows) against target fields (columns).
 
@@ -309,6 +318,8 @@ def plot_field_panels(fields, units="", title="", columns=3, diverging=False, st
             shading="auto", transform=projection,
         )
         ax.coastlines(resolution="50m", color=INK, linewidth=0.5)
+        k = names.index(name)
+        _lonlat_labels(ax, left=(k % columns == 0), bottom=(k // columns == rows - 1 or k + columns >= len(names)))
         if stipple and name in stipple:
             marked = stipple[name].isel(lat=slice(1, None, 3), lon=slice(1, None, 3))
             yy, xx = np.meshgrid(marked.lat, marked.lon, indexing="ij")
@@ -316,7 +327,7 @@ def plot_field_panels(fields, units="", title="", columns=3, diverging=False, st
         ax.set_title(name, loc="left", fontsize=9, color=INK_SECONDARY)
     for ax in axes.flat[len(names):]:
         ax.set_visible(False)
-    bar = fig.colorbar(mesh, ax=axes, orientation="horizontal", shrink=0.6, pad=0.06, aspect=40)
+    bar = fig.colorbar(mesh, ax=axes, orientation="horizontal", shrink=0.6, pad=0.09, aspect=40)
     bar.set_label(units, color=INK_SECONDARY, fontsize=9)
     bar.ax.tick_params(labelsize=8, colors=MUTED)
     bar.outline.set_visible(False)
@@ -434,8 +445,8 @@ def plot_chain(columns, rows, cells, title=""):
     import cartopy.crs as ccrs
 
     projection = ccrs.PlateCarree()
-    width, height, gap, top, left = 3.3, 2.15, 0.25, 0.55, 0.45
-    head, note, bar = 0.32, 0.26, 0.85
+    width, height, gap, top, left = 3.3, 2.15, 0.4, 0.55, 0.8
+    head, note, bar = 0.32, 0.42, 1.05
     total_w = left + len(columns) * width + (len(columns) - 1) * gap + 0.1
     total_h = top + head + len(rows) * (height + note) + bar + 0.15
     fig = plt.figure(figsize=(total_w, total_h), facecolor=SURFACE)
@@ -465,11 +476,12 @@ def plot_chain(columns, rows, cells, title=""):
                 yy, xx = np.meshgrid(marked.lat, marked.lon, indexing="ij")
                 ax.scatter(xx[marked.values], yy[marked.values], s=1.4, color=INK, linewidths=0, transform=projection)
             ax.coastlines(resolution="50m", color=INK, linewidth=0.45)
+            _lonlat_labels(ax, left=True, bottom=(i == len(rows) - 1))
             ax.set_title(cell.get("note", ""), loc="left", fontsize=8.5, color=INK, pad=3)
             if j == 0:
-                ax.text(-0.05, 0.5, row, transform=ax.transAxes, rotation=90, ha="right", va="center",
+                ax.text(-0.17, 0.5, row, transform=ax.transAxes, rotation=90, ha="right", va="center",
                         fontsize=10, color=INK, weight="bold")
-        cax = fig.add_axes([x0 + 0.08 * width / total_w, 0.55 * bar / total_h, 0.84 * width / total_w, 0.12 / total_h])
+        cax = fig.add_axes([x0 + 0.08 * width / total_w, 0.42 * bar / total_h, 0.84 * width / total_w, 0.12 / total_h])
         colorbar = fig.colorbar(mesh, cax=cax, orientation="horizontal")
         colorbar.set_label(column["units"], color=INK_SECONDARY, fontsize=8)
         colorbar.ax.tick_params(labelsize=7.5, colors=MUTED)

@@ -254,6 +254,8 @@ the computation then returns two arbitrary blends of them. The real NAO pattern 
 between ICON-ESM-ER's first and second patterns (overlaps 0.76 and 0.58). In this model the NAO
 and a second mode of similar strength share the variability. This is why every model in this
 project is measured along the *same* ERA5 pattern rather than along its own leading pattern.
+Notebook 04 (section 8) shows the mixing persists in all five domains tested, while the NAO
+strengths along ERA5's pattern barely change (0.56–0.61 and 0.68–0.72).
 """)
 
 step("""

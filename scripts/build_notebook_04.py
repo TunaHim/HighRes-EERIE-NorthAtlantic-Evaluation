@@ -50,7 +50,8 @@ ERA5 (reanalysis reference), ICON-ESM-ER r1 and IFS-FESOM2-SR r1.
 5. Cross-checks: a station-style index and a common pattern
 6. Behaviour in time: persistence and trend
 7. Does the mean-state bias look like the NAO?
-8. Saved outputs
+8. Does the result depend on the domain?
+9. Saved outputs
 9. Limitations
 10. Open questions
 """)
@@ -320,7 +321,50 @@ positive-NAO-like state may have biased storm-track rainfall even if its NAO ind
 """)
 
 md("""
-## 8. Saved outputs
+## 8. Does the result depend on the domain?
+
+An EOF depends on the box it is computed in. If ICON-ESM-ER's two leading patterns are mixed only
+because of where the box edges lie, a slightly different box should separate them. If they stay
+mixed in every box, the mixing is a property of the model's variability. The same test shows
+whether the NAO strengths (59% and 71% of ERA5's) depend on the box.
+""")
+
+step("""
+**What this cell does.** Repeats the EOF analysis in five boxes: the standard one and four
+variants (smaller in the north, shifted, Atlantic only without Europe, and without the western
+Atlantic). In each box it computes ERA5's own NAO pattern, then for every dataset: the variance of
+the first two patterns, whether they are separated by the same rule as in section 3 (their
+sampling error bars, North et al. 1982, do not overlap), how closely the first pattern resembles
+ERA5's in that box, and the NAO strength along ERA5's pattern relative to ERA5.
+""", """
+BOXES = {'standard, 20-80N 90W-40E': (20, 80, -90, 40), '20-70N 90W-40E': (20, 70, -90, 40),
+         '25-75N 80W-30E': (25, 75, -80, 30), 'Atlantic only, 20-80N 90W-0E': (20, 80, -90, 0),
+         '30-80N 60W-40E': (30, 80, -60, 40)}
+rows = []
+for box, (south, north, west, east) in BOXES.items():
+    sub = {s: winters[s].sel(lat=slice(south, north), lon=slice(west, east)) for s in SOURCES}
+    reference = nao.leading_eof(sub['era5'])
+    for s in SOURCES:
+        e = nao.leading_eof(sub[s])
+        spacing = nao.north_spacing(e.explained, sub[s].sizes['year'])
+        rows.append({'domain': box, 'dataset': NAME[s], 'EOF1 %': 100 * e.explained[0], 'EOF2 %': 100 * e.explained[1],
+                     'separated from EOF2': bool(e.explained[0] - spacing[0] > e.explained[1] + spacing[1]),
+                     'pattern correlation with ERA5': clim.pattern_stats(e.pattern, reference.pattern)['pattern correlation'],
+                     'NAO strength relative to ERA5': float(nao.project(sub[s], reference.vector).std(ddof=1)) / reference.amplitude})
+domains = pd.DataFrame(rows)
+domains.pivot(index='domain', columns='dataset')
+""")
+
+md("""
+**How to read this table.** One row per box; for each dataset the variance of the first two
+patterns, whether they are statistically separated, how much the first pattern resembles ERA5's
+in the same box, and the NAO strength along ERA5's pattern. A degenerate model shows "False" in
+every box and a pattern correlation that jumps around from box to box, because its first pattern
+is an arbitrary blend of two modes.
+""")
+
+md("""
+## 9. Saved outputs
 """)
 
 step("""
@@ -343,7 +387,7 @@ table.groupby('source')[['nao_own_pattern', 'nao_on_era5_pattern', 'nao_station_
 """)
 
 md("""
-## 9. Limitations
+## 10. Limitations
 
 - **One member per model, 64 winters.** The NAO is noisy. Differences in strength of 10–20% and in
   explained variance of several percentage points are within sampling uncertainty.
@@ -358,11 +402,13 @@ md("""
 """)
 
 md("""
-## 10. Open questions
+## 11. Open questions
 
 1. Is the weak NAO of both models a property of the models or of single members? Notebook 07 shows
    that identical atmosphere-only runs give NAO strengths from 0.70 to 1.00 of ERA5's.
-2. Would a different domain or period give ICON-ESM-ER a cleaner leading pattern?
+2. Section 8 shows that a different box does not separate ICON-ESM-ER's leading patterns. Would
+   a longer period, or more members, do so? Upper-air data (jet position) would show what the
+   second mode is physically.
 3. Does ICON-ESM-ER's positive-NAO-like mean state alter how its extremes respond to the NAO?
    Notebook 06 addresses this.
 """)

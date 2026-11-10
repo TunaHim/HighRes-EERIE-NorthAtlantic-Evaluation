@@ -40,6 +40,12 @@ averaged onto that grid, so detail finer than about 25 km is not visible here. T
 therefore whether running at 9 km improves precipitation *at the 25 km scale*, which is the scale
 at which the models are usually evaluated and used.
 
+**Convection.** At both resolutions IFS represents convection with its parameterisation scheme;
+neither run resolves convective storms explicitly. At 9 km the model is in the "grey zone", where
+convection is partly resolved by the grid and partly parameterised, so some of the extra rain at
+9 km may come from that interplay rather than from better physics. Winter rain over north-west
+Europe is mostly frontal and orographic, which limits this effect.
+
 **How chance is judged.** The three 28 km members differ only by chance. A 9 km result counts as a
 resolution effect only if it lies **outside the range of the three 28 km members**. With three
 members that is a weak test, so only clear differences are reported as such.
@@ -171,15 +177,26 @@ def outside(key_hi, var):
     value = ind[key_hi][var].mean('year')
     members = ind[LO][var].mean('year')
     return (value > members.max('realization')) | (value < members.min('realization'))
-panels = {f'{var}: 9 km vs 28 km': 100 * (avg(HI, var) - avg(LO, var)) / avg(LO, var) for var in ('mean', 'rx1day')}
-plotting.plot_field_panels(panels, units='% difference', diverging=True, columns=2,
-                           stipple={f'{var}: 9 km vs 28 km': outside(HI, var) for var in ('mean', 'rx1day')},
-                           title='Winter precipitation and wettest winter day: 9 km relative to 28 km');
+LABEL = {'mean': 'Winter-mean precipitation', 'rx1day': 'Wettest winter day (RX1day)'}
+panels = {LABEL[var]: 100 * (avg(HI, var) - avg(LO, var)) / avg(LO, var) for var in ('mean', 'rx1day')}
+plotting.plot_field_panels(panels, units='9 km minus 28 km, in % of 28 km (28 km: mean of three members)', diverging=True, columns=2,
+                           stipple={LABEL[var]: outside(HI, var) for var in ('mean', 'rx1day')},
+                           title='IFS at 9 km relative to IFS at 28 km, same model and same SST, winters 1986-2014'
+                                 '\\nDots: 9 km outside the range of the three 28 km runs');
 """)
 
 md("""
-**Figure 2.** Orange: wetter at 9 km than at 28 km; blue: drier. Left: winter-mean precipitation.
-Right: the wettest winter day. Dots: outside the 28 km member range.
+**Figure 2.** How much the resolution changes winter rain. Each map shows the 9 km run minus the
+average of the three 28 km runs, as a percentage of the 28 km value, after both are put on the same
+0.25° grid. Orange: wetter at 9 km; blue: drier; pale: little change. Left: average winter
+precipitation. Right: the wettest winter day. **Dots** mark cells where the 9 km value lies outside
+the range of the three 28 km runs, that is, where the change is larger than the differences that
+chance alone produces between identical 28 km runs. Read it this way: orange with dots, mostly
+along west-facing coasts and mountains (western Norway, western Scotland, the Alps), is a
+resolution effect; colour without dots is within chance. Over the open Atlantic the 9 km run is a
+few percent wetter almost everywhere in the winter mean; the three 28 km runs differ very little
+there, so even that small change lies outside their range and is dotted. Whether "wetter" is "better" is answered in section 7 against the
+references.
 """)
 
 md("""

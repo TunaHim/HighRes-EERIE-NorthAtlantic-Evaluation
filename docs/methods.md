@@ -105,7 +105,7 @@ The IFS-FESOM2-SR GRIB decoding fix is checked in notebook 03:
 Notebooks 03 → 04 → 05 → 06 first. Notebook 07 and the interactive explorer are
 optional and are never built at the expense of clean notebooks and the README.
 
-## 9. Additions after the first results (notebook 06, sections 10 and 11)
+## 9. Additions after the first results (notebook 06, sections 10 and 11; notebook 04, section 8)
 
 Added on 5 November 2026, after the results above were produced, to test how far they hold.
 They do not change any earlier choice.
@@ -117,6 +117,7 @@ They do not change any earlier choice.
 | Memory between winters | Effective sample size n(1 − a·b)/(1 + a·b), with a and b the lag-1 autocorrelations of the two series (Bretherton et al. 1999), never above n; p value recomputed with it. |
 | Model against reference | Fisher z test for two correlations from independent samples (29 winters each). Not applied between E-OBS and ERA5, which describe the same winters. |
 | Circulation part of a mean bias | Observed regression of the index on the NAO (per +1 SD of the ERA5 NAO, from E-OBS or ERA5) × the model's mean winter sea-level-pressure bias projected onto the ERA5 NAO pattern (in ERA5 SD, 1986–2014). Compared with the actual mean bias over UK and Ireland land and as a land pattern correlation. Repeated with the model's own regression as a sensitivity test. Linear; a consistency diagnostic, not an attribution. |
+| EOF domain sensitivity (notebook 04, section 8; added 10 November 2026) | The EOF analysis repeated in five North Atlantic boxes (standard 20–80°N 90°W–40°E; 20–70°N 90°W–40°E; 25–75°N 80°W–30°E; 20–80°N 90°W–0°; 30–80°N 60°W–40°E). Separation of the first two EOFs by non-overlapping North et al. (1982) error bars; NAO strength along each box's ERA5 pattern. |
 | Wet-day frequency and intensity | Winter wet days (at least 1 mm; ETCCDI R1mm) and rain per wet day (ETCCDI SDII), UK and Ireland land, 1986–2014. |
 
 ## References

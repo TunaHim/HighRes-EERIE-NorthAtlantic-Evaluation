@@ -1,7 +1,7 @@
 {
   "description": "Winter rainfall-extreme bias over UK and Ireland and the part expected from the mean circulation offset (observed NAO response x offset)",
-  "created": "2026-11-05T22:02:04+00:00",
-  "git_commit": "94f1e84d841ee843b5870ce45d327d4da6f38310",
+  "created": "2026-11-10T17:36:38+00:00",
+  "git_commit": "afb3c23d9a7e939da36f22cb69a3e5cb46e14c2a",
   "code": "eerie_uk (this repository)",
   "python": "3.11.17",
   "xarray": "2026.9.0",
