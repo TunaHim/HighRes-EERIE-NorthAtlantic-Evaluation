@@ -1,0 +1,32 @@
+{
+  "description": "UK and Ireland land-average extremes per run and reference",
+  "created": "2026-11-15T08:41:38+00:00",
+  "git_commit": "b331df8fc6a37cc91308c35292d0a759652fa278",
+  "code": "eerie_uk (this repository)",
+  "python": "3.11.17",
+  "xarray": "2026.9.0",
+  "pandas": "3.0.6",
+  "inputs": {
+    "pressure": "data/<run>/mon/psl",
+    "extremes": "data/derived/<run>_extremes_nw_europe.nc"
+  },
+  "rows": 8,
+  "columns": [
+    "dataset",
+    "source",
+    "wettest day of the year (mm)",
+    "wettest winter day (mm)",
+    "winter very-wet-day rain, R95p (mm)",
+    "hottest day of the year (\u00b0C)"
+  ],
+  "runs": [
+    "icon-esm-er",
+    "icon-esm-er.r2",
+    "icon-esm-er.r3",
+    "ifs-fesom2-sr",
+    "ifs-fesom2-sr.r2",
+    "ifs-fesom2-sr.r3"
+  ],
+  "nao_winters": "1976-2014",
+  "extreme_winters": "1986-2014"
+}

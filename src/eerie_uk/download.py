@@ -127,6 +127,51 @@ def build_extension_plan() -> list[Request]:
     return plan
 
 
+MEMBER_MONTHLY_YEARS = (1975, 2014)  # the extra historical members start in 1975
+CONTROL_YEARS = (1950, 2049)
+
+
+def build_v2_plan() -> list[Request]:
+    """Version 2 downloads from DKRZ: extra historical members and the control runs.
+
+    "members": members r2 and r3 of both coupled models, the same fields as r1
+    (monthly psl/tas/pr from 1975, daily pr/tasmax/psl 1985-2014).
+    "control": the 1950 control runs (constant forcing), monthly psl/tas/pr and
+    daily pr for 100 years, to measure how much 29-winter windows differ by chance.
+    """
+    plan = []
+    models = (
+        ("icon-esm-er", "icon-esm-er.hist-1950.{m}.atmos.gr025.", ("2d_monthly_mean", "2d_daily_mean", "2d_daily_max"),
+         {"psl": "psl", "tas": "tas", "pr": "pr", "tasmax": "tas"}),
+        ("ifs-fesom2-sr", "ifs-fesom2-sr.hist-1950.{m}.atmos.gr025.", ("2D_monthly_avg", "2D_daily_avg", "2D_daily_max"),
+         {"psl": "mmsl", "tas": "mean2t", "pr": "tprate", "tasmax": "mx2t24"}),
+    )
+    for model, template, (monthly, daily, daily_max), names in models:
+        for member in ("r2i1p1f1", "r3i1p1f1"):
+            source = f"{model}.{member[:2]}"
+            base = template.format(m=member)
+            plan += [
+                Request(source, base + monthly, names["psl"], "psl", "mon", "north_atlantic", *MEMBER_MONTHLY_YEARS, coarsen=NAO_COARSEN),
+                Request(source, base + monthly, names["tas"], "tas", "mon", "nw_europe", *MEMBER_MONTHLY_YEARS),
+                Request(source, base + monthly, names["pr"], "pr", "mon", "nw_europe", *MEMBER_MONTHLY_YEARS),
+                Request(source, base + daily, names["pr"], "pr", "day", "nw_europe", *DAILY_YEARS),
+                Request(source, base + daily_max, names["tasmax"], "tasmax", "day", "nw_europe", *DAILY_YEARS),
+                Request(source, base + daily, names["psl"], "psl", "day", "north_atlantic", *DAILY_YEARS, coarsen=NAO_COARSEN),
+            ]
+    for model, base, (monthly, daily, _), names in (
+        ("icon-esm-er", "icon-esm-er.eerie-control-1950.v20240618.atmos.gr025.", models[0][2], models[0][3]),
+        ("ifs-fesom2-sr", "ifs-fesom2-sr.eerie-control-1950.v20240304.atmos.gr025.", models[1][2], models[1][3]),
+    ):
+        source = f"{model}.control"
+        plan += [
+            Request(source, base + monthly, names["psl"], "psl", "mon", "north_atlantic", *CONTROL_YEARS, coarsen=NAO_COARSEN),
+            Request(source, base + monthly, names["tas"], "tas", "mon", "nw_europe", *CONTROL_YEARS),
+            Request(source, base + monthly, names["pr"], "pr", "mon", "nw_europe", *CONTROL_YEARS),
+            Request(source, base + daily, names["pr"], "pr", "day", "nw_europe", *CONTROL_YEARS),
+        ]
+    return plan
+
+
 # --- pure helpers ------------------------------------------------------------
 
 # Factor that turns a precipitation unit into mm per day.
@@ -308,7 +353,8 @@ def estimate(request: Request, seconds_per_step: float, mb_per_step: float) -> d
 
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    parser.add_argument("--group", choices=["monthly", "daily", "all", "resolution", "pressure"], default="all")
+    parser.add_argument("--group", choices=["monthly", "daily", "all", "resolution", "pressure", "members", "control"],
+                        default="all")
     parser.add_argument("--source", help="only sources whose name starts with this")
     parser.add_argument("--root", default=str(DATA_ROOT))
     parser.add_argument("--keep-awake", action="store_true", help="stop Windows idle-sleeping while this runs")
@@ -326,7 +372,11 @@ def main(argv=None) -> int:
         handlers=[logging.FileHandler(Path(args.root) / "download.log"), logging.StreamHandler()],
     )
     failures = 0
-    if args.group in ("resolution", "pressure"):
+    if args.group in ("members", "control"):
+        requests = [r for r in build_v2_plan() if r.source.endswith(".control") == (args.group == "control")]
+        # monthly first: small, and enough for the NAO part on its own
+        requests.sort(key=lambda r: r.frequency != "mon")
+    elif args.group in ("resolution", "pressure"):
         requests = [
             r for r in build_extension_plan() if (r.variable == "pr") == (args.group == "resolution")
         ]

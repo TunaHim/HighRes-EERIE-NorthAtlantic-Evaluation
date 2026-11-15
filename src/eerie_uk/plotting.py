@@ -20,6 +20,21 @@ SEQUENTIAL = LinearSegmentedColormap.from_list(
 )
 
 
+def colour_of(source: str) -> str:
+    """Colour of a data source; extra members ("model.r2") and control runs share the model's colour."""
+    return SOURCE_COLOURS.get(source, SOURCE_COLOURS.get(source.split(".")[0], MUTED))
+
+
+def label_of(source: str) -> str:
+    """Readable name: "icon-esm-er.r2" -> "ICON-ESM-ER r2", "icon-esm-er" -> "ICON-ESM-ER r1"."""
+    if source in SOURCE_LABELS and source not in ("icon-esm-er", "ifs-fesom2-sr"):
+        return SOURCE_LABELS[source]
+    base, _, tag = source.partition(".")
+    if base in ("icon-esm-er", "ifs-fesom2-sr"):
+        return f"{SOURCE_LABELS[base]} {tag or 'r1'}"
+    return SOURCE_LABELS.get(source, source)
+
+
 def _style(ax):
     ax.set_facecolor(SURFACE)
     for side in ("top", "right"):
@@ -132,6 +147,10 @@ SOURCE_COLOURS = {
     # resolution pair (notebook 08)
     "ifs-amip-tco1279.hist": "#4a3aa7",
     "ifs-amip-tco399.hist": "#1baf7a",
+    # HadGEM3-GC5 resolution ladder (notebook 12), light to dark with resolution
+    "hadgem3-gc5e-ll": "#b8acf0",
+    "hadgem3-gc5e-mm": "#7b6be0",
+    "hadgem3-gc5e-hh": "#3d2b9e",
 }
 SOURCE_LABELS = {
     "era5": "ERA5",
@@ -143,6 +162,9 @@ SOURCE_LABELS = {
     "hist-c-lr20-a-0": "third variant (c-lr20-a-0)",
     "ifs-amip-tco1279.hist": "IFS 9 km",
     "ifs-amip-tco399.hist": "IFS 28 km",
+    "hadgem3-gc5e-ll": "HadGEM3 LL (~135 km)",
+    "hadgem3-gc5e-mm": "HadGEM3 MM (~60 km)",
+    "hadgem3-gc5e-hh": "HadGEM3 HH (~20 km)",
 }
 
 
@@ -384,14 +406,14 @@ def plot_member_dots(groups, xlabel="", title="", reference=None, reference_labe
     _style(ax)
     for row, name in enumerate(names):
         values = np.asarray(groups[name], dtype=float)
-        colour = SOURCE_COLOURS.get(name, MUTED)
+        colour = colour_of(name)
         ax.scatter(values, np.full(values.size, row), s=42, color=colour, edgecolors=SURFACE, linewidths=1.0, zorder=3)
         ax.plot([values.mean()] * 2, [row - 0.3, row + 0.3], color=INK, linewidth=2, zorder=4)
         ax.text(values.max(), row + 0.32, f"mean {values.mean():.2f}", fontsize=8, color=INK_SECONDARY, ha="right")
     if reference is not None:
         ax.axvline(reference, color=SOURCE_COLOURS["era5"], linewidth=1.2, linestyle="--")
         ax.text(reference, -0.75, reference_label, fontsize=8, color=INK_SECONDARY, ha="center")
-    ax.set_yticks(range(len(names)), [SOURCE_LABELS.get(n, n) for n in names])
+    ax.set_yticks(range(len(names)), [label_of(n) if n in SOURCE_COLOURS or "." in n else SOURCE_LABELS.get(n, n) for n in names])
     ax.set_ylim(len(names) - 0.4, -1.0)
     ax.grid(axis="x", color=GRID, linewidth=0.6)
     ax.set_axisbelow(True)
@@ -408,16 +430,17 @@ def plot_intervals(groups, xlabel="", title="", reference_line=0.0):
     The dot colour follows the source; the grey line marks ``reference_line``.
     """
     names = list(groups)
-    fig, axes = plt.subplots(1, len(names), figsize=(3.4 * len(names), 2.6), facecolor=SURFACE,
+    height = max(2.6, 0.3 * max(len(rows) for rows in groups.values()) + 1.3)
+    fig, axes = plt.subplots(1, len(names), figsize=(3.4 * len(names), height), facecolor=SURFACE,
                              sharex=True, squeeze=False)
     for ax, name in zip(axes.flat, names):
         rows = groups[name]
         for k, (source, estimate, low, high) in enumerate(rows):
-            colour = SOURCE_COLOURS.get(source, MUTED)
+            colour = colour_of(source)
             ax.plot([low, high], [k, k], color=colour, linewidth=2.2, solid_capstyle="round")
             ax.plot(estimate, k, "o", color=colour, markersize=6, markeredgecolor=SURFACE)
         ax.axvline(reference_line, color=AXIS, linewidth=1)
-        ax.set_yticks(range(len(rows)), [SOURCE_LABELS.get(r[0], r[0]) for r in rows])
+        ax.set_yticks(range(len(rows)), [label_of(r[0]) for r in rows])
         ax.set_ylim(len(rows) - 0.5, -0.5)
         ax.set_title(name, loc="left", fontsize=9, color=INK_SECONDARY)
         ax.grid(axis="x", color=GRID, linewidth=0.6)

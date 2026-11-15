@@ -60,11 +60,15 @@ checked against a reference before moving on.
 | **ERA5 daily** | second reference for extremes | 1985–2014 daily |
 | **IFS atmosphere-only ensembles** | paired experiments with observed and with filtered sea-surface temperature, ten members each | 1980–2023 monthly |
 | **IFS atmosphere-only, 9 km and 28 km** | same model and SST at two resolutions; 1 and 3 members | 1985–2014 daily (28 km: winter) |
+| **Version 2: ICON-ESM-ER and IFS-FESOM2-SR r2, r3** | two more historical runs of each coupled model | 1975–2014 monthly, 1985–2014 daily |
+| **Version 2: control runs** | both coupled models with constant 1950 forcing | 1950–2049 monthly and daily rain |
+| **Version 2: HadGEM3-GC5 LL, MM, HH** | one coupled model at about 135, 60 and 20 km, one member each | 1950–2014 monthly |
 
-All data are public. **Each coupled model is a single run (member r1)**, so the results are
-indications, not a ranking of the models: two models with one member each can show what is
-*consistent across the two models examined*, not what is robust. The main contribution is the
-evaluation method and diagnostic pipeline, which can be rerun on more members and models.
+All data are public. Version 1 (sections 1–8) used **a single run (member r1)** of each coupled
+model. **Version 2** (sections 9 and 10) adds two more runs of each model, their 100-year control
+runs, and a third model at three resolutions, to test which version 1 results are model properties
+and which were chance. The main contribution remains the evaluation method and diagnostic pipeline,
+which can be rerun on more members and models.
 
 ## How to read this notebook
 
@@ -254,6 +258,9 @@ the computation then returns two arbitrary blends of them. The real NAO pattern 
 between ICON-ESM-ER's first and second patterns (overlaps 0.76 and 0.58). In this model the NAO
 and a second mode of similar strength share the variability. This is why every model in this
 project is measured along the *same* ERA5 pattern rather than along its own leading pattern.
+**Version 2 update (notebook 10):** in ICON-ESM-ER's runs r2 and r3 the leading pattern resembles
+ERA5's much more closely (pattern correlation 0.90 and 0.94, against 0.59 for r1 over the same
+winters), so the mixing seen here was largely the chance of run r1.
 Notebook 04 (section 8) shows the mixing persists in all five domains tested, while the NAO
 strengths along ERA5's pattern barely change (0.56–0.61 and 0.68–0.72).
 """)
@@ -520,17 +527,79 @@ than ERA5, indicating enhanced synoptic storminess (a proxy; individual cyclones
 """)
 
 md("""
-## 9. What was learned
+## 9. Version 2: model or chance? (notebooks 10 and 11)
+
+Version 1 rests on one run of each coupled model. Version 2 repeats the key diagnostics on two more
+historical runs of each model (r2 and r3) and measures chance with 100-year control runs.
+""")
+
+step("""
+**What this cell does.** Shows, for each headline result of version 1, the value in run r1 and the
+range over the three runs (notebook 10).
+""", """
+pd.read_parquet('../app_assets/members_verdict.parquet')
+""")
+
+md("""
+**Reading the table.** Where the three runs agree, the result is a property of the model: the mean
+circulation offset, the wet bias, a too-weak NAO. Where they scatter widely, as for the NAO link to
+UK and Ireland rain (ICON-ESM-ER 0.06 to 0.49, IFS-FESOM2-SR 0.21 to 0.60), a single run cannot pin
+the number down.
+""")
+
+step("""
+**What this cell does.** Shows where the three historical runs and the two references fall relative
+to the chance range of each model's control run: the 5th to 95th percentile of the NAO–rain
+correlation over all 29-winter windows of 99 control winters (notebook 11).
+""", """
+pd.read_parquet('../app_assets/control_placement.parquet')
+""")
+
+md("""
+**Reading the table.** Over **western Norway** the observed link (0.81) lies above every control
+window of both models and above all six historical runs: both models robustly underestimate it.
+Over **north-west France** ICON-ESM-ER's control run almost never produces the observed positive
+link: its wrong sign is a model property. Over **UK and Ireland** the references fall inside or at
+the edge of the chance ranges. Several historical runs fall outside their control range, so these
+ranges understate chance and are lower bounds.
+
+## 10. One coupled model at three resolutions (notebook 12)
+
+HadGEM3-GC5 was run at about 135 km (LL), 60 km (MM) and 20 km (HH) in the atmosphere, with the
+ocean going from 1° to an eddy-rich 1/12°. Only monthly data are public, so the comparison covers
+the circulation, the NAO, winter-mean rain and the jet.
+""")
+
+step("""
+**What this cell does.** Combines the circulation, NAO and surface tables of notebook 12.
+""", """
+circulation = pd.read_parquet('../app_assets/hadgem_circulation.parquet').set_index('model').drop(columns='source')
+nao_v2 = pd.read_parquet('../app_assets/hadgem_nao.parquet').set_index('model')[['NAO strength relative to ERA5', 'first half', 'second half', 'own pattern vs ERA5']]
+surface = pd.read_parquet('../app_assets/hadgem_surface_uk.parquet').set_index('dataset')[['rain vs ERA5 (%)', 'temperature vs ERA5 (°C)']]
+circulation.join(nao_v2).join(surface)
+""")
+
+md("""
+**Reading the table.** With finer resolution the winter pressure error shrinks (3.2, 2.7, 2.6 hPa)
+and the NAO pattern looks more like ERA5's (0.92, 0.95, 0.98). NAO strength does not follow
+resolution: it changes as much between the two halves of one run as between resolutions. At 20 km
+UK and Ireland winters are 25% wetter than ERA5, against +7% to +8% at the coarser grids, the same
+direction as IFS's 9 km run in section 7. The 850 hPa jet sits about 1.5° too far north at LL and
+close to ERA5 at MM.
+""")
+
+md("""
+## 11. What was learned
 
 | Step | ICON-ESM-ER | IFS-FESOM2-SR |
 |---|---|---|
 | Mean winter circulation | too-strong north–south pressure contrast | close to ERA5 |
-| NAO pattern | mixed across two patterns | recognisable, southern centre weak |
-| NAO strength | 0.59 of ERA5 | 0.71 of ERA5 |
-| Rainfall extremes, UK and Ireland | 50–60% too heavy; too many wet days and too much rain per wet day | within 10–20% of the references |
+| NAO pattern | mixed in r1; close to ERA5 in r2 and r3 | recognisable, southern centre weak |
+| NAO strength (three runs, 1976–2014) | 0.55–0.63 of ERA5 | 0.68–0.81 of ERA5 |
+| Rainfall extremes, UK and Ireland (three runs) | 42–62% too heavy; too many wet days and too much rain per wet day | within 4–17% of E-OBS |
 | Share of the wet bias consistent with the circulation offset | 38–74% (very wet days), 18–39% (wettest day) | offset small (0.2 SD) |
 | Hottest day of the year | about 2 °C too cool against ERA5 | within 1 °C of ERA5 |
-| NAO link to winter rainfall extremes | right sign over UK; too weak in Norway, wrong sign in France | reproduced in sign, pattern and strength |
+| NAO link to winter rainfall extremes | UK: varies by chance (0.06–0.49); Norway: too weak in all runs; France: wrong sign (model property) | UK: varies by chance (0.21–0.60); Norway: too weak in all runs; France: near zero to observed |
 | Weather behind the heaviest rain days | same pattern, weaker build-up | same pattern and build-up |
 | Storminess over the UK (day-to-day pressure variability) | 17% higher than ERA5 | 13% higher than ERA5 |
 
@@ -539,13 +608,19 @@ md("""
    response. That offset is consistent with a large part of its very-wet-day rain bias over UK and
    Ireland, but less than half of its wettest-day bias: the model also rains too hard on each wet
    day. Checking the chain in order, and then putting a number on each link, made that visible.
-2. **A model can get the regional link right while its NAO is too weak.** IFS-FESOM2-SR reproduces
-   how extremes respond to a given NAO swing, but produces smaller swings.
-3. **Single members are a real limit.** The ensemble experiment shows that NAO strength ranges
-   from 0.70 to 1.00 between ten identical runs. Several of the differences reported here are of that size.
-4. **Higher resolution is not automatically better.** In IFS, 9 km gives heavier rain extremes,
-   which helps over mountains and overshoots elsewhere; conclusions about the NAO's influence do
-   not change with resolution but vary strongly between identical runs.
+2. **Mean-state biases are model properties; the NAO link over UK and Ireland is mostly chance.**
+   Version 2's extra runs confirm every mean-state and extreme-index bias of version 1, and a
+   too-weak NAO in both models. But three runs of one model span correlations from 0.06 to 0.49 for
+   the NAO link to UK and Ireland rain extremes, so version 1's single-run comparison of that link
+   between the models does not hold.
+3. **The clearest model error in the link is over western Norway.** All six historical runs and
+   every 29-winter window of both control runs have a weaker NAO link than observed (0.81). ICON-
+   ESM-ER's wrong-sign link over north-west France is also a model property.
+4. **Higher resolution improves the circulation, not the NAO's strength, and makes winters
+   wetter.** In HadGEM3 the mean pressure error falls and the NAO pattern sharpens from 135 to
+   20 km; NAO strength does not change beyond chance; winter rain over UK and Ireland rises by a
+   quarter at 20 km. In IFS, 9 km gives heavier rain extremes, which helps over mountains and
+   overshoots elsewhere.
 5. **Two good references can disagree, and 29 winters are few.** E-OBS and ERA5 agree on patterns
    but not always on numbers (for example the strength of the NAO link over UK and Ireland, 0.51
    against 0.35). Over UK and Ireland, no correlation can be told apart from another within its
@@ -553,10 +628,12 @@ md("""
 6. **In one atmosphere model, NAO strength shows no detectable change under the tested
    small-scale SST filtering**; other aspects of the atmosphere, and coupled feedbacks, are not tested.
 
-## 10. Main limitations
+## 12. Main limitations
 
-- One member per coupled model; 64 winters for the NAO, 29 for the link to extremes.
-- Two models: results are "consistent across the two models examined" at most.
+- Three runs per coupled model (version 2); 29 winters for the link to extremes. Control-run
+  chance ranges come from overlapping windows of one run and understate chance.
+- Two coupled models for extremes, plus HadGEM3 for the monthly diagnostics; HadGEM3 daily data
+  are not public.
 - ERA5 is a reanalysis; its precipitation is a model product. E-OBS smooths intense rain and
   covers land only.
 - Precipitation was regridded bilinearly, not conservatively.
@@ -566,7 +643,7 @@ md("""
 - The resolution comparison uses one 9 km run and three 28 km members, winter only, compared at 25 km.
 - Model complexity and air quality are not tested.
 
-## 11. Status and what would come next
+## 13. Status and what would come next
 
 This project is a **research prototype**: a complete, tested chain from public data to
 conclusions, built to be scaled up rather than a final evaluation of the EERIE models.
@@ -574,8 +651,9 @@ conclusions, built to be scaled up rather than a final evaluation of the EERIE m
 The analysis code takes any dataset that provides monthly sea-level pressure and daily
 precipitation and maximum temperature under CMIP-style names. The same notebooks could therefore
 be run on more EERIE members, on CMIP6 models, and on CMIP7 output when it becomes available.
-Adding members is the single most valuable next step, because it would separate model behaviour
-from chance. A natural extension is physical climate storylines: using the event composites of
+Version 2 has started that with three runs per model, control runs and a resolution ladder. The
+next steps are larger ensembles, HadGEM3's daily data (which needs JASMIN access) to bring its
+extremes into the comparison, and process diagnostics for the wet bias. A natural extension is physical climate storylines: using the event composites of
 notebook 09 to ask how a given type of heavy-rain winter would look under further warming, with
 control runs to separate forced change from internal variability.
 
@@ -592,6 +670,9 @@ control runs to separate forced change from internal variability.
 | `07_paired_experiment` | NAO sensitivity to filtered sea-surface temperature |
 | `08_resolution` | winter precipitation extremes at 9 km and 28 km |
 | `09_event_anatomy` | the weather behind the heaviest winter rain days, storminess, persistent highs |
+| `10_members` | version 2: three runs per coupled model, model or chance? |
+| `11_control` | version 2: chance ranges from the 100-year control runs |
+| `12_hadgem_resolution` | version 2: HadGEM3-GC5 at three resolutions |
 
 Methods: `docs/methods.md`. Code: `src/eerie_uk/`, with offline tests in `tests/`.
 The summary figure is also saved as `docs/figures/summary_chain.png`.

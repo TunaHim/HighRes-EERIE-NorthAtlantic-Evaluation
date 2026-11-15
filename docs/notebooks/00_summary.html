@@ -7822,7 +7822,7 @@ a.anchor-link {
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
 <!-- site:nav --><nav class="sitenav"><div><b>HighRes-EERIE-NorthAtlantic-Evaluation</b><a href="../index.html">What was found</a><a href="../engineering_overview.html">How it is built</a><a href="../methods.html">Methods</a><a href="../notebooks/index.html" class="here">Notebooks</a><a href="../explorer/index.html">Explorer</a><a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation">Code on GitHub</a></div></nav><!-- /site:nav -->
 <main>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5737cf63">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=21567eab">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7885,12 +7885,28 @@ checked against a reference before moving on.</p>
 <td>same model and SST at two resolutions; 1 and 3 members</td>
 <td>1985–2014 daily (28 km: winter)</td>
 </tr>
+<tr>
+<td><strong>Version 2: ICON-ESM-ER and IFS-FESOM2-SR r2, r3</strong></td>
+<td>two more historical runs of each coupled model</td>
+<td>1975–2014 monthly, 1985–2014 daily</td>
+</tr>
+<tr>
+<td><strong>Version 2: control runs</strong></td>
+<td>both coupled models with constant 1950 forcing</td>
+<td>1950–2049 monthly and daily rain</td>
+</tr>
+<tr>
+<td><strong>Version 2: HadGEM3-GC5 LL, MM, HH</strong></td>
+<td>one coupled model at about 135, 60 and 20 km, one member each</td>
+<td>1950–2014 monthly</td>
+</tr>
 </tbody>
 </table>
-<p>All data are public. <strong>Each coupled model is a single run (member r1)</strong>, so the results are
-indications, not a ranking of the models: two models with one member each can show what is
-<em>consistent across the two models examined</em>, not what is robust. The main contribution is the
-evaluation method and diagnostic pipeline, which can be rerun on more members and models.</p>
+<p>All data are public. Version 1 (sections 1–8) used <strong>a single run (member r1)</strong> of each coupled
+model. <strong>Version 2</strong> (sections 9 and 10) adds two more runs of each model, their 100-year control
+runs, and a third model at three resolutions, to test which version 1 results are model properties
+and which were chance. The main contribution remains the evaluation method and diagnostic pipeline,
+which can be rerun on more members and models.</p>
 <h2 id="How-to-read-this-notebook">How to read this notebook<a class="anchor-link" href="#How-to-read-this-notebook">¶</a></h2><p>Dark grey is ERA5, light grey is E-OBS, blue is ICON-ESM-ER, orange is IFS-FESOM2-SR.
 In difference maps, grey means no difference. Every code cell has a note above it; every figure
 has a caption. Technical terms are explained in the "Background" section of each detailed notebook.</p>
@@ -7898,7 +7914,7 @@ has a caption. Technical terms are explained in the "Background" section of each
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=03ea3628">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a22b4cba">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7909,7 +7925,7 @@ notebooks.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=254f12b2">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=a97fcd0f">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7936,7 +7952,7 @@ notebooks.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=55a4c54d">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=83b83bdf">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7948,7 +7964,7 @@ average winter circulation, the NAO, the link from the NAO to very-wet-day rain,
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e171b662">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=713b8c1d">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7964,7 +7980,7 @@ model's winter R95p relative to E-OBS.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=21b07108">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=6613083d">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8052,7 +8068,7 @@ model's winter R95p relative to E-OBS.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=38353893">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=cf9e1bc9">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8071,7 +8087,7 @@ ICON-ESM-ER's circulation offset accounts for only part of its wet bias.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=92a6539d">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=fa543847">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8082,7 +8098,7 @@ ICON-ESM-ER's circulation offset accounts for only part of its wet bias.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=816c9e10">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=590e0aff">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8093,7 +8109,7 @@ Europe (for temperature, rainfall and extremes) and the headline region, UK and 
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=5c0d16a3">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=b04a0906">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8120,7 +8136,7 @@ Europe (for temperature, rainfall and extremes) and the headline region, UK and 
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4a79820c">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=9b2fd46f">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8131,7 +8147,7 @@ Europe (for temperature, rainfall and extremes) and the headline region, UK and 
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b4779c1c">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d5e5c97f">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8142,7 +8158,7 @@ Europe (for temperature, rainfall and extremes) and the headline region, UK and 
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c9eb9940">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=520f8004">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8152,7 +8168,7 @@ Europe (for temperature, rainfall and extremes) and the headline region, UK and 
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a28aebb7">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c1ff893a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8182,7 +8198,7 @@ Europe (for temperature, rainfall and extremes) and the headline region, UK and 
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3010eb25">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7866011c">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8203,7 +8219,7 @@ section 5.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f62d6f61">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0c6e24f9">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8214,7 +8230,7 @@ section 5.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e01a7cf5">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=641d1382">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8225,7 +8241,7 @@ ERA5 and both models over 64 winters, 1951–2014, and maps it.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=9dfeaf63">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=3d33d8f1">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8255,7 +8271,7 @@ ERA5 and both models over 64 winters, 1951–2014, and maps it.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3ec1aee1">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=355e6987">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8272,13 +8288,16 @@ the computation then returns two arbitrary blends of them. The real NAO pattern 
 between ICON-ESM-ER's first and second patterns (overlaps 0.76 and 0.58). In this model the NAO
 and a second mode of similar strength share the variability. This is why every model in this
 project is measured along the <em>same</em> ERA5 pattern rather than along its own leading pattern.
+<strong>Version 2 update (notebook 10):</strong> in ICON-ESM-ER's runs r2 and r3 the leading pattern resembles
+ERA5's much more closely (pattern correlation 0.90 and 0.94, against 0.59 for r1 over the same
+winters), so the mixing seen here was largely the chance of run r1.
 Notebook 04 (section 8) shows the mixing persists in all five domains tested, while the NAO
 strengths along ERA5's pattern barely change (0.56–0.61 and 0.68–0.72).</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6257578e">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=cee5cde5">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8290,7 +8309,7 @@ bias expressed as an NAO state.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=b5e25e06">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=7ba681d2">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8380,7 +8399,7 @@ bias expressed as an NAO state.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d38c6f80">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0e8fc5f5">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8396,7 +8415,7 @@ from 0.70 to 1.00, so a single member's 0.71 may be partly chance; 0.59 lies bel
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e7c73d54">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1e71450b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8407,7 +8426,7 @@ from 0.70 to 1.00, so a single member's 0.71 may be partly chance; 0.59 lies bel
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b4615d5d">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=faccba97">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8419,7 +8438,7 @@ year (TXx), for the reference data and both models.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=cd0f941b">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=580d0bc5">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8518,7 +8537,7 @@ year (TXx), for the reference data and both models.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ee08aa82">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=17a8dade">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8530,7 +8549,7 @@ rainfall rows, in °C for the hottest day.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=29a9fbbf">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=848130cf">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8540,7 +8559,7 @@ rainfall rows, in °C for the hottest day.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=3ba2500a">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a06a0cc0">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8571,7 +8590,7 @@ rainfall rows, in °C for the hottest day.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=05ba681f">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b57b20fd">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8593,7 +8612,7 @@ though it too smooths the most intense local rain.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ef7f66ef">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0bc2649f">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8605,7 +8624,7 @@ to the north-west of Europe.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e228be45">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4aa72c93">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8618,7 +8637,7 @@ false-discovery-rate control.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c3894cb5">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=543db238">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8654,7 +8673,7 @@ false-discovery-rate control.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=43717907">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4f3ddbe5">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8668,7 +8687,7 @@ IFS-FESOM2-SR reproduces it. ICON-ESM-ER has the positive link in the north, but
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a4369dd2">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6ee3d516">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8680,7 +8699,7 @@ the p value.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=0632800f">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=1e0acf4d">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8845,7 +8864,7 @@ the p value.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e6ada689">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=cf3c4d4c">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8861,7 +8880,7 @@ has only a weak link over UK and Ireland in both references.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=dbd98424">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=47b811bb">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8873,7 +8892,7 @@ effective number of independent winters.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a1f06f71">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=880c6231">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9016,7 +9035,7 @@ effective number of independent winters.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d233a9c6">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d7f3702a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9032,7 +9051,7 @@ regions.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=8bc55ec9">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ad6c5a29">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9045,7 +9064,7 @@ it with the actual bias over UK and Ireland land, and adds wet-day frequency and
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=b32616b4">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=b9beaa2d">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9255,7 +9274,7 @@ it with the actual bias over UK and Ireland land, and adds wet-day frequency and
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=97cb8828">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e7ec8d58">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9276,7 +9295,7 @@ beyond most ordinary NAO winters.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d8e48c1f">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=610fd380">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9287,7 +9306,7 @@ beyond most ordinary NAO winters.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=607f21ac">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=88f6aa0c">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9299,7 +9318,7 @@ plots one dot per member.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=9a5a7b38">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=80f87c99">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9331,7 +9350,7 @@ plots one dot per member.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=cff18b1e">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=bd284d42">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9346,7 +9365,7 @@ it says nothing about a coupled effect of ocean eddies, and the exact filter is 
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=69080db1">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f273065f">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9358,7 +9377,7 @@ sea-surface temperature, run at about 9 km and at about 28 km (three members), w
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=375862c3">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0235f62a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9369,7 +9388,7 @@ the two references, the 9 km run and each of the three 28 km members.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=ec6a660b">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=7fed67e9">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9469,7 +9488,7 @@ the two references, the 9 km run and each of the three 28 km members.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d42d2df0">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=592752b9">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9486,7 +9505,7 @@ internal variability than on resolution.</strong></p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=cd193aa8">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a0913f85">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9497,7 +9516,7 @@ internal variability than on resolution.</strong></p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=cf762cf6">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=133c5166">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9508,7 +9527,7 @@ each model, and maps the average pressure anomaly on those days.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=7d99dca7">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a56f1db0">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9546,7 +9565,7 @@ each model, and maps the average pressure anomaly on those days.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=144d0505">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=16f00878">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9562,13 +9581,588 @@ than ERA5, indicating enhanced synoptic storminess (a proxy; individual cyclones
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=99a3ff64">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=667cb5b6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="9.-What-was-learned">9. What was learned<a class="anchor-link" href="#9.-What-was-learned">¶</a></h2><table>
+<h2 id="9.-Version-2:-model-or-chance?-(notebooks-10-and-11)">9. Version 2: model or chance? (notebooks 10 and 11)<a class="anchor-link" href="#9.-Version-2:-model-or-chance?-(notebooks-10-and-11)">¶</a></h2><p>Version 1 rests on one run of each coupled model. Version 2 repeats the key diagnostics on two more
+historical runs of each model (r2 and r3) and measures chance with 100-year control runs.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7daf5095">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><strong>What this cell does.</strong> Shows, for each headline result of version 1, the value in run r1 and the
+range over the three runs (notebook 10).</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=af4c576b">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s1">'../app_assets/members_verdict.parquet'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[16]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>model</th>
+<th>result</th>
+<th>r1</th>
+<th>three runs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>ICON-ESM-ER</td>
+<td>NAO strength relative to ERA5</td>
+<td>0.55</td>
+<td>0.55 to 0.63</td>
+</tr>
+<tr>
+<th>1</th>
+<td>ICON-ESM-ER</td>
+<td>mean circulation offset (SD)</td>
+<td>2.12</td>
+<td>1.93 to 2.12</td>
+</tr>
+<tr>
+<th>2</th>
+<td>ICON-ESM-ER</td>
+<td>winter R95p bias vs E-OBS (%)</td>
+<td>61.61</td>
+<td>50.38 to 61.61</td>
+</tr>
+<tr>
+<th>3</th>
+<td>ICON-ESM-ER</td>
+<td>NAO link to R95p, UK and Ireland</td>
+<td>0.36</td>
+<td>0.06 to 0.49</td>
+</tr>
+<tr>
+<th>4</th>
+<td>ICON-ESM-ER</td>
+<td>NAO link to R95p, Western Norway</td>
+<td>0.52</td>
+<td>0.52 to 0.71</td>
+</tr>
+<tr>
+<th>5</th>
+<td>ICON-ESM-ER</td>
+<td>NAO link to R95p, North-west France</td>
+<td>-0.46</td>
+<td>-0.46 to 0.18</td>
+</tr>
+<tr>
+<th>6</th>
+<td>IFS-FESOM2-SR</td>
+<td>NAO strength relative to ERA5</td>
+<td>0.68</td>
+<td>0.68 to 0.81</td>
+</tr>
+<tr>
+<th>7</th>
+<td>IFS-FESOM2-SR</td>
+<td>mean circulation offset (SD)</td>
+<td>0.22</td>
+<td>0.06 to 0.48</td>
+</tr>
+<tr>
+<th>8</th>
+<td>IFS-FESOM2-SR</td>
+<td>winter R95p bias vs E-OBS (%)</td>
+<td>8.99</td>
+<td>8.99 to 16.60</td>
+</tr>
+<tr>
+<th>9</th>
+<td>IFS-FESOM2-SR</td>
+<td>NAO link to R95p, UK and Ireland</td>
+<td>0.60</td>
+<td>0.21 to 0.60</td>
+</tr>
+<tr>
+<th>10</th>
+<td>IFS-FESOM2-SR</td>
+<td>NAO link to R95p, Western Norway</td>
+<td>0.66</td>
+<td>0.60 to 0.69</td>
+</tr>
+<tr>
+<th>11</th>
+<td>IFS-FESOM2-SR</td>
+<td>NAO link to R95p, North-west France</td>
+<td>0.25</td>
+<td>-0.02 to 0.25</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6e8c7a86">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><strong>Reading the table.</strong> Where the three runs agree, the result is a property of the model: the mean
+circulation offset, the wet bias, a too-weak NAO. Where they scatter widely, as for the NAO link to
+UK and Ireland rain (ICON-ESM-ER 0.06 to 0.49, IFS-FESOM2-SR 0.21 to 0.60), a single run cannot pin
+the number down.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5ed327ae">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><strong>What this cell does.</strong> Shows where the three historical runs and the two references fall relative
+to the chance range of each model's control run: the 5th to 95th percentile of the NAO–rain
+correlation over all 29-winter windows of 99 control winters (notebook 11).</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=7a4c9e0c">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s1">'../app_assets/control_placement.parquet'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[17]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>region</th>
+<th>index</th>
+<th>model</th>
+<th>chance range</th>
+<th>historical runs</th>
+<th>runs inside</th>
+<th>E-OBS</th>
+<th>ERA5</th>
+<th>E-OBS inside</th>
+<th>ERA5 inside</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>UK and Ireland</td>
+<td>R95p</td>
+<td>ICON-ESM-ER</td>
+<td>0.26 to 0.40</td>
+<td>0.36, 0.06, 0.49</td>
+<td>1</td>
+<td>0.51</td>
+<td>0.35</td>
+<td>False</td>
+<td>True</td>
+</tr>
+<tr>
+<th>1</th>
+<td>UK and Ireland</td>
+<td>R95p</td>
+<td>IFS-FESOM2-SR</td>
+<td>0.25 to 0.67</td>
+<td>0.60, 0.48, 0.21</td>
+<td>2</td>
+<td>0.51</td>
+<td>0.35</td>
+<td>True</td>
+<td>True</td>
+</tr>
+<tr>
+<th>2</th>
+<td>UK and Ireland</td>
+<td>RX1day</td>
+<td>ICON-ESM-ER</td>
+<td>0.14 to 0.39</td>
+<td>0.28, -0.14, 0.22</td>
+<td>2</td>
+<td>0.56</td>
+<td>0.32</td>
+<td>False</td>
+<td>True</td>
+</tr>
+<tr>
+<th>3</th>
+<td>UK and Ireland</td>
+<td>RX1day</td>
+<td>IFS-FESOM2-SR</td>
+<td>0.11 to 0.51</td>
+<td>0.57, 0.52, 0.06</td>
+<td>0</td>
+<td>0.56</td>
+<td>0.32</td>
+<td>False</td>
+<td>True</td>
+</tr>
+<tr>
+<th>4</th>
+<td>Western Norway</td>
+<td>R95p</td>
+<td>ICON-ESM-ER</td>
+<td>0.50 to 0.73</td>
+<td>0.52, 0.71, 0.69</td>
+<td>3</td>
+<td>0.81</td>
+<td>0.81</td>
+<td>False</td>
+<td>False</td>
+</tr>
+<tr>
+<th>5</th>
+<td>Western Norway</td>
+<td>R95p</td>
+<td>IFS-FESOM2-SR</td>
+<td>0.48 to 0.76</td>
+<td>0.66, 0.69, 0.60</td>
+<td>3</td>
+<td>0.81</td>
+<td>0.81</td>
+<td>False</td>
+<td>False</td>
+</tr>
+<tr>
+<th>6</th>
+<td>Western Norway</td>
+<td>RX1day</td>
+<td>ICON-ESM-ER</td>
+<td>0.33 to 0.60</td>
+<td>0.46, 0.60, 0.60</td>
+<td>3</td>
+<td>0.78</td>
+<td>0.74</td>
+<td>False</td>
+<td>False</td>
+</tr>
+<tr>
+<th>7</th>
+<td>Western Norway</td>
+<td>RX1day</td>
+<td>IFS-FESOM2-SR</td>
+<td>0.39 to 0.72</td>
+<td>0.46, 0.60, 0.44</td>
+<td>3</td>
+<td>0.78</td>
+<td>0.74</td>
+<td>False</td>
+<td>False</td>
+</tr>
+<tr>
+<th>8</th>
+<td>North-west France</td>
+<td>R95p</td>
+<td>ICON-ESM-ER</td>
+<td>-0.40 to 0.08</td>
+<td>-0.46, -0.32, 0.18</td>
+<td>1</td>
+<td>0.34</td>
+<td>0.28</td>
+<td>False</td>
+<td>False</td>
+</tr>
+<tr>
+<th>9</th>
+<td>North-west France</td>
+<td>R95p</td>
+<td>IFS-FESOM2-SR</td>
+<td>-0.04 to 0.27</td>
+<td>0.25, -0.01, -0.02</td>
+<td>3</td>
+<td>0.34</td>
+<td>0.28</td>
+<td>False</td>
+<td>False</td>
+</tr>
+<tr>
+<th>10</th>
+<td>North-west France</td>
+<td>RX1day</td>
+<td>ICON-ESM-ER</td>
+<td>-0.31 to 0.31</td>
+<td>-0.31, -0.38, 0.25</td>
+<td>1</td>
+<td>0.38</td>
+<td>0.25</td>
+<td>False</td>
+<td>True</td>
+</tr>
+<tr>
+<th>11</th>
+<td>North-west France</td>
+<td>RX1day</td>
+<td>IFS-FESOM2-SR</td>
+<td>0.09 to 0.35</td>
+<td>0.33, -0.00, 0.03</td>
+<td>1</td>
+<td>0.38</td>
+<td>0.25</td>
+<td>False</td>
+<td>True</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=67066d53">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><strong>Reading the table.</strong> Over <strong>western Norway</strong> the observed link (0.81) lies above every control
+window of both models and above all six historical runs: both models robustly underestimate it.
+Over <strong>north-west France</strong> ICON-ESM-ER's control run almost never produces the observed positive
+link: its wrong sign is a model property. Over <strong>UK and Ireland</strong> the references fall inside or at
+the edge of the chance ranges. Several historical runs fall outside their control range, so these
+ranges understate chance and are lower bounds.</p>
+<h2 id="10.-One-coupled-model-at-three-resolutions-(notebook-12)">10. One coupled model at three resolutions (notebook 12)<a class="anchor-link" href="#10.-One-coupled-model-at-three-resolutions-(notebook-12)">¶</a></h2><p>HadGEM3-GC5 was run at about 135 km (LL), 60 km (MM) and 20 km (HH) in the atmosphere, with the
+ocean going from 1° to an eddy-rich 1/12°. Only monthly data are public, so the comparison covers
+the circulation, the NAO, winter-mean rain and the jet.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=bfc380c7">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><strong>What this cell does.</strong> Combines the circulation, NAO and surface tables of notebook 12.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=456056ac">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">circulation</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s1">'../app_assets/hadgem_circulation.parquet'</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'model'</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">'source'</span><span class="p">)</span>
+<span class="n">nao_v2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s1">'../app_assets/hadgem_nao.parquet'</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'model'</span><span class="p">)[[</span><span class="s1">'NAO strength relative to ERA5'</span><span class="p">,</span> <span class="s1">'first half'</span><span class="p">,</span> <span class="s1">'second half'</span><span class="p">,</span> <span class="s1">'own pattern vs ERA5'</span><span class="p">]]</span>
+<span class="n">surface</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s1">'../app_assets/hadgem_surface_uk.parquet'</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'dataset'</span><span class="p">)[[</span><span class="s1">'rain vs ERA5 (%)'</span><span class="p">,</span> <span class="s1">'temperature vs ERA5 (°C)'</span><span class="p">]]</span>
+<span class="n">circulation</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">nao_v2</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">surface</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[18]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>RMS error (hPa)</th>
+<th>mean offset along NAO (SD)</th>
+<th>NAO strength relative to ERA5</th>
+<th>first half</th>
+<th>second half</th>
+<th>own pattern vs ERA5</th>
+<th>rain vs ERA5 (%)</th>
+<th>temperature vs ERA5 (°C)</th>
+</tr>
+<tr>
+<th>model</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>HadGEM3 LL (~135 km)</th>
+<td>3.24</td>
+<td>-0.26</td>
+<td>0.78</td>
+<td>0.75</td>
+<td>0.86</td>
+<td>0.92</td>
+<td>7.15</td>
+<td>-0.03</td>
+</tr>
+<tr>
+<th>HadGEM3 MM (~60 km)</th>
+<td>2.71</td>
+<td>-0.53</td>
+<td>0.92</td>
+<td>1.16</td>
+<td>0.82</td>
+<td>0.95</td>
+<td>7.57</td>
+<td>-0.78</td>
+</tr>
+<tr>
+<th>HadGEM3 HH (~20 km)</th>
+<td>2.55</td>
+<td>-0.13</td>
+<td>0.76</td>
+<td>0.97</td>
+<td>0.68</td>
+<td>0.98</td>
+<td>25.26</td>
+<td>-0.10</td>
+</tr>
+<tr>
+<th>ICON-ESM-ER r1</th>
+<td>5.74</td>
+<td>2.12</td>
+<td>0.59</td>
+<td>0.74</td>
+<td>0.53</td>
+<td>0.75</td>
+<td>71.92</td>
+<td>-0.93</td>
+</tr>
+<tr>
+<th>IFS-FESOM2-SR r1</th>
+<td>1.78</td>
+<td>0.22</td>
+<td>0.71</td>
+<td>0.75</td>
+<td>0.75</td>
+<td>0.87</td>
+<td>19.46</td>
+<td>-1.23</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=33c9b4d5">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><strong>Reading the table.</strong> With finer resolution the winter pressure error shrinks (3.2, 2.7, 2.6 hPa)
+and the NAO pattern looks more like ERA5's (0.92, 0.95, 0.98). NAO strength does not follow
+resolution: it changes as much between the two halves of one run as between resolutions. At 20 km
+UK and Ireland winters are 25% wetter than ERA5, against +7% to +8% at the coarser grids, the same
+direction as IFS's 9 km run in section 7. The 850 hPa jet sits about 1.5° too far north at LL and
+close to ERA5 at MM.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=28181f25">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="11.-What-was-learned">11. What was learned<a class="anchor-link" href="#11.-What-was-learned">¶</a></h2><table>
 <thead>
 <tr>
 <th>Step</th>
@@ -9584,18 +10178,18 @@ than ERA5, indicating enhanced synoptic storminess (a proxy; individual cyclones
 </tr>
 <tr>
 <td>NAO pattern</td>
-<td>mixed across two patterns</td>
+<td>mixed in r1; close to ERA5 in r2 and r3</td>
 <td>recognisable, southern centre weak</td>
 </tr>
 <tr>
-<td>NAO strength</td>
-<td>0.59 of ERA5</td>
-<td>0.71 of ERA5</td>
+<td>NAO strength (three runs, 1976–2014)</td>
+<td>0.55–0.63 of ERA5</td>
+<td>0.68–0.81 of ERA5</td>
 </tr>
 <tr>
-<td>Rainfall extremes, UK and Ireland</td>
-<td>50–60% too heavy; too many wet days and too much rain per wet day</td>
-<td>within 10–20% of the references</td>
+<td>Rainfall extremes, UK and Ireland (three runs)</td>
+<td>42–62% too heavy; too many wet days and too much rain per wet day</td>
+<td>within 4–17% of E-OBS</td>
 </tr>
 <tr>
 <td>Share of the wet bias consistent with the circulation offset</td>
@@ -9609,8 +10203,8 @@ than ERA5, indicating enhanced synoptic storminess (a proxy; individual cyclones
 </tr>
 <tr>
 <td>NAO link to winter rainfall extremes</td>
-<td>right sign over UK; too weak in Norway, wrong sign in France</td>
-<td>reproduced in sign, pattern and strength</td>
+<td>UK: varies by chance (0.06–0.49); Norway: too weak in all runs; France: wrong sign (model property)</td>
+<td>UK: varies by chance (0.21–0.60); Norway: too weak in all runs; France: near zero to observed</td>
 </tr>
 <tr>
 <td>Weather behind the heaviest rain days</td>
@@ -9630,13 +10224,19 @@ up again as a mean state that resembles a permanent positive NAO and as a mispla
 response. That offset is consistent with a large part of its very-wet-day rain bias over UK and
 Ireland, but less than half of its wettest-day bias: the model also rains too hard on each wet
 day. Checking the chain in order, and then putting a number on each link, made that visible.</li>
-<li><strong>A model can get the regional link right while its NAO is too weak.</strong> IFS-FESOM2-SR reproduces
-how extremes respond to a given NAO swing, but produces smaller swings.</li>
-<li><strong>Single members are a real limit.</strong> The ensemble experiment shows that NAO strength ranges
-from 0.70 to 1.00 between ten identical runs. Several of the differences reported here are of that size.</li>
-<li><strong>Higher resolution is not automatically better.</strong> In IFS, 9 km gives heavier rain extremes,
-which helps over mountains and overshoots elsewhere; conclusions about the NAO's influence do
-not change with resolution but vary strongly between identical runs.</li>
+<li><strong>Mean-state biases are model properties; the NAO link over UK and Ireland is mostly chance.</strong>
+Version 2's extra runs confirm every mean-state and extreme-index bias of version 1, and a
+too-weak NAO in both models. But three runs of one model span correlations from 0.06 to 0.49 for
+the NAO link to UK and Ireland rain extremes, so version 1's single-run comparison of that link
+between the models does not hold.</li>
+<li><strong>The clearest model error in the link is over western Norway.</strong> All six historical runs and
+every 29-winter window of both control runs have a weaker NAO link than observed (0.81). ICON-
+ESM-ER's wrong-sign link over north-west France is also a model property.</li>
+<li><strong>Higher resolution improves the circulation, not the NAO's strength, and makes winters
+wetter.</strong> In HadGEM3 the mean pressure error falls and the NAO pattern sharpens from 135 to
+20 km; NAO strength does not change beyond chance; winter rain over UK and Ireland rises by a
+quarter at 20 km. In IFS, 9 km gives heavier rain extremes, which helps over mountains and
+overshoots elsewhere.</li>
 <li><strong>Two good references can disagree, and 29 winters are few.</strong> E-OBS and ERA5 agree on patterns
 but not always on numbers (for example the strength of the NAO link over UK and Ireland, 0.51
 against 0.35). Over UK and Ireland, no correlation can be told apart from another within its
@@ -9644,9 +10244,11 @@ sampling uncertainty; the clear model differences are in western Norway and nort
 <li><strong>In one atmosphere model, NAO strength shows no detectable change under the tested
 small-scale SST filtering</strong>; other aspects of the atmosphere, and coupled feedbacks, are not tested.</li>
 </ol>
-<h2 id="10.-Main-limitations">10. Main limitations<a class="anchor-link" href="#10.-Main-limitations">¶</a></h2><ul>
-<li>One member per coupled model; 64 winters for the NAO, 29 for the link to extremes.</li>
-<li>Two models: results are "consistent across the two models examined" at most.</li>
+<h2 id="12.-Main-limitations">12. Main limitations<a class="anchor-link" href="#12.-Main-limitations">¶</a></h2><ul>
+<li>Three runs per coupled model (version 2); 29 winters for the link to extremes. Control-run
+chance ranges come from overlapping windows of one run and understate chance.</li>
+<li>Two coupled models for extremes, plus HadGEM3 for the monthly diagnostics; HadGEM3 daily data
+are not public.</li>
 <li>ERA5 is a reanalysis; its precipitation is a model product. E-OBS smooths intense rain and
 covers land only.</li>
 <li>Precipitation was regridded bilinearly, not conservatively.</li>
@@ -9656,13 +10258,14 @@ model's own monthly files, not against an independent tool.</li>
 <li>The resolution comparison uses one 9 km run and three 28 km members, winter only, compared at 25 km.</li>
 <li>Model complexity and air quality are not tested.</li>
 </ul>
-<h2 id="11.-Status-and-what-would-come-next">11. Status and what would come next<a class="anchor-link" href="#11.-Status-and-what-would-come-next">¶</a></h2><p>This project is a <strong>research prototype</strong>: a complete, tested chain from public data to
+<h2 id="13.-Status-and-what-would-come-next">13. Status and what would come next<a class="anchor-link" href="#13.-Status-and-what-would-come-next">¶</a></h2><p>This project is a <strong>research prototype</strong>: a complete, tested chain from public data to
 conclusions, built to be scaled up rather than a final evaluation of the EERIE models.</p>
 <p>The analysis code takes any dataset that provides monthly sea-level pressure and daily
 precipitation and maximum temperature under CMIP-style names. The same notebooks could therefore
 be run on more EERIE members, on CMIP6 models, and on CMIP7 output when it becomes available.
-Adding members is the single most valuable next step, because it would separate model behaviour
-from chance. A natural extension is physical climate storylines: using the event composites of
+Version 2 has started that with three runs per model, control runs and a resolution ladder. The
+next steps are larger ensembles, HadGEM3's daily data (which needs JASMIN access) to bring its
+extremes into the comparison, and process diagnostics for the wet bias. A natural extension is physical climate storylines: using the event composites of
 notebook 09 to ask how a given type of heavy-rain winter would look under further warming, with
 control runs to separate forced change from internal variability.</p>
 <h2 id="Where-to-find-the-details">Where to find the details<a class="anchor-link" href="#Where-to-find-the-details">¶</a></h2><table>
@@ -9709,6 +10312,18 @@ control runs to separate forced change from internal variability.</p>
 <td><code>09_event_anatomy</code></td>
 <td>the weather behind the heaviest winter rain days, storminess, persistent highs</td>
 </tr>
+<tr>
+<td><code>10_members</code></td>
+<td>version 2: three runs per coupled model, model or chance?</td>
+</tr>
+<tr>
+<td><code>11_control</code></td>
+<td>version 2: chance ranges from the 100-year control runs</td>
+</tr>
+<tr>
+<td><code>12_hadgem_resolution</code></td>
+<td>version 2: HadGEM3-GC5 at three resolutions</td>
+</tr>
 </tbody>
 </table>
 <p>Methods: <code>docs/methods.md</code>. Code: <code>src/eerie_uk/</code>, with offline tests in <code>tests/</code>.
@@ -9721,8 +10336,9 @@ The summary figure is also saved as <code>docs/figures/summary_chain.png</code>.
 <!-- site:foot --><footer class="sitefoot"><div class="in">
 <div><b>HighRes-EERIE-NorthAtlantic-Evaluation</b><p>An exploratory evaluation by Himansu Kesari Pradhan, 2026. Code under the
 <a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation/blob/main/LICENSE">MIT licence</a>; source, tests and notebooks on
-<a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation">GitHub</a>. Page built 10 November 2026.</p></div>
-<div><b>Data credits</b><p>EERIE model output: EERIE consortium (MPI-M, ECMWF, AWI and partners), served by DKRZ.
+<a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation">GitHub</a>. Page built 15 November 2026.</p></div>
+<div><b>Data credits</b><p>EERIE model output: EERIE consortium (MPI-M, ECMWF, AWI, Met Office and partners), served by DKRZ
+and CEDA.
 ERA5: Hersbach et al. (2020), Copernicus Climate Change Service. E-OBS: Cornes et al. (2018); we acknowledge the
 E-OBS dataset and the data providers in the ECA&amp;D project.</p></div>
 <div><b>How to cite</b><p>Himansu Kesari Pradhan (2026). HighRes-EERIE-NorthAtlantic-Evaluation: winter extremes, the NAO and high-resolution climate

@@ -223,6 +223,37 @@ They do not change any earlier choice.</p>
 </tr>
 </tbody>
 </table></div>
+<h2>10. Version 2 (<a href="notebooks/10_members.html">notebooks 10</a>, 11 and 12; added 14–15 November 2026)</h2>
+<div class="tw"><table>
+<thead>
+<tr>
+  <th>Item</th>
+  <th>Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Extra members</td>
+  <td>ICON-ESM-ER and IFS-FESOM2-SR <code>hist-1950</code> r2 and r3, processed exactly as r1. NAO compared over the common winters 1976–2014 (anomalies relative to 1975–2014); extremes over 1986–2014. IFS-FESOM2-SR r3 has no data for 2–31 October 1999 on the server; winter results are unaffected.</td>
+</tr>
+<tr>
+  <td>Robust across runs</td>
+  <td>All three runs agree in sign and roughly in size. Not a full uncertainty estimate.</td>
+</tr>
+<tr>
+  <td>Control runs</td>
+  <td><code>eerie-control-1950</code> (constant 1950 forcing), 99 winters 1951–2049. NAO along the ERA5 pattern relative to the run's own 100-year winter mean; winter RX1day and R95p from daily rain with a threshold from all 100 winters. Every 29-winter window (71, overlapping); chance range = 5th to 95th percentile. Series detrended within each window. The ranges understate chance (about three independent windows per run).</td>
+</tr>
+<tr>
+  <td>HadGEM3-GC5 resolution ladder</td>
+  <td>HadGEM3-GC5E LL / MM / HH <code>historical</code> r1, monthly, from CEDA. Interpolated bilinearly onto the 1° (pressure, wind) and 0.25° (rain, temperature) grids, with edge cells filled from the nearest source cell. RMS pressure error cosine-weighted. NAO strength also given for 1951–1982 and 1983–2014 separately.</td>
+</tr>
+<tr>
+  <td>Jet latitude</td>
+  <td>Winter 850 hPa zonal wind averaged over 60°W–0°, latitude of its maximum between 15° and 75°N in each winter (after Woollings et al. 2010). ERA5 and HadGEM3 LL and MM.</td>
+</tr>
+</tbody>
+</table></div>
 <h2>References</h2>
 <ul>
 <li>Bretherton, C. S., et al. (1999). The effective number of spatial degrees of freedom of a
@@ -233,6 +264,8 @@ precipitation data sets. <em>J. Geophys. Res. Atmos.</em>, 123. doi:10.1029/2017
 functions. <em>Mon. Wea. Rev.</em>, 110, 699–706.</li>
 <li>Wilks, D. S. (2016). &quot;The stippling shows statistically significant grid
 points&quot;. <em>Bull. Amer. Meteor. Soc.</em>, 97, 2263–2273.</li>
+<li>Woollings, T., A. Hannachi and B. Hoskins (2010). Variability of the North Atlantic eddy-driven
+jet stream. <em>Q. J. R. Meteorol. Soc.</em>, 136, 856–868.</li>
 <li>Zhang, X., et al. (2005). Avoiding inhomogeneity in percentile-based indices of
 temperature extremes. <em>J. Climate</em>, 18, 1641–1651.</li>
 </ul>
@@ -240,8 +273,9 @@ temperature extremes. <em>J. Climate</em>, 18, 1641–1651.</li>
 </main><!-- site:foot --><footer class="sitefoot"><div class="in">
 <div><b>HighRes-EERIE-NorthAtlantic-Evaluation</b><p>An exploratory evaluation by Himansu Kesari Pradhan, 2026. Code under the
 <a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation/blob/main/LICENSE">MIT licence</a>; source, tests and notebooks on
-<a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation">GitHub</a>. Page built 10 November 2026.</p></div>
-<div><b>Data credits</b><p>EERIE model output: EERIE consortium (MPI-M, ECMWF, AWI and partners), served by DKRZ.
+<a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation">GitHub</a>. Page built 15 November 2026.</p></div>
+<div><b>Data credits</b><p>EERIE model output: EERIE consortium (MPI-M, ECMWF, AWI, Met Office and partners), served by DKRZ
+and CEDA.
 ERA5: Hersbach et al. (2020), Copernicus Climate Change Service. E-OBS: Cornes et al. (2018); we acknowledge the
 E-OBS dataset and the data providers in the ECA&amp;D project.</p></div>
 <div><b>How to cite</b><p>Himansu Kesari Pradhan (2026). HighRes-EERIE-NorthAtlantic-Evaluation: winter extremes, the NAO and high-resolution climate

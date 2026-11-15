@@ -120,6 +120,16 @@ They do not change any earlier choice.
 | EOF domain sensitivity (notebook 04, section 8; added 10 November 2026) | The EOF analysis repeated in five North Atlantic boxes (standard 20–80°N 90°W–40°E; 20–70°N 90°W–40°E; 25–75°N 80°W–30°E; 20–80°N 90°W–0°; 30–80°N 60°W–40°E). Separation of the first two EOFs by non-overlapping North et al. (1982) error bars; NAO strength along each box's ERA5 pattern. |
 | Wet-day frequency and intensity | Winter wet days (at least 1 mm; ETCCDI R1mm) and rain per wet day (ETCCDI SDII), UK and Ireland land, 1986–2014. |
 
+## 10. Version 2 (notebooks 10, 11 and 12; added 14–15 November 2026)
+
+| Item | Method |
+|---|---|
+| Extra members | ICON-ESM-ER and IFS-FESOM2-SR `hist-1950` r2 and r3, processed exactly as r1. NAO compared over the common winters 1976–2014 (anomalies relative to 1975–2014); extremes over 1986–2014. IFS-FESOM2-SR r3 has no data for 2–31 October 1999 on the server; winter results are unaffected. |
+| Robust across runs | All three runs agree in sign and roughly in size. Not a full uncertainty estimate. |
+| Control runs | `eerie-control-1950` (constant 1950 forcing), 99 winters 1951–2049. NAO along the ERA5 pattern relative to the run's own 100-year winter mean; winter RX1day and R95p from daily rain with a threshold from all 100 winters. Every 29-winter window (71, overlapping); chance range = 5th to 95th percentile. Series detrended within each window. The ranges understate chance (about three independent windows per run). |
+| HadGEM3-GC5 resolution ladder | HadGEM3-GC5E LL / MM / HH `historical` r1, monthly, from CEDA. Interpolated bilinearly onto the 1° (pressure, wind) and 0.25° (rain, temperature) grids, with edge cells filled from the nearest source cell. RMS pressure error cosine-weighted. NAO strength also given for 1951–1982 and 1983–2014 separately. |
+| Jet latitude | Winter 850 hPa zonal wind averaged over 60°W–0°, latitude of its maximum between 15° and 75°N in each winter (after Woollings et al. 2010). ERA5 and HadGEM3 LL and MM. |
+
 ## References
 
 - Bretherton, C. S., et al. (1999). The effective number of spatial degrees of freedom of a
@@ -130,5 +140,7 @@ They do not change any earlier choice.
   functions. *Mon. Wea. Rev.*, 110, 699–706.
 - Wilks, D. S. (2016). "The stippling shows statistically significant grid
   points". *Bull. Amer. Meteor. Soc.*, 97, 2263–2273.
+- Woollings, T., A. Hannachi and B. Hoskins (2010). Variability of the North Atlantic eddy-driven
+  jet stream. *Q. J. R. Meteorol. Soc.*, 136, 856–868.
 - Zhang, X., et al. (2005). Avoiding inhomogeneity in percentile-based indices of
   temperature extremes. *J. Climate*, 18, 1641–1651.

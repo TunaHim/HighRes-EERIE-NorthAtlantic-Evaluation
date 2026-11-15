@@ -1,7 +1,7 @@
 {
   "description": "Map summaries of the NAO link per index and dataset: share of significant land cells (FDR), mean |r|, pattern correlation with references",
-  "created": "2026-11-10T17:36:38+00:00",
-  "git_commit": "afb3c23d9a7e939da36f22cb69a3e5cb46e14c2a",
+  "created": "2026-11-15T08:53:34+00:00",
+  "git_commit": "b331df8fc6a37cc91308c35292d0a759652fa278",
   "code": "eerie_uk (this repository)",
   "python": "3.11.17",
   "xarray": "2026.9.0",

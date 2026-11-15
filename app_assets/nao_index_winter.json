@@ -1,7 +1,7 @@
 {
   "description": "Winter (DJF) NAO index per source: own leading EOF, projection on the ERA5 EOF (ERA5 SD units), station-style index",
-  "created": "2026-11-10T17:33:19+00:00",
-  "git_commit": "afb3c23d9a7e939da36f22cb69a3e5cb46e14c2a",
+  "created": "2026-11-15T08:51:33+00:00",
+  "git_commit": "b331df8fc6a37cc91308c35292d0a759652fa278",
   "code": "eerie_uk (this repository)",
   "python": "3.11.17",
   "xarray": "2026.9.0",

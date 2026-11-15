@@ -44,6 +44,9 @@ NOTEBOOKS = {
     "07_paired_experiment": "Is the NAO sensitive to small-scale sea-surface temperature?",
     "08_resolution": "Does 9 km resolution improve winter rain extremes over 28 km?",
     "09_event_anatomy": "What weather brings the heaviest winter rain?",
+    "10_members": "Version 2: model or chance? Three runs of each coupled model",
+    "11_control": "Version 2: how much can chance alone do? 100-year control runs",
+    "12_hadgem_resolution": "Version 2: one coupled model (HadGEM3-GC5) at three resolutions",
 }
 
 PAGES = {  # path relative to docs/ -> (title, description)
@@ -164,7 +167,8 @@ def footer(path: str) -> str:
 <div><b>{NAME}</b><p>An exploratory evaluation by {AUTHOR}, {YEAR}. Code under the
 <a href="{REPO}/blob/main/LICENSE">MIT licence</a>; source, tests and notebooks on
 <a href="{REPO}">GitHub</a>. Page built {today.day} {today:%B %Y}.</p></div>
-<div><b>Data credits</b><p>EERIE model output: EERIE consortium (MPI-M, ECMWF, AWI and partners), served by DKRZ.
+<div><b>Data credits</b><p>EERIE model output: EERIE consortium (MPI-M, ECMWF, AWI, Met Office and partners), served by DKRZ
+and CEDA.
 ERA5: Hersbach et al. (2020), Copernicus Climate Change Service. E-OBS: Cornes et al. (2018); we acknowledge the
 E-OBS dataset and the data providers in the ECA&amp;D project.</p></div>
 <div><b>How to cite</b><p>{AUTHOR} ({YEAR}). {NAME}: winter extremes, the NAO and high-resolution climate

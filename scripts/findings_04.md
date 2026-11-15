@@ -27,3 +27,5 @@
 **Consequence for the next notebooks.** Because ICON-ESM-ER's own leading EOF is a mixture, the NAO-to-extremes analysis should use the index measured along the **common ERA5 pattern** for all three sources, with each model's own-pattern index as a sensitivity check. Both are saved.
 
 **Bottom line.** IFS-FESOM2-SR reproduces the NAO pattern credibly but too weakly. ICON-ESM-ER has NAO-like variability that is weaker still, split across two patterns, and superimposed on a mean state that already resembles a strong positive NAO. These are exploratory results from one member each.
+
+**Version 2 update (notebooks 10 and 12).** With three runs per model, the weak NAO holds in every run (ICON-ESM-ER 0.55–0.63, IFS-FESOM2-SR 0.68–0.81 of ERA5 over 1976–2014), and ICON-ESM-ER's mean-state offset (+1.9 to +2.1 SD) too. ICON-ESM-ER's mixed leading pattern, however, was largely the chance of run r1: in r2 and r3 its own pattern resembles ERA5's closely (0.90 and 0.94). HadGEM3-GC5 at three resolutions has no comparable mean-state offset and a pattern that sharpens with resolution.

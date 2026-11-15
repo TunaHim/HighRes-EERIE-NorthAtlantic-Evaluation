@@ -23,6 +23,14 @@ FIGURES = {
     "event_composites.png": ("09_event_anatomy.ipynb", 1),
     "nao_uncertainty.png": ("06_nao_extremes.ipynb", 10),
     "circulation_part.png": ("06_nao_extremes.ipynb", 12),
+    # version 2
+    "members_nao_strength.png": ("10_members.ipynb", 1),
+    "members_link.png": ("10_members.ipynb", 4),
+    "control_placement.png": ("11_control.ipynb", 2),
+    "hadgem_psl_bias.png": ("12_hadgem_resolution.ipynb", 1),
+    "hadgem_nao_patterns.png": ("12_hadgem_resolution.ipynb", 2),
+    "hadgem_rain.png": ("12_hadgem_resolution.ipynb", 3),
+    "hadgem_jet.png": ("12_hadgem_resolution.ipynb", 5),
 }
 
 

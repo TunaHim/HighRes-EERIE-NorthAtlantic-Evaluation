@@ -1,0 +1,28 @@
+{
+  "description": "Chance range from control runs and where historical runs and references fall",
+  "created": "2026-11-15T08:44:01+00:00",
+  "git_commit": "b331df8fc6a37cc91308c35292d0a759652fa278",
+  "code": "eerie_uk (this repository)",
+  "python": "3.11.17",
+  "xarray": "2026.9.0",
+  "pandas": "3.0.6",
+  "inputs": {
+    "control runs": "data/<model>.control/",
+    "members": "app_assets/members_nao_link.parquet"
+  },
+  "rows": 12,
+  "columns": [
+    "region",
+    "index",
+    "model",
+    "chance range",
+    "historical runs",
+    "runs inside",
+    "E-OBS",
+    "ERA5",
+    "E-OBS inside",
+    "ERA5 inside"
+  ],
+  "window_winters": 29,
+  "control_years": "1950-2049"
+}

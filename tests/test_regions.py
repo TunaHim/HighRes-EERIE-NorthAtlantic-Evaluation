@@ -67,3 +67,18 @@ def test_area_mean_weights_by_cos_lat():
     da = _grid(np.array([0.0, 1.0]), np.array([0.0, 60.0]))
     da[:] = [[1.0, 1.0], [4.0, 4.0]]
     assert float(area_mean(da)) == pytest.approx((1.0 * 1.0 + 4.0 * 0.5) / 1.5)
+
+
+def test_regrid_fills_edges_and_keeps_values():
+    import numpy as np
+    import xarray as xr
+    from eerie_uk import regions
+
+    src = xr.DataArray(np.arange(12.0).reshape(3, 4), coords={"lat": [50.5, 51.5, 52.5], "lon": [0.5, 1.5, 2.5, 3.5]},
+                       dims=("lat", "lon"))
+    like = xr.DataArray(np.zeros((4, 5)), coords={"lat": [50.0, 51.0, 52.0, 53.0], "lon": [0.0, 1.0, 2.0, 3.0, 4.0]},
+                        dims=("lat", "lon"))
+    out = regions.regrid(src, like)
+    assert out.notnull().all()
+    assert float(out.sel(lat=51.0, lon=1.0)) == float(src.sel(lat=[50.5, 51.5], lon=[0.5, 1.5]).mean())
+    assert regions.regrid(src, src) is src

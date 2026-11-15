@@ -1,0 +1,22 @@
+{
+  "description": "Winter 850 hPa jet latitude and strength",
+  "created": "2026-11-15T08:55:41+00:00",
+  "git_commit": "b331df8fc6a37cc91308c35292d0a759652fa278",
+  "code": "eerie_uk (this repository)",
+  "python": "3.11.17",
+  "xarray": "2026.9.0",
+  "pandas": "3.0.6",
+  "inputs": {
+    "HadGEM3-GC5": "CEDA EERIE archive, historical r1i1p1f1, Amon",
+    "ERA5": "DKRZ"
+  },
+  "rows": 3,
+  "columns": [
+    "dataset",
+    "mean jet latitude (\u00b0N)",
+    "year-to-year SD (\u00b0)",
+    "peak wind of the mean profile (m/s)",
+    "latitude of the mean-profile peak (\u00b0N)"
+  ],
+  "period": "1951-2014 (NAO, rain link, jet), 1986-2014 (means)"
+}

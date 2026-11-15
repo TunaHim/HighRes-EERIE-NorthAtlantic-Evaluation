@@ -188,3 +188,22 @@ def area_mean(da: xr.DataArray, lon="lon", lat="lat") -> xr.DataArray:
     """Cosine-latitude weighted mean over the horizontal dimensions."""
     weights = np.cos(np.deg2rad(da[lat]))
     return da.weighted(weights).mean([lon, lat])
+
+
+def regrid(da: xr.DataArray, like: xr.DataArray, lon="lon", lat="lat") -> xr.DataArray:
+    """Bilinear interpolation onto ``like``'s grid, also where ``like`` reaches slightly past ``da``'s edge.
+
+    Model grids rarely share cell centres, so a target grid can extend half a cell beyond the
+    source. The source is padded with its own edge values first, so edge cells get the nearest
+    value instead of missing data. Grids that already match are returned unchanged.
+    """
+    if da.sizes.get(lat) == like.sizes.get(lat) and da.sizes.get(lon) == like.sizes.get(lon) and \
+            np.allclose(da[lat], like[lat]) and np.allclose(da[lon], like[lon]):
+        return da
+    da = da.sortby(lat).sortby(lon)
+    pad_lat = np.concatenate([[min(float(like[lat].min()), float(da[lat][0])) - 1.0], da[lat].values,
+                              [max(float(like[lat].max()), float(da[lat][-1])) + 1.0]])
+    pad_lon = np.concatenate([[min(float(like[lon].min()), float(da[lon][0])) - 1.0], da[lon].values,
+                              [max(float(like[lon].max()), float(da[lon][-1])) + 1.0]])
+    padded = da.pad({lat: 1, lon: 1}, mode="edge").assign_coords({lat: pad_lat, lon: pad_lon})
+    return padded.interp({lat: like[lat], lon: like[lon]})

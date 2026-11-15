@@ -1,0 +1,26 @@
+{
+  "description": "NAO strength, EOF variance and pattern per model",
+  "created": "2026-11-15T08:55:41+00:00",
+  "git_commit": "b331df8fc6a37cc91308c35292d0a759652fa278",
+  "code": "eerie_uk (this repository)",
+  "python": "3.11.17",
+  "xarray": "2026.9.0",
+  "pandas": "3.0.6",
+  "inputs": {
+    "HadGEM3-GC5": "CEDA EERIE archive, historical r1i1p1f1, Amon",
+    "ERA5": "DKRZ"
+  },
+  "rows": 5,
+  "columns": [
+    "model",
+    "source",
+    "NAO strength relative to ERA5",
+    "first half",
+    "second half",
+    "EOF1 %",
+    "EOF2 %",
+    "separated from EOF2",
+    "own pattern vs ERA5"
+  ],
+  "period": "1951-2014 (NAO, rain link, jet), 1986-2014 (means)"
+}

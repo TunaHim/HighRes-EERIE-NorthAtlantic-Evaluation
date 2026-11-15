@@ -2,7 +2,7 @@
 # Run from the project folder:  powershell -ExecutionPolicy Bypass -File scripts\build_all.ps1
 $ErrorActionPreference = "Stop"
 $py = "python"
-foreach ($n in "02", "03", "04", "05", "06", "07", "08", "09", "00") {
+foreach ($n in "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "00") {
     $nb = (Get-ChildItem notebooks -Filter "$n`_*.ipynb").FullName
     $findings = "scripts\findings_$n.md"
     if (Test-Path $findings) { & $py "scripts\build_notebook_$n.py" $nb $findings } else { & $py "scripts\build_notebook_$n.py" $nb }
