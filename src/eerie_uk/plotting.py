@@ -512,3 +512,105 @@ def plot_chain(columns, rows, cells, title=""):
     if title:
         fig.text(0.01, 1 - 0.28 / total_h, title, fontsize=12, color=INK, va="center")
     return axes
+
+
+def plot_overview(runs, link, control, hadgem, title=""):
+    """Six-panel overview of the three version 2 experiments.
+
+    ``runs``: one row per run and reference with columns ``source``, ``r95p_bias`` (% vs E-OBS) and
+    ``nao_strength`` (relative to ERA5; NaN for E-OBS).
+    ``link``: one row per region and dataset with ``region``, ``source``, ``r``, ``low``, ``high``
+    (winter R95p-NAO correlation and its 95% interval).
+    ``control``: one row per region and model with ``region``, ``source``, ``low``, ``median``, ``high``
+    (chance range from the control runs).
+    ``hadgem``: one row per HadGEM3 resolution with ``source``, ``km``, ``rms_error``, ``pattern_r``,
+    ``nao_strength``, ``nao_first``, ``nao_second``, ``rain_bias``.
+    """
+    fig, axes = plt.subplots(2, 3, figsize=(14.5, 7.6), facecolor=SURFACE)
+    models = ["icon-esm-er", "ifs-fesom2-sr"]
+
+    def dots(ax, column, xlabel, reference=None, reference_label=""):
+        for row, model in enumerate(models):
+            part = runs[runs.source.str.split(".").str[0] == model]
+            ax.scatter(part[column], [row] * len(part), s=55, color=colour_of(model), edgecolors=SURFACE, zorder=3)
+            ax.plot([part[column].mean()] * 2, [row - 0.25, row + 0.25], color=INK, linewidth=1.8)
+        if reference is not None:
+            ax.axvline(reference, color=SOURCE_COLOURS["era5"], linestyle="--", linewidth=1.2)
+            ax.text(reference, -0.62, reference_label, fontsize=8, color=INK_SECONDARY, ha="center")
+        ax.set_yticks([0, 1], [SOURCE_LABELS[m] for m in models])
+        ax.set_ylim(1.6, -0.9)
+        ax.set_xlabel(xlabel, fontsize=8.5, color=INK_SECONDARY)
+        ax.grid(axis="x", color=GRID, linewidth=0.6)
+        _style(ax)
+
+    dots(axes[0, 0], "r95p_bias", "winter R95p, UK and Ireland, vs E-OBS (%)", 0.0, "E-OBS")
+    dots(axes[0, 1], "nao_strength", "NAO strength relative to ERA5 (1976-2014)", 1.0, "ERA5")
+
+    ax = axes[0, 2]
+    regions_order = list(dict.fromkeys(link.region))
+    ticks, labels = [], []
+    y = 0
+    for region in regions_order:
+        for model in models:
+            c = control[(control.region == region) & (control.source == model)].iloc[0]
+            ax.add_patch(plt.Rectangle((c.low, y - 0.3), c.high - c.low, 0.6, color=colour_of(model), alpha=0.22, linewidth=0))
+            part = link[(link.region == region) & (link.source.str.split(".").str[0] == model)]
+            ax.scatter(part.r, [y] * len(part), s=30, color=colour_of(model), edgecolors=SURFACE, zorder=3)
+            ticks.append(y)
+            labels.append(f"{region}: {SOURCE_LABELS[model].split('-')[0]}")
+            y += 1
+        for ref, shift in (("e-obs", -0.15), ("era5", 0.15)):
+            r = link[(link.region == region) & (link.source == ref)].iloc[0]
+            ax.errorbar(r.r, y - 1.5 + shift, xerr=[[r.r - r.low], [r.high - r.r]], fmt="D", ms=4,
+                        color=colour_of(ref), capsize=0, linewidth=1.2, zorder=4)
+        y += 0.6
+    ax.axvline(0, color=AXIS, linewidth=0.8)
+    from matplotlib.lines import Line2D
+    from matplotlib.patches import Patch
+    ax.legend(handles=[Patch(color=MUTED, alpha=0.3, label="control runs, 5-95%"),
+                       Line2D([], [], marker="o", linestyle="", color=MUTED, label="historical runs"),
+                       Line2D([], [], marker="D", color=SOURCE_COLOURS["e-obs"], label="E-OBS (95% interval)"),
+                       Line2D([], [], marker="D", color=SOURCE_COLOURS["era5"], label="ERA5 (95% interval)")],
+              frameon=False, fontsize=7, loc="lower right", ncol=2)
+    ax.set_yticks(ticks, labels, fontsize=7.5)
+    ax.set_ylim(y + 1.3, -0.7)
+    ax.set_xlabel("winter R95p-NAO correlation (29 winters)", fontsize=8.5, color=INK_SECONDARY)
+    ax.grid(axis="x", color=GRID, linewidth=0.6)
+    _style(ax)
+
+    hadgem = hadgem.sort_values("km", ascending=False)
+    x = range(len(hadgem))
+    xticks = [f"{int(k)} km" for k in hadgem.km]
+    panels = (
+        (axes[1, 0], [("rms_error", "pressure error (RMS, hPa)", INK)], "winter sea-level pressure error vs ERA5"),
+        (axes[1, 1], [("pattern_r", "NAO pattern vs ERA5", colour_of("hadgem3-gc5e-hh")),
+                      ("nao_strength", "NAO strength vs ERA5", colour_of("hadgem3-gc5e-mm"))], "NAO pattern and strength"),
+        (axes[1, 2], [("rain_bias", "winter rain vs ERA5 (%)", colour_of("hadgem3-gc5e-hh"))], "winter rain, UK and Ireland"),
+    )
+    for ax, series, label in panels:
+        for column, name, colour in series:
+            ax.plot(list(x), hadgem[column], "o-", color=colour, linewidth=2, markersize=7, label=name)
+            if column == "nao_strength":
+                for i, (_, row) in enumerate(hadgem.iterrows()):
+                    ax.plot([i, i], [min(row.nao_first, row.nao_second), max(row.nao_first, row.nao_second)],
+                            color=colour, linewidth=5, alpha=0.3, solid_capstyle="round")
+        if len(series) > 1:
+            ax.axhline(1.0, color=SOURCE_COLOURS["era5"], linestyle="--", linewidth=1)
+            ax.legend(frameon=False, fontsize=8, loc="lower left")
+        if column in ("rms_error", "rain_bias"):
+            ax.set_ylim(0, max(hadgem[column]) * 1.15)
+        ax.set_xticks(list(x), xticks)
+        ax.set_xlabel("HadGEM3-GC5E atmosphere resolution (ocean 1°, 1/4°, 1/12°)", fontsize=8.5, color=INK_SECONDARY)
+        ax.set_ylabel(series[0][1] if len(series) == 1 else "relative to ERA5", fontsize=8.5, color=INK_SECONDARY)
+        ax.grid(axis="y", color=GRID, linewidth=0.6)
+        _style(ax)
+
+    heads = ["A  Ensemble: wet bias in every run", "B  Ensemble: NAO strength in every run",
+             "C  Chance: NAO link to very-wet-day rain",
+             "D  Resolution: mean circulation", "E  Resolution: NAO pattern and strength", "F  Resolution: winter rain"]
+    for ax, head in zip(axes.flat, heads):
+        ax.set_title(head, loc="left", fontsize=10, color=INK, fontweight="bold")
+    if title:
+        fig.suptitle(title, x=0.01, ha="left", fontsize=12.5, color=INK)
+    fig.tight_layout()
+    return axes

@@ -7822,7 +7822,7 @@ a.anchor-link {
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
 <!-- site:nav --><nav class="sitenav"><div><b>HighRes-EERIE-NorthAtlantic-Evaluation</b><a href="../index.html">What was found</a><a href="../engineering_overview.html">How it is built</a><a href="../methods.html">Methods</a><a href="../notebooks/index.html" class="here">Notebooks</a><a href="../explorer/index.html">Explorer</a><a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation">Code on GitHub</a></div></nav><!-- /site:nav -->
 <main>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=84c0cd0d">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=9f7c6674">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7862,6 +7862,7 @@ little too narrow in the tails. It is still far better than the spread of three 
 <li>NAO strength: chance range</li>
 <li>NAO link to rain extremes: chance range</li>
 <li>Where the historical runs and observations fall</li>
+<li>Is the control run stable? First against second half</li>
 <li>Saved outputs</li>
 <li>Limitations</li>
 <li>Open questions</li>
@@ -7870,7 +7871,7 @@ little too narrow in the tails. It is still far better than the spread of three 
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7d0446a7">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=815fdfa5">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7910,7 +7911,7 @@ little too narrow in the tails. It is still far better than the spread of three 
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=70ebd89b">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=dafcb54f">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7921,7 +7922,7 @@ little too narrow in the tails. It is still far better than the spread of three 
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2e74c67d">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=102e7d3b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7932,7 +7933,7 @@ project, and builds the common land mask.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=e7c45c11">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=bee25503">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7966,7 +7967,7 @@ project, and builds the common land mask.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=94c49164">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d6588439">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8018,18 +8019,18 @@ project, and builds the common land mask.</p>
 <p><strong>What this means, in plain words</strong></p>
 <ol>
 <li><strong>No 29-winter period of either model reaches the observed NAO strength.</strong> ERA5's NAO over 1986–2014 has a strength of 1.04 in these units; the strongest window of ICON-ESM-ER's control run reaches 0.80, of IFS-FESOM2-SR's 0.95. Together with notebook 10 (all six historical runs weaker than ERA5), a too-weak NAO is a robust property of both models, more pronounced in ICON-ESM-ER.</li>
-<li><strong>Over western Norway the observed NAO link is stronger than anything either model produces.</strong> The observed correlation (0.81) lies above every one of the 71 control windows of both models and above all six historical runs. This is the most robust model–observation difference in the NAO-to-extremes link found in this project.</li>
+<li><strong>Over western Norway the observed NAO link is stronger than in all sampled model periods, but not by much.</strong> The observed correlation (0.81) lies above every one of the 71 control windows of both models (highest 0.77 and 0.78) and above all six historical runs (0.52–0.71). The observed value has its own sampling uncertainty, however: its bootstrap 95% interval is 0.71–0.91 (E-OBS) and 0.76–0.89 (ERA5), which overlaps the models' strongest windows. This is a consistent discrepancy within the available simulations, the clearest in the NAO-to-extremes link, but the small number of independent control windows and the uncertainty of the observed value limit how strongly it can be stated.</li>
 <li><strong>Over north-west France ICON-ESM-ER's link has the wrong sign as a model property.</strong> Its control run almost never produces a positive link (highest window 0.11, median −0.14), while both references show about +0.3. The third historical run's +0.18 is the exception, not the rule. IFS-FESOM2-SR's chance range reaches up to the observed values, so it is consistent with them.</li>
 <li><strong>Over UK and Ireland the observations are within chance for IFS-FESOM2-SR, and at the edge for ICON-ESM-ER.</strong> ERA5's 0.35 lies inside both chance ranges; E-OBS's 0.51 lies inside IFS-FESOM2-SR's range but above ICON-ESM-ER's (0.26 to 0.40). With the two references disagreeing, no firm verdict is possible.</li>
-<li><strong>The control runs underestimate chance.</strong> Several historical runs fall outside their model's control range (for example ICON-ESM-ER r2 at 0.06 for UK and Ireland, below its control range of 0.26 to 0.40). Overlapping windows from one 99-winter run sample only about three independent periods, and the historical runs also differ in forcing. The ranges are therefore lower bounds on chance; differences that lie well outside them, as over western Norway, are the ones that can be trusted.</li>
-<li><strong>Drift is negligible</strong> (NAO trends within ±0.04 SD per decade, UK R95p within ±0.2% per decade), so the windows can be compared directly.</li>
+<li><strong>The control runs underestimate chance.</strong> Several historical runs fall outside their model's control range (for example ICON-ESM-ER r2 at 0.06 for UK and Ireland, below its control range of 0.26 to 0.40). Overlapping windows from one 99-winter run sample only about three independent periods, and the historical runs also differ in forcing. The ranges are therefore lower bounds on chance; differences that lie well outside them, as for the NAO strength and ICON-ESM-ER's link over north-west France, are the ones that can be trusted.</li>
+<li><strong>No drift, but the ranges depend on which years are sampled</strong> (section 7). Trends are negligible (NAO within ±0.04 SD per decade, UK R95p within ±0.2% per decade), and about half of the median window statistics of the first and second 50 years agree within 0.05 (for example ICON-ESM-ER over western Norway 0.63 and 0.67, over UK and Ireland 0.35 and 0.33). Others differ by up to about 0.2 (IFS-FESOM2-SR over western Norway 0.51 and 0.69; ICON-ESM-ER RX1day over north-west France 0.26 and 0.07), as expected when 50 years hold only one or two independent 29-winter samples, so the chance ranges themselves are uncertain. NAO strength is stable in ICON-ESM-ER (median 0.72 and 0.71) but not in IFS-FESOM2-SR (0.60 in the first half, 0.85 in the second): slow multidecadal variability or a small adjustment of the model, which widens its chance range.</li>
 </ol>
-<p><strong>Answer to the question.</strong> Chance alone moves the NAO link to UK and Ireland rain extremes by about ±0.1 to ±0.2 within one model, enough to cover the difference between the two models and between the two references. It does not explain three results: both models' NAO is too weak, both models' NAO link over western Norway is too weak, and ICON-ESM-ER's link over north-west France has the wrong sign. These are model properties.</p>
+<p><strong>Answer to the question.</strong> Chance alone moves the NAO link to UK and Ireland rain extremes by about ±0.1 to ±0.2 within one model, enough to cover the difference between the two models and between the two references. It does not explain three results within the available simulations: both models' NAO is too weak, both models' NAO link over western Norway is weaker than observed (a consistent but modest discrepancy, given the observed value's own uncertainty), and ICON-ESM-ER's link over north-west France has the wrong sign.</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5fa32b53">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2ee0a418">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8040,7 +8041,7 @@ project, and builds the common land mask.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=168768a0">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=218172f9">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8051,7 +8052,7 @@ R95p from daily rain, and shows the NAO index through the 100 years.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=b5e19f0c">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=d7a4e4e0">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8086,7 +8087,7 @@ R95p from daily rain, and shows the NAO index through the 100 years.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f3335d77">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7936c52a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8098,7 +8099,7 @@ climate change in these runs, so any slow change is drift or long-term internal 
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=47d135f0">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=72e1daca">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8109,7 +8110,7 @@ Ireland winter R95p over the 100 control years.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=f7836b05">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=d96de93c">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8181,7 +8182,7 @@ Ireland winter R95p over the 100 control years.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1675ce86">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=fac37d84">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8192,7 +8193,7 @@ Ireland winter R95p over the 100 control years.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=8dcfd2da">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f2ff1d83">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8204,7 +8205,7 @@ and for comparison the strength of the three historical runs over 1986–2014 in
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=3ff7742a">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c36758bb">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8316,7 +8317,7 @@ and for comparison the strength of the three historical runs over 1986–2014 in
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=00a27d86">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=24c9aef1">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8330,7 +8331,7 @@ NAO strength.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2593f19e">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b8e89a86">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8341,7 +8342,7 @@ NAO strength.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f194dde5">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c432d4ff">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8352,7 +8353,7 @@ the control run's winter NAO and the land-average winter index. Summarised as th
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=2f667677">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=bad10d07">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8532,7 +8533,7 @@ the control run's winter NAO and the land-average winter index. Summarised as th
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=93150d23">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=92ee1fb7">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8543,7 +8544,7 @@ the control run's winter NAO and the land-average winter index. Summarised as th
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=8afc9e04">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=9d21f063">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8554,7 +8555,7 @@ historical runs and of the two references (from notebook 10), for each region an
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=4a3618b3">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=15681b1b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8785,7 +8786,7 @@ historical runs and of the two references (from notebook 10), for each region an
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7ae53f3f">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a4198024">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8797,7 +8798,7 @@ and the two references as vertical lines.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c7d477b0">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=d25935e0">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8844,7 +8845,7 @@ and the two references as vertical lines.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2dae5eb9">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c0159547">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8858,18 +8859,278 @@ rarely produces the observed link.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7f494c2c">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a756af05">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="7.-Saved-outputs">7. Saved outputs<a class="anchor-link" href="#7.-Saved-outputs">¶</a></h2>
+<h2 id="7.-Is-the-control-run-stable?-First-against-second-half">7. Is the control run stable? First against second half<a class="anchor-link" href="#7.-Is-the-control-run-stable?-First-against-second-half">¶</a></h2><p>A control run is useful for chance ranges only if its statistics do not drift. This section
+compares windows that lie entirely in the first half of the run (1951–1999, window starts up to
+1971) with windows entirely in the second half (2000–2049). Similar medians mean no drift; the
+difference between the halves also shows how much the range itself depends on which 50 years are
+sampled.</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ead59023">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=23dd122a">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><strong>What this cell does.</strong> For NAO strength and for each region and rain index: the median and the
+range over the windows of each half of each control run.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=1478359c">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">half</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">start</span><span class="p">:</span> <span class="s1">'first half'</span> <span class="k">if</span> <span class="n">start</span> <span class="o">&lt;=</span> <span class="mi">1971</span> <span class="k">else</span> <span class="p">(</span><span class="s1">'second half'</span> <span class="k">if</span> <span class="n">start</span> <span class="o">&gt;=</span> <span class="mi">2000</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">CONTROLS</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">years</span> <span class="ow">in</span> <span class="n">windows</span><span class="p">(</span><span class="n">control_nao</span><span class="p">[</span><span class="n">m</span><span class="p">]):</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">half</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">years</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="n">h</span><span class="p">:</span>
+            <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">'model'</span><span class="p">:</span> <span class="n">LABEL</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">'quantity'</span><span class="p">:</span> <span class="s1">'NAO strength'</span><span class="p">,</span> <span class="s1">'half'</span><span class="p">:</span> <span class="n">h</span><span class="p">,</span>
+                         <span class="s1">'value'</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">control_nao</span><span class="p">[</span><span class="n">m</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">years</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">))})</span>
+<span class="n">part</span> <span class="o">=</span> <span class="n">window_link</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">half</span><span class="o">=</span><span class="n">window_link</span><span class="o">.</span><span class="n">start</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">half</span><span class="p">))</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">'half'</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">part</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">'model'</span><span class="p">:</span> <span class="n">LABEL</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">model</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">'quantity'</span><span class="p">:</span> <span class="sa">f</span><span class="s1">'NAO link to </span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s2">"index"</span><span class="p">]</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">region</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span>
+                 <span class="s1">'half'</span><span class="p">:</span> <span class="n">row</span><span class="o">.</span><span class="n">half</span><span class="p">,</span> <span class="s1">'value'</span><span class="p">:</span> <span class="n">row</span><span class="o">.</span><span class="n">r</span><span class="p">})</span>
+<span class="n">halves</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">'model'</span><span class="p">,</span> <span class="s1">'quantity'</span><span class="p">,</span> <span class="s1">'half'</span><span class="p">])</span><span class="o">.</span><span class="n">value</span>
+          <span class="o">.</span><span class="n">agg</span><span class="p">([</span><span class="s1">'min'</span><span class="p">,</span> <span class="s1">'median'</span><span class="p">,</span> <span class="s1">'max'</span><span class="p">])</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="s1">'half'</span><span class="p">))</span>
+<span class="n">halves</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[8]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+
+    .dataframe thead tr:last-of-type th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th colspan="2" halign="left">min</th>
+<th colspan="2" halign="left">median</th>
+<th colspan="2" halign="left">max</th>
+</tr>
+<tr>
+<th></th>
+<th>half</th>
+<th>first half</th>
+<th>second half</th>
+<th>first half</th>
+<th>second half</th>
+<th>first half</th>
+<th>second half</th>
+</tr>
+<tr>
+<th>model</th>
+<th>quantity</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th rowspan="7" valign="top">ICON-ESM-ER</th>
+<th>NAO link to R95p, North-west France</th>
+<td>-0.19</td>
+<td>-0.46</td>
+<td>-0.14</td>
+<td>-0.03</td>
+<td>-0.03</td>
+<td>0.11</td>
+</tr>
+<tr>
+<th>NAO link to R95p, UK and Ireland</th>
+<td>0.26</td>
+<td>0.22</td>
+<td>0.35</td>
+<td>0.33</td>
+<td>0.46</td>
+<td>0.40</td>
+</tr>
+<tr>
+<th>NAO link to R95p, Western Norway</th>
+<td>0.54</td>
+<td>0.60</td>
+<td>0.63</td>
+<td>0.67</td>
+<td>0.77</td>
+<td>0.72</td>
+</tr>
+<tr>
+<th>NAO link to RX1day, North-west France</th>
+<td>0.17</td>
+<td>-0.39</td>
+<td>0.26</td>
+<td>0.07</td>
+<td>0.31</td>
+<td>0.16</td>
+</tr>
+<tr>
+<th>NAO link to RX1day, UK and Ireland</th>
+<td>0.08</td>
+<td>0.14</td>
+<td>0.16</td>
+<td>0.30</td>
+<td>0.35</td>
+<td>0.41</td>
+</tr>
+<tr>
+<th>NAO link to RX1day, Western Norway</th>
+<td>0.35</td>
+<td>0.22</td>
+<td>0.44</td>
+<td>0.52</td>
+<td>0.59</td>
+<td>0.63</td>
+</tr>
+<tr>
+<th>NAO strength</th>
+<td>0.68</td>
+<td>0.67</td>
+<td>0.72</td>
+<td>0.71</td>
+<td>0.76</td>
+<td>0.80</td>
+</tr>
+<tr>
+<th rowspan="7" valign="top">IFS-FESOM2-SR</th>
+<th>NAO link to R95p, North-west France</th>
+<td>0.06</td>
+<td>-0.07</td>
+<td>0.12</td>
+<td>0.13</td>
+<td>0.22</td>
+<td>0.31</td>
+</tr>
+<tr>
+<th>NAO link to R95p, UK and Ireland</th>
+<td>0.20</td>
+<td>0.07</td>
+<td>0.39</td>
+<td>0.44</td>
+<td>0.46</td>
+<td>0.57</td>
+</tr>
+<tr>
+<th>NAO link to R95p, Western Norway</th>
+<td>0.42</td>
+<td>0.54</td>
+<td>0.51</td>
+<td>0.69</td>
+<td>0.67</td>
+<td>0.78</td>
+</tr>
+<tr>
+<th>NAO link to RX1day, North-west France</th>
+<td>0.17</td>
+<td>-0.00</td>
+<td>0.25</td>
+<td>0.17</td>
+<td>0.33</td>
+<td>0.30</td>
+</tr>
+<tr>
+<th>NAO link to RX1day, UK and Ireland</th>
+<td>0.12</td>
+<td>-0.11</td>
+<td>0.29</td>
+<td>0.31</td>
+<td>0.38</td>
+<td>0.41</td>
+</tr>
+<tr>
+<th>NAO link to RX1day, Western Norway</th>
+<td>0.34</td>
+<td>0.50</td>
+<td>0.42</td>
+<td>0.66</td>
+<td>0.55</td>
+<td>0.75</td>
+</tr>
+<tr>
+<th>NAO strength</th>
+<td>0.57</td>
+<td>0.80</td>
+<td>0.60</td>
+<td>0.85</td>
+<td>0.68</td>
+<td>0.95</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=16737308">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><strong>How to read this table.</strong> For each model and quantity, the smallest, median and largest value over
+the windows of the first and of the second half. Medians that agree within about 0.1 show no drift;
+larger differences between halves show that 50 years hold only one or two independent 29-winter
+samples.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b5b032fb">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="8.-Saved-outputs">8. Saved outputs<a class="anchor-link" href="#8.-Saved-outputs">¶</a></h2>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7550ef5c">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8880,12 +9141,12 @@ rarely produces the observed link.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=9cadac13">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=988c75bf">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">eerie_uk</span><span class="w"> </span><span class="kn">import</span> <span class="n">provenance</span>
@@ -8895,7 +9156,9 @@ rarely produces the observed link.</p>
 <span class="n">provenance</span><span class="o">.</span><span class="n">write_table</span><span class="p">(</span><span class="n">window_link</span><span class="p">,</span> <span class="n">out</span> <span class="o">/</span> <span class="s1">'control_window_link.parquet'</span><span class="p">,</span> <span class="s1">'NAO-rain-extremes correlation in every 29-winter window of the control runs'</span><span class="p">,</span> <span class="o">**</span><span class="n">meta</span><span class="p">)</span>
 <span class="n">provenance</span><span class="o">.</span><span class="n">write_table</span><span class="p">(</span><span class="n">placement</span><span class="p">,</span> <span class="n">out</span> <span class="o">/</span> <span class="s1">'control_placement.parquet'</span><span class="p">,</span> <span class="s1">'Chance range from control runs and where historical runs and references fall'</span><span class="p">,</span> <span class="o">**</span><span class="n">meta</span><span class="p">)</span>
 <span class="n">provenance</span><span class="o">.</span><span class="n">write_table</span><span class="p">(</span><span class="n">strength</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(),</span> <span class="n">out</span> <span class="o">/</span> <span class="s1">'control_nao_strength.parquet'</span><span class="p">,</span> <span class="s1">'NAO strength chance range from control-run windows'</span><span class="p">,</span> <span class="o">**</span><span class="n">meta</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'saved 3 tables'</span><span class="p">)</span>
+<span class="n">provenance</span><span class="o">.</span><span class="n">write_table</span><span class="p">(</span><span class="n">halves</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">set_axis</span><span class="p">([</span><span class="s1">'model'</span><span class="p">,</span> <span class="s1">'quantity'</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">b</span><span class="si">}</span><span class="s1">'</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">halves</span><span class="o">.</span><span class="n">columns</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                       <span class="n">out</span> <span class="o">/</span> <span class="s1">'control_halves.parquet'</span><span class="p">,</span> <span class="s1">'Control-run stability: window statistics in the first and second half'</span><span class="p">,</span> <span class="o">**</span><span class="n">meta</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'saved 4 tables'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8908,20 +9171,20 @@ rarely produces the observed link.</p>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>saved 3 tables
+<pre>saved 4 tables
 </pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=8bb0395d">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=25796bd4">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="8.-Limitations">8. Limitations<a class="anchor-link" href="#8.-Limitations">¶</a></h2><ul>
+<h2 id="9.-Limitations">9. Limitations<a class="anchor-link" href="#9.-Limitations">¶</a></h2><ul>
 <li><strong>Overlapping windows.</strong> 99 winters contain only about three independent 29-winter samples, so the
 chance range is an estimate and probably slightly too narrow at the tails.</li>
 <li><strong>1950 forcing.</strong> The control runs have no climate change; the historical runs do. Where forcing
@@ -8936,13 +9199,13 @@ tested here.</li>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1d7b77dd">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=9b66138c">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="9.-Open-questions">9. Open questions<a class="anchor-link" href="#9.-Open-questions">¶</a></h2><ol>
+<h2 id="10.-Open-questions">10. Open questions<a class="anchor-link" href="#10.-Open-questions">¶</a></h2><ol>
 <li>Is the observed link over western Norway (0.81) outside the chance range of both models because
 of their weak NAO, or because of how rain responds to a given NAO swing?</li>
 <li>Would a longer control run, or several, widen the ranges enough to include the observations?</li>

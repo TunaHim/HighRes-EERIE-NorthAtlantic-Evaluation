@@ -1,13 +1,13 @@
 {
   "description": "Winter 850 hPa jet latitude and strength",
-  "created": "2026-11-15T08:55:41+00:00",
-  "git_commit": "b331df8fc6a37cc91308c35292d0a759652fa278",
+  "created": "2026-11-15T11:56:49+00:00",
+  "git_commit": "9b9bd2935b72be145803a2dd759e873b76d6bf83",
   "code": "eerie_uk (this repository)",
   "python": "3.11.17",
   "xarray": "2026.9.0",
   "pandas": "3.0.6",
   "inputs": {
-    "HadGEM3-GC5": "CEDA EERIE archive, historical r1i1p1f1, Amon",
+    "HadGEM3-GC5E": "CEDA EERIE archive, historical r1i1p1f1, Amon",
     "ERA5": "DKRZ"
   },
   "rows": 3,

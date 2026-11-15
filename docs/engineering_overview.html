@@ -76,11 +76,11 @@ scaled up.</p>
 
 <div class="stats">
   <div class="stat"><b>945</b><span>datasets listed on the DKRZ server</span></div>
-  <div class="stat"><b>~250–300 GB</b><span>streamed over the internet (estimate)</span></div>
-  <div class="stat"><b>4.2 GB</b><span>kept on disk, about 1.5% of it</span></div>
-  <div class="stat"><b>~1,200</b><span>yearly data files</span></div>
-  <div class="stat"><b>13 modules</b><span>about 2,100 lines of Python</span></div>
-  <div class="stat"><b>66 tests</b><span>all offline, all passing</span></div>
+  <div class="stat"><b>3 servers</b><span>DKRZ (Zarr), CEDA (netCDF), ECA&amp;D (netCDF)</span></div>
+  <div class="stat"><b>12.3 GB</b><span>kept on disk; a small fraction of what is streamed</span></div>
+  <div class="stat"><b>~3,600</b><span>yearly data files</span></div>
+  <div class="stat"><b>15 modules</b><span>about 2,800 lines of Python</span></div>
+  <div class="stat"><b>87 tests</b><span>all offline, all passing</span></div>
 </div>
 
 <h2>1. The pipeline at a glance</h2>
@@ -136,7 +136,7 @@ scaled up.</p>
   <text x="634" y="22" font-size="13" font-weight="600" fill="var(--ink2)">4 · KEEP</text>
   <rect x="634" y="34" width="150" height="120" rx="8" fill="var(--aqua-soft)" stroke="var(--aqua)"/>
   <text x="646" y="56" font-size="13" font-weight="600" fill="var(--ink)">Local archive</text>
-  <text x="646" y="76" font-size="12" fill="var(--ink2)">data/, 4.2 GB</text>
+  <text x="646" y="76" font-size="12" fill="var(--ink2)">data/, 12.3 GB</text>
   <text x="646" y="92" font-size="12" fill="var(--ink2)">one file per source,</text>
   <text x="646" y="108" font-size="12" fill="var(--ink2)">variable, region, year</text>
   <text x="646" y="124" font-size="12" fill="var(--ink2)">same time stamps</text>
@@ -216,8 +216,13 @@ only that, and throws the rest away.</p>
 <tr><td>IFS atmosphere-only, 9 km and 28 km</td><td>daily rain (28 km: 3 members, winter)</td><td>1985–2014</td><td class="num">0.8 GB</td></tr>
 <tr><td>IFS atmosphere-only, SST experiments</td><td>monthly pressure, 1 or 10 members</td><td>1980–2023</td><td class="num">0.2 GB</td></tr>
 <tr><td>E-OBS (stations)</td><td>daily rain and max temperature, land</td><td>1985–2014</td><td class="num">0.2 GB</td></tr>
-<tr><td>Derived indices (cache)</td><td>RX1day, TXx, R95p per grid cell</td><td>1985–2014</td><td class="num">0.05 GB</td></tr>
-<tr><th>Total</th><th></th><th></th><th class="num">4.2 GB</th></tr>
+<tr><td>Derived indices (cache)</td><td>RX1day, TXx, R95p per grid cell, every run</td><td>1985–2014</td><td class="num">0.1 GB</td></tr>
+<tr><td><b>Version 2:</b> ICON-ESM-ER r2, r3</td><td>as r1 (monthly from 1975)</td><td>1975–2014 / 1985–2014</td><td class="num">2.0 GB</td></tr>
+<tr><td><b>Version 2:</b> IFS-FESOM2-SR r2, r3</td><td>as r1 (monthly from 1975; r3 misses 2–31 Oct 1999 on the server)</td><td>1975–2014 / 1985–2014</td><td class="num">1.9 GB</td></tr>
+<tr><td><b>Version 2:</b> control runs of both models</td><td>monthly pressure, temperature, rain; daily rain</td><td>1950–2049</td><td class="num">3.2 GB</td></tr>
+<tr><td><b>Version 2:</b> HadGEM3-GC5E LL, MM, HH (CEDA)</td><td>monthly pressure, rain, temperature; 850/250 hPa wind (LL, MM)</td><td>1950–2014</td><td class="num">0.3 GB</td></tr>
+<tr><td><b>Version 2:</b> ERA5 wind</td><td>monthly 850/250 hPa zonal wind</td><td>1950–2014</td><td class="num">&lt;0.01 GB</td></tr>
+<tr><th>Total</th><th></th><th></th><th class="num">12.3 GB</th></tr>
 </tbody>
 </table>
 </div>
@@ -338,7 +343,7 @@ of work, and the analysis does not care where the data came from. The main bottl
 <tr><td><b>Much larger volumes</b></td><td>Run next to the data on a supercomputer: one job per year, many in parallel (Slurm job arrays or a Dask cluster). Nothing crosses the internet except results.</td><td>A small job script; the yearly-file design already fits.</td></tr>
 <tr><td><b>Less network traffic from a laptop</b></td><td>Ask the server to cut the region before sending (server-side subsetting), instead of fetching whole-globe chunks.</td><td>The open step in download.py.</td></tr>
 <tr><td><b>Cloud storage and sharing</b></td><td>Save as chunked Zarr instead of netCDF, so others can read the archive directly over the web.</td><td>The save step in download.py.</td></tr>
-<tr><td><b>Automatic checks on every change</b></td><td>Run the 66 tests on GitHub for every push (continuous integration).</td><td>One configuration file.</td></tr>
+<tr><td><b>Automatic checks on every change</b></td><td>Run the 87 tests on GitHub for every push (continuous integration; in place since version 1).</td><td>One configuration file.</td></tr>
 <tr><td><b>An interactive dashboard</b></td><td>Read the small Parquet tables already saved in app_assets/.</td><td>A new app; no recomputation.</td></tr>
 </tbody>
 </table>

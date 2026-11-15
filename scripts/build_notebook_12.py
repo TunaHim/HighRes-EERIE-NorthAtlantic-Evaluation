@@ -18,12 +18,12 @@ def step(explain, source):
 
 
 md("""
-# 12 · One coupled model at three resolutions: HadGEM3-GC5
+# 12 · One coupled model at three resolutions: HadGEM3-GC5E
 
 **Question for this notebook.** Notebook 08 compared one atmosphere model (IFS) at 9 km and 28 km
 with the same prescribed sea-surface temperature. Here the question is the coupled version: does a
 coupled model's winter circulation, NAO and the NAO's rainfall response improve as both its
-atmosphere and its ocean get finer? The Met Office ran its EERIE configuration of HadGEM3-GC5 at
+atmosphere and its ocean get finer? The Met Office ran its EERIE configuration of HadGEM3-GC5E at
 three resolutions with the same physics:
 
 | Configuration | Atmosphere | Ocean |
@@ -31,6 +31,11 @@ three resolutions with the same physics:
 | **LL** | about 135 km (N96) | 1° |
 | **MM** | about 60 km (N216) | 1/4° |
 | **HH** | about 20 km (N640) | 1/12°, eddy-rich |
+
+**Atmosphere and ocean change together.** In these configurations the atmospheric and the oceanic
+resolution are refined at the same time. The comparison therefore evaluates three coupled
+resolution configurations; it cannot isolate the effect of the atmospheric grid from that of the
+ocean grid and of their interaction.
 
 **Data.** Historical runs, one member each, monthly fields from the public CEDA archive, 1950–2014:
 sea-level pressure (North Atlantic), precipitation and near-surface temperature (north-west
@@ -323,7 +328,7 @@ step("""
 """, """
 from eerie_uk import provenance
 out = Path('../app_assets')
-meta = dict(inputs={'HadGEM3-GC5': 'CEDA EERIE archive, historical r1i1p1f1, Amon', 'ERA5': 'DKRZ'},
+meta = dict(inputs={'HadGEM3-GC5E': 'CEDA EERIE archive, historical r1i1p1f1, Amon', 'ERA5': 'DKRZ'},
             period='1951-2014 (NAO, rain link, jet), 1986-2014 (means)')
 provenance.write_table(circulation, out / 'hadgem_circulation.parquet', 'Winter mean pressure error per model', **meta)
 provenance.write_table(nao_table, out / 'hadgem_nao.parquet', 'NAO strength, EOF variance and pattern per model', **meta)

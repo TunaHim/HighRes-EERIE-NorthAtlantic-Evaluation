@@ -47,14 +47,20 @@ a{color:var(--blue)}
 <!-- site:nav --><nav class="sitenav"><div><b>HighRes-EERIE-NorthAtlantic-Evaluation</b><a href="index.html">What was found</a><a href="engineering_overview.html">How it is built</a><a href="methods.html" class="here">Methods</a><a href="notebooks/index.html">Notebooks</a><a href="explorer/index.html">Explorer</a><a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation">Code on GitHub</a></div></nav><!-- /site:nav -->
 <main>
 <h1>Methods</h1>
-<p>Adopted on 9 October 2026, before any result was produced. Everything in this
-project is exploratory.</p>
+<p>Sections 1–8 were adopted on 9 October 2026, before any result was produced (version 1:
+one run of each coupled model). Section 9 lists checks added after the first results, and
+section 10 the version 2 design: three runs per coupled model, 100-year control runs and the
+HadGEM3-GC5E coupled resolution configurations. Everything in this project is exploratory.</p>
+<p>The project is organised in three experiments: <strong>1 · ensemble robustness</strong> (<a href="notebooks/03_validation_baseline.html">notebooks 03</a>–06,
+09, 10), <strong>2 · internal variability</strong> (07, 11) and <strong>3 · resolution</strong> (08, 12).</p>
 <h2>1. Wording</h2>
 <ul>
 <li><strong>ERA5</strong> is a reanalysis reference, not observations.</li>
 <li><strong>E-OBS</strong> is a station-based gridded dataset.</li>
-<li>Two models with one member each: a shared result is &quot;consistent across the two
-models examined&quot;, never &quot;robust&quot;.</li>
+<li>Version 1, one member per model: a shared result is &quot;consistent across the two
+models examined&quot;, never &quot;robust&quot;. Version 2, three members per model: a result found
+in all three is &quot;consistent across the three sampled runs&quot; (shortened to &quot;robust across
+the three runs&quot;), which is necessary but not sufficient for a robust model property.</li>
 <li>The paired atmosphere-only runs test &quot;atmospheric sensitivity to small-scale
 SST variability (LR20-filtered SST forcing)&quot;. They are not described as the
 effect of ocean eddies and fronts unless the LR20 filter is verified, and even
@@ -180,8 +186,9 @@ verifying LR20.</p>
 <li>check minimum, maximum, mean and the spatial pattern.</li>
 </ol>
 <h2>8. Priorities</h2>
-<p><a href="notebooks/03_validation_baseline.html">Notebooks 03</a> → 04 → 05 → 06 first. <a href="notebooks/07_paired_experiment.html">Notebook 07</a> and the interactive explorer are
-optional and are never built at the expense of clean notebooks and the README.</p>
+<p>Version 1: <a href="notebooks/03_validation_baseline.html">notebooks 03</a> → 04 → 05 → 06 first; <a href="notebooks/07_paired_experiment.html">notebook 07</a> and the interactive explorer
+optional. Version 2: <a href="notebooks/10_members.html">notebooks 10</a>, 11 and 12 are the core experiments; the explorer still
+shows run r1 only.</p>
 <h2>9. Additions after the first results (<a href="notebooks/06_nao_extremes.html">notebook 06</a>, sections 10 and 11; <a href="notebooks/04_nao.html">notebook 04</a>, section 8)</h2>
 <p>Added on 5 November 2026, after the results above were produced, to test how far they hold.
 They do not change any earlier choice.</p>
@@ -245,7 +252,7 @@ They do not change any earlier choice.</p>
   <td><code>eerie-control-1950</code> (constant 1950 forcing), 99 winters 1951–2049. NAO along the ERA5 pattern relative to the run's own 100-year winter mean; winter RX1day and R95p from daily rain with a threshold from all 100 winters. Every 29-winter window (71, overlapping); chance range = 5th to 95th percentile. Series detrended within each window. The ranges understate chance (about three independent windows per run).</td>
 </tr>
 <tr>
-  <td>HadGEM3-GC5 resolution ladder</td>
+  <td>HadGEM3-GC5E resolution ladder</td>
   <td>HadGEM3-GC5E LL / MM / HH <code>historical</code> r1, monthly, from CEDA. Interpolated bilinearly onto the 1° (pressure, wind) and 0.25° (rain, temperature) grids, with edge cells filled from the nearest source cell. RMS pressure error cosine-weighted. NAO strength also given for 1951–1982 and 1983–2014 separately.</td>
 </tr>
 <tr>

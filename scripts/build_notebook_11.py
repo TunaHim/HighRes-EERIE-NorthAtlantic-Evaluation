@@ -53,9 +53,10 @@ little too narrow in the tails. It is still far better than the spread of three 
 4. NAO strength: chance range
 5. NAO link to rain extremes: chance range
 6. Where the historical runs and observations fall
-7. Saved outputs
-8. Limitations
-9. Open questions
+7. Is the control run stable? First against second half
+8. Saved outputs
+9. Limitations
+10. Open questions
 """)
 
 md("""
@@ -261,7 +262,45 @@ rarely produces the observed link.
 """)
 
 md("""
-## 7. Saved outputs
+## 7. Is the control run stable? First against second half
+
+A control run is useful for chance ranges only if its statistics do not drift. This section
+compares windows that lie entirely in the first half of the run (1951–1999, window starts up to
+1971) with windows entirely in the second half (2000–2049). Similar medians mean no drift; the
+difference between the halves also shows how much the range itself depends on which 50 years are
+sampled.
+""")
+
+step("""
+**What this cell does.** For NAO strength and for each region and rain index: the median and the
+range over the windows of each half of each control run.
+""", """
+half = lambda start: 'first half' if start <= 1971 else ('second half' if start >= 2000 else None)
+rows = []
+for m in CONTROLS:
+    for years in windows(control_nao[m]):
+        h = half(int(years[0]))
+        if h:
+            rows.append({'model': LABEL(m).split()[0], 'quantity': 'NAO strength', 'half': h,
+                         'value': float(control_nao[m].sel(year=years).std(ddof=1))})
+part = window_link.assign(half=window_link.start.map(half)).dropna(subset=['half'])
+for _, row in part.iterrows():
+    rows.append({'model': LABEL(row.model).split()[0], 'quantity': f'NAO link to {row["index"]}, {row.region}',
+                 'half': row.half, 'value': row.r})
+halves = (pd.DataFrame(rows).groupby(['model', 'quantity', 'half']).value
+          .agg(['min', 'median', 'max']).unstack('half'))
+halves
+""")
+
+md("""
+**How to read this table.** For each model and quantity, the smallest, median and largest value over
+the windows of the first and of the second half. Medians that agree within about 0.1 show no drift;
+larger differences between halves show that 50 years hold only one or two independent 29-winter
+samples.
+""")
+
+md("""
+## 8. Saved outputs
 """)
 
 step("""
@@ -275,11 +314,13 @@ meta = dict(inputs={'control runs': 'data/<model>.control/', 'members': 'app_ass
 provenance.write_table(window_link, out / 'control_window_link.parquet', 'NAO-rain-extremes correlation in every 29-winter window of the control runs', **meta)
 provenance.write_table(placement, out / 'control_placement.parquet', 'Chance range from control runs and where historical runs and references fall', **meta)
 provenance.write_table(strength.reset_index(), out / 'control_nao_strength.parquet', 'NAO strength chance range from control-run windows', **meta)
-print('saved 3 tables')
+provenance.write_table(halves.reset_index().set_axis(['model', 'quantity'] + [f'{a} {b}' for a, b in halves.columns], axis=1),
+                       out / 'control_halves.parquet', 'Control-run stability: window statistics in the first and second half', **meta)
+print('saved 4 tables')
 """)
 
 md("""
-## 8. Limitations
+## 9. Limitations
 
 - **Overlapping windows.** 99 winters contain only about three independent 29-winter samples, so the
   chance range is an estimate and probably slightly too narrow at the tails.
@@ -293,7 +334,7 @@ md("""
 """)
 
 md("""
-## 9. Open questions
+## 10. Open questions
 
 1. Is the observed link over western Norway (0.81) outside the chance range of both models because
    of their weak NAO, or because of how rain responds to a given NAO swing?

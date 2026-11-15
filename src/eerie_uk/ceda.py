@@ -1,4 +1,4 @@
-"""Download HadGEM3-GC5 EERIE historical runs (monthly) from the public CEDA archive.
+"""Download HadGEM3-GC5E EERIE historical runs (monthly) from the public CEDA archive.
 
 The Met Office EERIE runs at three resolutions of one coupled model are public
 on CEDA as CMIP-style netCDF files (whole globe, many years per file):

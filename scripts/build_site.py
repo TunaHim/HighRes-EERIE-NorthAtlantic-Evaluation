@@ -29,12 +29,13 @@ SITE = "https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/"
 NAME = "HighRes-EERIE-NorthAtlantic-Evaluation"
 AUTHOR = "Himansu Kesari Pradhan"
 YEAR = 2026
-SUMMARY = ("How well do high-resolution climate models (EERIE: ICON-ESM-ER, IFS-FESOM2-SR) represent winter "
-           "extremes over the UK and Ireland and their driver, the North Atlantic Oscillation? An evaluation "
-           "against ERA5 and E-OBS, with resolution (9 km vs 28 km) and internal-variability tests.")
+SUMMARY = ("North Atlantic circulation and European winter extremes in high-resolution EERIE climate models: "
+           "which biases persist across runs (ICON-ESM-ER, IFS-FESOM2-SR, three runs each), what internal "
+           "variability can do (100-year control runs), and how results change with coupled resolution "
+           "(HadGEM3-GC5E at 135, 60 and 20 km). Evaluated against ERA5 and E-OBS.")
 
 NOTEBOOKS = {
-    "00_summary": "Summary: the whole story in one figure, then step by step",
+    "00_summary": "Summary and entry point: the question, the overview figure and the three experiments",
     "01_data_inventory": "Which public EERIE data exist and can be read",
     "02_download_plan": "Data plan: domains, datasets, periods and cost",
     "03_validation_baseline": "Is the mean winter climate credible?",
@@ -46,11 +47,11 @@ NOTEBOOKS = {
     "09_event_anatomy": "What weather brings the heaviest winter rain?",
     "10_members": "Version 2: model or chance? Three runs of each coupled model",
     "11_control": "Version 2: how much can chance alone do? 100-year control runs",
-    "12_hadgem_resolution": "Version 2: one coupled model (HadGEM3-GC5) at three resolutions",
+    "12_hadgem_resolution": "Version 2: one coupled model (HadGEM3-GC5E) at three resolutions",
 }
 
 PAGES = {  # path relative to docs/ -> (title, description)
-    "index.html": (f"{NAME}: winter extremes, the NAO and high-resolution climate models", SUMMARY),
+    "index.html": (f"{NAME}: North Atlantic circulation and European winter extremes in high-resolution climate models", SUMMARY),
     "engineering_overview.html": (
         f"How it is built · {NAME}",
         "How public climate-model output travels from the DKRZ data centre to the analysis: discovery, "
