@@ -7822,32 +7822,32 @@ a.anchor-link {
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
 <!-- site:nav --><nav class="sitenav"><div><b>HighRes-EERIE-NorthAtlantic-Evaluation</b><a href="../index.html">What was found</a><a href="../engineering_overview.html">How it is built</a><a href="../methods.html">Methods</a><a href="../notebooks/index.html" class="here">Notebooks</a><a href="../explorer/index.html">Explorer</a><a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation">Code on GitHub</a></div></nav><!-- /site:nav -->
 <main>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ec680d37">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2678fbd3">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="10-%C2%B7-Model-or-chance?-Three-runs-of-each-coupled-model">10 · Model or chance? Three runs of each coupled model<a class="anchor-link" href="#10-%C2%B7-Model-or-chance?-Three-runs-of-each-coupled-model">¶</a></h1><p><strong>Question for this notebook.</strong> Version 1 evaluated one run (member r1) of each coupled model. A
+<h1 id="10-%C2%B7-Model-or-chance?-Three-runs-of-each-coupled-model">10 · Model or chance? Three runs of each coupled model<a class="anchor-link" href="#10-%C2%B7-Model-or-chance?-Three-runs-of-each-coupled-model">¶</a></h1><p><strong>Question for this notebook.</strong> Notebooks 03–09 evaluate one run (member r1) of each coupled model. A
 single run carries its own chance weather, so every model result in notebooks 04–06 could be a
 property of the model or a lucky or unlucky run. The EERIE archive holds two more historical runs
 of each model (r2 and r3). They use the same model and the same external forcing and differ only
 in tiny changes to the starting state, so after a few years their weather is independent. This
-notebook repeats the key diagnostics of version 1 on all three runs and asks, result by result:
+notebook repeats their key diagnostics on all three runs and asks, result by result:
 <strong>do all three runs agree?</strong></p>
 <p><strong>Data.</strong></p>
 <ul>
 <li>ICON-ESM-ER and IFS-FESOM2-SR, historical runs r1, r2 and r3. The r2 and r3 runs start in 1975,
 so the NAO is compared over the common 39 winters <strong>1976–2014</strong>; extremes over the 29 winters
-<strong>1986–2014</strong>, as in version 1.</li>
-<li>References as in version 1: ERA5 (pressure, rain, temperature) and E-OBS (rain and temperature
+<strong>1986–2014</strong>, as in notebooks 05 and 06.</li>
+<li>References as before: ERA5 (pressure, rain, temperature) and E-OBS (rain and temperature
 over land).</li>
 <li>IFS-FESOM2-SR r3 has no data for 2–31 October 1999 on the server. October is not part of winter,
 so the winter results are unaffected; the annual indices for 1999 miss those days.</li>
 </ul>
 <p><strong>How to read the results.</strong> Three runs are still a small ensemble: their range shows how much
 chance alone can move a number, but it is not a full uncertainty interval. A result that holds in
-all three runs is called <strong>robust across the three runs</strong>; one that changes sign or size strongly
+all three runs is called <strong>consistent across the three sampled runs</strong>; one that changes sign or size strongly
 between runs is <strong>sensitive to chance</strong>. Notebook 11 adds the long control runs to measure chance
 more completely.</p>
 <p><strong>Sections</strong></p>
@@ -7859,7 +7859,7 @@ more completely.</p>
 <li>Extremes over UK and Ireland</li>
 <li>The NAO link to winter rain extremes</li>
 <li>How much of ICON-ESM-ER's wet bias the circulation explains, per run</li>
-<li>Which version 1 results hold?</li>
+<li>Which results of run r1 hold?</li>
 <li>Saved outputs</li>
 <li>Limitations</li>
 <li>Open questions</li>
@@ -7868,7 +7868,7 @@ more completely.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6deb2477">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e3650259">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7887,8 +7887,8 @@ more completely.</p>
 <td>Three simulations of the same model with the same forcing, started from slightly different states. Their differences are internal variability: chance weather.</td>
 </tr>
 <tr>
-<td><strong>Robust across the three runs</strong></td>
-<td>All three runs give the same sign and a similar size. With only three runs this is necessary but not sufficient for a robust model property.</td>
+<td><strong>Consistent across the three sampled runs</strong></td>
+<td>All three runs give the same sign and a similar size. With only three runs this is necessary but not sufficient for a property of the model.</td>
 </tr>
 <tr>
 <td><strong>NAO strength</strong></td>
@@ -7914,7 +7914,7 @@ more completely.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ebbbb5e5">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2ee4b108">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7925,7 +7925,7 @@ more completely.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d18bcaeb">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d7bb236a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7935,7 +7935,7 @@ more completely.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=49f64ad4">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=8d2f4038">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7968,7 +7968,7 @@ more completely.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a9166f2c">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=18bc832f">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7980,7 +7980,7 @@ pattern.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=f4b62e6b">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=32be0fd3">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8017,17 +8017,17 @@ pattern.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d64c8728">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=bd9a4e48">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="2.-Findings">2. Findings<a class="anchor-link" href="#2.-Findings">¶</a></h2><p>Three historical runs per model (r1, r2, r3). NAO over the 39 winters 1976–2014, extremes over the 29 winters 1986–2014. "Robust across the three runs" (consistent across the three sampled runs) means all three agree in sign and roughly in size; three runs cannot exclude a different answer in a fourth.</p>
+<h2 id="2.-Findings">2. Findings<a class="anchor-link" href="#2.-Findings">¶</a></h2><p>Three historical runs per model (r1, r2, r3). NAO over the 39 winters 1976–2014, extremes over the 29 winters 1986–2014. "Consistent across the three runs" means all three sampled runs agree in sign and roughly in size; three runs cannot exclude a different answer in a fourth.</p>
 <table>
 <thead>
 <tr>
-<th>Result of version 1 (r1 only)</th>
+<th>Result of run r1 (notebooks 04–06)</th>
 <th>ICON-ESM-ER, three runs</th>
 <th>IFS-FESOM2-SR, three runs</th>
 <th>Verdict</th>
@@ -8038,43 +8038,43 @@ pattern.</p>
 <td>NAO weaker than ERA5</td>
 <td>0.55 to 0.63 of ERA5</td>
 <td>0.68 to 0.81 of ERA5</td>
-<td><strong>robust</strong> in both models</td>
+<td><strong>consistent across the three runs</strong> in both models</td>
 </tr>
 <tr>
 <td>Mean circulation like a strong positive NAO</td>
 <td>+1.9 to +2.1 SD</td>
 <td>+0.1 to +0.5 SD</td>
-<td><strong>robust</strong>: a property of ICON-ESM-ER</td>
+<td><strong>consistent across the three runs</strong> of ICON-ESM-ER</td>
 </tr>
 <tr>
 <td>Very-wet-day rain (R95p) over UK and Ireland vs E-OBS</td>
 <td>+50% to +62%</td>
 <td>+9% to +17%</td>
-<td><strong>robust</strong></td>
+<td><strong>consistent across the three runs</strong></td>
 </tr>
 <tr>
 <td>Wettest day of the year vs E-OBS</td>
 <td>+42% to +48%</td>
 <td>+4% to +8%</td>
-<td><strong>robust</strong></td>
+<td><strong>consistent across the three runs</strong></td>
 </tr>
 <tr>
 <td>Hottest day of the year vs E-OBS</td>
 <td>−2.9 to −3.6 °C</td>
 <td>−1.4 to −1.9 °C</td>
-<td><strong>robust</strong></td>
+<td><strong>consistent across the three runs</strong></td>
 </tr>
 <tr>
 <td>Too many wet days / too much rain per wet day (vs E-OBS)</td>
 <td>+32% to +34% / +15% to +21%</td>
 <td>+3% to +7% / +5% to +7%</td>
-<td><strong>robust</strong></td>
+<td><strong>consistent across the three runs</strong></td>
 </tr>
 <tr>
 <td>Share of the R95p bias consistent with the circulation offset (E-OBS / ERA5)</td>
 <td>74–82% / 38–41%</td>
 <td>small offset</td>
-<td><strong>robust</strong> for ICON-ESM-ER</td>
+<td><strong>consistent across the three runs</strong> of ICON-ESM-ER</td>
 </tr>
 <tr>
 <td>ICON-ESM-ER's leading pattern "mixed"</td>
@@ -8104,20 +8104,20 @@ pattern.</p>
 </table>
 <p><strong>What this means, in plain words</strong></p>
 <ol>
-<li><strong>The large biases are model properties, not bad luck.</strong> ICON-ESM-ER's shifted mean circulation (about +2 SD along the NAO), its 50–60% excess in very-wet-day rain over UK and Ireland, its too many and too heavy wet days and its 3 °C too-cool hottest day appear in all three runs with similar size. The same holds for IFS-FESOM2-SR's much smaller biases. Version 1's single-run diagnosis of the mean state and of extremes stands.</li>
+<li><strong>The large biases are consistent across the three sampled runs, not bad luck.</strong> ICON-ESM-ER's shifted mean circulation (about +2 SD along the NAO), its 50–60% excess in very-wet-day rain over UK and Ireland, its too many and too heavy wet days and its 3 °C too-cool hottest day appear in all three runs with similar size. The same holds for IFS-FESOM2-SR's much smaller biases. The single-run diagnosis of the mean state and of extremes in notebooks 03–05 stands.</li>
 <li><strong>A weak NAO is a property of both models.</strong> All six runs have an NAO weaker than ERA5's over the same winters: ICON-ESM-ER 0.55–0.63, IFS-FESOM2-SR 0.68–0.81. The ranking between the models is also the same in every run.</li>
-<li><strong>ICON-ESM-ER's "mixed" leading pattern was mostly r1's chance.</strong> In r2 and r3 its own leading pattern resembles ERA5's well (pattern correlation 0.90 and 0.94, against 0.59 in r1 over these winters), although its first two patterns remain close in variance. Version 1's emphasis on the mixing should be softened; measuring every run along the common ERA5 pattern was the right safeguard.</li>
-<li><strong>The NAO link over UK and Ireland cannot be pinned down with single runs.</strong> Three runs of one model span 0.06 to 0.49 (ICON-ESM-ER) and 0.21 to 0.60 (IFS-FESOM2-SR): as wide as the difference between the two references. Version 1's statement that IFS-FESOM2-SR reproduces the UK link better than ICON-ESM-ER does not hold; both are consistent with the observations and with each other.</li>
-<li><strong>Over western Norway both models are consistently too weak.</strong> All six runs have a weaker NAO link (0.52–0.71) than both references (0.81, bootstrap 95% interval about 0.71–0.91). This is the clearest model–observation difference in the NAO-to-extremes link, and it was underplayed in version 1; notebook 11 tests it against the control runs.</li>
-<li><strong>The wrong-sign link over north-west France is partly a model property and partly chance.</strong> ICON-ESM-ER is negative in two of three runs (−0.46, −0.32) and weakly positive in the third (+0.18); IFS-FESOM2-SR is near zero in two runs. Notebook 11 tests this against the control runs.</li>
+<li><strong>ICON-ESM-ER's "mixed" leading pattern was mostly r1's chance.</strong> In r2 and r3 its own leading pattern resembles ERA5's well (pattern correlation 0.90 and 0.94, against 0.59 in r1 over these winters), although its first two patterns remain close in variance. The emphasis on the mixing in notebook 04 should be softened; measuring every run along the common ERA5 pattern was the right safeguard.</li>
+<li><strong>The NAO link over UK and Ireland cannot be pinned down with single runs.</strong> Three runs of one model span 0.06 to 0.49 (ICON-ESM-ER) and 0.21 to 0.60 (IFS-FESOM2-SR): as wide as the difference between the two references. Notebook 06's statement that IFS-FESOM2-SR reproduces the UK link better than ICON-ESM-ER does not hold; both are consistent with the observations and with each other.</li>
+<li><strong>Over western Norway both models are consistently too weak.</strong> All six runs have a weaker NAO link (0.52–0.71) than both references (0.81, bootstrap 95% interval about 0.71–0.91). This is the clearest model–observation difference in the NAO-to-extremes link, and it was underplayed in notebook 06; notebook 11 tests it against the control runs.</li>
+<li><strong>The wrong-sign link over north-west France appears in two of three runs, partly chance.</strong> ICON-ESM-ER is negative in two of three runs (−0.46, −0.32) and weakly positive in the third (+0.18); IFS-FESOM2-SR is near zero in two runs. Notebook 11 tests this against the control runs.</li>
 <li><strong>The circulation share of ICON-ESM-ER's wet bias is stable</strong> across runs (74–82% of the R95p bias against E-OBS, 38–41% against ERA5), so the decomposition in notebook 06 was not a single-run artefact.</li>
 </ol>
-<p><strong>Answer to the question.</strong> Version 1's results on the mean circulation, NAO strength, rainfall and temperature extremes and the wet-day statistics are properties of the models: all three runs agree. Its results on the NAO-to-extremes link are only partly robust: over UK and Ireland the link varies between runs as much as between models and references, over western Norway both models are consistently too weak in all three runs (a modest discrepancy, given the observed value's uncertainty), and ICON-ESM-ER's wrong sign over north-west France appears in two of three runs. ICON-ESM-ER's mixed leading NAO pattern was largely the chance of run r1.</p>
+<p><strong>Answer to the question.</strong> Run r1's results on the mean circulation, NAO strength, rainfall and temperature extremes and the wet-day statistics are consistent across the three sampled runs. Its results on the NAO-to-extremes link only partly hold: over UK and Ireland the link varies between runs as much as between models and references, over western Norway both models are consistently too weak in all three runs (a modest discrepancy, given the observed value's uncertainty), and ICON-ESM-ER's wrong sign over north-west France appears in two of three runs. ICON-ESM-ER's mixed leading NAO pattern was largely the chance of run r1.</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=488a2645">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=40cf0e1b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8128,7 +8128,7 @@ pattern.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c883264b">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6c37b70a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8141,7 +8141,7 @@ run's own first pattern resembles ERA5's.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=272c8a86">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=92234bc2">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8272,7 +8272,7 @@ run's own first pattern resembles ERA5's.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b5248b9c">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=11293d8a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8283,7 +8283,7 @@ dashed line at 1.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=f5de6726">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=4d9dd316">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8312,7 +8312,7 @@ dashed line at 1.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a7b1b9e5">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6167a1b8">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8324,7 +8324,7 @@ dots of a model lie well below the line, a weak NAO is a property of that model,
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0e6652fc">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=15d41902">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8335,7 +8335,7 @@ ICON-ESM-ER r1 (notebook 04) appears in its other runs too.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=099c2c09">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=bb036cef">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8364,7 +8364,7 @@ ICON-ESM-ER r1 (notebook 04) appears in its other runs too.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=9d49a83e">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f8dfa418">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8377,7 +8377,7 @@ orange: high.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=56b0631e">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=afcc8193">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8388,7 +8388,7 @@ orange: high.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5d06a66a">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3805f944">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8400,7 +8400,7 @@ notebook 06, section 11).</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=3edb53df">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=6fe069a0">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8477,7 +8477,7 @@ notebook 06, section 11).</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d5365cd1">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f91b9b96">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8488,7 +8488,7 @@ notebook 06, section 11).</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a5fbb591">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=57104c83">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8500,7 +8500,7 @@ for every dataset (land where E-OBS has data), as in notebook 05.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=51979aaf">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=966a4cef">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8634,7 +8634,7 @@ for every dataset (land where E-OBS has data), as in notebook 05.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=9f989cba">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=29545499">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8645,7 +8645,7 @@ for every dataset (land where E-OBS has data), as in notebook 05.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=d61366e6">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=84353964">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8767,7 +8767,7 @@ for every dataset (land where E-OBS has data), as in notebook 05.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=28c8b8f7">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=620c1d54">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8778,7 +8778,7 @@ two references.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=d40e54ca">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=5e2067ab">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8808,7 +8808,7 @@ two references.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d157c761">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=eb2dd223">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8819,7 +8819,7 @@ two references.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=24691e10">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=94e10b48">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8830,7 +8830,7 @@ two references.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=8e3517ba">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=9a3f3efa">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8842,7 +8842,7 @@ Each run uses its own NAO index; E-OBS and ERA5 use ERA5's.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=ee8cf736">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=44eebcd1">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8993,7 +8993,7 @@ Each run uses its own NAO index; E-OBS and ERA5 use ERA5's.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d9b6107d">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6dfd2461">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9004,7 +9004,7 @@ references first, then the three runs of each model.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=2e649710">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=00636729">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9043,7 +9043,7 @@ references first, then the three runs of each model.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=670969bd">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f0ef7f0a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9051,12 +9051,12 @@ references first, then the three runs of each model.</p>
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><strong>Figures 4 and 5.</strong> Dots: correlation over 29 winters; bars: bootstrap 95% interval; grey line:
 zero. Upper figure R95p, lower RX1day. Compare the three dots of one model: if they scatter as
-widely as their bars, the single-run result of version 1 was partly chance.</p>
+widely as their bars, the single-run result of notebook 06 was partly chance.</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=51612d36">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=9fd385ca">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9067,7 +9067,7 @@ widely as their bars, the single-run result of version 1 was partly chance.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c849a9ad">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c6181ca2">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9080,7 +9080,7 @@ It also counts wet days and rain per wet day per run, as in notebook 06.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=8fbaf1bc">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=5988a4e8">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9203,7 +9203,7 @@ It also counts wet days and rain per wet day per run, as in notebook 06.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4cc52cdf">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e1393284">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9214,7 +9214,7 @@ references and every run (1986–2014).</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=8f53d24e">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=f31455a3">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9364,30 +9364,30 @@ references and every run (1986–2014).</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2cc00058">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2e217122">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="8.-Which-version-1-results-hold?">8. Which version 1 results hold?<a class="anchor-link" href="#8.-Which-version-1-results-hold?">¶</a></h2>
+<h2 id="8.-Which-results-of-run-r1-hold?">8. Which results of run r1 hold?<a class="anchor-link" href="#8.-Which-results-of-run-r1-hold?">¶</a></h2>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1764a83c">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a0c11326">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><strong>What this cell does.</strong> Collects, for each headline result of version 1, the value in r1 and the
-range over the three runs, so that each can be classed as robust across the three runs or
+<p><strong>What this cell does.</strong> Collects, for each headline result of run r1, the value in r1 and the
+range over the three runs, so that each can be classed as consistent across the three runs or
 sensitive to chance.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=011c4ad0">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=514baeee">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9545,7 +9545,7 @@ sensitive to chance.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0515dd46">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f8c90254">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9556,7 +9556,7 @@ sensitive to chance.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0142c8d4">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4e892fd9">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9567,7 +9567,7 @@ table to <code>app_assets/</code>, each with a JSON provenance file.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=e0ef94c8">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=8fb72d09">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9582,7 +9582,7 @@ table to <code>app_assets/</code>, each with a JSON provenance file.</p>
 <span class="n">provenance</span><span class="o">.</span><span class="n">write_table</span><span class="p">(</span><span class="n">nao_table</span><span class="p">,</span> <span class="n">out</span> <span class="o">/</span> <span class="s1">'members_nao.parquet'</span><span class="p">,</span> <span class="s1">'NAO strength, EOF variance and pattern per historical run, winters 1976-2014'</span><span class="p">,</span> <span class="o">**</span><span class="n">common_meta</span><span class="p">)</span>
 <span class="n">provenance</span><span class="o">.</span><span class="n">write_table</span><span class="p">(</span><span class="n">uk</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(),</span> <span class="n">out</span> <span class="o">/</span> <span class="s1">'members_extremes_uk.parquet'</span><span class="p">,</span> <span class="s1">'UK and Ireland land-average extremes per run and reference'</span><span class="p">,</span> <span class="o">**</span><span class="n">common_meta</span><span class="p">)</span>
 <span class="n">provenance</span><span class="o">.</span><span class="n">write_table</span><span class="p">(</span><span class="n">link</span><span class="p">,</span> <span class="n">out</span> <span class="o">/</span> <span class="s1">'members_nao_link.parquet'</span><span class="p">,</span> <span class="s1">'Detrended correlation of winter rain extremes with the NAO per run and region, bootstrap 95</span><span class="si">% i</span><span class="s1">nterval'</span><span class="p">,</span> <span class="o">**</span><span class="n">common_meta</span><span class="p">)</span>
-<span class="n">provenance</span><span class="o">.</span><span class="n">write_table</span><span class="p">(</span><span class="n">verdict</span><span class="p">,</span> <span class="n">out</span> <span class="o">/</span> <span class="s1">'members_verdict.parquet'</span><span class="p">,</span> <span class="s1">'Version 1 headline results: r1 value and range over three runs'</span><span class="p">,</span> <span class="o">**</span><span class="n">common_meta</span><span class="p">)</span>
+<span class="n">provenance</span><span class="o">.</span><span class="n">write_table</span><span class="p">(</span><span class="n">verdict</span><span class="p">,</span> <span class="n">out</span> <span class="o">/</span> <span class="s1">'members_verdict.parquet'</span><span class="p">,</span> <span class="s1">'Headline results of run r1: r1 value and range over three runs'</span><span class="p">,</span> <span class="o">**</span><span class="n">common_meta</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">'saved 4 tables'</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -9603,7 +9603,7 @@ table to <code>app_assets/</code>, each with a JSON provenance file.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=41616bee">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d9984359">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9614,7 +9614,7 @@ table to <code>app_assets/</code>, each with a JSON provenance file.</p>
 probability distribution. A result that agrees in three runs can still differ in a fourth.
 Notebook 11 uses the 100-year control runs for a fuller estimate of chance.</li>
 <li><strong>The r2 and r3 runs start in 1975,</strong> so the NAO window here (39 winters) is shorter than in
-notebook 04 (64 winters); r1's numbers differ slightly from version 1 for that reason alone.</li>
+notebook 04 (64 winters); r1's numbers differ slightly from notebook 04 for that reason alone.</li>
 <li><strong>IFS-FESOM2-SR r3 misses 2–31 October 1999</strong> (server data gap); winter results are unaffected.</li>
 <li>All other limitations of notebooks 04–06 apply (references, regridding, linear methods).</li>
 </ul>
@@ -9622,7 +9622,7 @@ notebook 04 (64 winters); r1's numbers differ slightly from version 1 for that r
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=bbb4ef23">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=14aeac16">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
