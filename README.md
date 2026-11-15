@@ -1,7 +1,7 @@
 # HighRes-EERIE-NorthAtlantic-Evaluation
 
 **North Atlantic circulation and European winter extremes in high-resolution climate models:
-across-member consistency, internal variability and coupled resolution sensitivity**
+historical ensemble evaluation, internal variability and coupled resolution sensitivity**
 
 [![tests](https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation/actions/workflows/tests.yml/badge.svg)](https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation/actions/workflows/tests.yml)
 [![website](https://img.shields.io/badge/website-online-2a78d6)](https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/)
@@ -16,7 +16,7 @@ as worked examples.
 
 | Experiment | Question | Data |
 |---|---|---|
-| **1 · Across-member consistency: daily extremes and their drivers** | Which biases in circulation, NAO and extremes persist across runs of the same model? | ICON-ESM-ER and IFS-FESOM2-SR, three historical runs each |
+| **1 · Historical ensemble evaluation: daily extremes and their drivers** | Which biases in circulation, NAO and extremes persist across runs of the same model? | ICON-ESM-ER and IFS-FESOM2-SR, three historical runs each |
 | **2 · Internal variability** | How much can chance alone change conclusions drawn from 29 winters? | 100-year control runs of both models; ten-member atmosphere-only ensembles |
 | **3 · Resolution** | How do circulation, NAO and winter rain change with resolution? | HadGEM3-GC5E coupled at about 135, 60 and 20 km (atmosphere and ocean together, monthly); IFS atmosphere-only at 28 and 9 km |
 
@@ -24,6 +24,8 @@ as worked examples.
 [interactive explorer](https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/explorer/) ·
 [summary notebook](notebooks/00_summary.ipynb) ·
 [methods](https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/methods.html)
+
+![Experimental design](docs/figures/experiment_design.png)
 
 ![The project at a glance](docs/figures/overview.png)
 

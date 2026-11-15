@@ -227,6 +227,7 @@ pre{{background:var(--surface);border:1px solid var(--line);border-radius:8px;pa
 pre code{{border:0;padding:0}}
 a{{color:var(--blue)}}
 .lead{{color:var(--ink2)}}
+img{{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line)}}
 </style></head><body>
 <main>
 {body}

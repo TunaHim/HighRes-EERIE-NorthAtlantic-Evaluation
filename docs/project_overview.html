@@ -82,6 +82,14 @@ examples; every map covers the whole north-west European domain.</p>
 European winter extremes are persistent model characteristics, which arise from internal variability, and how do
 they change across coupled model resolution configurations?</p>
 
+<figure class="hero">
+<img src="figures/experiment_design.png" alt="Experimental design: historical ensemble evaluation, internal variability and resolution, with their data and the shared references">
+<figcaption><b>Experimental design.</b> Three experiments answer three different questions with different data: which biases
+persist across runs of one model (six historical runs with daily data), what chance can do in 29 winters (two 99-winter control
+runs and a ten-member atmosphere-only ensemble), and what changes with resolution (HadGEM3-GC5E at three coupled configurations;
+IFS atmosphere-only at 28 and 9 km). All share the same diagnostics and references.</figcaption>
+</figure>
+
 <div class="tiles">
   <div class="tile" style="--c:var(--blue)"><b>6</b><span>historical runs</span><small>ICON-ESM-ER and IFS-FESOM2-SR, three each: daily extremes</small></div>
   <div class="tile" style="--c:var(--aqua)"><b>2 × 99</b><span>control winters</span><small>both coupled models, constant 1950 forcing: chance</small></div>
@@ -123,7 +131,7 @@ questions, so they are not combined into one ranking of the models.</div>
   <a href="engineering_overview.html"><b>See how it is built</b><span>From the supercomputer centre to the notebooks</span></a>
 </div>
 
-<h2 class="exp" style="--c:var(--blue)" id="experiment-1"><span>Experiment 1</span>Across-member consistency: daily extremes and their drivers</h2>
+<h2 class="exp" style="--c:var(--blue)" id="experiment-1"><span>Experiment 1</span>Historical ensemble evaluation: daily extremes and their drivers</h2>
 <p class="expq">Which biases in circulation, NAO and extremes persist across runs of the same model? ICON-ESM-ER and IFS-FESOM2-SR against ERA5 and E-OBS, step by step: data → mean climate and extremes → drivers → the same tests on three runs.</p>
 <figure class="hero">
 <img src="figures/summary_chain.png" alt="Summary figure: mean circulation bias, NAO pattern, NAO link to very-wet-day rain and rain bias, for ICON-ESM-ER and IFS-FESOM2-SR">
@@ -312,6 +320,11 @@ for both models.</figcaption></figure>
 
 <h2 class="exp" style="--c:var(--aqua)" id="experiment-2"><span>Experiment 2</span>Internal variability</h2>
 <p class="expq">How much can chance alone change the conclusions drawn from 29 winters?</p>
+<figure class="hero"><img src="figures/control_windows.png" alt="Timeline of a 99-winter control run with overlapping 29-winter windows and the 1986-2014 historical period">
+<figcaption><b>How the chance ranges are built.</b> Each 29-winter window of a control run (constant 1950 forcing) gives one value of a
+diagnostic; the empirical 5th–95th percentile across the 71 overlapping windows is the chance range. Neighbouring windows share most of
+their winters, so there are only about three independent samples per run.</figcaption></figure>
+
 <div class="step" style="--c:var(--violet)">
   <div>
     <h3>How much can chance alone do?</h3>
@@ -347,6 +360,12 @@ experiment range from 0.70 to 1.00, purely by chance; the three experiments over
 
 <h2 class="exp" style="--c:var(--violet)" id="experiment-3"><span>Experiment 3</span>Resolution</h2>
 <p class="expq">How do circulation, NAO and winter rain change with resolution? One atmosphere model at two resolutions with the same sea-surface temperature, and one coupled model at three resolutions with atmosphere and ocean refined together.</p>
+<figure class="hero"><img src="figures/resolution_ladder.png" alt="HadGEM3-GC5E LL, MM and HH: grid spacing and pressure error, NAO pattern correlation and winter rain">
+<figcaption><b>The HadGEM3-GC5E configurations side by side.</b> Left: schematic grid spacing; atmosphere (about 135, 60, 20 km) and
+ocean (1°, 1/4°, 1/12°) are refined together, so this compares coupled configurations, not the atmospheric grid alone. Right: across
+the tested configurations the winter pressure error decreases and the NAO pattern correlation with ERA5 increases, while winter-mean
+rain over UK and Ireland rises sharply at the finest configuration. One run each, monthly data.</figcaption></figure>
+
 <div class="step" style="--c:var(--violet)">
   <div>
     <h3>One coupled model at three resolutions: HadGEM3-GC5E</h3>

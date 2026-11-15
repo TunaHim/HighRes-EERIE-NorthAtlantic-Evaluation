@@ -251,6 +251,13 @@ only that, and throws the rest away.</p>
   <div class="card"><span class="tag aqua">cost control</span><h3>Measure before downloading</h3>
   <p>Every download was first tried on a few days, timed and sized, and the full cost estimated (hours, GB) before
   starting. That is how the 28 km ensemble was cut from 110 GB to about 16 GB.</p></div>
+  <div class="card"><span class="tag orange">two servers</span><h3>Whole-file archives</h3>
+  <p><b>Problem:</b> HadGEM3-GC5E is published on CEDA as whole-globe netCDF files of up to 1 GB, not as Zarr, and transfers
+  broke off on unstable connections. <b>Solution:</b> a second reader (ceda.py) streams each file, resumes broken transfers
+  where they stopped (HTTP range requests), cuts it to the regions and deletes it.</p></div>
+  <div class="card"><span class="tag blue">data gaps</span><h3>Missing data on the server</h3>
+  <p><b>Problem:</b> one month (October 1999) of IFS-FESOM2-SR run r3 could not be served. <b>Solution:</b> that year was
+  fetched day by day, the missing days recorded in the file, and checked to lie outside the winters analysed.</p></div>
   <div class="card"><span class="tag aqua">honesty</span><h3>Fair comparisons</h3>
   <p>Regional averages use exactly the same land cells for every dataset, so coastal cells that are partly sea in
   one dataset cannot bias the comparison.</p></div>

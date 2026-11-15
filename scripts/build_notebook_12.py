@@ -61,7 +61,7 @@ split into two halves to show how much a single run varies with time.
 4. The NAO at three resolutions
 5. Winter rain and temperature over UK and Ireland
 6. The NAO's influence on winter rain
-7. The jet stream
+7. The jet stream (and the three configurations side by side, 7b)
 8. Saved outputs
 9. Limitations
 10. Open questions
@@ -317,6 +317,30 @@ plotting.plot_line_panels({'Winter 850 hPa zonal wind, 60°W-0°, 1951-2014': {s
 md("""
 **Figure 5.** The peak of each curve is the average position of the eddy-driven jet. A peak too far
 north or south moves the storm track, and the winter rain, with it.
+""")
+
+md("""
+## 7b. The three configurations side by side
+""")
+
+step("""
+**What this cell does.** Summarises the configurations in one figure: a sketch of the grid spacing
+(atmosphere and ocean refined together) and three diagnostics from the tables above.
+""", """
+ladder = pd.DataFrame([{'source': s, 'atmosphere_km': km, 'ocean': ocean,
+                        'rms_error': circulation.set_index('source').loc[s, 'RMS error (hPa)'],
+                        'pattern_r': nao_table.set_index('source').loc[s, 'own pattern vs ERA5'],
+                        'rain_bias': surface.loc[LABEL(s), 'rain vs ERA5 (%)']}
+                       for s, km, ocean in (('hadgem3-gc5e-ll', 135, '1°'), ('hadgem3-gc5e-mm', 60, '1/4°'),
+                                            ('hadgem3-gc5e-hh', 20, '1/12°'))])
+plotting.plot_resolution_ladder(ladder);
+""")
+
+md("""
+**Figure 6.** Left: the grid spacing of each configuration (schematic; atmosphere and ocean refined
+together). Right: winter pressure error and NAO pattern correlation improve across the tested coupled
+configurations, while winter-mean rain over UK and Ireland rises sharply at the finest one. NAO strength,
+not shown, does not follow resolution (section 4).
 """)
 
 md("""

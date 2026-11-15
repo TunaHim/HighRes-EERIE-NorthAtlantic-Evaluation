@@ -1,7 +1,7 @@
 {
   "description": "UK and Ireland winter rain and temperature vs ERA5",
-  "created": "2026-11-15T11:56:49+00:00",
-  "git_commit": "9b9bd2935b72be145803a2dd759e873b76d6bf83",
+  "created": "2026-11-15T16:22:30+00:00",
+  "git_commit": "3d8cc82da7dee1873c08f860ef757a8826a212c4",
   "code": "eerie_uk (this repository)",
   "python": "3.11.17",
   "xarray": "2026.9.0",

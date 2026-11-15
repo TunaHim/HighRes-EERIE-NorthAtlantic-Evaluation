@@ -99,6 +99,20 @@ land = regions.land_mask(grid.lat, grid.lon)
 common = land & eobs.rx1day_djf.isel(year_djf=0).notnull()
 """)
 
+step("""
+**What this cell does.** Draws how the chance ranges are built: the 99-winter control run, examples of
+the overlapping 29-winter windows cut from it, and the 1986–2014 period of the historical runs and
+observations for comparison.
+""", """
+plotting.plot_control_windows();
+""")
+
+md("""
+**Method figure.** Every window of 29 consecutive control winters gives one value of a diagnostic (for
+example the NAO–R95p correlation). The spread of the 71 values is the empirical chance range. Neighbouring
+windows share most of their winters, so they are not independent samples.
+""")
+
 md("## 2. Findings\n\n" + FINDINGS)
 
 md("""

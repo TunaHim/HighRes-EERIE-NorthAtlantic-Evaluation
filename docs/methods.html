@@ -18,6 +18,7 @@ pre{background:var(--surface);border:1px solid var(--line);border-radius:8px;pad
 pre code{border:0;padding:0}
 a{color:var(--blue)}
 .lead{color:var(--ink2)}
+img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line)}
 </style><!-- site:head -->
 <meta name="description" content="Methods fixed before any result: preprocessing, NAO definition, ETCCDI extreme indices, statistics with false-discovery-rate control, event composites and resolution tests.">
 <meta name="author" content="Himansu Kesari Pradhan">
@@ -51,8 +52,65 @@ a{color:var(--blue)}
 historical run r1. Section 9 lists checks added after the first results, and section 10 the
 extension to three runs per coupled model, 100-year control runs and the HadGEM3-GC5E coupled
 resolution configurations. Everything in this project is exploratory.</p>
-<p>The project is organised in three experiments: <strong>1 · across-member consistency</strong> (<a href="notebooks/03_validation_baseline.html">notebooks 03</a>–06,
+<p>The project is organised in three experiments: <strong>1 · historical ensemble evaluation</strong> (<a href="notebooks/03_validation_baseline.html">notebooks 03</a>–06,
 09, 10), <strong>2 · internal variability</strong> (07, 11) and <strong>3 · resolution</strong> (08, 12).</p>
+<p><img src="figures/experiment_design.png" alt="Experimental design" /></p>
+<div class="tw"><table>
+<thead>
+<tr>
+  <th>Experiment</th>
+  <th>Data</th>
+  <th>Time resolution</th>
+  <th>Purpose</th>
+  <th>Notebooks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>1 · Historical ensemble evaluation</td>
+  <td>ICON-ESM-ER and IFS-FESOM2-SR, r1–r3; ERA5, E-OBS</td>
+  <td>daily and monthly</td>
+  <td>which biases persist across runs</td>
+  <td>03–06, 09, 10</td>
+</tr>
+<tr>
+  <td>2 · Internal variability</td>
+  <td>control runs of both models (99 winters); IFS atmosphere-only ensembles</td>
+  <td>monthly and daily rain</td>
+  <td>what chance alone can do in 29 winters</td>
+  <td>07, 11</td>
+</tr>
+<tr>
+  <td>3 · Resolution</td>
+  <td>HadGEM3-GC5E LL / MM / HH; IFS atmosphere-only 28 and 9 km</td>
+  <td>monthly (HadGEM3), daily (IFS)</td>
+  <td>what changes with resolution</td>
+  <td>08, 12</td>
+</tr>
+</tbody>
+</table></div>
+<div class="tw"><table>
+<thead>
+<tr>
+  <th>Kind</th>
+  <th>Where</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>Primary methods</strong></td>
+  <td>sections 2–5 (preprocessing, NAO, extremes, NAO-to-extremes link) and section 10 (members, control windows, resolution)</td>
+</tr>
+<tr>
+  <td><strong>Sensitivity checks</strong></td>
+  <td>section 9 (bootstrap, leave-one-winter-out, effective sample size, circulation decomposition, EOF domain) and the control-run stability check (section 10)</td>
+</tr>
+<tr>
+  <td><strong>Limitations</strong></td>
+  <td>section 1 (scope), the &quot;Limitations&quot; section of every notebook and of the README</td>
+</tr>
+</tbody>
+</table></div>
 <h2>1. Wording and scope</h2>
 <ul>
 <li><strong>ERA5</strong> is a reanalysis reference, not direct observations.</li>

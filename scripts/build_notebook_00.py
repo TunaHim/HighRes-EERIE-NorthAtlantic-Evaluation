@@ -45,7 +45,7 @@ so other regions can be examined with the same code.
 
 | Experiment | Question | Data | Notebooks |
 |---|---|---|---|
-| **1 · Across-member consistency: daily extremes and their drivers** | Which biases in circulation, NAO and extremes persist across runs of the same model? | ICON-ESM-ER and IFS-FESOM2-SR, three historical runs each (r1, r2, r3); ERA5, E-OBS | 03–06, 09, 10 |
+| **1 · Historical ensemble evaluation: daily extremes and their drivers** | Which biases in circulation, NAO and extremes persist across runs of the same model? | ICON-ESM-ER and IFS-FESOM2-SR, three historical runs each (r1, r2, r3); ERA5, E-OBS | 03–06, 09, 10 |
 | **2 · Internal variability** | How much can chance alone change the conclusions from 29 winters? | 100-year control runs of both coupled models; ten-member atmosphere-only ensembles | 07, 11 |
 | **3 · Resolution** | How do circulation, NAO and winter rain change with resolution? | HadGEM3-GC5E coupled at about 135, 60 and 20 km (atmosphere and ocean together); IFS atmosphere-only at 28 and 9 km | 08, 12 |
 
@@ -94,6 +94,22 @@ pd.set_option('display.width', 220, 'display.float_format', '{:.2f}'.format)
 NAME = plotting.SOURCE_LABELS
 MODELS = ['icon-esm-er', 'ifs-fesom2-sr']
 REFS = """ + repr(REFS) + """
+""")
+
+md("""
+## Experimental design
+""")
+
+step("""
+**What this cell does.** Draws the experimental design: the three experiments, their simulations,
+data frequency, period, question and notebooks, and the shared references.
+""", """
+plotting.plot_experiment_design();
+""")
+
+md("""
+**Design figure.** Three experiments answer three different questions with different data; they share
+the diagnostics (circulation, NAO, extremes, NAO-to-extremes link) and the references (ERA5, E-OBS).
 """)
 
 md("""
@@ -161,7 +177,7 @@ chance. All results are exploratory.
 """)
 
 md("""
-# Experiment 1 · Across-member consistency: daily extremes and their drivers
+# Experiment 1 · Historical ensemble evaluation: daily extremes and their drivers
 
 ICON-ESM-ER and IFS-FESOM2-SR against ERA5 and E-OBS, step by step along the chain mean circulation →
 NAO → extremes → NAO-to-extremes link → weather behind the extremes. Sections 1.0–1.6 show the

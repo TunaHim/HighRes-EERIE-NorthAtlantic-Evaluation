@@ -5,8 +5,22 @@ historical run r1. Section 9 lists checks added after the first results, and sec
 extension to three runs per coupled model, 100-year control runs and the HadGEM3-GC5E coupled
 resolution configurations. Everything in this project is exploratory.
 
-The project is organised in three experiments: **1 · across-member consistency** (notebooks 03–06,
+The project is organised in three experiments: **1 · historical ensemble evaluation** (notebooks 03–06,
 09, 10), **2 · internal variability** (07, 11) and **3 · resolution** (08, 12).
+
+![Experimental design](figures/experiment_design.png)
+
+| Experiment | Data | Time resolution | Purpose | Notebooks |
+|---|---|---|---|---|
+| 1 · Historical ensemble evaluation | ICON-ESM-ER and IFS-FESOM2-SR, r1–r3; ERA5, E-OBS | daily and monthly | which biases persist across runs | 03–06, 09, 10 |
+| 2 · Internal variability | control runs of both models (99 winters); IFS atmosphere-only ensembles | monthly and daily rain | what chance alone can do in 29 winters | 07, 11 |
+| 3 · Resolution | HadGEM3-GC5E LL / MM / HH; IFS atmosphere-only 28 and 9 km | monthly (HadGEM3), daily (IFS) | what changes with resolution | 08, 12 |
+
+| Kind | Where |
+|---|---|
+| **Primary methods** | sections 2–5 (preprocessing, NAO, extremes, NAO-to-extremes link) and section 10 (members, control windows, resolution) |
+| **Sensitivity checks** | section 9 (bootstrap, leave-one-winter-out, effective sample size, circulation decomposition, EOF domain) and the control-run stability check (section 10) |
+| **Limitations** | section 1 (scope), the "Limitations" section of every notebook and of the README |
 
 ## 1. Wording and scope
 

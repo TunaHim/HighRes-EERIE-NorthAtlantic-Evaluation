@@ -614,3 +614,128 @@ def plot_overview(runs, link, control, hadgem, title=""):
         fig.suptitle(title, x=0.01, ha="left", fontsize=12.5, color=INK)
     fig.tight_layout()
     return axes
+
+
+def _box(ax, x, y, w, h, colour, fill=None, lw=1.5):
+    from matplotlib.patches import FancyBboxPatch
+    ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.006,rounding_size=0.015",
+                                linewidth=lw, edgecolor=colour, facecolor=fill or SURFACE))
+
+
+def plot_experiment_design():
+    """Diagram of the three experiments: data, frequency, period, question and notebooks."""
+    fig = plt.figure(figsize=(13, 5.0), facecolor=SURFACE)
+    ax = fig.add_axes([0.01, 0.01, 0.98, 0.88])
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.axis("off")
+    experiments = [
+        ("1  Historical ensemble evaluation", BLUE,
+         "Which biases persist across runs?",
+         ["ICON-ESM-ER  r1 r2 r3", "IFS-FESOM2-SR  r1 r2 r3", "daily extremes and their drivers"],
+         "daily and monthly, 1975/1985-2014", "notebooks 03-06, 09, 10"),
+        ("2  Internal variability", "#1baf7a",
+         "What can chance do in 29 winters?",
+         ["ICON-ESM-ER control, 99 winters", "IFS-FESOM2-SR control, 99 winters", "IFS atmosphere-only, 10 members"],
+         "constant 1950 forcing, 71 overlapping windows", "notebooks 07, 11"),
+        ("3  Resolution", "#4a3aa7",
+         "What changes with resolution?",
+         ["HadGEM3-GC5E  LL 135, MM 60, HH 20 km", "ocean 1, 1/4, 1/12 degree, refined together",
+          "IFS atmosphere-only  28 km vs 9 km"],
+         "monthly (HadGEM3) and daily (IFS), 1950-2014", "notebooks 08, 12"),
+    ]
+    width, gap = 0.305, 0.0375
+    for k, (title, colour, question, data, frequency, notebooks) in enumerate(experiments):
+        x = k * (width + gap)
+        _box(ax, x, 0.30, width, 0.62, colour, lw=2)
+        ax.add_patch(plt.Rectangle((x, 0.84), width, 0.08, color=colour, alpha=0.15, linewidth=0))
+        ax.text(x + 0.015, 0.88, title, fontsize=11, fontweight="bold", color=colour, va="center")
+        ax.text(x + 0.015, 0.78, question, fontsize=10, style="italic", color=INK, va="center")
+        for i, line in enumerate(data):
+            ax.text(x + 0.015, 0.68 - i * 0.075, line, fontsize=9.5, color=INK, va="center")
+        ax.text(x + 0.015, 0.40, frequency, fontsize=8.8, color=INK_SECONDARY, va="center")
+        ax.text(x + 0.015, 0.34, notebooks, fontsize=8.8, color=MUTED, va="center")
+        ax.plot([x + width / 2] * 2, [0.21, 0.30], color=AXIS, linewidth=1)
+    _box(ax, 0.0, 0.04, 1.0, 0.17, AXIS, fill=EMPTY, lw=1)
+    ax.text(0.5, 0.155, "References: ERA5 (reanalysis; pressure, rain, temperature, wind)   |   E-OBS (stations, land; daily rain and temperature)",
+            fontsize=9.5, ha="center", va="center", color=INK)
+    ax.text(0.5, 0.085, "Domains: North Atlantic (NAO), north-west Europe (extremes)   |   worked examples: UK and Ireland, western Norway, north-west France",
+            fontsize=9.5, ha="center", va="center", color=INK_SECONDARY)
+    fig.suptitle("Experimental design: three complementary experiments, the same diagnostics and references",
+                 x=0.01, ha="left", fontsize=12.5, color=INK)
+    return ax
+
+
+def plot_control_windows(start=1951, end=2049, window=29, historical=(1986, 2014), examples=(1951, 1971, 1990, 2000, 2021)):
+    """Timeline of a control run and how overlapping 29-winter windows are cut from it."""
+    fig, ax = plt.subplots(figsize=(12, 3.8), facecolor=SURFACE)
+    _style(ax)
+    ax.add_patch(plt.Rectangle((start, 0.0), end - start + 1, 0.6, color="#1baf7a", alpha=0.18, linewidth=0))
+    ax.text(start + 0.5, 0.3, f"control run: {end - start + 1} winters, constant 1950 forcing", va="center", fontsize=10, color=INK)
+    middle = (start + end) / 2
+    ax.axvline(middle + 0.5, color=AXIS, linestyle=":", linewidth=1)
+    ax.text(middle - 25, -0.25, "first half", ha="center", fontsize=8.5, color=MUTED)
+    ax.text(middle + 25, -0.25, "second half", ha="center", fontsize=8.5, color=MUTED)
+    for i, s in enumerate(examples):
+        y = 0.9 + i * 0.32
+        ax.add_patch(plt.Rectangle((s, y), window, 0.22, color="#1baf7a", alpha=0.55, linewidth=0))
+        ax.text(s + window + 0.8, y + 0.11, f"window {s}-{s + window - 1}", va="center", fontsize=8.5, color=INK_SECONDARY)
+    y = 0.9 + len(examples) * 0.32 + 0.15
+    ax.add_patch(plt.Rectangle((historical[0], y), historical[1] - historical[0] + 1, 0.26, color=BLUE, alpha=0.75, linewidth=0))
+    ax.text(historical[1] + 1.8, y + 0.13, f"historical runs and observations: {historical[0]}-{historical[1]} (29 winters)",
+            va="center", fontsize=9, color=BLUE)
+    n = end - start + 1 - window + 1
+    ax.text(start, y + 0.95, f"{n} overlapping windows (starting {start} to {end - window + 1}). The 5th-95th percentile of a diagnostic"
+            "\n"
+            "across them is the empirical chance range; with this much overlap there are only about 3 independent windows.",
+            fontsize=9, color=INK, va="center")
+    ax.set_xlim(start - 1, end + 24)
+    ax.set_ylim(-0.45, y + 1.3)
+    ax.set_yticks([])
+    ax.spines["left"].set_visible(False)
+    ax.set_xlabel("winter (year of January)", fontsize=9, color=INK_SECONDARY)
+    ax.set_title("How chance ranges are built from a control run", loc="left", fontsize=11.5, color=INK)
+    fig.tight_layout()
+    return ax
+
+
+def plot_resolution_ladder(table):
+    """HadGEM3-GC5E LL / MM / HH: grid spacing and the main diagnostics.
+
+    ``table`` has one row per configuration with ``source``, ``atmosphere_km``, ``ocean`` (text),
+    ``rms_error``, ``pattern_r`` and ``rain_bias``.
+    """
+    fig, axes = plt.subplots(1, 4, figsize=(14, 3.9), facecolor=SURFACE, gridspec_kw={"width_ratios": [1.6, 1, 1, 1]})
+    ax = axes[0]
+    ax.set_xlim(0, 3)
+    ax.set_ylim(0, 1.25)
+    ax.axis("off")
+    for i, row in enumerate(table.itertuples()):
+        colour = colour_of(row.source)
+        cells = {135: 2, 60: 4, 20: 10}.get(int(row.atmosphere_km), 4)
+        x0, size = i + 0.12, 0.76
+        for c in range(cells + 1):
+            ax.plot([x0 + c * size / cells] * 2, [0.25, 0.25 + size], color=colour, linewidth=0.8)
+            ax.plot([x0, x0 + size], [0.25 + c * size / cells] * 2, color=colour, linewidth=0.8)
+        ax.text(x0 + size / 2, 1.13, row.source.split("-")[-1].upper(), ha="center", fontsize=12, fontweight="bold", color=colour)
+        ax.text(x0 + size / 2, 0.15, f"atmosphere ~{int(row.atmosphere_km)} km", ha="center", fontsize=8.5, color=INK)
+        ax.text(x0 + size / 2, 0.05, f"ocean {row.ocean}", ha="center", fontsize=8.5, color=INK_SECONDARY)
+    ax.set_title("Same model, atmosphere and ocean refined together", loc="left", fontsize=10, color=INK)
+    metrics = (("rms_error", "winter pressure error\nvs ERA5 (hPa)"),
+               ("pattern_r", "NAO pattern correlation\nwith ERA5"),
+               ("rain_bias", "UK and Ireland winter-mean\nrain vs ERA5 (%)"))
+    for ax, (column, label) in zip(axes[1:], metrics):
+        names = [s.split("-")[-1].upper() for s in table.source]
+        ax.bar(names, table[column], color=[colour_of(s) for s in table.source], width=0.6)
+        for x, v in enumerate(table[column]):
+            ax.text(x, v, f"{v:.1f}" if column == "rain_bias" else f"{v:.2f}", ha="center", va="bottom", fontsize=9, color=INK)
+        if column == "pattern_r":
+            ax.set_ylim(0.85, 1.0)
+        ax.set_title(label, loc="left", fontsize=9.5, color=INK)
+        ax.grid(axis="y", color=GRID, linewidth=0.6)
+        ax.set_axisbelow(True)
+        _style(ax)
+    fig.suptitle("HadGEM3-GC5E coupled resolution configurations (one run each, monthly data)", x=0.01, ha="left",
+                 fontsize=11.5, color=INK)
+    fig.tight_layout()
+    return axes
