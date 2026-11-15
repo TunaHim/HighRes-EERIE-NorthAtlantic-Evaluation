@@ -6,7 +6,7 @@ Control runs with constant 1950 forcing, 99 winters each (1951–2049); 71 overl
 | NAO link to R95p, UK and Ireland | 0.26 to 0.40 | 0.25 to 0.67 | 0.35 (ERA5), 0.51 (E-OBS) |
 | NAO link to R95p, western Norway | 0.50 to 0.73 (highest 0.77) | 0.48 to 0.76 (highest 0.78) | 0.81 (both) |
 | NAO link to R95p, north-west France | −0.40 to +0.08 (highest 0.11) | −0.04 to +0.27 | 0.28 (ERA5), 0.34 (E-OBS) |
-| Drift over 100 years | NAO +0.02 SD per decade; UK R95p +0.02% per decade | NAO −0.04 SD per decade; UK R95p −0.2% per decade | – |
+| Drift over 1951–2049 (99 winters) | NAO +0.02 SD per decade; UK R95p +0.02% per decade | NAO −0.04 SD per decade; UK R95p −0.2% per decade | – |
 
 **What this means, in plain words**
 

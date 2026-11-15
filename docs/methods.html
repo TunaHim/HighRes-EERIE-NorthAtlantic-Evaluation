@@ -75,7 +75,7 @@ resolution configurations. Everything in this project is exploratory.</p>
 </tr>
 <tr>
   <td>2 · Internal variability</td>
-  <td>control runs of both models (99 winters); IFS atmosphere-only ensembles</td>
+  <td>control runs of both models (100 simulated years, 99 complete winters); IFS atmosphere-only ensembles</td>
   <td>monthly and daily rain</td>
   <td>what chance alone can do in 29 winters</td>
   <td>07, 11</td>
@@ -254,7 +254,7 @@ verifying LR20.</p>
 </ol>
 <h2>8. Priorities</h2>
 <p>Core: <a href="notebooks/03_validation_baseline.html">notebooks 03</a> → 04 → 05 → 06 (run r1), then 10, 11 and 12 (three runs, control runs,
-resolution). Supporting: 07, 08, 09. The explorer shows historical run r1 only.</p>
+resolution). Supporting: 07, 08, 09. The interactive explorer provides maps, yearly time series and regional summaries for historical runs r1, r2 and r3 of ICON-ESM-ER and IFS-FESOM2-SR. It also provides three-run mean views. The control-run variability analysis and HadGEM3-GC5E resolution experiment are presented separately in <a href="notebooks/11_control.html">notebooks 11</a> and 12.</p>
 <h2>9. Additions after the first results (<a href="notebooks/06_nao_extremes.html">notebook 06</a>, sections 10 and 11; <a href="notebooks/04_nao.html">notebook 04</a>, section 8)</h2>
 <p>Added on 5 November 2026, after the results above were produced, to test how far they hold.
 They do not change any earlier choice.</p>
@@ -315,7 +315,7 @@ They do not change any earlier choice.</p>
 </tr>
 <tr>
   <td>Control runs</td>
-  <td><code>eerie-control-1950</code> (constant 1950 forcing), 99 winters 1951–2049. NAO along the ERA5 pattern relative to the run's own 100-year winter mean; winter RX1day and R95p from daily rain with a threshold from all 100 winters. Every 29-winter window (71, overlapping); &quot;chance range&quot; = empirical 5th to 95th percentile across these overlapping windows, not a formal probability interval. Series detrended within each window. The ranges understate chance (about three independent windows per run).</td>
+  <td><code>eerie-control-1950</code> (constant 1950 forcing). <strong>Simulation period:</strong> 1950–2049 (100 calendar years). <strong>Complete DJF winters:</strong> 1951–2049 (99; January–February 1950 and December 2049 belong to incomplete winters and are dropped). <strong>Windows:</strong> 71 overlapping windows of 29 complete winters. NAO along the ERA5 pattern; the anomalies are relative to each calendar month's mean over all 100 simulated years, then averaged over the 99 complete winters. Winter RX1day and R95p are computed for the 99 complete winters; the very-wet-day threshold (95th percentile of wet days, at least 1 mm) uses every December, January and February day of 1950–2049, including the days of the two incomplete winters. Every 29-winter window (71, overlapping); &quot;chance range&quot; = empirical 5th to 95th percentile across these overlapping windows, not a formal probability interval. Series detrended within each window. The ranges understate chance (about three independent windows per run).</td>
 </tr>
 <tr>
   <td>HadGEM3-GC5E resolution ladder</td>

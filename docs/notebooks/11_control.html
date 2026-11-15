@@ -7822,7 +7822,7 @@ a.anchor-link {
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
 <!-- site:nav --><nav class="sitenav"><div><b>HighRes-EERIE-NorthAtlantic-Evaluation</b><a href="../index.html">What was found</a><a href="../engineering_overview.html">How it is built</a><a href="../methods.html">Methods</a><a href="../notebooks/index.html" class="here">Notebooks</a><a href="../explorer/index.html">Explorer</a><a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation">Code on GitHub</a></div></nav><!-- /site:nav -->
 <main>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=af58ccf1">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=837e1656">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7838,15 +7838,17 @@ observed value outside that range is unlikely to be chance.</p>
 <p><strong>Data.</strong></p>
 <ul>
 <li>ICON-ESM-ER and IFS-FESOM2-SR control runs (<code>eerie-control-1950</code>): monthly sea-level pressure,
-1950–2049 (99 complete winters), and daily precipitation over north-west Europe.</li>
+1950–2049 (100 simulated years; 99 complete winters, 1951–2049), and daily precipitation over north-west Europe.</li>
 <li>For comparison: ERA5 and E-OBS (notebook 06) and the three historical runs (notebook 10).</li>
 </ul>
 <p><strong>Method.</strong></p>
 <ol>
 <li>NAO index of each control winter along the ERA5 pattern, in ERA5 standard deviations
-(anomalies relative to the control run's own 100-year winter mean).</li>
-<li>Winter RX1day and R95p from the control run's daily rain (the very-wet-day threshold from all
-100 control winters), land average of each region, same land cells as before.</li>
+(anomalies relative to each calendar month's mean over all 100 simulated years, then averaged over
+the 99 complete winters).</li>
+<li>Winter RX1day and R95p for the 99 complete winters from the control run's daily rain (the very-wet-day
+threshold from every December, January and February day of 1950–2049, including the two incomplete
+winters at the ends), land average of each region, same land cells as before.</li>
 <li>Every window of 29 consecutive winters (71 windows, starting 1951 to 2021): NAO strength and the
 detrended correlation between the NAO and each regional rain index.</li>
 <li>The 5th to 95th percentile of those 71 values is the chance range.</li>
@@ -7871,7 +7873,7 @@ little too narrow in the tails. It is still far better than the spread of three 
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ed544d94">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=842fbc57">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7911,7 +7913,7 @@ little too narrow in the tails. It is still far better than the spread of three 
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e9bc903f">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5cc3af4b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7922,7 +7924,7 @@ little too narrow in the tails. It is still far better than the spread of three 
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1e83dd1c">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7e4be904">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7933,7 +7935,7 @@ project, and builds the common land mask.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=f04892b0">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=31606dd1">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7967,7 +7969,7 @@ project, and builds the common land mask.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=be81c690">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=77b77833">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7979,7 +7981,7 @@ observations for comparison.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=e337cafd">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=01f2a2a4">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8006,7 +8008,7 @@ observations for comparison.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ecbfe16b">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ccf5b6e1">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8019,7 +8021,7 @@ windows share most of their winters, so they are not independent samples.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=342559dc">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=07abf25f">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8061,7 +8063,7 @@ windows share most of their winters, so they are not independent samples.</p>
 <td>0.28 (ERA5), 0.34 (E-OBS)</td>
 </tr>
 <tr>
-<td>Drift over 100 years</td>
+<td>Drift over 1951–2049 (99 winters)</td>
 <td>NAO +0.02 SD per decade; UK R95p +0.02% per decade</td>
 <td>NAO −0.04 SD per decade; UK R95p −0.2% per decade</td>
 <td>–</td>
@@ -8082,7 +8084,7 @@ windows share most of their winters, so they are not independent samples.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c7c5d17f">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d26db870">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8093,18 +8095,18 @@ windows share most of their winters, so they are not independent samples.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0457db90">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7bd68720">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><strong>What this cell does.</strong> Computes the winter NAO index of each control run and its winter RX1day and
-R95p from daily rain, and shows the NAO index through the 100 years.</p>
+R95p from daily rain, and shows the NAO index through the 99 complete winters.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=45455e9c">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=467f6d71">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8139,7 +8141,7 @@ R95p from daily rain, and shows the NAO index through the 100 years.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=73075763">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5e177acd">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8151,18 +8153,18 @@ climate change in these runs, so any slow change is drift or long-term internal 
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=bfb5a88d">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7c38e775">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><strong>What this cell does.</strong> Checks the size of drift: the linear trend of the NAO index and of UK and
-Ireland winter R95p over the 100 control years.</p>
+Ireland winter R95p over the 99 complete control winters (1951–2049).</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=27ca1f75">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=32b5e020">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8234,7 +8236,7 @@ Ireland winter R95p over the 100 control years.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c1d5f1f6">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f368cf22">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8245,7 +8247,7 @@ Ireland winter R95p over the 100 control years.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=44f9520a">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=87f03246">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8257,7 +8259,7 @@ and for comparison the strength of the three historical runs over 1986–2014 in
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=d6b73b56">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=394030c8">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8369,7 +8371,7 @@ and for comparison the strength of the three historical runs over 1986–2014 in
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3507056e">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=108a0156">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8383,7 +8385,7 @@ NAO strength.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3819929e">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3567ac21">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8394,7 +8396,7 @@ NAO strength.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=29476c81">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e403bfaf">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8405,7 +8407,7 @@ the control run's winter NAO and the land-average winter index. Summarised as th
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=3db95f15">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=06417bdb">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8585,7 +8587,7 @@ the control run's winter NAO and the land-average winter index. Summarised as th
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e871750c">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=458d3a9d">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8596,7 +8598,7 @@ the control run's winter NAO and the land-average winter index. Summarised as th
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5894701e">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=cf9f7e9d">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8607,7 +8609,7 @@ historical runs and of the two references (from notebook 10), for each region an
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=d49d6214">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=72224e50">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8838,7 +8840,7 @@ historical runs and of the two references (from notebook 10), for each region an
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=00770947">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a2220751">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8850,7 +8852,7 @@ and the two references as vertical lines.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=ed757d45">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=524f181f">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8897,7 +8899,7 @@ and the two references as vertical lines.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=04146386">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=589e2083">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8911,7 +8913,7 @@ rarely produces the observed link.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3e2640eb">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5b2292c7">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8926,7 +8928,7 @@ sampled.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=8731b2bf">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6fceb813">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8937,7 +8939,7 @@ range over the windows of each half of each control run.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=ba00dffb">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=39d325cd">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9157,7 +9159,7 @@ range over the windows of each half of each control run.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=894652e6">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=52c67745">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9171,7 +9173,7 @@ samples.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=8d18c723">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=903e04f4">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9182,7 +9184,7 @@ samples.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=dfdd4b66">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ad810a29">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9193,7 +9195,7 @@ samples.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=6d578305">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=7bfca897">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9230,7 +9232,7 @@ samples.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f925cea4">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7ca2893c">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9251,7 +9253,7 @@ tested here.</li>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a8571b0a">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=51047143">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>

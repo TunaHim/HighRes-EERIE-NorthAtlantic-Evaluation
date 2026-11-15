@@ -30,14 +30,16 @@ observed value outside that range is unlikely to be chance.
 
 **Data.**
 - ICON-ESM-ER and IFS-FESOM2-SR control runs (`eerie-control-1950`): monthly sea-level pressure,
-  1950–2049 (99 complete winters), and daily precipitation over north-west Europe.
+  1950–2049 (100 simulated years; 99 complete winters, 1951–2049), and daily precipitation over north-west Europe.
 - For comparison: ERA5 and E-OBS (notebook 06) and the three historical runs (notebook 10).
 
 **Method.**
 1. NAO index of each control winter along the ERA5 pattern, in ERA5 standard deviations
-   (anomalies relative to the control run's own 100-year winter mean).
-2. Winter RX1day and R95p from the control run's daily rain (the very-wet-day threshold from all
-   100 control winters), land average of each region, same land cells as before.
+   (anomalies relative to each calendar month's mean over all 100 simulated years, then averaged over
+   the 99 complete winters).
+2. Winter RX1day and R95p for the 99 complete winters from the control run's daily rain (the very-wet-day
+   threshold from every December, January and February day of 1950–2049, including the two incomplete
+   winters at the ends), land average of each region, same land cells as before.
 3. Every window of 29 consecutive winters (71 windows, starting 1951 to 2021): NAO strength and the
    detrended correlation between the NAO and each regional rain index.
 4. The 5th to 95th percentile of those 71 values is the chance range.
@@ -121,7 +123,7 @@ md("""
 
 step("""
 **What this cell does.** Computes the winter NAO index of each control run and its winter RX1day and
-R95p from daily rain, and shows the NAO index through the 100 years.
+R95p from daily rain, and shows the NAO index through the 99 complete winters.
 """, """
 control_nao, control_rain = {}, {}
 for model, run in CONTROLS.items():
@@ -141,7 +143,7 @@ climate change in these runs, so any slow change is drift or long-term internal 
 
 step("""
 **What this cell does.** Checks the size of drift: the linear trend of the NAO index and of UK and
-Ireland winter R95p over the 100 control years.
+Ireland winter R95p over the 99 complete control winters (1951–2049).
 """, """
 rows = []
 for m in CONTROLS:

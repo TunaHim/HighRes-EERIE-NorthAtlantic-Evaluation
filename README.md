@@ -351,12 +351,16 @@ conda run -n eerie-uk-nao python scripts/build_site.py
 | the result tables | `app_assets/*.parquet`, each with a `.json` provenance record (code version, inputs, period) |
 | the explorer | `docs/explorer/data.json`, the data behind the interactive page |
 
-Rerunning the analysis itself needs the regional cut-outs (about 12.3 GB on disk, from several hundred GB
-of network traffic; the historical r1 data alone are about 4 GB from roughly 250–300 GB).
+Rerunning the analysis itself needs the regional cut-outs: **about 12.3 GB kept on disk**, from an
+**estimated 700–900 GB of network traffic** for the complete project. The traffic is an estimate, not a
+metered value: the download log records every file saved, and the number of whole-globe days fetched is
+multiplied by the measured size of one day. Of this, roughly 250–300 GB were for the first stage
+(historical run r1, ERA5, E-OBS and the IFS resolution runs; about 4 GB kept), about 450–550 GB for runs
+r2 and r3 and the control runs, and about 15 GB for HadGEM3-GC5E (CEDA) and the ERA5 winds.
 
 Downloads resume where they stopped: each year is a separate file, and existing files are skipped.
-The server sends whole-globe chunks, so the network traffic (roughly 250–300 GB for everything) is
-far larger than what is kept; a connection without a data limit is needed.
+The server sends whole-globe chunks, so the network traffic (an estimated 700–900 GB for the complete
+project) is far larger than what is kept; a connection without a data limit is needed.
 
 ---
 

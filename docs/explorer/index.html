@@ -69,9 +69,11 @@ summary{cursor:pointer;font-weight:600}
 <h1>Historical daily-extremes explorer <span style="font-size:15px;font-weight:500;color:var(--ink2)">· runs r1–r3</span></h1>
 <p class="lead">Explore the extreme indices behind the project: choose an index, a period, a dataset and what to show.
 The map covers north-west Europe; the charts on the right follow the selected region. All values are 1985–2014
-(winters 1986–2014). Each coupled model has three historical runs (r1, r2, r3) with the same forcing but their own
-chance weather; choose one run or the mean of the three. Where the runs agree, a feature belongs to the model; where
-they differ, it is chance. The runs are compared in <a href="../notebooks/10_members.html">notebook 10</a> and the
+(winters 1986–2014). Each coupled model has three historical runs (r1, r2, r3) with the same forcing but different
+initial conditions. Select an individual run to examine its climate realisation, or the mean of all three to reduce the
+influence of run-specific variability. Features consistent across all three sampled runs provide evidence of a common
+model response; differences between runs illustrate the influence of internal variability. Three runs, however, cannot
+fully quantify the model's internal variability or guarantee that the same features occur in every realisation. The runs are compared in <a href="../notebooks/10_members.html">notebook 10</a> and the
 control runs in <a href="../notebooks/11_control.html">notebook 11</a>; HadGEM3-GC5E
 is not included here because only its monthly data are public (see <a href="../notebooks/12_hadgem_resolution.html">notebook 12</a>).</p>
 
@@ -118,13 +120,19 @@ total rain on days wetter than the local 95th percentile of wet days (wet day: a
 wet days:</b> R95p as a percentage of all wet-day rain. <b>Hottest day (TXx):</b> the highest daily maximum temperature.</p>
 <p><b>Difference from a reference:</b> percent for the rainfall indices, °C for TXx. Orange means the dataset is wetter
 or warmer than the reference, blue drier or cooler. <b>Correlation with the winter NAO:</b> how consistently the winter
-index rises in positive-NAO winters (detrended, 29 winters); models use their own NAO, E-OBS and ERA5 the ERA5 NAO.
-Values beyond about ±0.38 are individually significant at the 5% level.</p>
+index rises in positive-NAO winters (29 winters); each model run uses its own NAO, E-OBS and ERA5 the ERA5 NAO.
+<b>Two different calculations:</b> the correlation <i>maps</i> use linearly detrended winter series; the <i>scatter plot</i>
+uses the raw, non-detrended regional values, with the correlation shown separately for each run. On the maps, values beyond
+about ±0.38 pass a nominal, unadjusted 5% test at a single grid cell; this allows neither for autocorrelation nor for
+testing many grid cells at once. The full uncertainty analysis (bootstrap intervals, false-discovery-rate control) is in
+<a href="../notebooks/06_nao_extremes.html">notebook 06</a> and, for the three runs, <a href="../notebooks/10_members.html">notebook 10</a>.</p>
 <p><b>Regional averages</b> use the same land cells for every dataset (land where E-OBS has data).</p>
-<p><b>Model runs:</b> r1, r2 and r3 share the forcing and differ only in their starting state, so their differences show
-what chance alone does in 29 winters. <b>Mean of r1–r3</b> averages the three maps (for the NAO view, the three correlation
-maps; each run is correlated with its own NAO). Averaging removes much of the chance weather, so the mean shows the model's
-own pattern more clearly, but its year-to-year line is smoother than any single run or the observations. The NAO of runs r2
+<p><b>Model runs:</b> r1, r2 and r3 share the forcing and differ only in their starting state, so their differences
+illustrate the influence of internal variability over 29 winters; three runs cannot quantify it fully (the control runs in
+notebook 11 give a longer sample). <b>Mean of r1–r3</b> averages the three maps (for the NAO view, the three correlation
+maps; each run is correlated with its own NAO). Averaging reduces the influence of run-specific variability, but the
+year-to-year line of the mean is smoother than any single run or the observations, and the scatter plot then shows the
+three runs separately rather than one pooled relationship. The NAO of runs r2
 and r3 is measured on the ERA5 pattern with anomalies relative to 1975–2014 (they start in 1975).</p>
 </details>
 <p class="note">Maps are averaged to 0.5° for this page; the notebooks use the full 0.25° grid. Data and methods:
@@ -295,7 +303,7 @@ function drawTable(s) {
       `<td class="num" style="color:var(--muted)">${range('e-obs')}</td><td class="num" style="color:var(--muted)">${range('era5')}</td></tr>`;
   }
   $('table').innerHTML = html + '</tbody></table>';
-  $('tableSub').textContent = `${INDEX[s.index].label}, ${REGION[s.region]}, ${s.period === 'djf' ? 'winters 1986–2014' : '1985–2014'}. Differences in ${percent ? 'percent' : unit}. A difference whose sign holds across all three runs belongs to the model; one that changes sign between runs is within chance.`;
+  $('tableSub').textContent = `${INDEX[s.index].label}, ${REGION[s.region]}, ${s.period === 'djf' ? 'winters 1986–2014' : '1985–2014'}. Differences in ${percent ? 'percent' : unit}. A difference with the same sign across all three sampled runs is consistent across these members. A change in sign indicates sensitivity to the sampled initial-condition variability.`;
 }
 
 function pearson(x, y) {
@@ -328,7 +336,9 @@ function drawScatter(s) {
     layout({xaxis: {title: 'winter NAO (ERA5 standard deviations)', gridcolor: css('--line'), zeroline: true, zerolinecolor: css('--axis')},
             yaxis: {title: `winter ${INDEX[s.index].label.toLowerCase()} (${unit})`, gridcolor: css('--line'), zeroline: false},
             legend: {orientation: 'h', y: 1.1}, margin: {l: 50, r: 16, t: 30, b: 40}}), config);
-  $('scatterTitle').textContent = `Winter NAO and ${INDEX[s.index].label.toLowerCase()}: ${nameOf(src, s.run)}, ${REGION[s.region]}`;
+  $('scatterTitle').textContent = runs.length > 1
+    ? `NAO–extreme relationship: all three runs of ${NAMES[src]}, ${INDEX[s.index].label.toLowerCase()}, ${REGION[s.region]}`
+    : `Winter NAO and ${INDEX[s.index].label.toLowerCase()}: ${nameOf(src, s.run)}, ${REGION[s.region]}`;
   const text = runs.length > 1
     ? `One dot per winter and run, 1986–2014, each run with its own NAO. Correlations (not detrended): ${rhos.map(([run, r]) => `${run} ${r.toFixed(2)}`).join(', ')}.`
     : `One dot per winter, 1986–2014. Correlation ${rhos[0][1].toFixed(2)} (not detrended).` + (src === 'e-obs' ? ' E-OBS uses the ERA5 NAO.' : '') + (isModel(src) ? ' The run uses its own NAO.' : '');
@@ -339,7 +349,7 @@ function update() {
   if (!D) return;
   const s = state();
   $('run').disabled = !isModel(s.source);
-  $('indexNote').textContent = INDEX[s.index].note + ' Models are compared with E-OBS (stations, land only) and ERA5 (reanalysis); correlations use detrended winters, each model run with its own NAO.';
+  $('indexNote').textContent = INDEX[s.index].note + ' Models are compared with E-OBS (stations, land only) and ERA5 (reanalysis); the correlation maps use linearly detrended winters, the scatter plot raw values; each model run uses its own NAO.';
   drawMap(s); drawSeries(s); drawTable(s); drawScatter(s);
   try { localStorage.setItem('explorer', JSON.stringify(s)); } catch (e) {}
 }

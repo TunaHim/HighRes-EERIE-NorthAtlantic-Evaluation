@@ -1,7 +1,7 @@
 {
   "description": "NAO-rain-extremes correlation in every 29-winter window of the control runs",
-  "created": "2026-11-15T16:19:41+00:00",
-  "git_commit": "3d8cc82da7dee1873c08f860ef757a8826a212c4",
+  "created": "2026-11-15T17:42:04+00:00",
+  "git_commit": "1fdb800091d42764a5e6661269838ac71aa5d243",
   "code": "eerie_uk (this repository)",
   "python": "3.11.17",
   "xarray": "2026.9.0",

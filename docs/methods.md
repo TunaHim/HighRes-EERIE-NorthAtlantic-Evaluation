@@ -13,7 +13,7 @@ The project is organised in three experiments: **1 · historical ensemble evalua
 | Experiment | Data | Time resolution | Purpose | Notebooks |
 |---|---|---|---|---|
 | 1 · Historical ensemble evaluation | ICON-ESM-ER and IFS-FESOM2-SR, r1–r3; ERA5, E-OBS | daily and monthly | which biases persist across runs | 03–06, 09, 10 |
-| 2 · Internal variability | control runs of both models (99 winters); IFS atmosphere-only ensembles | monthly and daily rain | what chance alone can do in 29 winters | 07, 11 |
+| 2 · Internal variability | control runs of both models (100 simulated years, 99 complete winters); IFS atmosphere-only ensembles | monthly and daily rain | what chance alone can do in 29 winters | 07, 11 |
 | 3 · Resolution | HadGEM3-GC5E LL / MM / HH; IFS atmosphere-only 28 and 9 km | monthly (HadGEM3), daily (IFS) | what changes with resolution | 08, 12 |
 
 | Kind | Where |
@@ -133,7 +133,7 @@ The IFS-FESOM2-SR GRIB decoding fix is checked in notebook 03:
 ## 8. Priorities
 
 Core: notebooks 03 → 04 → 05 → 06 (run r1), then 10, 11 and 12 (three runs, control runs,
-resolution). Supporting: 07, 08, 09. The explorer shows historical run r1 only.
+resolution). Supporting: 07, 08, 09. The interactive explorer provides maps, yearly time series and regional summaries for historical runs r1, r2 and r3 of ICON-ESM-ER and IFS-FESOM2-SR. It also provides three-run mean views. The control-run variability analysis and HadGEM3-GC5E resolution experiment are presented separately in notebooks 11 and 12.
 
 ## 9. Additions after the first results (notebook 06, sections 10 and 11; notebook 04, section 8)
 
@@ -156,7 +156,7 @@ They do not change any earlier choice.
 |---|---|
 | Extra members | ICON-ESM-ER and IFS-FESOM2-SR `hist-1950` r2 and r3, processed exactly as r1. NAO compared over the common winters 1976–2014 (anomalies relative to 1975–2014); extremes over 1986–2014. IFS-FESOM2-SR r3 has no data for 2–31 October 1999 on the server; winter results are unaffected. |
 | Consistent across the three sampled runs | All three runs agree in sign and roughly in size. Not a full uncertainty estimate. |
-| Control runs | `eerie-control-1950` (constant 1950 forcing), 99 winters 1951–2049. NAO along the ERA5 pattern relative to the run's own 100-year winter mean; winter RX1day and R95p from daily rain with a threshold from all 100 winters. Every 29-winter window (71, overlapping); "chance range" = empirical 5th to 95th percentile across these overlapping windows, not a formal probability interval. Series detrended within each window. The ranges understate chance (about three independent windows per run). |
+| Control runs | `eerie-control-1950` (constant 1950 forcing). **Simulation period:** 1950–2049 (100 calendar years). **Complete DJF winters:** 1951–2049 (99; January–February 1950 and December 2049 belong to incomplete winters and are dropped). **Windows:** 71 overlapping windows of 29 complete winters. NAO along the ERA5 pattern; the anomalies are relative to each calendar month's mean over all 100 simulated years, then averaged over the 99 complete winters. Winter RX1day and R95p are computed for the 99 complete winters; the very-wet-day threshold (95th percentile of wet days, at least 1 mm) uses every December, January and February day of 1950–2049, including the days of the two incomplete winters. Every 29-winter window (71, overlapping); "chance range" = empirical 5th to 95th percentile across these overlapping windows, not a formal probability interval. Series detrended within each window. The ranges understate chance (about three independent windows per run). |
 | HadGEM3-GC5E resolution ladder | HadGEM3-GC5E LL / MM / HH `historical` r1, monthly, from CEDA. Interpolated bilinearly onto the 1° (pressure, wind) and 0.25° (rain, temperature) grids, with edge cells filled from the nearest source cell. RMS pressure error cosine-weighted. NAO strength also given for 1951–1982 and 1983–2014 separately. |
 | Jet latitude | Winter 850 hPa zonal wind averaged over 60°W–0°, latitude of its maximum between 15° and 75°N in each winter (after Woollings et al. 2010). ERA5 and HadGEM3 LL and MM. |
 
