@@ -141,14 +141,15 @@ E-OBS and ERA5 with their 95% intervals. Over UK and Ireland the runs scatter wi
 western Norway all runs are weaker than observed, although the observed interval reaches down to the
 models' strongest values; over north-west France ICON-ESM-ER's control run is almost always negative,
 while the observations are positive. **D–F (experiment 3):** HadGEM3-GC5E at about 135, 60 and 20 km in
-the atmosphere, with the ocean refined at the same time (1°, 1/4°, 1/12°). The pressure error falls and
-the NAO pattern sharpens with resolution; NAO strength does not follow resolution (pale bars: the two
-halves of each run); winter rain over UK and Ireland rises sharply at 20 km.
+the atmosphere, with the ocean refined at the same time (1°, 1/4°, 1/12°). Across the tested coupled
+configurations the pressure error falls and the NAO pattern correlation increases; NAO strength does not
+follow resolution (pale bars: the two halves of each run); winter-mean rain over UK and Ireland rises
+sharply at 20 km.
 
 **Main message.** Evaluating climate models for regional extremes needs three questions kept apart:
 is a feature the same in every run (a model property), could chance in a short record produce it
 (internal variability), and does it change with resolution? Large mean-state biases, such as
-ICON-ESM-ER's shifted circulation and wet bias, are model properties. The NAO link to UK and Ireland
+ICON-ESM-ER's shifted circulation and wet bias, are consistent across the three sampled runs. The NAO link to UK and Ireland
 rain extremes is dominated by chance in 29 winters. A more realistic large-scale circulation, as at
 higher HadGEM3-GC5E resolution, does not guarantee more realistic rain.
 
@@ -167,7 +168,7 @@ in version 1; section 1.7 tests every headline result on runs r2 and r3.
 """)
 
 md("""
-## 1.0 The chain in one figure (run r1 of each model)
+## 1.0 Version 1 baseline: the chain in one figure (single-member evaluation, run r1)
 
 The four columns follow the chain of the project from left to right, for each model: the
 average winter circulation, the NAO, the link from the NAO to very-wet-day rain, and the rain bias.
@@ -608,7 +609,7 @@ window of both models and above all six historical runs. The observed value has 
 (95% interval about 0.71–0.91), which overlaps the models' strongest windows, so this is a consistent
 but modest discrepancy rather than a proven model error.
 Over **north-west France** ICON-ESM-ER's control run almost never produces the observed positive
-link: its wrong sign is a model property. Over **UK and Ireland** the references fall inside or at
+link: its wrong sign is consistent across its control run. Over **UK and Ireland** the references fall inside or at
 the edge of the chance ranges. Several historical runs fall outside their control range, so these
 ranges understate chance and are lower bounds.
 """)
@@ -675,10 +676,10 @@ circulation.join(nao_v2).join(surface)
 """)
 
 md("""
-**Reading the table.** With finer resolution the winter pressure error shrinks (3.2, 2.7, 2.6 hPa)
-and the NAO pattern looks more like ERA5's (0.92, 0.95, 0.98). NAO strength does not follow
+**Reading the table.** Across the tested coupled configurations the winter pressure error shrinks
+(3.2, 2.7, 2.6 hPa) and the NAO pattern correlation with ERA5 increases (0.92, 0.95, 0.98). NAO strength does not follow
 resolution: it changes as much between the two halves of one run as between resolutions. At 20 km
-UK and Ireland winters are 25% wetter than ERA5, against +7% to +8% at the coarser grids, the same
+UK and Ireland winter-mean precipitation (not daily extremes) is 25% above ERA5, against +7% to +8% at the coarser grids, the same
 direction as IFS's 9 km run in section 3.1. The 850 hPa jet sits about 1.5° too far north at LL and
 close to ERA5 at MM.
 """)
@@ -694,7 +695,7 @@ md("""
 | Rainfall extremes, UK and Ireland (three runs) | 42–62% too heavy; too many wet days and too much rain per wet day | within 4–17% of E-OBS |
 | Share of the wet bias consistent with the circulation offset | 38–74% (very wet days), 18–39% (wettest day) | offset small (0.2 SD) |
 | Hottest day of the year | about 2 °C too cool against ERA5 | within 1 °C of ERA5 |
-| NAO link to winter rainfall extremes | UK: varies by chance (0.06–0.49); Norway: too weak in all runs; France: wrong sign (model property) | UK: varies by chance (0.21–0.60); Norway: too weak in all runs; France: near zero to observed |
+| NAO link to winter rainfall extremes | UK: varies by chance (0.06–0.49); Norway: below the observed estimate in all runs; France: wrong sign in control run and 2 of 3 runs | UK: varies by chance (0.21–0.60); Norway: too weak in all runs; France: near zero to observed |
 | Weather behind the heaviest rain days | same pattern, weaker build-up | same pattern and build-up |
 | Storminess over the UK (day-to-day pressure variability) | 17% higher than ERA5 | 13% higher than ERA5 |
 
@@ -703,7 +704,7 @@ md("""
    response. That offset is consistent with a large part of its very-wet-day rain bias over UK and
    Ireland, but less than half of its wettest-day bias: the model also rains too hard on each wet
    day. Checking the chain in order, and then putting a number on each link, made that visible.
-2. **Mean-state biases are model properties; the NAO link over UK and Ireland is mostly chance.**
+2. **Mean-state biases are consistent across the three sampled runs; the NAO link over UK and Ireland is mostly chance.**
    Version 2's extra runs confirm every mean-state and extreme-index bias of version 1, and a
    too-weak NAO in both models. But three runs of one model span correlations from 0.06 to 0.49 for
    the NAO link to UK and Ireland rain extremes, so version 1's single-run comparison of that link
@@ -711,11 +712,12 @@ md("""
 3. **The clearest model discrepancy in the link is over western Norway.** All six historical runs
    and every 29-winter window of both control runs have a weaker NAO link than observed (0.81),
    although the observed value's own uncertainty (about 0.71–0.91) reaches the models' strongest
-   windows. ICON-ESM-ER's wrong-sign link over north-west France is a model property.
-4. **Higher resolution improves the circulation, not the NAO's strength, and makes winters
-   wetter.** In HadGEM3 the mean pressure error falls and the NAO pattern sharpens from 135 to
-   20 km; NAO strength does not change beyond chance; winter rain over UK and Ireland rises by a
-   quarter at 20 km. In IFS, 9 km gives heavier rain extremes, which helps over mountains and
+   windows. ICON-ESM-ER's wrong-sign link over north-west France appears in its control run and two of three historical runs.
+4. **Finer coupled resolution improves the circulation, not the NAO's strength, and raises winter
+   rain.** Across HadGEM3-GC5E's tested configurations the mean pressure error falls and the NAO
+   pattern correlation increases from 135 to 20 km; NAO strength does not change beyond chance;
+   winter-mean rain over UK and Ireland rises by a quarter at 20 km (atmosphere and ocean refined
+   together; monthly data, so no extremes). In IFS, 9 km gives heavier rain extremes, which helps over mountains and
    overshoots elsewhere.
 5. **Two good references can disagree, and 29 winters are few.** E-OBS and ERA5 agree on patterns
    but not always on numbers (for example the strength of the NAO link over UK and Ireland, 0.51

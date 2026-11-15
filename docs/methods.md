@@ -8,18 +8,26 @@ HadGEM3-GC5E coupled resolution configurations. Everything in this project is ex
 The project is organised in three experiments: **1 · ensemble robustness** (notebooks 03–06,
 09, 10), **2 · internal variability** (07, 11) and **3 · resolution** (08, 12).
 
-## 1. Wording
+## 1. Wording and scope
 
-- **ERA5** is a reanalysis reference, not observations.
-- **E-OBS** is a station-based gridded dataset.
-- Version 1, one member per model: a shared result is "consistent across the two
-  models examined", never "robust". Version 2, three members per model: a result found
-  in all three is "consistent across the three sampled runs" (shortened to "robust across
-  the three runs"), which is necessary but not sufficient for a robust model property.
-- The paired atmosphere-only runs test "atmospheric sensitivity to small-scale
-  SST variability (LR20-filtered SST forcing)". They are not described as the
-  effect of ocean eddies and fronts unless the LR20 filter is verified, and even
-  then they test SST forcing, not a coupled feedback.
+- **ERA5** is a reanalysis reference, not direct observations.
+- **E-OBS** is a station-based gridded observational dataset.
+- **ICON-ESM-ER and IFS-FESOM2-SR** are evaluated with three historical members each (r1, r2,
+  r3), together with their 100-year control runs. Version 1 used r1 only.
+- **HadGEM3-GC5E** is evaluated separately, with one member at each of three coupled
+  atmosphere–ocean resolution configurations (LL, MM, HH) and monthly output only, so no
+  daily-extreme conclusions are drawn from it.
+- A result found in all three sampled historical members is described as **consistent across
+  the three sampled members**, not as an ensemble-robust result; three members cannot exclude a
+  different answer in a fourth. (Version 1 wording: a shared result of the two single-member
+  models was "consistent across the two models examined".)
+- The control-run windows overlap and are not independent samples. Their distributions are
+  empirical estimates of internal variability, not formal probability distributions.
+- Changes across the HadGEM3-GC5E configurations are interpreted as coupled atmosphere–ocean
+  resolution sensitivity, not as isolated atmospheric-resolution effects.
+- The paired atmosphere-only runs test "atmospheric sensitivity to small-scale SST variability
+  (LR20-filtered SST forcing)", not coupled ocean-eddy feedbacks; the LR20 filter itself is
+  not publicly documented.
 
 ## 2. Preprocessing
 

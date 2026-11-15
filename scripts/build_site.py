@@ -61,7 +61,7 @@ PAGES = {  # path relative to docs/ -> (title, description)
         "Methods fixed before any result: preprocessing, NAO definition, ETCCDI extreme indices, "
         "statistics with false-discovery-rate control, event composites and resolution tests."),
     "explorer/index.html": (
-        f"Extremes explorer · {NAME}",
+        f"Extremes explorer (version 1, run r1) · {NAME}",
         "Interactive maps and yearly series of winter and annual extremes (RX1day, R95p, TXx) for E-OBS, "
         "ERA5, ICON-ESM-ER and IFS-FESOM2-SR over north-west Europe, with their link to the NAO."),
     "notebooks/index.html": (

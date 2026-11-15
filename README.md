@@ -46,7 +46,7 @@ and UK and Ireland winter rain relative to ERA5.*
 **Main message.** Evaluating climate models for regional extremes needs three questions kept
 apart: is a feature the same in every run (a model property), could chance in a short record
 produce it (internal variability), and does it change with resolution? Large mean-state biases,
-such as ICON-ESM-ER's shifted circulation and wet bias, are model properties; the NAO link to UK and
+such as ICON-ESM-ER's shifted circulation and wet bias, are consistent across the three sampled runs; the NAO link to UK and
 Ireland rain extremes is dominated by chance in 29 winters; and a more realistic large-scale
 circulation, as at higher HadGEM3-GC5E resolution, does not guarantee more realistic rain. The three
 experiments answer different questions and are not combined into one ranking of the models.
@@ -79,8 +79,8 @@ range where it differs.*
    three runs), so a single run cannot rank the models there. Over western Norway, by contrast,
    all six runs and every 29-winter window of both 100-year control runs have a weaker link than
    observed (0.81), although the observed value's own 95% interval (about 0.71–0.91) reaches the
-   models' strongest windows: a consistent but modest discrepancy. ICON-ESM-ER's wrong sign over north-west France is a model property: its
-   control run almost never produces the observed positive link.
+   models' strongest windows: a consistent but modest discrepancy. ICON-ESM-ER's wrong sign over north-west France appears in its control run and two of
+   three historical runs: its control run almost never produces the observed positive link.
 3. **Higher resolution is not automatically better.** In the same model with the same ocean, 9 km
    instead of 28 km makes winter rain extremes 5–12% heavier: closer to observations over the
    mountains of western Norway, too heavy over the UK and Ireland. The NAO link over the UK and
@@ -120,9 +120,9 @@ Version 2 tests version 1 with the extra public data (notebooks 10–12):
 
 | Test | Data | What it showed |
 |---|---|---|
-| **Three runs per coupled model** ([notebook 10](notebooks/10_members.ipynb)) | ICON-ESM-ER and IFS-FESOM2-SR r1, r2, r3 | Mean-state and extreme-index biases, the wet-day statistics and the too-weak NAO are the same in all three runs: **model properties**. The NAO link over the UK and Ireland varies by chance. ICON-ESM-ER's mixed NAO pattern was largely run r1's chance. |
+| **Three runs per coupled model** ([notebook 10](notebooks/10_members.ipynb)) | ICON-ESM-ER and IFS-FESOM2-SR r1, r2, r3 | Mean-state and extreme-index biases, the wet-day statistics and the too-weak NAO are the same in all three runs: **consistent across the three sampled members**. The NAO link over the UK and Ireland varies by chance. ICON-ESM-ER's mixed NAO pattern was largely run r1's chance. |
 | **100-year control runs** ([notebook 11](notebooks/11_control.ipynb)) | both coupled models, constant 1950 forcing, 71 windows of 29 winters | No window reaches the observed NAO strength or the observed NAO link over western Norway; ICON-ESM-ER almost never produces the observed link over north-west France. The control ranges understate chance (several historical runs fall outside them). |
-| **One coupled model at three resolutions** ([notebook 12](notebooks/12_hadgem_resolution.ipynb)) | HadGEM3-GC5E at about 135, 60 and 20 km, ocean 1° to 1/12°, monthly | The mean winter pressure error falls (3.2, 2.7, 2.6 hPa) and the NAO pattern sharpens with resolution; NAO strength does not change beyond chance; UK and Ireland winters are 25% wetter than ERA5 at 20 km. |
+| **One coupled model at three resolutions** ([notebook 12](notebooks/12_hadgem_resolution.ipynb)) | HadGEM3-GC5E at about 135, 60 and 20 km, ocean 1° to 1/12°, monthly | Across the tested coupled configurations the mean winter pressure error falls (3.2, 2.7, 2.6 hPa) and the NAO pattern correlation increases; NAO strength does not change beyond chance; UK and Ireland winter-mean precipitation (not daily extremes) is 25% above ERA5 at 20 km. |
 
 | | |
 |---|---|
@@ -350,7 +350,7 @@ conda run -n eerie-uk-nao python scripts/build_site.py
 | the result tables | `app_assets/*.parquet`, each with a `.json` provenance record (code version, inputs, period) |
 | the explorer | `docs/explorer/data.json`, the data behind the interactive page |
 
-Rerunning the analysis itself needs the regional cut-outs (about 4 GB on disk, roughly 250–300 GB
+Rerunning the analysis itself needs the regional cut-outs (about 12 GB on disk with version 2; version 1 alone about 4 GB from roughly 250–300 GB
 of network traffic to create them).
 
 Downloads resume where they stopped: each year is a separate file, and existing files are skipped.
@@ -363,7 +363,7 @@ far larger than what is kept; a connection without a data limit is needed.
 
 ```
 src/eerie_uk/      analysis and data-access library
-notebooks/         executed notebooks 00–09
+notebooks/         executed notebooks 00–12
 scripts/           notebook generators, findings text, build script
 tests/             offline tests
 docs/              methods, visual overviews, figures
@@ -376,8 +376,13 @@ data/              downloaded cut-outs (not in the repository)
 
 ## Limitations
 
-- One member per coupled model; 64 winters for the NAO, 29 for the link to extremes.
-- Two models only; model complexity is not tested.
+- Three historical members per coupled model (version 2; one in version 1), 29 winters for the
+  link to extremes. Results consistent across three members can still differ in a fourth.
+- Control-run chance ranges come from overlapping windows of one 99-winter run and understate
+  chance; IFS-FESOM2-SR's NAO strength differs between the two halves of its control run.
+- Daily extremes for two coupled models only. HadGEM3-GC5E is evaluated with monthly data, one
+  member per configuration, and its atmosphere and ocean resolutions change together.
+- Model complexity is not tested.
 - ERA5 precipitation is a model product; E-OBS smooths intense rain and covers land only.
 - Reference data are regridded bilinearly, not conservatively.
 - The resolution comparison uses one 9 km run and three 28 km members, winter only, at 25 km.

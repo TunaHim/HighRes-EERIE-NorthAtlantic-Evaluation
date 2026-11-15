@@ -337,14 +337,14 @@ of work, and the analysis does not care where the data came from. The main bottl
 <table>
 <thead><tr><th>To scale to…</th><th>What it needs</th><th>Code that changes</th></tr></thead>
 <tbody>
-<tr><td><b>More members of the same models</b></td><td>More downloads; the analysis already handles a "member" dimension (used in notebooks 07 and 08).</td><td>Add lines to the download plan only.</td></tr>
+<tr><td><b>More members of the same models</b></td><td><i>Done in version 2</i> for three runs per model (download groups "members" and "control"). Ten or more runs only need more lines in the download plan.</td><td>Add lines to the download plan only.</td></tr>
 <tr><td><b>CMIP6 and, later, CMIP7 models</b></td><td>A new reader that maps their variable names to the same CMIP-style names. CMIP data are already in that format.</td><td>One new "backend" module next to catalogue.py; analysis unchanged.</td></tr>
-<tr><td><b>Future scenarios and storylines</b></td><td>Scenario runs (already listed on the server) and control runs to separate forced change from internal variability.</td><td>New periods in the plan; one new notebook.</td></tr>
-<tr><td><b>Much larger volumes</b></td><td>Run next to the data on a supercomputer: one job per year, many in parallel (Slurm job arrays or a Dask cluster). Nothing crosses the internet except results.</td><td>A small job script; the yearly-file design already fits.</td></tr>
+<tr><td><b>Future scenarios and storylines</b></td><td>Scenario runs (already listed on the server). The control runs needed to separate forced change from internal variability are <i>already downloaded and analysed</i> (notebook 11).</td><td>New periods in the plan; one new notebook.</td></tr>
+<tr><td><b>Much larger volumes</b></td><td><i>Not yet done:</i> run next to the data on a supercomputer: one job per year, many in parallel (Slurm job arrays or a Dask cluster). Nothing crosses the internet except results.</td><td>A small job script; the yearly-file design already fits.</td></tr>
 <tr><td><b>Less network traffic from a laptop</b></td><td>Ask the server to cut the region before sending (server-side subsetting), instead of fetching whole-globe chunks.</td><td>The open step in download.py.</td></tr>
 <tr><td><b>Cloud storage and sharing</b></td><td>Save as chunked Zarr instead of netCDF, so others can read the archive directly over the web.</td><td>The save step in download.py.</td></tr>
 <tr><td><b>Automatic checks on every change</b></td><td>Run the 87 tests on GitHub for every push (continuous integration; in place since version 1).</td><td>One configuration file.</td></tr>
-<tr><td><b>An interactive dashboard</b></td><td>Read the small Parquet tables already saved in app_assets/.</td><td>A new app; no recomputation.</td></tr>
+<tr><td><b>Interactive exploration</b></td><td><i>Exists:</i> the explorer on this website reads a small JSON export (run r1, version 1). Adding runs r2 and r3 and the control ranges needs a larger export and a member selector.</td><td>scripts/build_explorer_data.py and the explorer page; no recomputation.</td></tr>
 </tbody>
 </table>
 </div>
