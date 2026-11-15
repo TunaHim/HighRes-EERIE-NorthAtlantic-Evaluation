@@ -116,11 +116,11 @@ they change across coupled model resolution configurations?</p>
 </div>
 
 <figure class="hero">
-<img src="figures/overview_v2.png" alt="Overview: wet bias and NAO strength of every run, NAO link with chance ranges, HadGEM3-GC5E at three resolutions">
+<img src="figures/overview.png" alt="Overview: wet bias and NAO strength of every run, NAO link with chance ranges, HadGEM3-GC5E at three resolutions">
 <figcaption><b>The project at a glance.</b> <b>A, B · Experiment 1:</b> one dot per historical run, black bar the
 mean of three. All three ICON-ESM-ER runs are 50–62% too wet in very-wet-day rain over UK and Ireland; both models'
 NAO is weaker than ERA5's in every run. <b>C · Experiment 2:</b> shaded boxes show what each model's control run
-produces by chance in 90% of 29-winter periods; dots are the historical runs; diamonds with bars are E-OBS and ERA5
+produces by chance (empirical 5th–95th percentile across overlapping 29-winter windows); dots are the historical runs; diamonds with bars are E-OBS and ERA5
 with their 95% intervals. Over UK and Ireland the runs scatter widely; over western Norway every run is weaker than
 observed, though the observed interval reaches the models' strongest values; over north-west France ICON-ESM-ER is
 almost always negative. <b>D–F · Experiment 3:</b> HadGEM3-GC5E with atmosphere and ocean refined together. The
@@ -128,7 +128,7 @@ pressure error falls and the NAO pattern correlation increases across the tested
 the two halves of each run); winter-mean rain over UK and Ireland rises sharply at 20 km.</figcaption>
 </figure>
 <p class="message"><b>Main message.</b> Evaluating climate models for regional extremes needs three questions kept
-apart: is a feature the same in every run (a model property), could chance in a short record produce it (internal
+apart: is a feature the same in every sampled run, could chance in a short record produce it (internal
 variability), and does it change with resolution? Large mean-state biases, such as ICON-ESM-ER's shifted circulation
 and wet bias, are consistent across the three sampled runs of each model. The NAO link to UK and Ireland rain extremes is dominated by chance in 29
 winters. A more realistic large-scale circulation, as at higher HadGEM3-GC5E resolution, does not guarantee more
@@ -145,16 +145,16 @@ and understate chance. This is a research prototype and all results are explorat
 questions, so they are not combined into one ranking of the models.</div>
 
 <div class="go">
-  <a href="explorer/index.html"><b>Explore the data</b><span>Maps and yearly series of every extreme index (version 1, run r1)</span></a>
+  <a href="explorer/index.html"><b>Explore the data</b><span>Maps and yearly series of every extreme index (historical run r1)</span></a>
   <a href="notebooks/00_summary.html"><b>Read the summary notebook</b><span>The single entry point: question, overview figure and the three experiments, with the code</span></a>
   <a href="engineering_overview.html"><b>See how it is built</b><span>From the supercomputer centre to the notebooks</span></a>
 </div>
 
-<h2 class="exp" style="--c:var(--blue)" id="experiment-1"><span>Experiment 1</span>Ensemble robustness: daily extremes and their drivers</h2>
+<h2 class="exp" style="--c:var(--blue)" id="experiment-1"><span>Experiment 1</span>Across-member consistency: daily extremes and their drivers</h2>
 <p class="expq">Which biases in circulation, NAO and extremes persist across runs of the same model? ICON-ESM-ER and IFS-FESOM2-SR against ERA5 and E-OBS, step by step: data → mean climate and extremes → drivers → the same tests on three runs.</p>
 <figure class="hero">
 <img src="figures/summary_chain.png" alt="Summary figure: mean circulation bias, NAO pattern, NAO link to very-wet-day rain and rain bias, for ICON-ESM-ER and IFS-FESOM2-SR">
-<figcaption><b>Version 1 baseline: the chain in one figure, single-member evaluation (run r1 of each model).</b> Read each row from left to right: (A) average winter pressure minus ERA5,
+<figcaption><b>Historical member r1: the chain in one figure (run r1 of each model).</b> Read each row from left to right: (A) average winter pressure minus ERA5,
 expressed as an NAO state; (B) the model's NAO pattern against ERA5's (black lines) and its strength; (C) correlation of
 winter very-wet-day rain with the NAO; (D) very-wet-day rain relative to E-OBS. ICON-ESM-ER (top) is biased at every
 step, with 62% more winter R95p than E-OBS over UK and Ireland (regional land average). IFS-FESOM2-SR (bottom) generally
@@ -180,7 +180,7 @@ centre weaker and displaced. Winters 1986–2014 (B: 1951–2014), one run per m
       <i class="dot info"></i><span>945 datasets inventoried on the DKRZ server; the coupled models' historical runs r1–r3 and control runs have all the daily and monthly fields needed. HadGEM3-GC5E comes from the public CEDA archive (monthly only).</span>
       <i class="dot info"></i><span>Three domains: North Atlantic (NAO), north-west Europe (extremes), UK and Ireland (headline), plus western Norway and north-west France.</span>
       <i class="dot info"></i><span>Periods: 1950–2014 monthly (64 winters for the NAO), 1985–2014 daily (a standard 30-year period).</span>
-      <i class="dot info"></i><span>Version 1: about 250–300 GB streamed, 4.2 GB kept. With version 2 (extra runs, control runs, HadGEM3-GC5E from CEDA): 12.3 GB kept. Every source in the same units, time stamps and grid.</span>
+      <i class="dot info"></i><span>Data from three servers (DKRZ, CEDA, ECA&amp;D) cut to the study regions: about 12.3 GB kept in total, from several hundred GB streamed. Every source in the same units, time stamps and grid.</span>
     </div>
     <div class="nb">Notebooks <a href="notebooks/01_data_inventory.html">01</a>, <a href="notebooks/02_download_plan.html">02</a> · details in <a href="engineering_overview.html">How it is built</a></div>
   </div>
@@ -247,7 +247,7 @@ than E-OBS's.</figcaption></figure>
     </div>
     <p class="why"><b>Why "mixed".</b> ICON-ESM-ER's first two patterns explain 29% and 21% of the variance, closer than
     their sampling error allows to separate (North et al. 1982), so the real NAO is split between them (overlaps 0.76 and
-    0.58). The mixing persists in all five domains tested for this run; but in runs r2 and r3 (version 2) the pattern resembles
+    0.58). The mixing persists in all five domains tested for this run; but in runs r2 and r3 the pattern resembles
     ERA5's closely (0.90 and 0.94), so it was largely the chance of run r1. The NAO
     strengths along ERA5's pattern barely change (0.56–0.61 and 0.68–0.72). Every model is therefore measured along the
     common ERA5 pattern.</p>
@@ -266,7 +266,7 @@ its southern centre over Europe and the North Sea: its leading pattern mixes the
     <div class="verdict">
       <i class="dot good"></i><span><b>IFS-FESOM2-SR</b> reproduces the link in sign and pattern (UK and Ireland correlation 0.60 in r1).</span>
       <i class="dot mixed"></i><span><b>ICON-ESM-ER:</b> right sign in the north (0.36), weak in Norway, wrong sign over north-west France.</span>
-      <i class="dot poor"></i><span><b>Version 2:</b> over UK and Ireland three runs of one model span 0.06–0.49 (ICON-ESM-ER) and 0.21–0.60 (IFS-FESOM2-SR), so the models cannot be ranked there; over western Norway both are too weak in every run.</span>
+      <i class="dot poor"></i><span><b>Three runs per model:</b> over UK and Ireland three runs of one model span 0.06–0.49 (ICON-ESM-ER) and 0.21–0.60 (IFS-FESOM2-SR), so the models cannot be ranked there; over western Norway every run is below the observed point estimate.</span>
       <i class="dot info"></i><span>Observed: 0.51 in E-OBS, 0.35 in ERA5; strong in western Norway (0.81).</span>
       <i class="dot info"></i><span><b>How certain:</b> over UK and Ireland the bootstrap 95% intervals (about ±0.25) overlap for all four datasets, so 29 winters cannot tell them apart. ICON-ESM-ER's weak link in Norway and wrong sign in France do pass formal tests. No single winter drives any value.</span>
     </div>
@@ -325,10 +325,10 @@ for both models.</figcaption></figure>
 <div class="step" style="--c:var(--violet)">
   <div>
     <h3>Three runs of each coupled model</h3>
-    <p class="q">Which version 1 results are consistent across the three sampled runs, and which were a single run's chance?</p>
+    <p class="q">Which results of run r1 are consistent across the three sampled runs, and which were a single run's chance?</p>
     <div class="verdict">
       <i class="dot info"></i><span>Two more historical runs (r2, r3) of ICON-ESM-ER and IFS-FESOM2-SR, processed exactly like r1.</span>
-      <i class="dot good"></i><span><b>Robust in all three runs:</b> ICON-ESM-ER's mean-circulation offset (+1.9 to +2.1 SD) and wet bias (R95p +50% to +62%), both models' too-cool hottest day, too-weak NAO (0.55–0.63 and 0.68–0.81 of ERA5) and wet-day statistics.</span>
+      <i class="dot good"></i><span><b>Consistent across all three sampled runs:</b> ICON-ESM-ER's mean-circulation offset (+1.9 to +2.1 SD) and wet bias (R95p +50% to +62%), both models' too-cool hottest day, too-weak NAO (0.55–0.63 and 0.68–0.81 of ERA5) and wet-day statistics.</span>
       <i class="dot mixed"></i><span><b>Chance:</b> the NAO link over UK and Ireland (0.06–0.49 and 0.21–0.60) and ICON-ESM-ER's "mixed" NAO pattern (r1 only).</span>
       <i class="dot poor"></i><span><b>New, consistent finding:</b> over western Norway all six runs have a weaker NAO link (0.52–0.71) than observed (0.81; 95% interval about 0.71–0.91).</span>
     </div>
@@ -351,7 +351,7 @@ for both models.</figcaption></figure>
     </div>
     <div class="nb">Notebook <a href="notebooks/11_control.html">11</a> · control runs 1950–2049, 71 overlapping windows</div>
   </div>
-  <figure class="fig"><img src="figures/control_placement.png" alt="Chance range from control runs with historical runs and references"><figcaption><b>How to read.</b> For each region and model, the shaded box spans the NAO–R95p correlation in 90% of 29-winter windows of the control run (line: median). Dots: the three historical runs, 1986–2014. Dashed lines: E-OBS (light) and ERA5 (dark). A reference line far outside a model's box means the model rarely produces what was observed, as for ICON-ESM-ER over north-west France; over western Norway the references lie just above both boxes, within their own uncertainty.</figcaption></figure>
+  <figure class="fig"><img src="figures/control_placement.png" alt="Chance range from control runs with historical runs and references"><figcaption><b>How to read.</b> For each region and model, the shaded box spans the empirical 5th–95th percentile of the NAO–R95p correlation across the overlapping 29-winter windows of the control run (line: median); the windows are not independent samples. Dots: the three historical runs, 1986–2014. Dashed lines: E-OBS (light) and ERA5 (dark). A reference line far outside a model's box means the model rarely produces what was observed, as for ICON-ESM-ER over north-west France; over western Norway the references lie just above both boxes, within their own uncertainty.</figcaption></figure>
 </div>
 <div class="step" style="--c:var(--orange)">
   <div>
@@ -424,7 +424,7 @@ small change is dotted.</figcaption></figure>
 </div>
 
 <h2>In one table</h2>
-<p class="nb">Run r1 of each model (version 1). The ranges over three runs are in experiment 1.4; the NAO link over UK and Ireland varies by chance between runs.</p>
+<p class="nb">Run r1 of each model. The ranges over three runs are in experiment 1.4; the NAO link over UK and Ireland varies by chance between runs.</p>
 <div class="wrap">
 <table>
 <thead><tr><th>Question</th><th>ICON-ESM-ER</th><th>IFS-FESOM2-SR</th></tr></thead>
@@ -446,12 +446,12 @@ small change is dotted.</figcaption></figure>
 <p>This is a <b>research prototype</b>: a complete, tested chain from public data to conclusions, run on what one laptop and
 the public archive allow (two coupled models with three runs each and their control runs for extremes, a third model at three resolutions for the circulation, 29 winters of daily data). It is built to be scaled up.</p>
 <div class="trust">
-  <div class="card"><h3>More members</h3><p>Version 2 uses three runs per model and the control runs. Ten or more runs per model would turn the remaining "chance" results, such as the NAO link over the UK, into firm ranges.</p></div>
+  <div class="card"><h3>More members</h3><p>The project uses three runs per model and the control runs. Ten or more runs per model would turn the remaining "chance" results, such as the NAO link over the UK, into firm ranges.</p></div>
   <div class="card"><h3>More models</h3><p>Other EERIE configurations, HighResMIP, CMIP6 and CMIP7 through the same code, to place these two models in a multi-model spread and test resolution across models.</p></div>
   <div class="card"><h3>More science</h3><p>Rain-producing processes behind the wet bias; longer daily records; summer drivers; physical climate storylines built on the heavy-rain event composites.</p></div>
   <div class="card"><h3>Scaling up technically</h3><p>Run next to the data on DKRZ Levante or JASMIN instead of streaming to a laptop; Dask distributed across members and years; a CMIP reader; block bootstrap, conservative regridding, cyclone tracking. Details: <a href="engineering_overview.html">How it is built</a>.</p></div>
 </div>
-<p class="nb">Exploratory results: version 1 used one run per coupled model; version 2 adds two more runs per model, 100-year control runs and HadGEM3-GC5E at three resolutions. Full methods on the <a href="methods.html">methods page</a>; every number comes from the <a href="notebooks/index.html">executed notebooks</a>.</p>
+<p class="nb">Exploratory results from three runs per coupled model, two 100-year control runs and HadGEM3-GC5E at three coupled resolution configurations. Full methods on the <a href="methods.html">methods page</a>; every number comes from the <a href="notebooks/index.html">executed notebooks</a>.</p>
 </main>
 <!-- site:foot --><footer class="sitefoot"><div class="in">
 <div><b>HighRes-EERIE-NorthAtlantic-Evaluation</b><p>An exploratory evaluation by Himansu Kesari Pradhan, 2026. Code under the

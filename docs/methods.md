@@ -1,11 +1,11 @@
 # Methods
 
-Sections 1–8 were adopted on 9 October 2026, before any result was produced (version 1:
-one run of each coupled model). Section 9 lists checks added after the first results, and
-section 10 the version 2 design: three runs per coupled model, 100-year control runs and the
-HadGEM3-GC5E coupled resolution configurations. Everything in this project is exploratory.
+Sections 1–8 were fixed on 9 October 2026, before any result was produced, for the analysis of
+historical run r1. Section 9 lists checks added after the first results, and section 10 the
+extension to three runs per coupled model, 100-year control runs and the HadGEM3-GC5E coupled
+resolution configurations. Everything in this project is exploratory.
 
-The project is organised in three experiments: **1 · ensemble robustness** (notebooks 03–06,
+The project is organised in three experiments: **1 · across-member consistency** (notebooks 03–06,
 09, 10), **2 · internal variability** (07, 11) and **3 · resolution** (08, 12).
 
 ## 1. Wording and scope
@@ -13,14 +13,15 @@ The project is organised in three experiments: **1 · ensemble robustness** (not
 - **ERA5** is a reanalysis reference, not direct observations.
 - **E-OBS** is a station-based gridded observational dataset.
 - **ICON-ESM-ER and IFS-FESOM2-SR** are evaluated with three historical members each (r1, r2,
-  r3), together with their 100-year control runs. Version 1 used r1 only.
+  r3), together with their 100-year control runs. The detailed process analyses (notebooks
+  03–09) use run r1; notebook 10 repeats their headline diagnostics on r2 and r3.
 - **HadGEM3-GC5E** is evaluated separately, with one member at each of three coupled
   atmosphere–ocean resolution configurations (LL, MM, HH) and monthly output only, so no
   daily-extreme conclusions are drawn from it.
 - A result found in all three sampled historical members is described as **consistent across
   the three sampled members**, not as an ensemble-robust result; three members cannot exclude a
-  different answer in a fourth. (Version 1 wording: a shared result of the two single-member
-  models was "consistent across the two models examined".)
+  different answer in a fourth. A result found in both models' r1 runs only is "consistent
+  across the two models examined".
 - The control-run windows overlap and are not independent samples. Their distributions are
   empirical estimates of internal variability, not formal probability distributions.
 - Changes across the HadGEM3-GC5E configurations are interpreted as coupled atmosphere–ocean
@@ -117,9 +118,8 @@ The IFS-FESOM2-SR GRIB decoding fix is checked in notebook 03:
 
 ## 8. Priorities
 
-Version 1: notebooks 03 → 04 → 05 → 06 first; notebook 07 and the interactive explorer
-optional. Version 2: notebooks 10, 11 and 12 are the core experiments; the explorer still
-shows run r1 only.
+Core: notebooks 03 → 04 → 05 → 06 (run r1), then 10, 11 and 12 (three runs, control runs,
+resolution). Supporting: 07, 08, 09. The explorer shows historical run r1 only.
 
 ## 9. Additions after the first results (notebook 06, sections 10 and 11; notebook 04, section 8)
 
@@ -136,13 +136,13 @@ They do not change any earlier choice.
 | EOF domain sensitivity (notebook 04, section 8; added 10 November 2026) | The EOF analysis repeated in five North Atlantic boxes (standard 20–80°N 90°W–40°E; 20–70°N 90°W–40°E; 25–75°N 80°W–30°E; 20–80°N 90°W–0°; 30–80°N 60°W–40°E). Separation of the first two EOFs by non-overlapping North et al. (1982) error bars; NAO strength along each box's ERA5 pattern. |
 | Wet-day frequency and intensity | Winter wet days (at least 1 mm; ETCCDI R1mm) and rain per wet day (ETCCDI SDII), UK and Ireland land, 1986–2014. |
 
-## 10. Version 2 (notebooks 10, 11 and 12; added 14–15 November 2026)
+## 10. Three runs, control runs and coupled resolution (notebooks 10, 11 and 12; added 14–15 November 2026)
 
 | Item | Method |
 |---|---|
 | Extra members | ICON-ESM-ER and IFS-FESOM2-SR `hist-1950` r2 and r3, processed exactly as r1. NAO compared over the common winters 1976–2014 (anomalies relative to 1975–2014); extremes over 1986–2014. IFS-FESOM2-SR r3 has no data for 2–31 October 1999 on the server; winter results are unaffected. |
-| Robust across runs | All three runs agree in sign and roughly in size. Not a full uncertainty estimate. |
-| Control runs | `eerie-control-1950` (constant 1950 forcing), 99 winters 1951–2049. NAO along the ERA5 pattern relative to the run's own 100-year winter mean; winter RX1day and R95p from daily rain with a threshold from all 100 winters. Every 29-winter window (71, overlapping); chance range = 5th to 95th percentile. Series detrended within each window. The ranges understate chance (about three independent windows per run). |
+| Consistent across the three sampled runs | All three runs agree in sign and roughly in size. Not a full uncertainty estimate. |
+| Control runs | `eerie-control-1950` (constant 1950 forcing), 99 winters 1951–2049. NAO along the ERA5 pattern relative to the run's own 100-year winter mean; winter RX1day and R95p from daily rain with a threshold from all 100 winters. Every 29-winter window (71, overlapping); "chance range" = empirical 5th to 95th percentile across these overlapping windows, not a formal probability interval. Series detrended within each window. The ranges understate chance (about three independent windows per run). |
 | HadGEM3-GC5E resolution ladder | HadGEM3-GC5E LL / MM / HH `historical` r1, monthly, from CEDA. Interpolated bilinearly onto the 1° (pressure, wind) and 0.25° (rain, temperature) grids, with edge cells filled from the nearest source cell. RMS pressure error cosine-weighted. NAO strength also given for 1951–1982 and 1983–2014 separately. |
 | Jet latitude | Winter 850 hPa zonal wind averaged over 60°W–0°, latitude of its maximum between 15° and 75°N in each winter (after Woollings et al. 2010). ERA5 and HadGEM3 LL and MM. |
 

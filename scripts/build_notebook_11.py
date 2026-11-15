@@ -25,7 +25,7 @@ the NAO link to rain extremes. But how wide is the range that chance alone produ
 archive has a **control run** of each coupled model: 100 years (1950–2049) with the external
 forcing held at 1950 conditions, so every difference between one stretch of years and another is
 internal variability. Cutting it into windows of 29 winters, the length used for extremes in
-version 1, gives the **chance range** of each diagnostic for that model. A historical run or an
+notebooks 05 and 06, gives the **chance range** of each diagnostic for that model. A historical run or an
 observed value outside that range is unlikely to be chance.
 
 **Data.**
@@ -65,10 +65,10 @@ md("""
 | Term | What it means here |
 |---|---|
 | **Control run** | A simulation with constant 1950 greenhouse gases, aerosols and other forcing. It has weather and year-to-year variability but no climate change, so it shows the model's internal variability alone. |
-| **Window** | 29 consecutive winters of the control run, the same length as the 1986–2014 period of version 1. |
-| **Chance range** | The 5th to 95th percentile of a diagnostic over all windows: values that the model produces by chance in 90% of 29-winter periods. |
+| **Window** | 29 consecutive winters of the control run, the same length as the 1986–2014 period of notebooks 05 and 06. |
+| **Chance range** | The empirical 5th to 95th percentile of a diagnostic across all (overlapping) windows. It describes what the model produces by chance in typical 29-winter periods; it is not a formal probability interval, because the windows are not independent. |
 | **Inside / outside the chance range** | A historical run inside the range is consistent with chance; an observed value outside it means the model rarely produces what was observed. |
-| **Drift** | A slow trend in a control run as the model adjusts. Series are detrended within each window, as in version 1. |
+| **Drift** | A slow trend in a control run as the model adjusts. Series are detrended within each window, as in notebook 06. |
 """)
 
 md("## 1. Setup")
@@ -249,13 +249,13 @@ for ax, region in zip(axes, regions.SUBREGIONS):
     ax.set_title(regions.LABELS[region], loc='left', fontsize=9, color=plotting.INK_SECONDARY)
     plotting._style(ax)
 fig.supxlabel('correlation of winter R95p with the winter NAO (29 winters)', fontsize=9, color=plotting.INK_SECONDARY)
-fig.suptitle('Chance range from the control runs (shaded, 5-95%), historical runs (dots), E-OBS and ERA5 (dashed)',
+fig.suptitle('Empirical 5-95% range across overlapping control windows (shaded), historical runs (dots), E-OBS and ERA5 (dashed)',
              x=0.02, ha='left', fontsize=11)
 fig.tight_layout();
 """)
 
 md("""
-**Figure 2.** Shaded box: the range of the NAO–R95p correlation over 90% of 29-winter windows of
+**Figure 2.** Shaded box: the empirical 5th–95th percentile of the NAO–R95p correlation across the overlapping 29-winter windows of
 the control run (line: median). Dots: the three historical runs (1986–2014). Dashed lines: E-OBS
 (light grey) and ERA5 (dark grey). A reference line far outside a model's box means the model
 rarely produces the observed link.

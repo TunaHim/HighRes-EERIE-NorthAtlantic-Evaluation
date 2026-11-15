@@ -20,26 +20,26 @@ def step(explain, source):
 md("""
 # 10 · Model or chance? Three runs of each coupled model
 
-**Question for this notebook.** Version 1 evaluated one run (member r1) of each coupled model. A
+**Question for this notebook.** Notebooks 03–09 evaluate one run (member r1) of each coupled model. A
 single run carries its own chance weather, so every model result in notebooks 04–06 could be a
 property of the model or a lucky or unlucky run. The EERIE archive holds two more historical runs
 of each model (r2 and r3). They use the same model and the same external forcing and differ only
 in tiny changes to the starting state, so after a few years their weather is independent. This
-notebook repeats the key diagnostics of version 1 on all three runs and asks, result by result:
+notebook repeats their key diagnostics on all three runs and asks, result by result:
 **do all three runs agree?**
 
 **Data.**
 - ICON-ESM-ER and IFS-FESOM2-SR, historical runs r1, r2 and r3. The r2 and r3 runs start in 1975,
   so the NAO is compared over the common 39 winters **1976–2014**; extremes over the 29 winters
-  **1986–2014**, as in version 1.
-- References as in version 1: ERA5 (pressure, rain, temperature) and E-OBS (rain and temperature
+  **1986–2014**, as in notebooks 05 and 06.
+- References as before: ERA5 (pressure, rain, temperature) and E-OBS (rain and temperature
   over land).
 - IFS-FESOM2-SR r3 has no data for 2–31 October 1999 on the server. October is not part of winter,
   so the winter results are unaffected; the annual indices for 1999 miss those days.
 
 **How to read the results.** Three runs are still a small ensemble: their range shows how much
 chance alone can move a number, but it is not a full uncertainty interval. A result that holds in
-all three runs is called **robust across the three runs**; one that changes sign or size strongly
+all three runs is called **consistent across the three sampled runs**; one that changes sign or size strongly
 between runs is **sensitive to chance**. Notebook 11 adds the long control runs to measure chance
 more completely.
 
@@ -51,7 +51,7 @@ more completely.
 5. Extremes over UK and Ireland
 6. The NAO link to winter rain extremes
 7. How much of ICON-ESM-ER's wet bias the circulation explains, per run
-8. Which version 1 results hold?
+8. Which results of run r1 hold?
 9. Saved outputs
 10. Limitations
 11. Open questions
@@ -63,7 +63,7 @@ md("""
 | Term | What it means here |
 |---|---|
 | **Member (run) r1, r2, r3** | Three simulations of the same model with the same forcing, started from slightly different states. Their differences are internal variability: chance weather. |
-| **Robust across the three runs** | All three runs give the same sign and a similar size. With only three runs this is necessary but not sufficient for a robust model property. |
+| **Consistent across the three sampled runs** | All three runs give the same sign and a similar size. With only three runs this is necessary but not sufficient for a property of the model. |
 | **NAO strength** | Standard deviation of the winter pressure index measured along the common ERA5 NAO pattern, divided by the same quantity for ERA5 over the same winters (notebook 04). |
 | **Mean circulation offset** | The model's average winter pressure minus ERA5's, projected onto the ERA5 NAO pattern, in ERA5 standard deviations (notebook 04, section 7). |
 | **NAO link** | Detrended correlation between the winter NAO index and a winter extreme index, land average of a region (notebook 06). Each run uses its own NAO; E-OBS and ERA5 use the ERA5 NAO. |
@@ -280,7 +280,7 @@ for key in ('R95p', 'RX1day'):
 md("""
 **Figures 4 and 5.** Dots: correlation over 29 winters; bars: bootstrap 95% interval; grey line:
 zero. Upper figure R95p, lower RX1day. Compare the three dots of one model: if they scatter as
-widely as their bars, the single-run result of version 1 was partly chance.
+widely as their bars, the single-run result of notebook 06 was partly chance.
 """)
 
 md("""
@@ -335,12 +335,12 @@ wet
 """)
 
 md("""
-## 8. Which version 1 results hold?
+## 8. Which results of run r1 hold?
 """)
 
 step("""
-**What this cell does.** Collects, for each headline result of version 1, the value in r1 and the
-range over the three runs, so that each can be classed as robust across the three runs or
+**What this cell does.** Collects, for each headline result of run r1, the value in r1 and the
+range over the three runs, so that each can be classed as consistent across the three runs or
 sensitive to chance.
 """, """
 def span(values):
@@ -381,7 +381,7 @@ common_meta = dict(inputs={'pressure': 'data/<run>/mon/psl', 'extremes': 'data/d
 provenance.write_table(nao_table, out / 'members_nao.parquet', 'NAO strength, EOF variance and pattern per historical run, winters 1976-2014', **common_meta)
 provenance.write_table(uk.reset_index(), out / 'members_extremes_uk.parquet', 'UK and Ireland land-average extremes per run and reference', **common_meta)
 provenance.write_table(link, out / 'members_nao_link.parquet', 'Detrended correlation of winter rain extremes with the NAO per run and region, bootstrap 95% interval', **common_meta)
-provenance.write_table(verdict, out / 'members_verdict.parquet', 'Version 1 headline results: r1 value and range over three runs', **common_meta)
+provenance.write_table(verdict, out / 'members_verdict.parquet', 'Headline results of run r1: r1 value and range over three runs', **common_meta)
 print('saved 4 tables')
 """)
 
@@ -392,7 +392,7 @@ md("""
   probability distribution. A result that agrees in three runs can still differ in a fourth.
   Notebook 11 uses the 100-year control runs for a fuller estimate of chance.
 - **The r2 and r3 runs start in 1975,** so the NAO window here (39 winters) is shorter than in
-  notebook 04 (64 winters); r1's numbers differ slightly from version 1 for that reason alone.
+  notebook 04 (64 winters); r1's numbers differ slightly from notebook 04 for that reason alone.
 - **IFS-FESOM2-SR r3 misses 2–31 October 1999** (server data gap); winter results are unaffected.
 - All other limitations of notebooks 04–06 apply (references, regridding, linear methods).
 """)

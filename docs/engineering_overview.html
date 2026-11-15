@@ -217,12 +217,12 @@ only that, and throws the rest away.</p>
 <tr><td>IFS atmosphere-only, SST experiments</td><td>monthly pressure, 1 or 10 members</td><td>1980–2023</td><td class="num">0.2 GB</td></tr>
 <tr><td>E-OBS (stations)</td><td>daily rain and max temperature, land</td><td>1985–2014</td><td class="num">0.2 GB</td></tr>
 <tr><td>Derived indices (cache)</td><td>RX1day, TXx, R95p per grid cell, every run</td><td>1985–2014</td><td class="num">0.1 GB</td></tr>
-<tr><td><b>Version 2:</b> ICON-ESM-ER r2, r3</td><td>as r1 (monthly from 1975)</td><td>1975–2014 / 1985–2014</td><td class="num">2.0 GB</td></tr>
-<tr><td><b>Version 2:</b> IFS-FESOM2-SR r2, r3</td><td>as r1 (monthly from 1975; r3 misses 2–31 Oct 1999 on the server)</td><td>1975–2014 / 1985–2014</td><td class="num">1.9 GB</td></tr>
-<tr><td><b>Version 2:</b> control runs of both models</td><td>monthly pressure, temperature, rain; daily rain</td><td>1950–2049</td><td class="num">3.2 GB</td></tr>
-<tr><td><b>Version 2:</b> HadGEM3-GC5E LL, MM, HH (CEDA)</td><td>monthly pressure, rain, temperature; 850/250 hPa wind (LL, MM)</td><td>1950–2014</td><td class="num">0.3 GB</td></tr>
-<tr><td><b>Version 2:</b> ERA5 wind</td><td>monthly 850/250 hPa zonal wind</td><td>1950–2014</td><td class="num">&lt;0.01 GB</td></tr>
-<tr><th>Total</th><th></th><th></th><th class="num">12.3 GB</th></tr>
+<tr><td>ICON-ESM-ER r2, r3</td><td>as r1 (monthly from 1975)</td><td>1975–2014 / 1985–2014</td><td class="num">2.0 GB</td></tr>
+<tr><td>IFS-FESOM2-SR r2, r3</td><td>as r1 (monthly from 1975; r3 misses 2–31 Oct 1999 on the server)</td><td>1975–2014 / 1985–2014</td><td class="num">1.9 GB</td></tr>
+<tr><td>Control runs of both coupled models</td><td>monthly pressure, temperature, rain; daily rain</td><td>1950–2049</td><td class="num">3.2 GB</td></tr>
+<tr><td>HadGEM3-GC5E LL, MM, HH (CEDA)</td><td>monthly pressure, rain, temperature; 850/250 hPa wind (LL, MM)</td><td>1950–2014</td><td class="num">0.3 GB</td></tr>
+<tr><td>ERA5 wind</td><td>monthly 850/250 hPa zonal wind</td><td>1950–2014</td><td class="num">&lt;0.01 GB</td></tr>
+<tr><th>Total</th><th>row values rounded; total measured on disk</th><th></th><th class="num">12.3 GB</th></tr>
 </tbody>
 </table>
 </div>
@@ -291,7 +291,7 @@ only that, and throws the rest away.</p>
 <table>
 <thead><tr><th>Safeguard</th><th>What it does</th></tr></thead>
 <tbody>
-<tr><td>66 offline tests (pytest)</td><td>Each calculation is tested on small made-up data with a known answer: the EOF sign convention, the winter-year rule, R95p on a toy series, the GRIB fix, unit conversion, resuming a failed download, significance testing.</td></tr>
+<tr><td>87 offline tests (pytest)</td><td>Each calculation is tested on small made-up data with a known answer: the EOF sign convention, the winter-year rule, R95p on a toy series, the GRIB fix, unit conversion, resuming a failed download, significance testing.</td></tr>
 <tr><td>Frozen methods (docs/methods.md)</td><td>Definitions fixed before any result was produced, so results cannot quietly steer the method.</td></tr>
 <tr><td>Data checks in the notebooks</td><td>Every analysis starts by checking that files are complete, time axes are correct and values are physical.</td></tr>
 <tr><td>Version control (git)</td><td>Each commit describes one step; the history shows how the work developed.</td></tr>
@@ -337,14 +337,14 @@ of work, and the analysis does not care where the data came from. The main bottl
 <table>
 <thead><tr><th>To scale to…</th><th>What it needs</th><th>Code that changes</th></tr></thead>
 <tbody>
-<tr><td><b>More members of the same models</b></td><td><i>Done in version 2</i> for three runs per model (download groups "members" and "control"). Ten or more runs only need more lines in the download plan.</td><td>Add lines to the download plan only.</td></tr>
+<tr><td><b>More members of the same models</b></td><td><i>Done</i> for three runs per model and the control runs (download groups "members" and "control"). More members need catalogue and download-plan updates, data validation and harmonisation checks, and regeneration of the affected diagnostics.</td><td>Download plan and notebooks 10–11; analysis library unchanged.</td></tr>
 <tr><td><b>CMIP6 and, later, CMIP7 models</b></td><td>A new reader that maps their variable names to the same CMIP-style names. CMIP data are already in that format.</td><td>One new "backend" module next to catalogue.py; analysis unchanged.</td></tr>
 <tr><td><b>Future scenarios and storylines</b></td><td>Scenario runs (already listed on the server). The control runs needed to separate forced change from internal variability are <i>already downloaded and analysed</i> (notebook 11).</td><td>New periods in the plan; one new notebook.</td></tr>
 <tr><td><b>Much larger volumes</b></td><td><i>Not yet done:</i> run next to the data on a supercomputer: one job per year, many in parallel (Slurm job arrays or a Dask cluster). Nothing crosses the internet except results.</td><td>A small job script; the yearly-file design already fits.</td></tr>
 <tr><td><b>Less network traffic from a laptop</b></td><td>Ask the server to cut the region before sending (server-side subsetting), instead of fetching whole-globe chunks.</td><td>The open step in download.py.</td></tr>
 <tr><td><b>Cloud storage and sharing</b></td><td>Save as chunked Zarr instead of netCDF, so others can read the archive directly over the web.</td><td>The save step in download.py.</td></tr>
-<tr><td><b>Automatic checks on every change</b></td><td>Run the 87 tests on GitHub for every push (continuous integration; in place since version 1).</td><td>One configuration file.</td></tr>
-<tr><td><b>Interactive exploration</b></td><td><i>Exists:</i> the explorer on this website reads a small JSON export (run r1, version 1). Adding runs r2 and r3 and the control ranges needs a larger export and a member selector.</td><td>scripts/build_explorer_data.py and the explorer page; no recomputation.</td></tr>
+<tr><td><b>Automatic checks on every change</b></td><td>Run the 87 tests on GitHub for every push (continuous integration, already in place).</td><td>One configuration file.</td></tr>
+<tr><td><b>Interactive exploration</b></td><td><i>Exists:</i> the explorer on this website reads a small JSON export (historical run r1). Extending it to ensemble selection, member spread and further model configurations (runs r2 and r3 , control ranges) needs a larger export and a member selector.</td><td>scripts/build_explorer_data.py and the explorer page; no recomputation.</td></tr>
 </tbody>
 </table>
 </div>

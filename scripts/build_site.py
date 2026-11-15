@@ -45,9 +45,9 @@ NOTEBOOKS = {
     "07_paired_experiment": "Is the NAO sensitive to small-scale sea-surface temperature?",
     "08_resolution": "Does 9 km resolution improve winter rain extremes over 28 km?",
     "09_event_anatomy": "What weather brings the heaviest winter rain?",
-    "10_members": "Version 2: model or chance? Three runs of each coupled model",
-    "11_control": "Version 2: how much can chance alone do? 100-year control runs",
-    "12_hadgem_resolution": "Version 2: one coupled model (HadGEM3-GC5E) at three resolutions",
+    "10_members": "Experiment 1: which results are consistent across three runs of each coupled model?",
+    "11_control": "Experiment 2: how much can chance alone do? 100-year control runs",
+    "12_hadgem_resolution": "Experiment 3: HadGEM3-GC5E at three coupled resolution configurations",
 }
 
 PAGES = {  # path relative to docs/ -> (title, description)
@@ -61,7 +61,7 @@ PAGES = {  # path relative to docs/ -> (title, description)
         "Methods fixed before any result: preprocessing, NAO definition, ETCCDI extreme indices, "
         "statistics with false-discovery-rate control, event composites and resolution tests."),
     "explorer/index.html": (
-        f"Extremes explorer (version 1, run r1) · {NAME}",
+        f"Historical daily-extremes explorer (run r1) · {NAME}",
         "Interactive maps and yearly series of winter and annual extremes (RX1day, R95p, TXx) for E-OBS, "
         "ERA5, ICON-ESM-ER and IFS-FESOM2-SR over north-west Europe, with their link to the NAO."),
     "notebooks/index.html": (

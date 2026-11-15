@@ -47,25 +47,26 @@ a{color:var(--blue)}
 <!-- site:nav --><nav class="sitenav"><div><b>HighRes-EERIE-NorthAtlantic-Evaluation</b><a href="index.html">What was found</a><a href="engineering_overview.html">How it is built</a><a href="methods.html" class="here">Methods</a><a href="notebooks/index.html">Notebooks</a><a href="explorer/index.html">Explorer</a><a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation">Code on GitHub</a></div></nav><!-- /site:nav -->
 <main>
 <h1>Methods</h1>
-<p>Sections 1–8 were adopted on 9 October 2026, before any result was produced (version 1:
-one run of each coupled model). Section 9 lists checks added after the first results, and
-section 10 the version 2 design: three runs per coupled model, 100-year control runs and the
-HadGEM3-GC5E coupled resolution configurations. Everything in this project is exploratory.</p>
-<p>The project is organised in three experiments: <strong>1 · ensemble robustness</strong> (<a href="notebooks/03_validation_baseline.html">notebooks 03</a>–06,
+<p>Sections 1–8 were fixed on 9 October 2026, before any result was produced, for the analysis of
+historical run r1. Section 9 lists checks added after the first results, and section 10 the
+extension to three runs per coupled model, 100-year control runs and the HadGEM3-GC5E coupled
+resolution configurations. Everything in this project is exploratory.</p>
+<p>The project is organised in three experiments: <strong>1 · across-member consistency</strong> (<a href="notebooks/03_validation_baseline.html">notebooks 03</a>–06,
 09, 10), <strong>2 · internal variability</strong> (07, 11) and <strong>3 · resolution</strong> (08, 12).</p>
 <h2>1. Wording and scope</h2>
 <ul>
 <li><strong>ERA5</strong> is a reanalysis reference, not direct observations.</li>
 <li><strong>E-OBS</strong> is a station-based gridded observational dataset.</li>
 <li><strong>ICON-ESM-ER and IFS-FESOM2-SR</strong> are evaluated with three historical members each (r1, r2,
-r3), together with their 100-year control runs. Version 1 used r1 only.</li>
+r3), together with their 100-year control runs. The detailed process analyses (notebooks
+03–09) use run r1; <a href="notebooks/10_members.html">notebook 10</a> repeats their headline diagnostics on r2 and r3.</li>
 <li><strong>HadGEM3-GC5E</strong> is evaluated separately, with one member at each of three coupled
 atmosphere–ocean resolution configurations (LL, MM, HH) and monthly output only, so no
 daily-extreme conclusions are drawn from it.</li>
 <li>A result found in all three sampled historical members is described as <strong>consistent across
 the three sampled members</strong>, not as an ensemble-robust result; three members cannot exclude a
-different answer in a fourth. (Version 1 wording: a shared result of the two single-member
-models was &quot;consistent across the two models examined&quot;.)</li>
+different answer in a fourth. A result found in both models' r1 runs only is &quot;consistent
+across the two models examined&quot;.</li>
 <li>The control-run windows overlap and are not independent samples. Their distributions are
 empirical estimates of internal variability, not formal probability distributions.</li>
 <li>Changes across the HadGEM3-GC5E configurations are interpreted as coupled atmosphere–ocean
@@ -194,9 +195,8 @@ verifying LR20.</p>
 <li>check minimum, maximum, mean and the spatial pattern.</li>
 </ol>
 <h2>8. Priorities</h2>
-<p>Version 1: <a href="notebooks/03_validation_baseline.html">notebooks 03</a> → 04 → 05 → 06 first; <a href="notebooks/07_paired_experiment.html">notebook 07</a> and the interactive explorer
-optional. Version 2: <a href="notebooks/10_members.html">notebooks 10</a>, 11 and 12 are the core experiments; the explorer still
-shows run r1 only.</p>
+<p>Core: <a href="notebooks/03_validation_baseline.html">notebooks 03</a> → 04 → 05 → 06 (run r1), then 10, 11 and 12 (three runs, control runs,
+resolution). Supporting: 07, 08, 09. The explorer shows historical run r1 only.</p>
 <h2>9. Additions after the first results (<a href="notebooks/06_nao_extremes.html">notebook 06</a>, sections 10 and 11; <a href="notebooks/04_nao.html">notebook 04</a>, section 8)</h2>
 <p>Added on 5 November 2026, after the results above were produced, to test how far they hold.
 They do not change any earlier choice.</p>
@@ -238,7 +238,7 @@ They do not change any earlier choice.</p>
 </tr>
 </tbody>
 </table></div>
-<h2>10. Version 2 (<a href="notebooks/10_members.html">notebooks 10</a>, 11 and 12; added 14–15 November 2026)</h2>
+<h2>10. Three runs, control runs and coupled resolution (<a href="notebooks/10_members.html">notebooks 10</a>, 11 and 12; added 14–15 November 2026)</h2>
 <div class="tw"><table>
 <thead>
 <tr>
@@ -252,12 +252,12 @@ They do not change any earlier choice.</p>
   <td>ICON-ESM-ER and IFS-FESOM2-SR <code>hist-1950</code> r2 and r3, processed exactly as r1. NAO compared over the common winters 1976–2014 (anomalies relative to 1975–2014); extremes over 1986–2014. IFS-FESOM2-SR r3 has no data for 2–31 October 1999 on the server; winter results are unaffected.</td>
 </tr>
 <tr>
-  <td>Robust across runs</td>
+  <td>Consistent across the three sampled runs</td>
   <td>All three runs agree in sign and roughly in size. Not a full uncertainty estimate.</td>
 </tr>
 <tr>
   <td>Control runs</td>
-  <td><code>eerie-control-1950</code> (constant 1950 forcing), 99 winters 1951–2049. NAO along the ERA5 pattern relative to the run's own 100-year winter mean; winter RX1day and R95p from daily rain with a threshold from all 100 winters. Every 29-winter window (71, overlapping); chance range = 5th to 95th percentile. Series detrended within each window. The ranges understate chance (about three independent windows per run).</td>
+  <td><code>eerie-control-1950</code> (constant 1950 forcing), 99 winters 1951–2049. NAO along the ERA5 pattern relative to the run's own 100-year winter mean; winter RX1day and R95p from daily rain with a threshold from all 100 winters. Every 29-winter window (71, overlapping); &quot;chance range&quot; = empirical 5th to 95th percentile across these overlapping windows, not a formal probability interval. Series detrended within each window. The ranges understate chance (about three independent windows per run).</td>
 </tr>
 <tr>
   <td>HadGEM3-GC5E resolution ladder</td>

@@ -1,7 +1,7 @@
 # HighRes-EERIE-NorthAtlantic-Evaluation
 
 **North Atlantic circulation and European winter extremes in high-resolution climate models:
-ensemble robustness, internal variability and coupled resolution**
+across-member consistency, internal variability and coupled resolution sensitivity**
 
 [![tests](https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation/actions/workflows/tests.yml/badge.svg)](https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation/actions/workflows/tests.yml)
 [![website](https://img.shields.io/badge/website-online-2a78d6)](https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/)
@@ -16,7 +16,7 @@ as worked examples.
 
 | Experiment | Question | Data |
 |---|---|---|
-| **1 · Ensemble robustness: daily extremes and their drivers** | Which biases in circulation, NAO and extremes persist across runs of the same model? | ICON-ESM-ER and IFS-FESOM2-SR, three historical runs each |
+| **1 · Across-member consistency: daily extremes and their drivers** | Which biases in circulation, NAO and extremes persist across runs of the same model? | ICON-ESM-ER and IFS-FESOM2-SR, three historical runs each |
 | **2 · Internal variability** | How much can chance alone change conclusions drawn from 29 winters? | 100-year control runs of both models; ten-member atmosphere-only ensembles |
 | **3 · Resolution** | How do circulation, NAO and winter rain change with resolution? | HadGEM3-GC5E coupled at about 135, 60 and 20 km (atmosphere and ocean together, monthly); IFS atmosphere-only at 28 and 9 km |
 
@@ -25,7 +25,7 @@ as worked examples.
 [summary notebook](notebooks/00_summary.ipynb) ·
 [methods](https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/methods.html)
 
-![Version 2 at a glance](docs/figures/overview_v2.png)
+![The project at a glance](docs/figures/overview.png)
 
 *The project at a glance. **A, B (experiment 1):** winter very-wet-day rain (R95p) over the UK and
 Ireland relative to E-OBS, and NAO strength relative to ERA5, one dot per historical run. **C
@@ -35,16 +35,15 @@ ERA5 with 95% intervals. **D–F (experiment 3):** HadGEM3-GC5E at about 135, 60
 1/4°, 1/12°): winter pressure error, NAO pattern and strength (pale bars: the two halves of each run),
 and UK and Ireland winter rain relative to ERA5.*
 
-> **Read this first.** This is a **research prototype**. Version 1 evaluated a **single run**
-> (member r1) of each coupled model. **Version 2** adds two more runs per model, their 100-year
-> control runs and a third model at three resolutions, to separate model properties from chance
-> (see [Version 2](#version-2-model-or-chance-and-a-resolution-ladder)). The link to extremes still
-> rests on 29 winters, so results are indications, not a ranking of the models. The main
-> contribution of the project is the **evaluation method and diagnostic pipeline**: a reproducible
-> chain of tests that can be rerun on more members, more models, CMIP6 and CMIP7.
+> **Read this first.** This is a **research prototype** and an exploratory evaluation of selected
+> simulations, not a ranking of climate models. Three historical members per coupled model are a
+> small sample; the control-run windows overlap and are not independent; HadGEM3-GC5E has one
+> member per configuration and monthly data only. The link to extremes rests on 29 winters. The
+> main contribution is the **evaluation method and diagnostic pipeline**: a reproducible chain of
+> tests that can be rerun on more members, more models, CMIP6 and CMIP7.
 
 **Main message.** Evaluating climate models for regional extremes needs three questions kept
-apart: is a feature the same in every run (a model property), could chance in a short record
+apart: is a feature the same in every sampled run, could chance in a short record
 produce it (internal variability), and does it change with resolution? Large mean-state biases,
 such as ICON-ESM-ER's shifted circulation and wet bias, are consistent across the three sampled runs; the NAO link to UK and
 Ireland rain extremes is dominated by chance in 29 winters; and a more realistic large-scale
@@ -55,10 +54,10 @@ experiments answer different questions and are not combined into one ranking of 
 
 ## Key findings
 
-*Exploratory results. Version 1 used one run per coupled model; version 2 checked the findings
-with three runs per model and 100-year control runs. A result found in all three runs is called
-robust across the three runs; the numbers below give the version 1 (r1) value with the version 2
-range where it differs.*
+*Exploratory results. A result found in all three sampled historical members is described as
+consistent across the three sampled members; three members cannot exclude a different answer in a
+fourth. Where a number comes from run r1 alone (the detailed process analyses of notebooks 03–09),
+the three-member range is given next to it where it was computed (notebook 10).*
 
 **The three that matter most**
 
@@ -74,7 +73,7 @@ range where it differs.*
    rainfall, which points to its precipitation frequency, intensity and regional processes. All
    shares come from a linear consistency diagnostic, not a demonstrated cause.
 2. **The NAO link to winter rain extremes: consistently too weak over western Norway, chance over
-   the UK.** Version 2 shows that over the UK and Ireland the link varies between runs of one model as
+   the UK.** Three runs per model show that over the UK and Ireland the link varies between runs of one model as
    much as between models and references (ICON-ESM-ER 0.06–0.49, IFS-FESOM2-SR 0.21–0.60 over
    three runs), so a single run cannot rank the models there. Over western Norway, by contrast,
    all six runs and every 29-winter window of both 100-year control runs have a weaker link than
@@ -89,9 +88,9 @@ range where it differs.*
 
 **Further findings**
 
-4. **Both models have a weaker NAO than the real world** (59% and 71% of ERA5's strength; in
-   version 2, 0.55–0.63 and 0.68–0.81 over three runs each, and never above 0.95 in any 29-winter
-   window of the control runs).
+4. **Both models have a weaker NAO than the real world** (59% and 71% of ERA5's strength in run
+   r1; 0.55–0.63 and 0.68–0.81 over three runs each; never above 0.95 in any 29-winter window of
+   the control runs).
    *Strength* is the standard deviation of each dataset's winter pressure anomalies projected onto
    the ERA5 leading EOF, divided by the same quantity for ERA5: one common pattern and scale for
    all, not each model's own EOF or its variance explained. Ten
@@ -99,7 +98,7 @@ range where it differs.*
    lies below that whole range. In run r1 ICON-ESM-ER's leading pattern mixes the NAO with a
    second mode (in all five North Atlantic domains tested), but in runs r2 and r3 it resembles
    ERA5's closely, so the mixing was largely chance. Every model is measured along the common ERA5
-   pattern; the strengths are robust to the domain (0.56–0.61 and 0.68–0.72).
+   pattern; the strengths hardly depend on the domain (0.56–0.61 and 0.68–0.72).
 5. **Both models bring their heaviest UK winter rain through the right weather:** a deep low just
    north-west of the islands (pattern correlation 0.94–0.95 with ERA5). ICON-ESM-ER's storms show
    less build-up in the days before. Both models show 13–17% higher winter variability of the
@@ -114,9 +113,9 @@ range where it differs.*
 
 ---
 
-## Version 2: model or chance, and a resolution ladder
+## The three experiments in brief
 
-Version 2 tests version 1 with the extra public data (notebooks 10–12):
+How each part of the evidence was tested (notebooks 10–12):
 
 | Test | Data | What it showed |
 |---|---|---|
@@ -176,7 +175,7 @@ as a final evaluation of the EERIE models.
 
 | Step | What it would add |
 |---|---|
-| More members of the same models | version 2 uses three per model; ten or more would turn the remaining "chance" results, such as the NAO link over the UK, into firm ranges |
+| More members of the same models | the project uses three per model; ten or more would turn the remaining "chance" results, such as the NAO link over the UK, into firm ranges |
 | More models: other EERIE configurations, HighResMIP, CMIP6, CMIP7 | places the two EERIE models in a multi-model spread, and tests whether resolution matters across models |
 | Longer daily records (1950 onwards) | more winters for the NAO-to-extremes link, which is the most sample-limited result |
 | Rain-producing processes | wet-day frequency and intensity by weather type, convective against large-scale rain, to explain the wet bias the circulation does not |
@@ -190,7 +189,7 @@ as a final evaluation of the EERIE models.
 | Run next to the data (DKRZ Levante, JASMIN) instead of streaming to a laptop | the same analysis code with a different catalogue backend; `src/eerie_uk/jasmin.py` already reads the public JASMIN catalogue of the Met Office HadGEM3-GC5E EERIE runs, a third model |
 | Parallel processing of many members and models | Dask distributed on the cluster, one task per dataset and year |
 | CMIP6 and CMIP7 input | a reader that maps their variable names onto the CMIP-style names already used here |
-| More robust statistics | moving-block bootstrap, conservative regridding of precipitation, cyclone tracking instead of the storminess proxy |
+| Stronger statistics | moving-block bootstrap, conservative regridding of precipitation, cyclone tracking instead of the storminess proxy |
 | Automated reruns | the existing GitHub Actions tests plus scheduled notebook execution on a cluster when new data appear |
 
 The engineering page shows how each part of the pipeline would change:
@@ -218,9 +217,9 @@ The engineering page shows how each part of the pipeline would change:
 | [`06_nao_extremes`](notebooks/06_nao_extremes.ipynb) | Do the models link the NAO to extremes as the real world does? |
 | [`08_resolution`](notebooks/08_resolution.ipynb) | Does 9 km resolution improve winter rain extremes over 28 km? |
 | [`09_event_anatomy`](notebooks/09_event_anatomy.ipynb) | What weather brings the heaviest winter rain? |
-| [`10_members`](notebooks/10_members.ipynb) | Version 2: model or chance? Three runs of each coupled model |
-| [`11_control`](notebooks/11_control.ipynb) | Version 2: how much can chance alone do? Control runs |
-| [`12_hadgem_resolution`](notebooks/12_hadgem_resolution.ipynb) | Version 2: HadGEM3-GC5E at three resolutions |
+| [`10_members`](notebooks/10_members.ipynb) | Experiment 1: which results are consistent across three runs of each coupled model? |
+| [`11_control`](notebooks/11_control.ipynb) | Experiment 2: how much can chance alone do? 100-year control runs |
+| [`12_hadgem_resolution`](notebooks/12_hadgem_resolution.ipynb) | Experiment 3: HadGEM3-GC5E at three coupled resolution configurations |
 
 **Background and checks**
 
@@ -245,14 +244,14 @@ code cell and a caption under every figure, and ends with findings, limitations 
 | IFS atmosphere-only at 9 km and 28 km | resolution comparison (1 and 3 members) | 1985–2014 daily (28 km: winter) |
 | ERA5 (Copernicus / ECMWF) | reanalysis reference | 1950–2014 monthly; 1985–2014 daily |
 | E-OBS v33.0e (ECA&D) | station-based reference over land | 1985–2014 daily |
-| Version 2: ICON-ESM-ER and IFS-FESOM2-SR `hist-1950` r2, r3 | extra coupled runs | 1975–2014 monthly; 1985–2014 daily |
-| Version 2: ICON-ESM-ER and IFS-FESOM2-SR `eerie-control-1950` | control runs, constant 1950 forcing | 1950–2049 monthly; daily rain |
-| Version 2: HadGEM3-GC5E LL, MM, HH `historical` r1 (Met Office, via CEDA) | one coupled model at three resolutions | 1950–2014 monthly |
-| Version 2: ERA5 zonal wind at 850 and 250 hPa | reference for the jet | 1950–2014 monthly |
+| ICON-ESM-ER and IFS-FESOM2-SR `hist-1950` r2, r3 | extra coupled runs | 1975–2014 monthly; 1985–2014 daily |
+| ICON-ESM-ER and IFS-FESOM2-SR `eerie-control-1950` | control runs, constant 1950 forcing | 1950–2049 monthly; daily rain |
+| HadGEM3-GC5E LL, MM, HH `historical` r1 (Met Office, via CEDA) | one coupled model at three resolutions | 1950–2014 monthly |
+| ERA5 zonal wind at 850 and 250 hPa | reference for the jet | 1950–2014 monthly |
 
 Model and ERA5 data are read from the DKRZ km-scale cloud (`eerie.cloud.dkrz.de`, Zarr over HTTPS);
 E-OBS from the ECA&D distribution, HadGEM3 from the public CEDA archive. Only regional cut-outs
-are kept (about 12 GB in total with version 2); the data
+are kept (about 12.3 GB in total); the data
 are not part of this repository and can be re-downloaded with the commands below.
 
 **Domains.** North Atlantic (90°W–40°E, 20–80°N) for the NAO; north-west Europe (20°W–13°E,
@@ -320,14 +319,14 @@ conda env create -f environment.yml          # Python 3.11, xarray, dask, zarr, 
 conda activate eerie-uk-nao
 pytest                                       # offline tests
 
-# download the regional cut-outs (about 12 GB on disk with version 2; much more is streamed)
+# download the regional cut-outs (about 12.3 GB on disk; much more is streamed)
 $env:PYTHONPATH = 'src'                      # PowerShell; cmd: set PYTHONPATH=src; Linux/macOS: export PYTHONPATH=src
 python -m eerie_uk.download --group monthly
 python -m eerie_uk.download --group daily
 python -m eerie_uk.download --group resolution
 python -m eerie_uk.download --group pressure
 python -m eerie_uk.eobs
-# version 2
+# extra members, control runs, HadGEM3-GC5E, ERA5 wind
 python -m eerie_uk.download --group members
 python -m eerie_uk.download --group control
 python -m eerie_uk.ceda --resolution LL MM HH --variable psl pr tas
@@ -350,8 +349,8 @@ conda run -n eerie-uk-nao python scripts/build_site.py
 | the result tables | `app_assets/*.parquet`, each with a `.json` provenance record (code version, inputs, period) |
 | the explorer | `docs/explorer/data.json`, the data behind the interactive page |
 
-Rerunning the analysis itself needs the regional cut-outs (about 12 GB on disk with version 2; version 1 alone about 4 GB from roughly 250–300 GB
-of network traffic to create them).
+Rerunning the analysis itself needs the regional cut-outs (about 12.3 GB on disk, from several hundred GB
+of network traffic; the historical r1 data alone are about 4 GB from roughly 250–300 GB).
 
 Downloads resume where they stopped: each year is a separate file, and existing files are skipped.
 The server sends whole-globe chunks, so the network traffic (roughly 250–300 GB for everything) is
@@ -376,7 +375,7 @@ data/              downloaded cut-outs (not in the repository)
 
 ## Limitations
 
-- Three historical members per coupled model (version 2; one in version 1), 29 winters for the
+- Three historical members per coupled model, 29 winters for the
   link to extremes. Results consistent across three members can still differ in a fourth.
 - Control-run chance ranges come from overlapping windows of one 99-winter run and understate
   chance; IFS-FESOM2-SR's NAO strength differs between the two halves of its control run.
