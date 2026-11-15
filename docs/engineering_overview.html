@@ -351,7 +351,7 @@ of work, and the analysis does not care where the data came from. The main bottl
 <tr><td><b>Less network traffic from a laptop</b></td><td>Ask the server to cut the region before sending (server-side subsetting), instead of fetching whole-globe chunks.</td><td>The open step in download.py.</td></tr>
 <tr><td><b>Cloud storage and sharing</b></td><td>Save as chunked Zarr instead of netCDF, so others can read the archive directly over the web.</td><td>The save step in download.py.</td></tr>
 <tr><td><b>Automatic checks on every change</b></td><td>Run the 87 tests on GitHub for every push (continuous integration, already in place).</td><td>One configuration file.</td></tr>
-<tr><td><b>Interactive exploration</b></td><td><i>Exists:</i> the explorer on this website reads a small JSON export (historical run r1). Extending it to ensemble selection, member spread and further model configurations (runs r2 and r3 , control ranges) needs a larger export and a member selector.</td><td>scripts/build_explorer_data.py and the explorer page; no recomputation.</td></tr>
+<tr><td><b>Interactive exploration</b></td><td><i>Exists:</i> the explorer on this website reads a small JSON export (about 2 MB) of the historical runs r1–r3 and their three-run means, with a run selector and the spread across runs. Adding the control-run chance ranges needs a further export.</td><td>scripts/build_explorer_data.py and the explorer page; no recomputation.</td></tr>
 </tbody>
 </table>
 </div>

@@ -61,9 +61,9 @@ PAGES = {  # path relative to docs/ -> (title, description)
         "Methods fixed before any result: preprocessing, NAO definition, ETCCDI extreme indices, "
         "statistics with false-discovery-rate control, event composites and resolution tests."),
     "explorer/index.html": (
-        f"Historical daily-extremes explorer (run r1) · {NAME}",
+        f"Historical daily-extremes explorer (runs r1–r3) · {NAME}",
         "Interactive maps and yearly series of winter and annual extremes (RX1day, R95p, TXx) for E-OBS, "
-        "ERA5, ICON-ESM-ER and IFS-FESOM2-SR over north-west Europe, with their link to the NAO."),
+        "ERA5 and runs r1–r3 of ICON-ESM-ER and IFS-FESOM2-SR over north-west Europe, with their link to the NAO."),
     "notebooks/index.html": (
         f"Notebooks · {NAME}",
         "Every analysis step as an executed Jupyter notebook: data inventory, mean climate, NAO, extremes, "

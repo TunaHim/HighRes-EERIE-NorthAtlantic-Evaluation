@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Historical daily-extremes explorer (run r1) · HighRes-EERIE-NorthAtlantic-Evaluation</title>
+<title>Historical daily-extremes explorer (runs r1–r3) · HighRes-EERIE-NorthAtlantic-Evaluation</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.34.0/plotly.min.js"></script>
 <style>
 :root{--bg:#f9f9f7;--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#898781;--line:#e1e0d9;--axis:#c3c2b7;--blue:#2a78d6;
@@ -38,14 +38,14 @@ summary{cursor:pointer;font-weight:600}
 </style>
 
 <!-- site:head -->
-<meta name="description" content="Interactive maps and yearly series of winter and annual extremes (RX1day, R95p, TXx) for E-OBS, ERA5, ICON-ESM-ER and IFS-FESOM2-SR over north-west Europe, with their link to the NAO.">
+<meta name="description" content="Interactive maps and yearly series of winter and annual extremes (RX1day, R95p, TXx) for E-OBS, ERA5 and runs r1–r3 of ICON-ESM-ER and IFS-FESOM2-SR over north-west Europe, with their link to the NAO.">
 <meta name="author" content="Himansu Kesari Pradhan">
 <link rel="canonical" href="https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/explorer/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232a78d6'/%3E%3Cpath d='M5 20c4-8 8-8 11 0s7 8 11 0' stroke='white' stroke-width='3' fill='none'/%3E%3C/svg%3E">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="HighRes-EERIE-NorthAtlantic-Evaluation">
-<meta property="og:title" content="Historical daily-extremes explorer (run r1) · HighRes-EERIE-NorthAtlantic-Evaluation">
-<meta property="og:description" content="Interactive maps and yearly series of winter and annual extremes (RX1day, R95p, TXx) for E-OBS, ERA5, ICON-ESM-ER and IFS-FESOM2-SR over north-west Europe, with their link to the NAO.">
+<meta property="og:title" content="Historical daily-extremes explorer (runs r1–r3) · HighRes-EERIE-NorthAtlantic-Evaluation">
+<meta property="og:description" content="Interactive maps and yearly series of winter and annual extremes (RX1day, R95p, TXx) for E-OBS, ERA5 and runs r1–r3 of ICON-ESM-ER and IFS-FESOM2-SR over north-west Europe, with their link to the NAO.">
 <meta property="og:url" content="https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/explorer/">
 <meta property="og:image" content="https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/figures/social_card.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -66,12 +66,13 @@ summary{cursor:pointer;font-weight:600}
 <body>
 <!-- site:nav --><nav class="sitenav"><div><b>HighRes-EERIE-NorthAtlantic-Evaluation</b><a href="../index.html">What was found</a><a href="../engineering_overview.html">How it is built</a><a href="../methods.html">Methods</a><a href="../notebooks/index.html">Notebooks</a><a href="../explorer/index.html" class="here">Explorer</a><a href="https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation">Code on GitHub</a></div></nav><!-- /site:nav -->
 <main>
-<h1>Historical daily-extremes explorer <span style="font-size:15px;font-weight:500;color:var(--ink2)">· run r1</span></h1>
+<h1>Historical daily-extremes explorer <span style="font-size:15px;font-weight:500;color:var(--ink2)">· runs r1–r3</span></h1>
 <p class="lead">Explore the extreme indices behind the project: choose an index, a period, a dataset and what to show.
 The map covers north-west Europe; the charts on the right follow the selected region. All values are 1985–2014
-(winters 1986–2014). The explorer shows <b>run r1</b> of each coupled model: one run carries its own
-chance weather. The two extra runs of each model and the control runs are analysed in
-<a href="../notebooks/10_members.html">notebook 10</a> and <a href="../notebooks/11_control.html">notebook 11</a>; HadGEM3-GC5E
+(winters 1986–2014). Each coupled model has three historical runs (r1, r2, r3) with the same forcing but their own
+chance weather; choose one run or the mean of the three. Where the runs agree, a feature belongs to the model; where
+they differ, it is chance. The runs are compared in <a href="../notebooks/10_members.html">notebook 10</a> and the
+control runs in <a href="../notebooks/11_control.html">notebook 11</a>; HadGEM3-GC5E
 is not included here because only its monthly data are public (see <a href="../notebooks/12_hadgem_resolution.html">notebook 12</a>).</p>
 
 <div class="controls">
@@ -85,6 +86,9 @@ is not included here because only its monthly data are public (see <a href="../n
   <label>Dataset<select id="source">
     <option value="e-obs">E-OBS (stations)</option><option value="era5">ERA5 (reanalysis)</option>
     <option value="icon-esm-er" selected>ICON-ESM-ER (model)</option><option value="ifs-fesom2-sr">IFS-FESOM2-SR (model)</option>
+  </select></label>
+  <label>Model run<select id="run">
+    <option value="r1">r1</option><option value="r2">r2</option><option value="r3">r3</option><option value="mean">Mean of r1–r3</option>
   </select></label>
   <label>Show on the map<select id="view">
     <option value="mean">Average value</option>
@@ -104,7 +108,7 @@ is not included here because only its monthly data are public (see <a href="../n
   <div class="panel"><h2 id="seriesTitle">Year by year</h2><p class="sub" id="seriesSub"></p><div id="series" class="plot"></div></div>
 </div>
 <div class="grid">
-  <div class="panel"><h2>Regional averages (land)</h2><p class="sub" id="tableSub"></p><div id="table"></div></div>
+  <div class="panel"><h2>Regional averages (land)</h2><p class="sub" id="tableSub"></p><div id="table" style="overflow-x:auto"></div></div>
   <div class="panel"><h2 id="scatterTitle">Link with the winter NAO</h2><p class="sub" id="scatterSub"></p><div id="scatter" class="plot small"></div></div>
 </div>
 
@@ -117,6 +121,11 @@ or warmer than the reference, blue drier or cooler. <b>Correlation with the wint
 index rises in positive-NAO winters (detrended, 29 winters); models use their own NAO, E-OBS and ERA5 the ERA5 NAO.
 Values beyond about ±0.38 are individually significant at the 5% level.</p>
 <p><b>Regional averages</b> use the same land cells for every dataset (land where E-OBS has data).</p>
+<p><b>Model runs:</b> r1, r2 and r3 share the forcing and differ only in their starting state, so their differences show
+what chance alone does in 29 winters. <b>Mean of r1–r3</b> averages the three maps (for the NAO view, the three correlation
+maps; each run is correlated with its own NAO). Averaging removes much of the chance weather, so the mean shows the model's
+own pattern more clearly, but its year-to-year line is smoother than any single run or the observations. The NAO of runs r2
+and r3 is measured on the ERA5 pattern with anomalies relative to 1975–2014 (they start in 1975).</p>
 </details>
 <p class="note">Maps are averaged to 0.5° for this page; the notebooks use the full 0.25° grid. Data and methods:
 see the <a href="../notebooks/index.html">notebooks</a> and the <a href="../methods.html">methods page</a>. The provenance of the data behind this page (code version,
@@ -138,10 +147,19 @@ const INDEX = {
     note: 'TXx (ETCCDI): the highest daily maximum temperature in each year or winter, in °C. In winter it measures the mildest day.'},
 };
 const REGION = {uk_ireland: 'UK and Ireland', western_norway: 'Western Norway', nw_france: 'North-west France'};
-const SOURCES = ['e-obs', 'era5', 'icon-esm-er', 'ifs-fesom2-sr'];
+const REFS = ['e-obs', 'era5'];
+const MODELS = ['icon-esm-er', 'ifs-fesom2-sr'];
+const RUNS = ['r1', 'r2', 'r3'];
+const SYMBOL = {r1: 'circle', r2: 'diamond', r3: 'triangle-up'};
 let D = null;
 const $ = id => document.getElementById(id);
-const state = () => ({index: $('index').value, period: $('period').value, source: $('source').value, view: $('view').value, region: $('region').value});
+const state = () => ({index: $('index').value, period: $('period').value, source: $('source').value, run: $('run').value,
+                      view: $('view').value, region: $('region').value});
+const isModel = src => MODELS.includes(src);
+// data key of one run: r1 is stored under the model name, r2/r3 as model.r2, the three-run mean as model.mean
+const runId = (model, run) => run === 'r1' ? model : `${model}.${run}`;
+const runLabel = run => run === 'mean' ? 'mean of r1–r3' : run;
+const nameOf = (src, run) => isModel(src) ? `${NAMES[src]} ${runLabel(run)}` : NAMES[src];
 
 function layout(extra) {
   return Object.assign({
@@ -156,9 +174,10 @@ function sequential() { return [[0, '#cde2fb'], [0.25, '#86b6ef'], [0.5, '#3987e
 function diverging() { return [[0, '#104281'], [0.17, '#3987e5'], [0.33, '#9ec5f4'], [0.5, '#f0efec'], [0.67, '#f4b59b'], [0.83, '#eb6834'], [1, '#9c3a12']]; }
 
 function mapField(s) {
-  const key = `${s.source}|${s.index}|${s.period}`;
+  const id = isModel(s.source) ? runId(s.source, s.run) : s.source;
+  const key = `${id}|${s.index}|${s.period}`;
   if (s.view === 'mean') return {z: D.maps[key], diverging: false, unit: INDEX[s.index].unit, what: 'average'};
-  if (s.view === 'nao') return {z: D.nao_correlation[`${s.source}|${s.index}`], diverging: true, unit: 'correlation', what: 'nao', limit: 1};
+  if (s.view === 'nao') return {z: D.nao_correlation[`${id}|${s.index}`], diverging: true, unit: 'correlation', what: 'nao', limit: 1};
   const ref = s.view.slice(5);
   const a = D.maps[key], b = D.maps[`${ref}|${s.index}|${s.period}`];
   const percent = INDEX[s.index].rain && s.index !== 'r95p_share';
@@ -191,48 +210,92 @@ function drawMap(s) {
     yaxis: {range: [40, 65], title: 'latitude (°N)', gridcolor: css('--line'), zeroline: false},
   }), config);
   const period = s.period === 'djf' ? 'winter' : 'year';
-  $('mapTitle').textContent = `${INDEX[s.index].label} (${period}) — ${NAMES[s.source]}`;
-  $('mapSub').textContent = f.what === 'average' ? `Average 1985–2014, ${f.unit}. Dotted box: selected region.`
+  const mean3 = isModel(s.source) && s.run === 'mean';
+  $('mapTitle').textContent = `${INDEX[s.index].label} (${period}) — ${nameOf(s.source, s.run)}`;
+  $('mapSub').textContent = (f.what === 'average' ? `Average 1985–2014, ${f.unit}. Dotted box: selected region.`
     : f.what === 'nao' ? 'Correlation of the winter index with the winter NAO, 1986–2014 (detrended). Orange: higher in positive-NAO winters.'
-    : `Difference from ${NAMES[f.ref]} (${f.unit}). Orange: wetter or warmer than ${NAMES[f.ref]}.`;
-}
-
-function regional(source, s) {
-  const period = s.period === 'djf' ? 'winter' : 'annual';
-  return D.regional[`${source}|${s.region}|${period}|${s.index}`];
-}
-
-function drawSeries(s) {
-  const traces = SOURCES.map(src => {
-    const r = regional(src, s);
-    return {type: 'scatter', mode: 'lines', name: NAMES[src], x: r.year, y: r.value,
-      line: {color: css(COLOUR[src]), width: src === s.source ? 3 : 1.6},
-      hovertemplate: NAMES[src] + ' %{x}: %{y:.1f} ' + INDEX[s.index].unit + '<extra></extra>'};
-  });
-  Plotly.react('series', traces, layout({
-    xaxis: {gridcolor: css('--line'), zeroline: false, title: s.period === 'djf' ? 'winter (year of January)' : 'year'},
-    yaxis: {gridcolor: css('--line'), zeroline: false, title: INDEX[s.index].unit},
-    legend: {orientation: 'h', y: -0.22}, margin: {l: 50, r: 16, t: 10, b: 80},
-  }), config);
-  $('seriesTitle').textContent = `${INDEX[s.index].label} in ${REGION[s.region]}, year by year`;
-  $('seriesSub').textContent = 'Land average. E-OBS and ERA5 follow the real years; the models have their own weather, so their lines are not expected to rise and fall with them.';
+    : `Difference from ${NAMES[f.ref]} (${f.unit}). Orange: wetter or warmer than ${NAMES[f.ref]}.`)
+    + (mean3 ? (f.what === 'nao' ? ' Average of the three runs’ correlation maps.' : ' Average of the three runs.') : '');
 }
 
 function mean(a) { return a.reduce((p, q) => p + q, 0) / a.length; }
 function sd(a) { const m = mean(a); return Math.sqrt(a.reduce((p, q) => p + (q - m) ** 2, 0) / (a.length - 1)); }
 
+// regional land-average series of one dataset or run; the three-run mean is averaged year by year
+function regional(id, s) {
+  const period = s.period === 'djf' ? 'winter' : 'annual';
+  if (id.endsWith('.mean')) {
+    const model = id.slice(0, -5);
+    const parts = RUNS.map(run => regional(runId(model, run), s));
+    return {year: parts[0].year, value: parts[0].value.map((_, i) => mean(parts.map(p => p.value[i])))};
+  }
+  return D.regional[`${id}|${s.region}|${period}|${s.index}`];
+}
+
+function drawSeries(s) {
+  const unit = INDEX[s.index].unit, traces = [];
+  for (const src of REFS) {
+    const r = regional(src, s);
+    traces.push({type: 'scatter', mode: 'lines', name: NAMES[src], x: r.year, y: r.value,
+      line: {color: css(COLOUR[src]), width: src === s.source ? 3 : 1.8},
+      hovertemplate: NAMES[src] + ' %{x}: %{y:.1f} ' + unit + '<extra></extra>'});
+  }
+  for (const model of MODELS) {
+    const chosen = model === s.source;
+    // all three runs as thin lines; the selected run (or the three-run mean) on top as a thick line
+    RUNS.forEach((run, k) => {
+      const r = regional(runId(model, run), s);
+      traces.push({type: 'scatter', mode: 'lines', name: `${NAMES[model]} r1–r3`, legendgroup: model, showlegend: k === 0,
+        x: r.year, y: r.value, opacity: chosen ? 0.55 : 0.4, line: {color: css(COLOUR[model]), width: 1},
+        hovertemplate: `${NAMES[model]} ${run} %{x}: %{y:.1f} ${unit}<extra></extra>`});
+    });
+    const run = chosen ? s.run : 'r1';
+    if (chosen) {
+      const r = regional(runId(model, run), s);
+      traces.push({type: 'scatter', mode: 'lines', name: nameOf(model, run), legendgroup: model,
+        x: r.year, y: r.value, line: {color: css(COLOUR[model]), width: 3},
+        hovertemplate: `${nameOf(model, run)} %{x}: %{y:.1f} ${unit}<extra></extra>`});
+    }
+  }
+  Plotly.react('series', traces, layout({
+    xaxis: {gridcolor: css('--line'), zeroline: false, title: s.period === 'djf' ? 'winter (year of January)' : 'year'},
+    yaxis: {gridcolor: css('--line'), zeroline: false, title: unit},
+    legend: {orientation: 'h', y: -0.22}, margin: {l: 50, r: 16, t: 10, b: 80},
+  }), config);
+  $('seriesTitle').textContent = `${INDEX[s.index].label} in ${REGION[s.region]}, year by year`;
+  $('seriesSub').textContent = 'Land average. Thin lines: the three runs of each model; thick line: the selected dataset or run. E-OBS and ERA5 follow the real years; each model run has its own weather, so its line is not expected to rise and fall with them or with the other runs.';
+}
+
 function drawTable(s) {
   const unit = INDEX[s.index].unit, percent = INDEX[s.index].rain && s.index !== 'r95p_share';
-  const m = Object.fromEntries(SOURCES.map(src => [src, mean(regional(src, s).value)]));
-  const d = (src, ref) => percent ? `${(100 * (m[src] - m[ref]) / m[ref]).toFixed(0)}%` : `${(m[src] - m[ref]).toFixed(1)}`;
+  const avg = id => mean(regional(id, s).value);
+  const m = {'e-obs': avg('e-obs'), 'era5': avg('era5')};
+  const diff = (v, ref) => percent ? 100 * (v - m[ref]) / m[ref] : v - m[ref];
+  const fmt = (v, digits) => (v >= 0 && percent ? '+' : '') + v.toFixed(digits) + (percent ? '%' : '');
+  const sel = s.source;
+  const row = (label, colour, values, bold) => `<tr${bold ? ' style="font-weight:600"' : ''}><td>${colour ? `<span class="sw" style="background:${colour}"></span>` : ''}${label}</td>` +
+    values.map(v => `<td class="num">${v}</td>`).join('') + '</tr>';
   let html = `<table><thead><tr><th>Dataset</th><th class="num">Average (${unit})</th><th class="num">Year-to-year SD</th><th class="num">vs E-OBS</th><th class="num">vs ERA5</th></tr></thead><tbody>`;
-  for (const src of SOURCES) {
+  for (const src of REFS) {
     const v = regional(src, s).value;
-    html += `<tr><td><span class="sw" style="background:${css(COLOUR[src])}"></span>${NAMES[src]}</td><td class="num">${m[src].toFixed(1)}</td><td class="num">${sd(v).toFixed(1)}</td>` +
-      `<td class="num">${src === 'e-obs' ? '–' : d(src, 'e-obs')}</td><td class="num">${src === 'era5' ? '–' : d(src, 'era5')}</td></tr>`;
+    html += row(NAMES[src], css(COLOUR[src]), [m[src].toFixed(1), sd(v).toFixed(1),
+      src === 'e-obs' ? '–' : fmt(diff(m[src], 'e-obs'), percent ? 0 : 1), src === 'era5' ? '–' : fmt(diff(m[src], 'era5'), percent ? 0 : 1)], src === sel);
+  }
+  for (const model of MODELS) {
+    const avgs = RUNS.map(run => avg(runId(model, run)));
+    RUNS.forEach((run, k) => {
+      const v = regional(runId(model, run), s).value;
+      html += row(`${NAMES[model]} ${run}`, css(COLOUR[model]), [avgs[k].toFixed(1), sd(v).toFixed(1),
+        fmt(diff(avgs[k], 'e-obs'), percent ? 0 : 1), fmt(diff(avgs[k], 'era5'), percent ? 0 : 1)], model === sel && s.run === run);
+    });
+    const lo = Math.min(...avgs), hi = Math.max(...avgs), m3 = mean(avgs);
+    const range = ref => `${fmt(diff(lo, ref), percent ? 0 : 1)} to ${fmt(diff(hi, ref), percent ? 0 : 1)}`;
+    html += row(`<i>${NAMES[model]} mean of r1–r3</i>`, '', [m3.toFixed(1), '', fmt(diff(m3, 'e-obs'), percent ? 0 : 1), fmt(diff(m3, 'era5'), percent ? 0 : 1)], model === sel && s.run === 'mean');
+    html += `<tr><td style="color:var(--muted)">&nbsp;&nbsp;range across runs</td><td class="num" style="color:var(--muted)">${lo.toFixed(1)}–${hi.toFixed(1)}</td><td></td>` +
+      `<td class="num" style="color:var(--muted)">${range('e-obs')}</td><td class="num" style="color:var(--muted)">${range('era5')}</td></tr>`;
   }
   $('table').innerHTML = html + '</tbody></table>';
-  $('tableSub').textContent = `${INDEX[s.index].label}, ${REGION[s.region]}, ${s.period === 'djf' ? 'winters 1986–2014' : '1985–2014'}. Differences in ${percent ? 'percent' : unit}.`;
+  $('tableSub').textContent = `${INDEX[s.index].label}, ${REGION[s.region]}, ${s.period === 'djf' ? 'winters 1986–2014' : '1985–2014'}. Differences in ${percent ? 'percent' : unit}. A difference whose sign holds across all three runs belongs to the model; one that changes sign between runs is within chance.`;
 }
 
 function pearson(x, y) {
@@ -242,25 +305,41 @@ function pearson(x, y) {
   return a / Math.sqrt(b * c);
 }
 
-function drawScatter(s) {
-  const src = s.source, r = regional(src, {...s, period: 'djf'}), nao = D.nao[D.nao_of[src]];
+function pairs(id, s) {
+  const r = regional(id, {...s, period: 'djf'}), nao = D.nao[D.nao_of[id]];
   const byYear = Object.fromEntries(nao.year.map((y, i) => [y, nao.value[i]]));
-  const x = [], y = [];
-  r.year.forEach((yr, i) => { if (byYear[yr] !== undefined) { x.push(byYear[yr]); y.push(r.value[i]); } });
-  const rho = pearson(x, y);
-  Plotly.react('scatter', [{type: 'scatter', mode: 'markers', x, y, text: r.year,
-    marker: {size: 9, color: css(COLOUR[src]), line: {color: css('--surface'), width: 1}},
-    hovertemplate: 'winter %{text}: NAO %{x:.2f}, %{y:.1f} ' + INDEX[s.index].unit + '<extra></extra>'}],
+  const x = [], y = [], t = [];
+  r.year.forEach((yr, i) => { if (byYear[yr] !== undefined) { x.push(byYear[yr]); y.push(r.value[i]); t.push(yr); } });
+  return {x, y, t};
+}
+
+function drawScatter(s) {
+  const src = s.source, unit = INDEX[s.index].unit;
+  const runs = isModel(src) ? (s.run === 'mean' ? RUNS : [s.run]) : [null];
+  const traces = [], rhos = [];
+  for (const run of runs) {
+    const id = run ? runId(src, run) : src, p = pairs(id, s);
+    rhos.push([run, pearson(p.x, p.y)]);
+    traces.push({type: 'scatter', mode: 'markers', x: p.x, y: p.y, text: p.t, name: run || NAMES[src], showlegend: runs.length > 1,
+      marker: {size: 9, symbol: run ? SYMBOL[run] : 'circle', color: css(COLOUR[src]), opacity: runs.length > 1 ? 0.75 : 1, line: {color: css('--surface'), width: 1}},
+      hovertemplate: (run ? run + ', ' : '') + 'winter %{text}: NAO %{x:.2f}, %{y:.1f} ' + unit + '<extra></extra>'});
+  }
+  Plotly.react('scatter', traces,
     layout({xaxis: {title: 'winter NAO (ERA5 standard deviations)', gridcolor: css('--line'), zeroline: true, zerolinecolor: css('--axis')},
-            yaxis: {title: `winter ${INDEX[s.index].label.toLowerCase()} (${INDEX[s.index].unit})`, gridcolor: css('--line'), zeroline: false}}), config);
-  $('scatterTitle').textContent = `Winter NAO and ${INDEX[s.index].label.toLowerCase()}: ${NAMES[src]}, ${REGION[s.region]}`;
-  $('scatterSub').textContent = `One dot per winter, 1986–2014. Correlation ${rho.toFixed(2)} (not detrended).` + (src === 'e-obs' ? ' E-OBS uses the ERA5 NAO.' : '');
+            yaxis: {title: `winter ${INDEX[s.index].label.toLowerCase()} (${unit})`, gridcolor: css('--line'), zeroline: false},
+            legend: {orientation: 'h', y: 1.1}, margin: {l: 50, r: 16, t: 30, b: 40}}), config);
+  $('scatterTitle').textContent = `Winter NAO and ${INDEX[s.index].label.toLowerCase()}: ${nameOf(src, s.run)}, ${REGION[s.region]}`;
+  const text = runs.length > 1
+    ? `One dot per winter and run, 1986–2014, each run with its own NAO. Correlations (not detrended): ${rhos.map(([run, r]) => `${run} ${r.toFixed(2)}`).join(', ')}.`
+    : `One dot per winter, 1986–2014. Correlation ${rhos[0][1].toFixed(2)} (not detrended).` + (src === 'e-obs' ? ' E-OBS uses the ERA5 NAO.' : '') + (isModel(src) ? ' The run uses its own NAO.' : '');
+  $('scatterSub').textContent = text;
 }
 
 function update() {
   if (!D) return;
   const s = state();
-  $('indexNote').textContent = INDEX[s.index].note + ' Models are compared with E-OBS (stations, land only) and ERA5 (reanalysis); correlations use detrended winters, each model with its own NAO.';
+  $('run').disabled = !isModel(s.source);
+  $('indexNote').textContent = INDEX[s.index].note + ' Models are compared with E-OBS (stations, land only) and ERA5 (reanalysis); correlations use detrended winters, each model run with its own NAO.';
   drawMap(s); drawSeries(s); drawTable(s); drawScatter(s);
   try { localStorage.setItem('explorer', JSON.stringify(s)); } catch (e) {}
 }
@@ -269,7 +348,7 @@ fetch('data.json').then(r => r.json()).then(data => {
   D = data;
   try { const saved = JSON.parse(localStorage.getItem('explorer') || '{}'); for (const k in saved) if ($(k)) $(k).value = saved[k]; } catch (e) {}
   $('status').textContent = '';
-  ['index', 'period', 'source', 'view', 'region'].forEach(id => $(id).addEventListener('change', update));
+  ['index', 'period', 'source', 'run', 'view', 'region'].forEach(id => $(id).addEventListener('change', update));
   update();
 }).catch(err => { $('status').textContent = 'Could not load data.json: ' + err; });
 </script>
