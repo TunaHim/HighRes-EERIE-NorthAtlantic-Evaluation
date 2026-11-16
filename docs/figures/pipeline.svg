@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif" viewBox="0 0 1000 420" width="1000" height="420" role="img" aria-label="Pipeline: sources, discovery, retrieval, decoding and harmonising, validation, regional archive, analysis library and outputs">
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#898781"/></marker></defs>
+  <rect width="1000" height="420" fill="#fcfcfb"/>
+  <text x="10" y="26" font-size="12" font-weight="600" letter-spacing=".05em" fill="#52514e">1 · SOURCES</text>
+  <text x="206" y="26" font-size="12" font-weight="600" letter-spacing=".05em" fill="#52514e">2 · DISCOVER</text>
+  <text x="402" y="26" font-size="12" font-weight="600" letter-spacing=".05em" fill="#52514e">3 · RETRIEVE</text>
+  <text x="598" y="26" font-size="12" font-weight="600" letter-spacing=".05em" fill="#52514e">4 · PREPARE</text>
+  <text x="794" y="26" font-size="12" font-weight="600" letter-spacing=".05em" fill="#52514e">5 · VALIDATE</text>
+  <rect x="10" y="40" width="176" height="54" rx="8" fill="#fcfcfb" stroke="#c3c2b7"/>
+  <text x="22" y="60" font-size="13" font-weight="600" fill="#0b0b0b">DKRZ</text>
+  <text x="22" y="76" font-size="12" fill="#52514e">Zarr over HTTPS, STAC</text>
+  <text x="22" y="90" font-size="11" fill="#898781">EERIE models, ERA5</text>
+  <rect x="10" y="101" width="176" height="54" rx="8" fill="#fcfcfb" stroke="#c3c2b7"/>
+  <text x="22" y="121" font-size="13" font-weight="600" fill="#0b0b0b">CEDA</text>
+  <text x="22" y="137" font-size="12" fill="#52514e">netCDF, whole files</text>
+  <text x="22" y="151" font-size="11" fill="#898781">HadGEM3-GC5E</text>
+  <rect x="10" y="162" width="176" height="54" rx="8" fill="#fcfcfb" stroke="#c3c2b7"/>
+  <text x="22" y="182" font-size="13" font-weight="600" fill="#0b0b0b">ECA&amp;D</text>
+  <text x="22" y="198" font-size="12" fill="#52514e">netCDF</text>
+  <text x="22" y="212" font-size="11" fill="#898781">E-OBS stations</text>
+  <rect x="206" y="40" width="176" height="176" rx="8" fill="#fcefc9" stroke="#eda100"/>
+  <text x="218" y="62" font-size="13" font-weight="600" fill="#0b0b0b">Find the data</text>
+  <text x="218" y="86" font-size="12" fill="#52514e">945 datasets listed</text>
+  <text x="218" y="102" font-size="12" fill="#52514e">variables, periods, runs</text>
+  <text x="218" y="118" font-size="12" fill="#52514e">model names → CMIP</text>
+  <text x="218" y="134" font-size="12" fill="#52514e">cost measured on a sample</text>
+  <text x="218" y="206" font-size="11" fill="#2a78d6">catalogue.py · jasmin.py</text>
+  <rect x="402" y="40" width="176" height="176" rx="8" fill="#fbe0d4" stroke="#eb6834"/>
+  <text x="414" y="62" font-size="13" font-weight="600" fill="#0b0b0b">Stream year by year</text>
+  <text x="414" y="86" font-size="12" fill="#52514e">one file per year</text>
+  <text x="414" y="102" font-size="12" fill="#52514e">parallel, with retries</text>
+  <text x="414" y="118" font-size="12" fill="#52514e">resumes broken transfers</text>
+  <text x="414" y="134" font-size="12" fill="#52514e">network guard</text>
+  <text x="414" y="206" font-size="11" fill="#2a78d6">download.py · ceda.py · eobs.py</text>
+  <rect x="598" y="40" width="176" height="176" rx="8" fill="#e2def7" stroke="#4a3aa7"/>
+  <text x="610" y="62" font-size="13" font-weight="600" fill="#0b0b0b">Decode, harmonise,</text>
+  <text x="610" y="78" font-size="13" font-weight="600" fill="#0b0b0b">cut the region</text>
+  <text x="610" y="102" font-size="12" fill="#52514e">GRIB and netCDF decoding</text>
+  <text x="610" y="118" font-size="12" fill="#52514e">grids → common 0.25°</text>
+  <text x="610" y="134" font-size="12" fill="#52514e">mm/day, hPa, °C</text>
+  <text x="610" y="150" font-size="12" fill="#52514e">time stamps, calendars</text>
+  <text x="610" y="206" font-size="11" fill="#2a78d6">grib.py · regions.py</text>
+  <rect x="794" y="40" width="176" height="176" rx="8" fill="#d3f1e5" stroke="#1baf7a"/>
+  <text x="806" y="62" font-size="13" font-weight="600" fill="#0b0b0b">Check</text>
+  <text x="806" y="86" font-size="12" fill="#52514e">missing data logged</text>
+  <text x="806" y="102" font-size="12" fill="#52514e">decoder cross-checked</text>
+  <text x="806" y="118" font-size="12" fill="#52514e">complete years, time axes</text>
+  <text x="806" y="134" font-size="12" fill="#52514e">87 offline tests</text>
+  <text x="806" y="206" font-size="11" fill="#2a78d6">tests/ · notebooks 01–02</text>
+  <line x1="186" y1="128.0" x2="204" y2="128.0" stroke="#898781" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="382" y1="128.0" x2="400" y2="128.0" stroke="#898781" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="578" y1="128.0" x2="596" y2="128.0" stroke="#898781" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="774" y1="128.0" x2="792" y2="128.0" stroke="#898781" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <path d="M882.0 216 L882.0 236 L170 236 L170 258" fill="none" stroke="#898781" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="10" y="252" font-size="12" font-weight="600" letter-spacing=".05em" fill="#52514e">6 · KEEP</text>
+  <text x="370" y="252" font-size="12" font-weight="600" letter-spacing=".05em" fill="#52514e">7 · ANALYSE</text>
+  <text x="690" y="252" font-size="12" font-weight="600" letter-spacing=".05em" fill="#52514e">8 · PUBLISH</text>
+  <rect x="10" y="260" width="320" height="150" rx="8" fill="#cde2fb" stroke="#2a78d6"/>
+  <text x="22" y="282" font-size="13" font-weight="600" fill="#0b0b0b">12.3 GB regional archive</text>
+  <text x="22" y="306" font-size="12" fill="#52514e">analysis-ready: one file per source,</text>
+  <text x="22" y="322" font-size="12" fill="#52514e">variable, region and year;</text>
+  <text x="22" y="338" font-size="12" fill="#52514e">about 1.5% of an estimated</text>
+  <text x="22" y="354" font-size="12" fill="#52514e">700–900 GB streamed</text>
+  <text x="22" y="400" font-size="11" fill="#2a78d6">store.py</text>
+  <rect x="370" y="260" width="280" height="150" rx="8" fill="#fcfcfb" stroke="#c3c2b7"/>
+  <text x="382" y="282" font-size="13" font-weight="600" fill="#0b0b0b">Analysis library</text>
+  <text x="382" y="306" font-size="12" fill="#52514e">climatology · nao · extremes</text>
+  <text x="382" y="322" font-size="12" fill="#52514e">relationships · events</text>
+  <text x="382" y="338" font-size="12" fill="#52514e">provenance · plotting</text>
+  <text x="382" y="354" font-size="12" fill="#52514e">same code for every dataset</text>
+  <text x="382" y="400" font-size="11" fill="#2a78d6">src/eerie_uk/</text>
+  <line x1="330" y1="335" x2="368" y2="335" stroke="#898781" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect x="690" y="260" width="300" height="46" rx="8" fill="#e2def7" stroke="#4a3aa7"/>
+  <text x="702" y="279" font-size="13" font-weight="600" fill="#0b0b0b">13 notebooks (00–12)</text>
+  <text x="702" y="296" font-size="12" fill="#52514e">generated by scripts, executed</text>
+  <line x1="650" y1="335" x2="688" y2="283" stroke="#898781" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect x="690" y="312" width="300" height="46" rx="8" fill="#e2def7" stroke="#4a3aa7"/>
+  <text x="702" y="331" font-size="13" font-weight="600" fill="#0b0b0b">Result tables</text>
+  <text x="702" y="348" font-size="12" fill="#52514e">app_assets/*.parquet + provenance</text>
+  <line x1="650" y1="335" x2="688" y2="335" stroke="#898781" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect x="690" y="364" width="300" height="46" rx="8" fill="#e2def7" stroke="#4a3aa7"/>
+  <text x="702" y="383" font-size="13" font-weight="600" fill="#0b0b0b">Website and explorer</text>
+  <text x="702" y="400" font-size="12" fill="#52514e">HTML notebooks, runs r1–r3</text>
+  <line x1="650" y1="335" x2="688" y2="387" stroke="#898781" stroke-width="1.5" marker-end="url(#arrow)"/>
+</svg>

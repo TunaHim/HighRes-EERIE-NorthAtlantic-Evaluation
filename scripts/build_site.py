@@ -293,7 +293,26 @@ def build_extras():
     (DOCS / ".nojekyll").write_text("", encoding="utf-8")
 
 
+def export_pipeline_svg():
+    """Save the pipeline diagram of the engineering page as a stand-alone SVG for the README.
+
+    The page draws it with CSS colour variables (so it follows light and dark mode); the
+    stand-alone copy gets the light-mode colours and a background, so it reads on GitHub.
+    """
+    page = (DOCS / "engineering_overview.html").read_text(encoding="utf-8")
+    start = page.index('<svg id="pipeline-svg"')
+    svg = page[start:page.index("</svg>", start) + len("</svg>")]
+    light = page[page.index(":root{") + 6:page.index("}", page.index(":root{"))]
+    colours = dict(re.findall(r"--([\w-]+):(#[0-9a-fA-F]{3,6})", light))
+    svg = re.sub(r"var\(--([\w-]+)\)", lambda m: colours[m.group(1)], svg)
+    svg = svg.replace('<svg id="pipeline-svg"', '<svg xmlns="http://www.w3.org/2000/svg" font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif"', 1)
+    svg = svg.replace('width="100%"', 'width="1000" height="420"', 1)
+    svg = svg.replace("</defs>", f'</defs>\n  <rect width="1000" height="420" fill="{colours["surface"]}"/>', 1)
+    (DOCS / "figures" / "pipeline.svg").write_text(svg + "\n", encoding="utf-8")
+
+
 def main():
+    export_pipeline_svg()
     overview = (DOCS / "project_overview.html").read_text(encoding="utf-8")
     (DOCS / "index.html").write_text(decorate(link_notebook_mentions(overview), "index.html"), encoding="utf-8")
     for path in ("engineering_overview.html", "explorer/index.html"):
