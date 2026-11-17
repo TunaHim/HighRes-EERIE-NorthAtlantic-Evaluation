@@ -20,5 +20,5 @@ python scripts/build_posters.py          # PDF and preview of both posters (Edge
 python scripts/build_site.py             # again, to copy the new PDFs to the website (docs/posters/)
 ```
 
-`posters/figures/explorer_crop.png` is a screenshot of the interactive explorer (2× resolution), cropped
+`posters/figures/explorer_crop.png` is a screenshot of the interactive explorer (3× resolution), cropped
 to the toolbar, map and NAO panel. The SVG figures are generated and not kept in git.
