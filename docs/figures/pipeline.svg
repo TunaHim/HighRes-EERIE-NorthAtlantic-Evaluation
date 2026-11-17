@@ -80,6 +80,6 @@
   <line x1="650" y1="335" x2="688" y2="335" stroke="#898781" stroke-width="1.5" marker-end="url(#arrow)"/>
   <rect x="690" y="364" width="300" height="46" rx="8" fill="#e2def7" stroke="#4a3aa7"/>
   <text x="702" y="383" font-size="13" font-weight="600" fill="#0b0b0b">Website and explorer</text>
-  <text x="702" y="400" font-size="12" fill="#52514e">HTML notebooks, runs r1–r3</text>
+  <text x="702" y="400" font-size="12" fill="#52514e">HTML notebooks, explorer, posters</text>
   <line x1="650" y1="335" x2="688" y2="387" stroke="#898781" stroke-width="1.5" marker-end="url(#arrow)"/>
 </svg>

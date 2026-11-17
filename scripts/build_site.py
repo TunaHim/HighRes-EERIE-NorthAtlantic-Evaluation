@@ -18,6 +18,7 @@ import datetime as dt
 import html as htmllib
 import json
 import re
+import shutil
 from pathlib import Path
 
 import mistune
@@ -68,6 +69,10 @@ PAGES = {  # path relative to docs/ -> (title, description)
         f"Notebooks · {NAME}",
         "Every analysis step as an executed Jupyter notebook: data inventory, mean climate, NAO, extremes, "
         "NAO-extremes link, SST experiment, resolution and event anatomy."),
+    "posters/index.html": (
+        f"Posters · {NAME}",
+        "Two A0 posters as PDF: the scientific evaluation (model biases, internal variability, resolution) and "
+        "the research software behind it (data pipeline, validation, reproducibility)."),
     "404.html": (f"Page not found · {NAME}", SUMMARY),
 }
 for _key, _title in NOTEBOOKS.items():
@@ -152,6 +157,7 @@ def nav(path: str) -> str:
         ("methods.html", "Methods"),
         ("notebooks/index.html", "Notebooks"),
         ("explorer/index.html", "Explorer"),
+        ("posters/index.html", "Posters"),
     ]
     section = "notebooks/index.html" if path.startswith("notebooks/") else path
     here = ' class="here"'
@@ -275,6 +281,40 @@ Step-by-step instructions are in the <a href="{REPO}#reproduce">README</a>.</p>"
     (target / "index.html").write_text(decorate(page, "notebooks/index.html"), encoding="utf-8")
 
 
+POSTERS = [
+    ("poster_science", "Scientific poster",
+     "North Atlantic Circulation and European Winter Extremes in High-Resolution Climate Models: model biases, "
+     "internal variability and resolution sensitivity. The three experiments, their key figures and numbers, "
+     "conclusions and limitations."),
+    ("poster_engineering", "Engineering poster",
+     "From Global Climate Archives to Reproducible Climate Diagnostics: an automated data processing and evaluation "
+     "pipeline. Data sources, the end-to-end pipeline, problems and fixes, software architecture, validation and "
+     "reproduction."),
+]
+
+
+def build_posters_page():
+    """Copy the poster PDFs and previews into docs/posters/ and write a page that links them."""
+    target = DOCS / "posters"
+    target.mkdir(exist_ok=True)
+    cards = []
+    for name, title, text in POSTERS:
+        for suffix in (".pdf", "_preview.png"):
+            shutil.copyfile(ROOT / "posters" / f"{name}{suffix}", target / f"{name}{suffix}")
+        size = (target / f"{name}.pdf").stat().st_size / 1e6
+        cards.append(
+            f'<div style="border:1px solid var(--line,#e1e0d9);border-radius:10px;padding:14px 16px;margin:0 0 18px;background:var(--surface,#fcfcfb)">'
+            f'<h2 style="margin:0 0 6px;font-size:19px">{title}</h2><p style="margin:0 0 10px">{text}</p>'
+            f'<a href="{name}.pdf"><img src="{name}_preview.png" alt="Preview of the {title.lower()}" '
+            f'style="width:100%;height:auto;border:1px solid var(--line,#e1e0d9);border-radius:6px"></a>'
+            f'<p style="margin:8px 0 0"><a href="{name}.pdf"><b>Open the PDF</b></a> (A0 landscape, {size:.1f} MB, vector figures)</p></div>')
+    body = ('<h1>Posters</h1><p class="lead">Two complementary A0 posters summarise the project for readers who want '
+            "the whole story on one page each: one for the science, one for the research software behind it. "
+            "They are PDFs with vector figures, so they can be zoomed in. Sources and build scripts: "
+            f'<a href="{REPO}/tree/main/posters">posters/</a> on GitHub.</p>' + "".join(cards))
+    (target / "index.html").write_text(decorate(plain_page("Posters", body, width=1100), "posters/index.html"), encoding="utf-8")
+
+
 def build_extras():
     body = ('<h1>Page not found</h1><p class="lead">This page does not exist. '
             f'Start from the <a href="{SITE}">home page</a>.</p>')
@@ -320,6 +360,7 @@ def main():
         page.write_text(decorate(page.read_text(encoding="utf-8"), path), encoding="utf-8")
     build_methods()
     build_notebooks()
+    build_posters_page()
     build_extras()
     print("site written to", DOCS)
 

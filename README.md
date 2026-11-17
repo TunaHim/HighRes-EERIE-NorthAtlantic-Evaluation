@@ -21,6 +21,7 @@ as worked examples.
 | **Methods** | [methods page](https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/methods.html) — definitions fixed before the results |
 | **Engineering** | [how it is built](https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/engineering_overview.html) — data pipeline, data inventory, scaling |
 | **Notebooks** | [`notebooks/00_summary.ipynb`](notebooks/00_summary.ipynb) is the entry point; all 13 [on the website](https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/notebooks/) |
+| **Posters** | two A0 PDFs, [scientific](posters/poster_science.pdf) and [engineering](posters/poster_engineering.pdf) — the project on one page each ([on the website](https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/posters/)) |
 
 ## Experimental design
 
@@ -80,7 +81,8 @@ src/eerie_uk/      data access (catalogue, download, ceda, eobs, grib, regions, 
 notebooks/         executed notebooks 00–12
 scripts/           notebook generators, findings text, site and explorer builders
 tests/             offline tests
-docs/              website: methods, overviews, explorer, figures
+docs/              website: methods, overviews, explorer, figures, posters
+posters/           the two A0 posters (PDF, previews, HTML sources)
 app_assets/        result tables (Parquet), each with a JSON provenance record
 data/              downloaded cut-outs (not in the repository)
 ```
