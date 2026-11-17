@@ -10,18 +10,23 @@ license: MIT
 repository-code: "https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation"
 url: "https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/"
 abstract: >-
-  An exploratory evaluation of public output from the EU project EERIE (ICON-ESM-ER and
-  IFS-FESOM2-SR) against ERA5 and E-OBS: the winter North Atlantic Oscillation, precipitation
-  and temperature extremes over the UK and Ireland, the link between them, the weather behind
-  the heaviest rain days, and how the conclusions depend on resolution (9 km versus 28 km) and
-  on internal variability.
+  An exploratory evaluation of North Atlantic winter circulation and European winter extremes
+  in high-resolution climate models from the EU project EERIE, against ERA5 and E-OBS, in three
+  experiments: which biases persist across three historical runs each of ICON-ESM-ER and
+  IFS-FESOM2-SR; what internal variability alone can do in 29 winters, from 100-year control runs
+  and atmosphere-only ensembles; and how circulation, the NAO and winter rain change across
+  HadGEM3-GC5E coupled resolution configurations (about 135, 60 and 20 km) and IFS at 28 and 9 km.
+  With a tested data pipeline, executed notebooks, a website, an interactive explorer and two posters.
 keywords:
   - climate model evaluation
   - North Atlantic Oscillation
   - precipitation extremes
+  - internal variability
+  - model resolution
   - high-resolution climate models
   - EERIE
+  - HadGEM3-GC5E
   - ERA5
   - E-OBS
-  - United Kingdom
-  - Ireland
+  - north-west Europe
+  - reproducible research
