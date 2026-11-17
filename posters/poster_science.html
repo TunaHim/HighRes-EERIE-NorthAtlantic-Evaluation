@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Poster 1 · North Atlantic circulation and European winter extremes</title>
+<link rel="stylesheet" href="poster.css">
+<style>
+:root { --a1: #2a78d6; --a1dark: #1c5cab; --a1light: #8fbcf2; --a2: #eb6834; --tint: #eaf2fc; }
+.e1 { --c: #2a78d6; } .e2 { --c: #1c5cab; } .e3 { --c: #eb6834; }
+.take { background: var(--navy); color: #fff; border-top: 0; }
+.take h2 { color: #fff; }
+.take ol { margin: 0; padding-left: 9mm; }
+.take li { margin-bottom: 2.5mm; }
+.take b { color: #ffcfb8; }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+</head>
+<body>
+<header>
+  <div>
+    <p class="kind">Climate model evaluation · EERIE high-resolution models</p>
+    <h1>North Atlantic Circulation and European Winter Extremes in High-Resolution Climate Models
+      <span>Model biases, internal variability and resolution sensitivity</span></h1>
+    <p class="byline"><b>Himansu Kesari Pradhan</b> · exploratory research project, 2026 ·
+      tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation</p>
+  </div>
+  <div class="qr"><div id="qr"></div><small>Website, notebooks,<br>interactive explorer</small></div>
+</header>
+
+<div class="message">Climate-model evaluation requires separating <b>persistent model biases</b> from <b>internal variability</b>
+and <b>resolution sensitivity</b>. A better large-scale circulation does not necessarily produce more realistic regional rainfall.</div>
+
+<main>
+<div class="col">
+  <section>
+    <h2>Research question</h2>
+    <p class="question">Which features of the simulated North Atlantic winter circulation and of European winter extremes are
+      persistent model characteristics, which arise from internal variability, and how do they change across coupled
+      model resolution configurations?</p>
+    <p class="small">Models of the EU project EERIE against ERA5 (reanalysis) and E-OBS (stations) over north-west Europe;
+      UK and Ireland, western Norway and north-west France as worked examples.</p>
+  </section>
+  <section>
+    <h2>Three experiments, three questions</h2>
+    <img class="fig" src="figures/experiment_design.svg" alt="Experimental design">
+    <p class="cap">Each experiment uses the data that can answer its question; all share the same diagnostics and references.</p>
+  </section>
+  <section>
+    <h2>Diagnostics</h2>
+    <ul>
+      <li><b>NAO:</b> leading EOF of winter (DJF) sea-level pressure; every dataset measured along the ERA5 pattern.</li>
+      <li><b>Extremes (ETCCDI):</b> wettest day (RX1day), rain on very wet days (R95p), hottest day (TXx).</li>
+      <li><b>NAO–extremes link:</b> detrended correlation over 29 winters (1986–2014), bootstrap intervals, false-discovery-rate control.</li>
+      <li><b>Fair comparison:</b> common 0.25° grid, same land cells for every regional average.</li>
+    </ul>
+  </section>
+  <section class="e1">
+    <h2><small>Experiment 1 · historical runs</small>From circulation to rain extremes</h2>
+    <img class="fig" src="figures/summary_chain.svg" alt="Circulation bias, NAO pattern, NAO-R95p correlation and R95p bias for both models">
+    <p class="cap">Run r1. (A) winter pressure minus ERA5; (B) NAO pattern against ERA5; (C) NAO–R95p correlation;
+      (D) winter R95p relative to E-OBS. Top: ICON-ESM-ER; bottom: IFS-FESOM2-SR.</p>
+  </section>
+</div>
+
+<div class="col">
+  <section>
+    <h2>Results at a glance</h2>
+    <img class="fig" src="figures/overview.svg" alt="Overview of the three experiments">
+    <p class="cap">A, B: very-wet-day rain over UK and Ireland and NAO strength, one dot per historical run. C: NAO–R95p
+      correlation; shaded, the control-run chance range; diamonds, E-OBS and ERA5 with 95% intervals. D–F: HadGEM3-GC5E
+      at about 135, 60 and 20 km.</p>
+  </section>
+  <section class="e1">
+    <h2><small>Experiment 1 · historical ensemble</small>Six runs: which biases persist?</h2>
+    <img class="fig" src="figures/members_link.svg" alt="NAO-R95p correlation in every run with bootstrap intervals">
+    <p class="cap">Winter NAO–R95p correlation, 1986–2014, with bootstrap 95% intervals: E-OBS, ERA5, then three runs each of
+      ICON-ESM-ER (blue) and IFS-FESOM2-SR (orange).</p>
+    <div class="find">ICON-ESM-ER's shifted circulation (<b>+1.9 to +2.1 SD</b> along the NAO) and its <b>50–62%</b> excess of
+      very-wet-day rain over UK and Ireland appear in all three runs; the circulation is consistent with only part of
+      that wet bias. Both models' NAO is too weak in every run (<b>55–63%</b> and <b>68–81%</b> of ERA5). The NAO link over UK
+      and Ireland varies between runs as much as between models (0.06–0.49 and 0.21–0.60).</div>
+  </section>
+  <section class="e3">
+    <h2><small>Experiment 3 · circulation</small>Winter pressure bias across resolutions</h2>
+    <img class="fig" style="width:66%;margin:0 auto" src="figures/hadgem_psl_bias.svg" alt="Winter-mean pressure minus ERA5 for HadGEM3-GC5E at three resolutions and the two EERIE models">
+    <p class="cap">Winter pressure minus ERA5 (hPa). Top: HadGEM3-GC5E at about 135, 60, 20 km; bottom: ICON-ESM-ER and
+      IFS-FESOM2-SR. Errors shrink with resolution; none has ICON-ESM-ER's dipole.</p>
+  </section>
+</div>
+
+<div class="col">
+  <section class="e2">
+    <h2><small>Experiment 2 · internal variability</small>What can chance do in 29 winters?</h2>
+    <img class="fig" src="figures/control_windows.svg" alt="Overlapping 29-winter windows of a 99-winter control run" style="width:88%;margin:1mm auto 0">
+    <p class="cap">Control runs with constant 1950 forcing: 99 complete winters, 71 overlapping 29-winter windows; the empirical
+      5th–95th percentile across windows is the chance range (below: shaded).</p>
+    <img class="fig" src="figures/control_placement.svg" alt="Chance ranges from control runs with historical runs and references">
+    <div class="find">Chance alone moves the NAO link over UK and Ireland by <b>±0.1 to ±0.2</b>. No control window reaches the
+      observed NAO strength. Over western Norway every model period is weaker than observed (<b>0.81</b>), within its
+      uncertainty (0.71–0.91); ICON-ESM-ER almost never produces the observed link over north-west France.</div>
+  </section>
+  <section class="e3">
+    <h2><small>Experiment 3 · resolution</small>Does higher resolution help?</h2>
+    <img class="fig" src="figures/resolution_ladder.svg" alt="HadGEM3-GC5E LL, MM and HH: grid spacing, pressure error, NAO pattern correlation, winter rain">
+    <div class="find">HadGEM3-GC5E, atmosphere and ocean refined together: pressure error falls (<b>3.2 → 2.7 → 2.6 hPa</b>) and the
+      NAO pattern correlation increases, but NAO strength does not follow resolution and winter-mean rain over UK and
+      Ireland rises to <b>25%</b> above ERA5 at 20 km. In IFS (same SSTs), 9 km instead of 28 km makes winter rain extremes
+      5–12% heavier.</div>
+  </section>
+  <section class="take">
+    <h2>Conclusions</h2>
+    <ol>
+      <li><b>Persistent biases</b> such as ICON-ESM-ER's circulation and wet bias are consistent across the sampled runs.</li>
+      <li><b>Relationships such as the NAO–rain link</b> depend strongly on chance in 29 winters: one run cannot rank models.</li>
+      <li><b>Resolution</b> improves the large-scale circulation, not automatically the regional rainfall.</li>
+    </ol>
+  </section>
+  <section style="--c:#7a8396">
+    <h2 style="font-size:26pt">Limitations</h2>
+    <p class="small" style="font-size:18pt">Three historical runs per model; overlapping control windows understate chance; HadGEM3-GC5E with one run
+      per configuration, monthly data only, atmosphere and ocean refined together; 29 winters for the link to extremes.
+      Exploratory results, not a ranking of models.</p>
+  </section>
+</div>
+</main>
+
+<footer>
+  <span>Data: EERIE consortium (MPI-M, ECMWF, AWI, Met Office) via DKRZ and CEDA · ERA5: Hersbach et al. (2020), C3S · E-OBS: Cornes et al. (2018), ECA&amp;D · FDR: Wilks (2016)</span>
+  <span>Code (MIT), tests and notebooks: github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation</span>
+</footer>
+<script>
+const q = qrcode(0, 'M'); q.addData('https://tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation/'); q.make();
+document.getElementById('qr').innerHTML = q.createSvgTag({cellSize: 8, margin: 0, scalable: true});
+</script>
+</body>
+</html>

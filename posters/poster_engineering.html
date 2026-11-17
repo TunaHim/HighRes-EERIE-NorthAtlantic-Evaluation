@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Poster 2 · From global climate archives to reproducible climate diagnostics</title>
+<link rel="stylesheet" href="poster.css">
+<style>
+:root { --a1: #14998a; --a1dark: #0e7468; --a1light: #7fd8cc; --a2: #6a9a5b; --tint: #e5f4f1; }
+main { height: 600mm; grid-template-rows: auto 1fr; }
+body { font-size: 23pt; }
+.cap { font-size: 17pt; }
+.c2 section:first-child { flex: 1; }
+
+pre { margin: 0; background: var(--navy); color: #e6f4f1; border-radius: 2.5mm; padding: 4mm 5mm; font-family: Consolas, monospace; font-size: 15pt; line-height: 1.32; white-space: pre-wrap; }
+pre i { color: var(--a1light); font-style: normal; }
+.c1 { grid-column: 1; grid-row: 1 / span 2; }
+.pipe { grid-column: 2 / span 2; grid-row: 1; }
+.c2 { grid-column: 2; grid-row: 2; }
+.c3 { grid-column: 3; grid-row: 2; }
+.metrics { display: grid; grid-template-columns: repeat(8, 1fr); gap: 5mm; margin: 8mm 22mm 0; }
+.metric { background: var(--card); border-radius: 3mm; padding: 3.5mm 5mm; box-shadow: 0 0.6mm 2mm rgba(11,31,58,.08); border-left: 2mm solid var(--a1); }
+.metric b { display: block; font-size: 36pt; line-height: 1.05; color: var(--navy); }
+.metric span { font-size: 17pt; color: var(--ink2); line-height: 1.2; display: block; }
+.metric.green { border-left-color: var(--a2); }
+.globe { display: grid; grid-template-columns: 1.25fr 18mm 1fr; align-items: center; gap: 3mm; margin: 3mm 0 0; }
+.globe .g { background: #dcebf8; border: 0.6mm solid #2a78d6; border-radius: 2.5mm; height: 34mm; position: relative; display: flex; align-items: flex-end; padding: 3mm 4mm; font-size: 17pt; color: var(--navy); }
+.globe .g i { position: absolute; left: 52%; top: 18%; width: 20%; height: 32%; background: #fde3d6; border: 0.6mm solid #eb6834; }
+.globe .arrow { text-align: center; font-size: 26pt; color: var(--muted); }
+.globe .r { background: #fde3d6; border: 0.6mm solid #eb6834; border-radius: 2.5mm; padding: 3mm 4mm; font-size: 17pt; color: var(--navy); }
+.src { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3mm; }
+.src div { border: 0.5mm solid var(--line); border-radius: 2.5mm; padding: 3mm; font-size: 18pt; line-height: 1.25; }
+.src b { display: block; font-size: 19pt; color: var(--navy); }
+.src em { font-style: normal; color: var(--a1dark); font-weight: 600; display: block; margin: 0.5mm 0 1mm; }
+.bars { display: grid; grid-template-columns: 80mm 1fr 21mm; gap: 1.5mm 3mm; align-items: center; font-size: 17pt; }
+.bars .bar { height: 6mm; background: var(--a1); border-radius: 1mm; }
+.bars .bar.x { background: var(--a2); }
+.bars .v { text-align: right; font-variant-numeric: tabular-nums; color: var(--ink2); }
+.pf { display: grid; grid-template-columns: 34mm 1fr 1fr; gap: 0; font-size: 19.5pt; line-height: 1.22; }
+.pf > span { padding: 2.6mm 2mm; border-bottom: 0.4mm solid var(--line); }
+.pf .h { font-size: 14pt; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
+.pf .fix { font-weight: 600; color: var(--navy); }
+.chip.find { background: #fcefc9; color: #7a5300; } .chip.get { background: #fbe0d4; color: #a6411b; }
+.chip.prep { background: #e2def7; color: #4a3aa7; } .chip.check { background: #d3f1e5; color: #0e7468; }
+.layers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3mm; }
+.layers div { background: var(--tint); border-radius: 2.5mm; padding: 3.5mm 4mm; font-size: 19pt; line-height: 1.25; }
+.layers b { display: block; font-size: 21pt; color: var(--navy); margin-bottom: 1mm; }
+.layers code { display: block; margin-bottom: 1.5mm; font-family: Consolas, monospace; font-size: 16.5pt; color: var(--a1dark); }
+.base { margin-top: 4mm; background: var(--navy); color: #fff; border-radius: 2.5mm; padding: 3.5mm 4mm; font-size: 18pt; text-align: center; }
+.base b { color: var(--a1light); }
+.shot { border: 0.5mm solid var(--line); border-radius: 2mm; width: 100%; height: 178mm; object-fit: cover; object-position: top; display: block; margin: 2mm 0; }
+.pipe img { width: 100%; display: block; }
+.c3 ul, .c2 ul { font-size: 21pt; }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+</head>
+<body>
+<header>
+  <div>
+    <p class="kind">Research software engineering · climate data pipeline</p>
+    <h1>From Global Climate Archives to Reproducible Climate Diagnostics
+      <span>An automated data processing and evaluation pipeline</span></h1>
+    <p class="byline"><b>Himansu Kesari Pradhan</b> · exploratory research project, 2026 ·
+      github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation</p>
+  </div>
+  <div class="qr"><div id="qr"></div><small>Code, tests, notebooks<br>and the engineering page</small></div>
+</header>
+
+<div class="message">An end-to-end, <b>tested and reusable</b> workflow transforms heterogeneous, large-volume climate-model archives
+into <b>harmonised regional datasets</b> and <b>reproducible scientific diagnostics</b>.</div>
+
+<div class="metrics">
+  <div class="metric"><b>3</b><span>servers: DKRZ, CEDA, ECA&amp;D</span></div>
+  <div class="metric"><b>945</b><span>datasets discovered on DKRZ</span></div>
+  <div class="metric"><b>~3,600</b><span>yearly regional files</span></div>
+  <div class="metric green"><b>700–900 GB</b><span>streamed (estimated)</span></div>
+  <div class="metric green"><b>12.3 GB</b><span>kept on disk (about 1.5%)</span></div>
+  <div class="metric"><b>15</b><span>Python modules, ~2,900 lines</span></div>
+  <div class="metric"><b>87</b><span>offline tests, on every push</span></div>
+  <div class="metric"><b>13</b><span>executed notebooks + explorer</span></div>
+</div>
+
+<main>
+<div class="col c1">
+  <section>
+    <h2>The challenge</h2>
+    <p>Petabyte-scale model archives on several servers, in different formats (Zarr, GRIB, netCDF), on different grids,
+      with different units, time stamps and calendars, to be analysed from <b>one laptop over an ordinary connection</b>.</p>
+    <div class="globe">
+      <div class="g"><i></i>one day, whole globe: 1–4 MB per variable</div>
+      <div class="arrow">→</div>
+      <div class="r"><b>north-west Europe</b><br>30–50 kB per day after cutting and compression</div>
+    </div>
+  </section>
+  <section>
+    <h2>Data sources</h2>
+    <div class="src">
+      <div><b>DKRZ</b><em>Zarr over HTTPS, STAC</em>ICON-ESM-ER, IFS-FESOM2-SR (historical, control), IFS atmosphere-only, ERA5</div>
+      <div><b>CEDA</b><em>whole-file netCDF</em>HadGEM3-GC5E at three coupled resolutions</div>
+      <div><b>ECA&amp;D</b><em>netCDF</em>E-OBS v33.0e station-based rain and temperature</div>
+    </div>
+  </section>
+  <section>
+    <h2>What is kept: 12.3 GB</h2>
+    <div class="bars" id="bars"></div>
+    <p class="cap" style="margin-top:2mm">Regional cut-outs on disk by source (rounded; total measured). Green: added for the ensemble, control and resolution experiments.</p>
+  </section>
+  <section>
+    <h2>Applications</h2>
+    <img class="shot" src="figures/explorer_crop.png" alt="Interactive explorer: map, run selector and NAO link">
+    <p class="cap">Interactive explorer (runs r1–r3, 2 MB JSON export); 13 executed notebooks with result tables and provenance
+      records; the scientific evaluation on the companion poster.</p>
+  </section>
+</div>
+
+<section class="pipe">
+  <h2>End-to-end pipeline</h2>
+  <img src="../docs/figures/pipeline.svg" alt="Pipeline: sources, discover, retrieve, prepare, validate, archive, analyse, publish">
+</section>
+
+<div class="col c2">
+  <section>
+    <h2>Problems and solutions</h2>
+    <div class="pf">
+      <span class="h">Stage</span><span class="h">Problem</span><span class="h">Fix</span>
+      <span><i class="chip find">Discover</i></span><span>unknown cost of each dataset</span><span class="fix">sample, time and size first (110 → 16 GB)</span>
+      <span><i class="chip get">Retrieve</i></span><span>broken connections, sleeping laptop</span><span class="fix">one atomic file per year, retries, resume</span>
+      <span><i class="chip get">Retrieve</i></span><span>CEDA files up to 1 GB each</span><span class="fix">streamed with HTTP range resume, cut, deleted</span>
+      <span><i class="chip get">Retrieve</i></span><span>metered networks</span><span class="fix">network guard stops all downloads</span>
+      <span><i class="chip prep">Prepare</i></span><span>IFS GRIB misread by ecCodes</span><span class="fix">small decoder, cross-checked twice</span>
+      <span><i class="chip prep">Prepare</i></span><span>reduced Gaussian and shifted grids</span><span class="fix">common 0.25° grid</span>
+      <span><i class="chip prep">Prepare</i></span><span>three rain units, three time stamps</span><span class="fix">mm/day, hPa, °C; one test per rule</span>
+      <span><i class="chip prep">Prepare</i></span><span>GRIB library crashed in threads</span><span class="fix">lock around decoding only</span>
+      <span><i class="chip check">Validate</i></span><span>a month missing on the server</span><span class="fix">fetched by day, gap recorded</span>
+      <span><i class="chip check">Validate</i></span><span>coastal cells differ by dataset</span><span class="fix">same land cells everywhere</span>
+    </div>
+  </section>
+  <section style="--c:#6a9a5b">
+    <h2>Built to scale</h2>
+    <ul>
+      <li><b>Done:</b> three runs per model and control runs through the same code.</li>
+      <li><b>Small change:</b> CMIP6/CMIP7 reader, server-side subsetting, Zarr output.</li>
+      <li><b>Next to the data:</b> one job per year on Levante, JASMIN or LUMI; only results travel.</li>
+    </ul>
+  </section>
+</div>
+
+<div class="col c3">
+  <section>
+    <h2>Software architecture</h2>
+    <div class="layers">
+      <div><b>Data layer</b><code>catalogue · download · ceda · eobs · grib · regions · store</code><br>every source → CMIP names and units</div>
+      <div><b>Analysis</b><code>climatology · nao · extremes · relationships · events</code><br>pure functions on xarray, Dask</div>
+      <div><b>Presentation</b><code>build_notebook_NN · plotting · build_site</code><br>generated, then executed</div>
+    </div>
+    <div class="base"><b>87 tests</b> on GitHub Actions · <b>provenance</b> record per result · methods fixed first · environment.yml</div>
+  </section>
+  <section style="--c:#0e7468">
+    <h2>Reproduce in four steps</h2>
+<pre><i># 1 environment and offline tests</i>
+conda env create -f environment.yml
+pytest
+<i># 2 regional cut-outs (resumable)</i>
+python -m eerie_uk.download --group monthly
+python -m eerie_uk.ceda --resolution LL MM HH
+<i># 3 generate and execute the notebooks</i>
+scripts/build_all.ps1
+<i># 4 website and explorer</i>
+python scripts/build_site.py</pre>
+  </section>
+</div>
+</main>
+
+<footer>
+  <span>Data: EERIE consortium (MPI-M, ECMWF, AWI, Met Office) via DKRZ and CEDA · ERA5 (C3S) · E-OBS (ECA&amp;D) · Python: xarray, Dask, zarr, cartopy, ecCodes</span>
+  <span>Website: tunahim.github.io/HighRes-EERIE-NorthAtlantic-Evaluation · code under MIT licence</span>
+</footer>
+<script>
+const q = qrcode(0, 'M'); q.addData('https://github.com/TunaHim/HighRes-EERIE-NorthAtlantic-Evaluation'); q.make();
+document.getElementById('qr').innerHTML = q.createSvgTag({cellSize: 8, margin: 0, scalable: true});
+const kept = [['Control runs (both models)', 3.2, 1], ['ICON-ESM-ER r2, r3', 2.0, 1], ['IFS-FESOM2-SR r2, r3', 1.9, 1],
+  ['ICON-ESM-ER r1', 1.0, 0], ['IFS-FESOM2-SR r1', 1.0, 0], ['ERA5', 1.0, 0], ['IFS 9 km and 28 km', 0.8, 0],
+  ['HadGEM3-GC5E (CEDA)', 0.3, 1], ['IFS SST experiments', 0.2, 0], ['E-OBS', 0.2, 0], ['Derived indices', 0.1, 0]];
+document.getElementById('bars').innerHTML = kept.map(([n, v, x]) =>
+  `<span>${n}</span><div class="bar${x ? ' x' : ''}" style="width:${100 * v / 3.2}%"></div><span class="v">${v.toFixed(1)} GB</span>`).join('');
+</script>
+</body>
+</html>
