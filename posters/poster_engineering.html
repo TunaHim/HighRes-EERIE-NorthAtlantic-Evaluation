@@ -22,6 +22,7 @@ pre i { color: var(--a1light); font-style: normal; }
 .metric b { display: block; font-size: 36pt; line-height: 1.05; color: var(--navy); }
 .metric span { font-size: 17pt; color: var(--ink2); line-height: 1.2; display: block; }
 .metric.green { border-left-color: var(--a2); }
+.defs { margin: 2.5mm 22mm 0; font-size: 14pt; color: var(--ink2); line-height: 1.3; }
 .globe { display: grid; grid-template-columns: 1.25fr 18mm 1fr; align-items: center; gap: 3mm; margin: 3mm 0 0; }
 .globe .g { background: #dcebf8; border: 0.6mm solid #2a78d6; border-radius: 2.5mm; height: 34mm; position: relative; display: flex; align-items: flex-end; padding: 3mm 4mm; font-size: 17pt; color: var(--navy); }
 .globe .g i { position: absolute; left: 52%; top: 18%; width: 20%; height: 32%; background: #fde3d6; border: 0.6mm solid #eb6834; }
@@ -36,7 +37,7 @@ pre i { color: var(--a1light); font-style: normal; }
 .bars .bar.x { background: var(--a2); }
 .bars .v { text-align: right; font-variant-numeric: tabular-nums; color: var(--ink2); }
 .pf { display: grid; grid-template-columns: 34mm 1fr 1fr; gap: 0; font-size: 19.5pt; line-height: 1.22; }
-.pf > span { padding: 2.6mm 2mm; border-bottom: 0.4mm solid var(--line); }
+.pf > span { padding: 1.9mm 2mm; border-bottom: 0.4mm solid var(--line); }
 .pf .h { font-size: 14pt; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
 .pf .fix { font-weight: 600; color: var(--navy); }
 .chip.find { background: #fcefc9; color: #7a5300; } .chip.get { background: #fbe0d4; color: #a6411b; }
@@ -47,7 +48,7 @@ pre i { color: var(--a1light); font-style: normal; }
 .layers code { display: block; margin-bottom: 1.5mm; font-family: Consolas, monospace; font-size: 16.5pt; color: var(--a1dark); }
 .base { margin-top: 4mm; background: var(--navy); color: #fff; border-radius: 2.5mm; padding: 3.5mm 4mm; font-size: 18pt; text-align: center; }
 .base b { color: var(--a1light); }
-.shot { border: 0.5mm solid var(--line); border-radius: 2mm; width: 100%; height: 178mm; object-fit: cover; object-position: top; display: block; margin: 2mm 0; }
+.shot { border: 0.5mm solid var(--line); border-radius: 2mm; width: 100%; height: 215mm; object-fit: cover; object-position: top; display: block; margin: 2mm 0; }
 .pipe img { width: 100%; display: block; }
 .c3 ul, .c2 ul { font-size: 21pt; }
 </style>
@@ -69,26 +70,30 @@ pre i { color: var(--a1light); font-style: normal; }
 into <b>harmonised regional datasets</b> and <b>reproducible scientific diagnostics</b>.</div>
 
 <div class="metrics">
-  <div class="metric"><b>3</b><span>servers: DKRZ, CEDA, ECA&amp;D</span></div>
-  <div class="metric"><b>945</b><span>datasets discovered on DKRZ</span></div>
+  <div class="metric"><b>3</b><span>data sources: DKRZ · CEDA · ECA&amp;D</span></div>
+  <div class="metric"><b>945</b><span>datasets catalogued on DKRZ (a selection downloaded)</span></div>
   <div class="metric"><b>~3,600</b><span>yearly regional files</span></div>
   <div class="metric green"><b>700–900 GB</b><span>streamed (estimated)</span></div>
   <div class="metric green"><b>12.3 GB</b><span>kept on disk (about 1.5%)</span></div>
   <div class="metric"><b>15</b><span>Python modules, ~2,900 lines</span></div>
-  <div class="metric"><b>87</b><span>offline tests, on every push</span></div>
+  <div class="metric"><b>87</b><span>offline unit tests, on every push</span></div>
   <div class="metric"><b>13</b><span>executed notebooks + explorer</span></div>
 </div>
+<p class="defs">945: datasets listed in the catalogue, not all downloaded. ~3,600: yearly files kept on disk. 700–900 GB: network traffic
+estimated from the download log (whole-globe days fetched × measured size per day), not metered; 12.3 GB: measured on disk. 87 tests:
+offline unit tests of the code on synthetic data with known answers; the scientific checks (references, bootstrap, control runs) are in the notebooks.</p>
 
 <main>
 <div class="col c1">
   <section>
     <h2>The challenge</h2>
-    <p>Petabyte-scale model archives on several servers, in different formats (Zarr, GRIB, netCDF), on different grids,
-      with different units, time stamps and calendars, to be analysed from <b>one laptop over an ordinary connection</b>.</p>
+    <p>Global climate-model archives distributed across multiple repositories, in different formats (Zarr, GRIB and netCDF),
+      with different grids, units, time stamps and calendars, accessed and processed under constrained network and storage
+      resources: <b>one laptop over an ordinary connection</b>.</p>
     <div class="globe">
       <div class="g"><i></i>one day, whole globe: 1–4 MB per variable</div>
       <div class="arrow">→</div>
-      <div class="r"><b>north-west Europe</b><br>30–50 kB per day after cutting and compression</div>
+      <div class="r"><b>north-west Europe</b><br>typically 30–50 kB per variable and day after cutting and compression</div>
     </div>
   </section>
   <section>
@@ -96,7 +101,7 @@ into <b>harmonised regional datasets</b> and <b>reproducible scientific diagnost
     <div class="src">
       <div><b>DKRZ</b><em>Zarr over HTTPS, STAC</em>ICON-ESM-ER, IFS-FESOM2-SR (historical, control), IFS atmosphere-only, ERA5</div>
       <div><b>CEDA</b><em>whole-file netCDF</em>HadGEM3-GC5E at three coupled resolutions</div>
-      <div><b>ECA&amp;D</b><em>netCDF</em>E-OBS v33.0e station-based rain and temperature</div>
+      <div><b>ECA&amp;D</b><em>netCDF</em>E-OBS v33.0e: gridded daily precipitation and temperature based on station observations</div>
     </div>
   </section>
   <section>
@@ -107,8 +112,7 @@ into <b>harmonised regional datasets</b> and <b>reproducible scientific diagnost
   <section>
     <h2>Applications</h2>
     <img class="shot" src="figures/explorer_crop.png" alt="Interactive explorer: map, run selector and NAO link">
-    <p class="cap">Interactive explorer (runs r1–r3, 2 MB JSON export); 13 executed notebooks with result tables and provenance
-      records; the scientific evaluation on the companion poster.</p>
+    <p class="cap">Interactive explorer (runs r1–r3, 2 MB JSON export); also 13 executed notebooks and result tables with provenance.</p>
   </section>
 </div>
 
@@ -122,7 +126,7 @@ into <b>harmonised regional datasets</b> and <b>reproducible scientific diagnost
     <h2>Problems and solutions</h2>
     <div class="pf">
       <span class="h">Stage</span><span class="h">Problem</span><span class="h">Fix</span>
-      <span><i class="chip find">Discover</i></span><span>unknown cost of each dataset</span><span class="fix">sample, time and size first (110 → 16 GB)</span>
+      <span><i class="chip find">Discover</i></span><span>unknown cost of each dataset</span><span class="fix">sample, time and size first; e.g. 28 km ensemble rain: estimated traffic 110 → 16 GB (3 of 5 members, winter only)</span>
       <span><i class="chip get">Retrieve</i></span><span>broken connections, sleeping laptop</span><span class="fix">one atomic file per year, retries, resume</span>
       <span><i class="chip get">Retrieve</i></span><span>CEDA files up to 1 GB each</span><span class="fix">streamed with HTTP range resume, cut, deleted</span>
       <span><i class="chip get">Retrieve</i></span><span>metered networks</span><span class="fix">network guard stops all downloads</span>
@@ -135,12 +139,11 @@ into <b>harmonised regional datasets</b> and <b>reproducible scientific diagnost
     </div>
   </section>
   <section style="--c:#6a9a5b">
-    <h2>Built to scale</h2>
-    <ul>
-      <li><b>Done:</b> three runs per model and control runs through the same code.</li>
-      <li><b>Small change:</b> CMIP6/CMIP7 reader, server-side subsetting, Zarr output.</li>
-      <li><b>Next to the data:</b> one job per year on Levante, JASMIN or LUMI; only results travel.</li>
-    </ul>
+    <h2>Implemented and possible next steps</h2>
+    <p style="font-size:18.5pt;margin:0 0 1mm"><b style="color:#0e7468">Implemented:</b> three historical runs per model and the control runs
+      processed through the same workflow; tests on every push; interactive explorer.</p>
+    <p style="font-size:18.5pt;margin:0;color:var(--ink2)"><b>Possible next steps (not implemented):</b> CMIP6/CMIP7 reader, server-side
+      subsetting and Zarr output (small code changes); moving computation next to the data (Levante, JASMIN, LUMI) so that only results travel.</p>
   </section>
 </div>
 

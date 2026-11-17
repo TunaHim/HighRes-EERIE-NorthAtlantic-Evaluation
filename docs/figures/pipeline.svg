@@ -17,7 +17,7 @@
   <rect x="10" y="162" width="176" height="54" rx="8" fill="#fcfcfb" stroke="#c3c2b7"/>
   <text x="22" y="182" font-size="13" font-weight="600" fill="#0b0b0b">ECA&amp;D</text>
   <text x="22" y="198" font-size="12" fill="#52514e">netCDF</text>
-  <text x="22" y="212" font-size="11" fill="#898781">E-OBS stations</text>
+  <text x="22" y="212" font-size="11" fill="#898781">E-OBS (gridded)</text>
   <rect x="206" y="40" width="176" height="176" rx="8" fill="#fcefc9" stroke="#eda100"/>
   <text x="218" y="62" font-size="13" font-weight="600" fill="#0b0b0b">Find the data</text>
   <text x="218" y="86" font-size="12" fill="#52514e">945 datasets listed</text>
